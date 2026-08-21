@@ -1,0 +1,10 @@
+# Local databases and runtime state
+data/local/*
+!data/local/README.md
+
+*.sqlite
+*.sqlite3
+*.db
+
+# System files
+.DS_Store

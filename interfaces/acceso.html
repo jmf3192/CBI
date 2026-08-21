@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acceso | CONASOC</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --brand: #001426;
+        --ink: #142033;
+        --muted: #687483;
+        --line: #e5eaf0;
+        --line-strong: #d8e0e8;
+        --focus: #89b8e8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        font-family:
+          "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: #fbfcfd;
+        color: var(--ink);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #fbfcfd;
+      }
+
+      .site-brand {
+        display: grid;
+        justify-items: center;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .site-brand img {
+        width: 176px;
+        height: auto;
+        display: block;
+      }
+
+      .tagline {
+        margin: 0;
+        color: var(--brand);
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1.55;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      main {
+        width: min(100%, 380px);
+      }
+
+      .access-card {
+        width: 100%;
+        display: grid;
+        gap: 34px;
+        padding: 42px 38px 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 22px 60px rgba(0, 20, 38, 0.06);
+      }
+
+      form {
+        display: grid;
+        gap: 16px;
+      }
+
+      label {
+        display: grid;
+        gap: 8px;
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        height: 46px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 0 13px;
+        color: var(--ink);
+        background: #ffffff;
+        font: inherit;
+        transition:
+          border-color 150ms ease,
+          box-shadow 150ms ease;
+      }
+
+      input::placeholder {
+        color: #a2abb6;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--focus);
+        box-shadow: 0 0 0 4px rgba(137, 184, 232, 0.22);
+      }
+
+      button {
+        width: 100%;
+        height: 46px;
+        border: 0;
+        border-radius: 6px;
+        margin-top: 4px;
+        color: #ffffff;
+        background: var(--brand);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 150ms ease,
+          box-shadow 150ms ease,
+          transform 150ms ease;
+      }
+
+      button:hover {
+        background: #061f38;
+        box-shadow: 0 12px 26px rgba(0, 20, 38, 0.16);
+        transform: translateY(-1px);
+      }
+
+      button:focus-visible {
+        outline: 4px solid rgba(137, 184, 232, 0.28);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 440px) {
+        body {
+          padding: 18px;
+        }
+
+        .site-brand img {
+          width: 164px;
+        }
+
+        .access-card {
+          padding: 30px 26px;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main aria-label="Acceso CONASOC">
+      <section class="access-card">
+        <header class="site-brand" aria-label="CONASOC">
+          <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+          <p class="tagline">
+            Consultoría en financiación pública<br />
+            Business intelligence
+          </p>
+        </header>
+
+        <form action="./convocatorias.html" method="get">
+          <label>
+            Usuario
+            <input type="text" name="usuario" autocomplete="username" required />
+          </label>
+
+          <label>
+            Contraseña
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+
+          <button type="submit">Entrar</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
