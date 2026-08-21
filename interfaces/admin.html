@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | CONASOC</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --brand: #001426;
+        --ink: #142033;
+        --muted: #687483;
+        --soft: #fbfcfd;
+        --panel: #ffffff;
+        --line: #e5eaf0;
+        --line-strong: #d8e0e8;
+        --active: #f4f8fb;
+        --shadow: 0 18px 52px rgba(0, 20, 38, 0.05);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        font-family:
+          "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--soft);
+        color: var(--ink);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: var(--soft);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .topbar {
+        height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        padding: 0 42px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(14px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 146px;
+        height: auto;
+        display: block;
+      }
+
+      .brand-text {
+        margin: 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--line-strong);
+        color: var(--brand);
+        font-size: 9px;
+        font-weight: 700;
+        line-height: 1.5;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .session {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+
+      .session a {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .session a:hover {
+        color: var(--brand);
+      }
+
+      main {
+        width: min(100%, 1180px);
+        margin: 0 auto;
+        padding: 58px 36px 72px;
+      }
+
+      .heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 28px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--brand);
+        font-size: clamp(30px, 4vw, 44px);
+        line-height: 1.05;
+        letter-spacing: 0;
+        font-weight: 500;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 70px;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .panel-header h2 {
+        color: var(--brand);
+        font-size: 20px;
+        line-height: 1.2;
+        font-weight: 500;
+      }
+
+      .panel-header span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .primary-action,
+      .secondary-action,
+      .table-action {
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .primary-action {
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        border: 0;
+        color: #ffffff;
+        background: var(--brand);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .primary-action:disabled,
+      .secondary-action:disabled {
+        cursor: default;
+        opacity: 0.45;
+      }
+
+      .secondary-action {
+        height: 42px;
+        padding: 0 16px;
+        border: 1px solid var(--line-strong);
+        color: var(--brand);
+        background: #ffffff;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .table-action {
+        min-height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--line-strong);
+        color: var(--brand);
+        background: #ffffff;
+        font-size: 13px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 18px 24px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      td {
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      tbody tr {
+        cursor: pointer;
+      }
+
+      tbody tr:hover {
+        background: #fafcfd;
+      }
+
+      tbody tr.is-selected {
+        background: var(--active);
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .user-name {
+        display: block;
+        color: var(--brand);
+        font-weight: 500;
+      }
+
+      .user-email {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        color: var(--brand);
+        background: #ffffff;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .editor {
+        position: sticky;
+        top: 18px;
+      }
+
+      form {
+        display: grid;
+        gap: 16px;
+        padding: 22px;
+      }
+
+      label,
+      .field {
+        display: grid;
+        gap: 8px;
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      select {
+        width: 100%;
+        height: 42px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 0 12px;
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #89b8e8;
+        box-shadow: 0 0 0 4px rgba(137, 184, 232, 0.18);
+      }
+
+      .password-box {
+        gap: 12px;
+        padding-top: 2px;
+      }
+
+      .password-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .access-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 2px;
+      }
+
+      .access-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .access-item:last-child {
+        border-bottom: 0;
+      }
+
+      .access-title {
+        display: block;
+        color: var(--brand);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .access-code {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .switch {
+        position: relative;
+        width: 40px;
+        height: 22px;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+      }
+
+      .switch-track {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--line-strong);
+        transition: background 150ms ease;
+      }
+
+      .switch-track::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 2px 7px rgba(0, 20, 38, 0.14);
+        transition: transform 150ms ease;
+      }
+
+      .switch input:focus-visible + .switch-track {
+        outline: 4px solid rgba(137, 184, 232, 0.18);
+        outline-offset: 3px;
+      }
+
+      .switch input:checked + .switch-track {
+        background: var(--brand);
+      }
+
+      .switch input:checked + .switch-track::after {
+        transform: translateX(18px);
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        padding-top: 6px;
+      }
+
+      .form-actions button {
+        flex: 1;
+      }
+
+      .feedback {
+        min-height: 18px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .editor {
+          position: static;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .topbar {
+          height: auto;
+          align-items: flex-start;
+          padding: 24px;
+        }
+
+        .brand {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .brand-text {
+          padding-left: 0;
+          border-left: 0;
+        }
+
+        main {
+          padding: 42px 20px 54px;
+        }
+
+        .heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        table,
+        thead,
+        tbody,
+        tr,
+        th,
+        td {
+          display: block;
+        }
+
+        thead {
+          display: none;
+        }
+
+        tr {
+          border-bottom: 1px solid var(--line);
+        }
+
+        tr:last-child {
+          border-bottom: 0;
+        }
+
+        td {
+          border-bottom: 0;
+          padding: 8px 22px;
+        }
+
+        td:first-child {
+          padding-top: 18px;
+        }
+
+        td:last-child {
+          padding-bottom: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="CONASOC">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <p class="brand-text">
+          Consultoría en financiación pública<br />
+          Business intelligence
+        </p>
+      </a>
+
+      <nav class="session" aria-label="Administración">
+        <a href="./convocatorias.html">Convocatorias</a>
+        <a href="./acceso.html">Salir</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="heading" aria-labelledby="page-title">
+        <h1 id="page-title">Panel de control</h1>
+        <button class="primary-action" id="new-user" type="button">Nuevo usuario</button>
+      </section>
+
+      <section class="layout">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Usuarios</h2>
+            <span id="record-count"></span>
+          </div>
+
+          <table aria-label="Usuarios">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acceso</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="users-body"></tbody>
+          </table>
+        </div>
+
+        <aside class="editor panel" aria-label="Editor de usuario">
+          <div class="panel-header">
+            <h2 id="editor-title">Editar usuario</h2>
+            <span id="editor-status"></span>
+          </div>
+
+          <form id="user-form">
+            <input id="user-id" type="hidden" />
+
+            <label>
+              Nombre
+              <input id="full-name" type="text" name="full_name" required />
+            </label>
+
+            <label>
+              Email
+              <input id="email" type="email" name="email" required />
+            </label>
+
+            <label>
+              Rol
+              <select id="role" name="role">
+                <option value="Administrador">Administrador</option>
+                <option value="Usuario">Usuario</option>
+              </select>
+            </label>
+
+            <label>
+              Estado
+              <select id="status" name="status">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </label>
+
+            <div class="field password-box">
+              Contraseña
+              <div class="password-grid">
+                <input id="password" type="password" autocomplete="new-password" placeholder="Nueva contraseña" />
+                <input
+                  id="password-confirm"
+                  type="password"
+                  autocomplete="new-password"
+                  placeholder="Repetir contraseña"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              Accesos
+              <div class="access-list" id="access-list"></div>
+            </div>
+
+            <div class="form-actions">
+              <button class="primary-action" type="submit">Guardar</button>
+              <button class="secondary-action" id="disable-user" type="button">Desactivar</button>
+            </div>
+
+            <p class="feedback" id="feedback" aria-live="polite"></p>
+          </form>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const calls = [
+        { id: 1, code: "CONV-2026-001", name: "Innovación empresarial" },
+        { id: 2, code: "CONV-2026-002", name: "Digitalización y datos" },
+        { id: 3, code: "CONV-2026-003", name: "Sostenibilidad e impacto" },
+      ];
+
+      const users = [
+        {
+          id: 1,
+          fullName: "Administrador CONASOC",
+          email: "admin@conasoc.local",
+          role: "Administrador",
+          status: "Activo",
+          access: [1, 2, 3],
+        },
+        {
+          id: 2,
+          fullName: "Usuario demo",
+          email: "usuario@empresa.local",
+          role: "Usuario",
+          status: "Activo",
+          access: [1, 2],
+        },
+        {
+          id: 3,
+          fullName: "Revisión externa",
+          email: "revision@empresa.local",
+          role: "Usuario",
+          status: "Inactivo",
+          access: [],
+        },
+      ];
+
+      let selectedId = 1;
+      let nextId = 4;
+
+      const usersBody = document.querySelector("#users-body");
+      const recordCount = document.querySelector("#record-count");
+      const editorTitle = document.querySelector("#editor-title");
+      const editorStatus = document.querySelector("#editor-status");
+      const userForm = document.querySelector("#user-form");
+      const userIdInput = document.querySelector("#user-id");
+      const fullNameInput = document.querySelector("#full-name");
+      const emailInput = document.querySelector("#email");
+      const roleInput = document.querySelector("#role");
+      const statusInput = document.querySelector("#status");
+      const passwordInput = document.querySelector("#password");
+      const passwordConfirmInput = document.querySelector("#password-confirm");
+      const accessList = document.querySelector("#access-list");
+      const feedback = document.querySelector("#feedback");
+      const disableButton = document.querySelector("#disable-user");
+
+      function accessText(user) {
+        if (user.access.length === calls.length) return "Todas";
+        if (user.access.length === 0) return "Sin acceso";
+        if (user.access.length === 1) return "1 convocatoria";
+        return `${user.access.length} convocatorias`;
+      }
+
+      function renderUsers() {
+        recordCount.textContent = `${users.length} registros`;
+        usersBody.innerHTML = "";
+
+        users.forEach((user) => {
+          const row = document.createElement("tr");
+          row.className = user.id === selectedId ? "is-selected" : "";
+          row.innerHTML = `
+            <td>
+              <span class="user-name">${user.fullName}</span>
+              <span class="user-email">${user.email}</span>
+            </td>
+            <td><span class="badge">${user.role}</span></td>
+            <td>${user.status}</td>
+            <td class="muted">${accessText(user)}</td>
+            <td><button class="table-action" type="button">Editar</button></td>
+          `;
+          row.addEventListener("click", () => selectUser(user.id));
+          usersBody.appendChild(row);
+        });
+      }
+
+      function renderAccess(user) {
+        accessList.innerHTML = "";
+
+        calls.forEach((call) => {
+          const item = document.createElement("label");
+          item.className = "access-item";
+          item.innerHTML = `
+            <span class="access-copy">
+              <strong class="access-title">${call.name}</strong>
+              <span class="access-code">${call.code}</span>
+            </span>
+            <span class="switch">
+              <input type="checkbox" value="${call.id}" ${user.access.includes(call.id) ? "checked" : ""} />
+              <span class="switch-track"></span>
+            </span>
+          `;
+          accessList.appendChild(item);
+        });
+      }
+
+      function selectUser(id) {
+        const user = users.find((item) => item.id === id);
+        if (!user) return;
+
+        selectedId = user.id;
+        editorTitle.textContent = "Editar usuario";
+        editorStatus.textContent = user.status;
+        userIdInput.value = user.id;
+        fullNameInput.value = user.fullName;
+        emailInput.value = user.email;
+        roleInput.value = user.role;
+        statusInput.value = user.status;
+        passwordInput.value = "";
+        passwordConfirmInput.value = "";
+        disableButton.disabled = false;
+        disableButton.textContent = user.status === "Inactivo" ? "Activar" : "Desactivar";
+        feedback.textContent = "";
+        renderAccess(user);
+        renderUsers();
+      }
+
+      function newUser() {
+        selectedId = null;
+        editorTitle.textContent = "Nuevo usuario";
+        editorStatus.textContent = "";
+        userIdInput.value = "";
+        fullNameInput.value = "";
+        emailInput.value = "";
+        roleInput.value = "Usuario";
+        statusInput.value = "Activo";
+        passwordInput.value = "";
+        passwordConfirmInput.value = "";
+        disableButton.disabled = true;
+        disableButton.textContent = "Desactivar";
+        feedback.textContent = "";
+        renderAccess({ access: [] });
+        renderUsers();
+        fullNameInput.focus();
+      }
+
+      function saveUser(event) {
+        event.preventDefault();
+
+        const access = Array.from(accessList.querySelectorAll("input:checked")).map((input) =>
+          Number(input.value),
+        );
+        const password = passwordInput.value;
+        const passwordConfirm = passwordConfirmInput.value;
+        const passwordRequested = password.length > 0 || passwordConfirm.length > 0;
+
+        if (passwordRequested && password !== passwordConfirm) {
+          feedback.textContent = "Las contraseñas no coinciden";
+          return;
+        }
+
+        if (passwordRequested && password.length < 8) {
+          feedback.textContent = "La contraseña debe tener al menos 8 caracteres";
+          return;
+        }
+
+        const values = {
+          fullName: fullNameInput.value.trim(),
+          email: emailInput.value.trim(),
+          role: roleInput.value,
+          status: statusInput.value,
+          access,
+        };
+
+        if (!values.fullName || !values.email) return;
+
+        if (!selectedId && !passwordRequested) {
+          feedback.textContent = "La contraseña es obligatoria para crear el usuario";
+          return;
+        }
+
+        if (selectedId) {
+          const user = users.find((item) => item.id === selectedId);
+          Object.assign(user, values);
+          feedback.textContent = passwordRequested ? "Contraseña actualizada" : "Cambios guardados";
+        } else {
+          const user = { id: nextId, ...values };
+          users.push(user);
+          nextId += 1;
+          selectedId = user.id;
+          userIdInput.value = user.id;
+          editorTitle.textContent = "Editar usuario";
+          disableButton.disabled = false;
+          feedback.textContent = "Usuario creado";
+        }
+
+        const current = users.find((item) => item.id === selectedId);
+        editorStatus.textContent = current.status;
+        disableButton.textContent = current.status === "Inactivo" ? "Activar" : "Desactivar";
+        passwordInput.value = "";
+        passwordConfirmInput.value = "";
+        renderUsers();
+      }
+
+      function disableUser() {
+        if (!selectedId) return;
+
+        const user = users.find((item) => item.id === selectedId);
+        user.status = user.status === "Inactivo" ? "Activo" : "Inactivo";
+        statusInput.value = user.status;
+        editorStatus.textContent = user.status;
+        disableButton.textContent = user.status === "Inactivo" ? "Activar" : "Desactivar";
+        feedback.textContent = user.status === "Inactivo" ? "Usuario desactivado" : "Usuario activado";
+        renderUsers();
+      }
+
+      document.querySelector("#new-user").addEventListener("click", newUser);
+      document.querySelector("#disable-user").addEventListener("click", disableUser);
+      userForm.addEventListener("submit", saveUser);
+
+      selectUser(selectedId);
+    </script>
+  </body>
+</html>
