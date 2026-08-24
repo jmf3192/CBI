@@ -31,11 +31,15 @@ test("server-renders the Conasoc home", async () => {
   const html = await response.text();
   assert.match(html, /<title>Conasoc \| Subvenciones, financiación pública y CBI<\/title>/i);
   assert.match(html, /Conasoc/);
-  assert.match(html, /Más de 30 años/);
-  assert.match(html, /Financiación pública/);
-  assert.match(html, /Conasoc Business Intelligence/);
+  assert.match(html, /más de 30 años/i);
+  assert.match(html, /Financiación y Consultoría/);
+  assert.match(html, /Servicios Jurídicos/);
+  assert.match(html, /Clientes/);
+  assert.match(html, /Probono/);
+  assert.match(html, /Convenios/);
   assert.match(html, /638 84 12 38/);
-  assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+  assert.match(html, /href="\/cbi"/);
+  assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton|conasoc-nosotros|puntuación estimada/i);
 });
 
 test("server-renders the CBI route", async () => {
@@ -44,8 +48,7 @@ test("server-renders the CBI route", async () => {
 
   const html = await response.text();
   assert.match(html, /Conasoc Business Intelligence/);
-  assert.match(html, /Acceder a CBI/);
-  assert.match(html, /Acceso a las herramientas CBI/);
+  assert.match(html, /Entrar en CBI/);
   assert.match(html, /\/cbi\/interfaces\/acceso\.html/);
 });
 

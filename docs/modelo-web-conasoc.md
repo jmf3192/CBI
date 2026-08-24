@@ -43,7 +43,7 @@ Estado aplicado en esta primera versión:
 
 - Se crea ruta `/cbi`.
 - Se copian las pantallas estáticas actuales a `public/cbi/`.
-- La home enlaza a CBI como servicio y como pestaña principal.
+- La home mantiene CBI solo como pestaña de navegación, sin bloque destacado ni reclamo comercial.
 - La documentación registra que la siguiente fase es migrar la funcionalidad HTML a componentes y conectarla con Supabase.
 
 Siguiente fase técnica:
@@ -56,9 +56,10 @@ Siguiente fase técnica:
 ## Tono y diseño
 
 - Tono: directo, experto, cercano, sin exceso institucional.
-- Visual: limpio, corporativo, con blanco, azul profundo, azul Conasoc, verde agua y acento dorado.
-- Componentes: secciones amplias, tarjetas solo para elementos repetidos, navegación compacta, CTA claros.
-- Imágenes: logo y pieza visual “nosotros” de la web actual para mantener continuidad de marca.
+- Visual: limpio y corporativo, más cercano a la web Wix previa: fotografía arquitectónica, blanco, azul profundo y navegación clásica.
+- Componentes: secciones editoriales, listas y líneas de separación antes que grids de tarjetas simétricas.
+- Imágenes: logo actual y fondo de edificios de la web Wix previa. Se descarta la pieza visual de muñecos azules.
+- Pasada anti-“web IA”: se eliminan hero con gradiente, CTA doble protagonista, tarjetas uniformes, paneles tipo SaaS, sombras blandas y protagonismo artificial de CBI.
 
 ## Contenido base
 

@@ -1,79 +1,78 @@
-const services = [
+const nav = [
+  ["Inicio", "#inicio"],
+  ["Quiénes somos", "#nosotros"],
+  ["Financiación y Consultoría", "#financiacion"],
+  ["Servicios Jurídicos", "#juridicos"],
+  ["Clientes", "#clientes"],
+  ["Probono", "#probono"],
+  ["Convenios", "#convenios"],
+  ["Contacto", "#contacto"],
+  ["CBI", "/cbi"],
+];
+
+const financingServices = [
   {
     title: "Financiación pública",
-    text: "Búsqueda, selección y tramitación de ayudas estatales, autonómicas, regionales y europeas para proyectos empresariales.",
-    points: [
-      "Nuevas empresas y ampliaciones",
-      "Renovación de activos",
-      "Nuevos centros productivos",
-      "Gestión integral e informes",
-    ],
+    text: "Financiación para creación de nuevas empresas, renovación de activos, ampliación de centros productivos y estrategias público-privadas a medio y largo plazo.",
   },
   {
-    title: "Innovación e I+D+i",
-    text: "Estrategias de financiación para proyectos innovadores, deducciones fiscales y documentación técnica alineada con cada convocatoria.",
-    points: [
-      "Deducciones en Impuesto de Sociedades",
-      "Proyectos I+D+i sectoriales",
-      "Justificación técnica y contable",
-      "Análisis de requisitos mínimos",
-    ],
+    title: "Deducciones I+D+i",
+    text: "Gestión de deducciones en el Impuesto de Sociedades, informes técnicos y deducciones adicionales por personal investigador.",
   },
   {
-    title: "Servicios jurídicos",
-    text: "Asesoramiento legal especializado en procedimientos de ayudas públicas, reclamaciones y contratación pública.",
-    points: [
-      "Reclamación de denegaciones",
-      "Defensa administrativa y judicial",
-      "Gestión de ayudas en justificación",
-      "Licitaciones y oportunidades",
-    ],
+    title: "Proyectos I+D+i",
+    text: "Búsqueda de financiación para proyectos de todos los sectores y grados de innovación, con preparación técnica, contable, administrativa y jurídica.",
   },
   {
-    title: "CBI",
-    text: "Área de business intelligence para estimar la competitividad de proyectos frente a convocatorias y datos comparativos.",
-    points: [
-      "Convocatorias activas por permiso",
-      "Cuestionarios de evaluación",
-      "Comparativa frente a competidores",
-      "Datasets CSV versionados",
-    ],
+    title: "Licitaciones",
+    text: "Gestión documental y procesal, alertas de oportunidades y defensa en el ámbito de la contratación pública.",
+  },
+  {
+    title: "Internacionalización",
+    text: "Financiación para proyectos productivos y comerciales en el extranjero, análisis previos y planes de inversión.",
   },
 ];
 
+const legalServices = [
+  "Reclamar denegaciones improcedentes.",
+  "Recurrir excesos de la administración durante solicitud y concesión.",
+  "Defensa en reclamaciones judiciales relacionadas con la ayuda.",
+  "Gestión de ayudas en fase de justificación.",
+  "Asesoramiento legal durante todas las fases del procedimiento.",
+];
+
 const processSteps = [
-  ["01", "Sesión inicial", "Reunión previa para conocer vuestro proyecto."],
-  ["02", "Investigación", "Búsqueda de posibles ayudas o financiación."],
-  ["03", "Preparación", "Redacción y preparación de solicitudes."],
-  ["04", "Envío", "Presentación y control de subsanaciones."],
-  ["05", "Resolución", "Seguimiento de aprobaciones y condiciones."],
-  ["06", "Ejecución", "Monitorización técnica y económica del proyecto."],
-  ["07", "Justificación", "Preparación documental, técnica y contable."],
-  ["08", "Cobro", "Envío de justificación y cierre de la ayuda."],
+  "Reunión previa para conocer vuestro proyecto.",
+  "Búsqueda de posibles ayudas o financiación.",
+  "Redacción y preparación de solicitudes.",
+  "Envío de solicitudes y control de subsanaciones.",
+  "Aprobación de ayudas y seguimiento de condiciones.",
+  "Control y monitorización de la ejecución del proyecto.",
+  "Preparación de justificación técnica y contable.",
+  "Envío de justificación y cobro de la ayuda.",
 ];
 
 const sectors = [
   "Aeronáutica",
   "Agroalimentario",
+  "Alimentación y bebidas",
+  "Artes gráficas",
   "Automoción",
-  "Digitalización",
+  "Bienes de equipo",
+  "Construcción",
+  "Cosmético",
+  "Electrónico",
   "Energías renovables",
+  "Digitalización",
   "Ingeniería",
+  "Materiales",
   "Médico / Hospitalario",
   "Químico",
+  "Servicios",
   "Software / Hardware",
   "Telecomunicaciones",
   "Textil",
   "Turismo",
-];
-
-const nav = [
-  ["Inicio", "#inicio"],
-  ["Quiénes somos", "#nosotros"],
-  ["Servicios", "#servicios"],
-  ["Cómo trabajamos", "#proceso"],
-  ["CBI", "/cbi"],
-  ["Contacto", "#contacto"],
 ];
 
 export default function Home() {
@@ -92,179 +91,150 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className="hero section-band" id="inicio">
-        <img
-          className="hero-asset"
-          src="/assets/conasoc-nosotros.png"
-          alt=""
-          aria-hidden="true"
-        />
-        <div className="section-inner hero-inner">
-          <p className="eyebrow">Consultoría en financiación pública</p>
-          <h1>Conasoc</h1>
-          <p className="hero-lede">
-            Más de 30 años ayudando a empresas a conseguir subvenciones,
-            financiación pública y apoyo experto en cada fase del procedimiento.
-          </p>
-          <div className="hero-actions" aria-label="Acciones principales">
-            <a className="button primary" href="#contacto">
-              Contacta con nosotros
-            </a>
-            <a className="button secondary" href="/cbi">
-              Entrar en CBI
-            </a>
-          </div>
+      <section className="hero" id="inicio">
+        <div className="hero-image" aria-hidden="true" />
+        <div className="section-inner hero-statement">
+          <p>30 años de experiencia gestionando subvenciones y financiación pública</p>
+          <h1>
+            Dedícate a lo que sabes, dedícate a tu empresa.
+            <span> Nosotros conseguimos tu financiación.</span>
+          </h1>
+          <a className="text-link" href="#contacto">
+            Contacta con nosotros
+          </a>
         </div>
       </section>
 
-      <section className="metrics section-band" aria-label="Indicadores">
-        <div className="section-inner metrics-grid">
-          <article>
+      <section className="facts section-band" aria-label="Indicadores Conasoc">
+        <div className="section-inner facts-row">
+          <p>
             <strong>+300 M€</strong>
-            <span>en financiación pública obtenida para clientes</span>
-          </article>
-          <article>
+            <span>en financiación pública obtenida para nuestros clientes</span>
+          </p>
+          <p>
             <strong>1996</strong>
-            <span>inicio de una trayectoria especializada</span>
-          </article>
-          <article>
-            <strong>30+</strong>
-            <span>años de experiencia en ayudas y subvenciones</span>
-          </article>
-          <article>
-            <strong>España + UE</strong>
-            <span>convocatorias estatales, autonómicas y europeas</span>
-          </article>
+            <span>consultoría fundada con actividad especializada</span>
+          </p>
+          <p>
+            <strong>España y Unión Europea</strong>
+            <span>convocatorias estatales, autonómicas, regionales y europeas</span>
+          </p>
         </div>
       </section>
 
-      <section className="intro section-band" id="nosotros">
-        <div className="section-inner split">
+      <section className="about section-band" id="nosotros">
+        <div className="section-inner two-column">
+          <div className="section-kicker">Quiénes somos</div>
           <div>
-            <p className="eyebrow">Quiénes somos</p>
-            <h2>Especialistas que liberan tiempo para tu negocio.</h2>
-          </div>
-          <div className="copy-stack">
+            <h2>Confía en especialistas del sector.</h2>
             <p>
-              Conasoc concentra la experiencia de Apoyo e Iniciativas
-              Empresariales S.L. y Consultores Asociados de Andalucía S.L. en
-              asesoramiento financiero, subvenciones públicas y defensa
-              jurídico-administrativa.
+              Somos una empresa de consultoría fundada en 1996, dirigida por
+              profesionales con más de 30 años de experiencia especializada en
+              asesoramiento financiero y tramitación de subvenciones procedentes
+              de distintos organismos, comunidades autónomas, administración
+              central y Unión Europea.
             </p>
             <p>
-              El valor de la nueva web debe ser claro: explicar qué hacemos,
-              demostrar solvencia, abrir una vía directa de contacto y dar
-              entrada a CBI como área privada de análisis competitivo.
+              Nuestro objetivo es que las empresas concentren sus esfuerzos en
+              producción, ventas, innovación y objetivos estratégicos, dejando en
+              manos de especialistas tareas administrativas complejas y
+              altamente burocratizadas.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="services section-band" id="servicios">
+      <section className="financing section-band" id="financiacion">
         <div className="section-inner">
-          <div className="section-heading">
-            <p className="eyebrow">Servicios</p>
-            <h2>Todo lo que podemos hacer por tu proyecto.</h2>
+          <div className="section-title-line">
+            <span>Financiación y Consultoría</span>
+            <h2>Ayudas, deducciones, licitaciones e internacionalización.</h2>
           </div>
-          <div className="service-grid">
-            {services.map((service, index) => (
-              <article className="service-card" key={service.title}>
-                <span className="service-index">
-                  {(index + 1).toString().padStart(2, "0")}
-                </span>
+          <div className="service-list">
+            {financingServices.map((service) => (
+              <article key={service.title}>
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
-                <ul>
-                  {service.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="legal section-band" id="juridicos">
+        <div className="section-inner two-column">
+          <div className="section-kicker">Servicios Jurídicos</div>
+          <div>
+            <h2>Expertos en la gestión y reclamación de ayudas públicas.</h2>
+            <p>
+              Desde Conasoc llevamos más de 30 años gestionando ayudas y
+              procedimientos administrativos. Esa experiencia nos permite
+              acompañar también los trámites jurídicos específicos que aparecen
+              durante solicitud, concesión, justificación o reclamación.
+            </p>
+            <ul className="plain-list">
+              {legalServices.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
       <section className="process section-band" id="proceso">
         <div className="section-inner">
-          <div className="section-heading">
-            <p className="eyebrow">Cómo trabajamos</p>
-            <h2>Un proceso completo desde la idea hasta el cobro.</h2>
+          <div className="section-title-line">
+            <span>Cómo trabajamos</span>
+            <h2>Una operativa clara, adaptable a cada ayuda.</h2>
           </div>
-          <div className="process-grid">
-            {processSteps.map(([number, title, text]) => (
-              <article className="process-step" key={`${number}-${title}`}>
-                <span>{number}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
+          <ol className="process-list">
+            {processSteps.map((step, index) => (
+              <li key={step}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{step}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      <section className="cbi-feature section-band" id="cbi">
-        <div className="section-inner cbi-layout">
+      <section className="clients section-band" id="clientes">
+        <div className="section-inner two-column">
+          <div className="section-kicker">Clientes</div>
           <div>
-            <p className="eyebrow">Conasoc Business Intelligence</p>
-            <h2>CBI pasa a ser una pestaña dentro de Conasoc.</h2>
+            <h2>Más de 300 clientes de distintos sectores y dimensiones.</h2>
             <p>
-              El proyecto CBI queda integrado como área privada para evaluar
-              proyectos frente a convocatorias, comparar competidores y trabajar
-              con datos CSV versionados.
+              Gracias a nuestra experiencia, empresas de distintas comunidades
+              autónomas y sectores han confiado en el Grupo Consultores para el
+              estudio, tramitación y obtención de subvenciones, financiación
+              externa y servicios asociados.
             </p>
-            <a className="button primary" href="/cbi">
-              Abrir área CBI
-            </a>
-          </div>
-          <div className="cbi-panel" aria-label="Vista resumida CBI">
-            <div className="panel-header">
-              <span>CBI</span>
-              <small>Convocatorias activas</small>
-            </div>
-            <div className="panel-list">
-              <span>Innovación empresarial</span>
-              <span>Digitalización y datos</span>
-              <span>Sostenibilidad e impacto</span>
-            </div>
-            <div className="panel-score">
-              <strong>82</strong>
-              <span>puntuación estimada</span>
+            <div className="sector-columns" aria-label="Sectores trabajados">
+              {sectors.map((sector) => (
+                <span key={sector}>{sector}</span>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="sectors section-band" id="clientes">
-        <div className="section-inner">
-          <div className="section-heading compact">
-            <p className="eyebrow">Clientes y sectores</p>
-            <h2>Experiencia transversal con más de 300 clientes.</h2>
-          </div>
-          <div className="sector-list" aria-label="Sectores trabajados">
-            {sectors.map((sector) => (
-              <span key={sector}>{sector}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="opportunities section-band">
-        <div className="section-inner opportunity-grid">
-          <article>
-            <p className="eyebrow">Pro bono</p>
-            <h2>Apoyo a startups y emprendedores.</h2>
+      <section className="initiatives section-band">
+        <div className="section-inner initiative-columns">
+          <article id="probono">
+            <span>Probono</span>
+            <h2>Apoyo inicial a startups y emprendedores.</h2>
             <p>
-              Un espacio para proyectos con potencial que necesitan orientación
-              inicial antes de competir por financiación pública.
+              Revisamos proyectos con potencial para orientar los primeros pasos
+              de financiación pública y evitar trámites sin recorrido.
             </p>
           </article>
-          <article>
-            <p className="eyebrow">Convenios</p>
+          <article id="convenios">
+            <span>Convenios</span>
             <h2>Trabaja con nosotros.</h2>
             <p>
-              Colaboraciones con empresas, entidades y compañeros de camino
-              para crear proyectos financiables y objetivos compartidos.
+              Colaboramos con entidades, empresas y profesionales para detectar
+              oportunidades, preparar proyectos y construir relaciones de largo
+              plazo.
             </p>
           </article>
         </div>
@@ -273,20 +243,20 @@ export default function Home() {
       <section className="contact section-band" id="contacto">
         <div className="section-inner contact-layout">
           <div>
-            <p className="eyebrow">Contacto</p>
-            <h2>Cuéntanos tu proyecto y vemos las opciones.</h2>
+            <div className="section-kicker">Contacto</div>
+            <h2>Preséntanos tu proyecto.</h2>
             <p>
-              Escríbenos con una primera descripción de la inversión,
-              convocatoria o necesidad jurídica. Te responderemos cuanto antes.
+              Estudiaremos tus posibilidades de financiación, tramitación o
+              defensa jurídica con una primera revisión clara.
             </p>
           </div>
           <address>
-            <a href="tel:+34638841238">638 84 12 38</a>
+            <a href="tel:+34638841238">Móvil: (+34) 638 84 12 38</a>
             <a href="mailto:con-asoc@con-asociados.com">
               con-asoc@con-asociados.com
             </a>
-            <a href="mailto:Jorgemoreno@con-asociados.com">
-              Jorgemoreno@con-asociados.com
+            <a href="mailto:jorgemoreno@con-asociados.com">
+              jorgemoreno@con-asociados.com
             </a>
             <span>C. Santo Domingo, 12. 11500 El Puerto de Sta María, Cádiz</span>
           </address>
@@ -300,9 +270,9 @@ export default function Home() {
             © 2026 Apoyo e Iniciativas Empresariales S.L. Consultores Asociados
             de Andalucía S.L.
           </p>
-          <nav aria-label="Legal">
+          <nav aria-label="Pie de página">
+            <a href="#inicio">Inicio</a>
             <a href="#contacto">Contacto</a>
-            <a href="/cbi">CBI</a>
           </nav>
         </div>
       </footer>
