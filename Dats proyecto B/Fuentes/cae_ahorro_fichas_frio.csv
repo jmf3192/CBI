@@ -1,0 +1,6 @@
+ficha;descripcion;n_total;n_filtrado;p25_ktep;mediana_ktep;p75_ktep;p90_ktep;max_ktep
+IND020;Sustitucion de refrigerante;8;2;ND;ND;ND;ND;ND
+IND030;Sustitucion de compresores;87;80;0,0430;0,0760;0,1415;0,2327;0,4227
+IND150;Central frigorifica alta eficiencia (industrial);143;118;0,0319;0,0687;0,1513;0,4224;1,6987
+TER140;Planta enfriadora de procesos;32;22;0,0154;0,0281;0,0648;0,1395;0,3534
+TER150;Central frigorifica alta eficiencia (terciario);205;75;0,0124;0,0165;0,0232;0,0490;0,7043

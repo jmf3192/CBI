@@ -1,0 +1,151 @@
+{
+  "_comentario": "Ficha de calibracion real. INNOVAE subprograma d), IDAE, 1a convocatoria 2026. Sirve de plantilla: copiar y sustituir. Las cifras proceden del trabajo de calibracion documentado en CALIBRACION_poblacion_sintetica.md.",
+
+  "convocatoria": {
+    "nombre": "INNOVAE subprograma d) - sustitucion de generadores de frio",
+    "organismo": "IDAE",
+    "cierre": "2026-11-18",
+    "dotacion_eur": 25000000,
+    "unidad_beneficio": "ktep de ahorro de energia final anual",
+    "factor_conversion": "1 ktep = 11.630.000 kWh",
+    "fuente_bases": "https://www.boe.es/buscar/doc.php?id=BOE-A-2026-12282",
+    "fuente_criterios": "Orden TED/569/2026, Anexo 3. RPA = coste elegible (MEUR) / ahorro (ktep), 40 pts. RPE = ayuda solicitada (MEUR) / ahorro (ktep), 25 pts. Innovacion 25 pts. Socioeconomico 10 pts. Escalas relativas al conjunto, por tramos de 0,2R, con recorte del 5% en cada cola."
+  },
+
+  "orden_columnas": ["id", "escenario", "origen_dato", "arquetipo", "sector",
+                     "coste_elegible_eur", "ayuda_solicitada_eur", "ahorro_kwh_ano",
+                     "categoria_innovacion", "bonus_socioeconomico"],
+
+  "reglas": {
+    "coste_minimo_eur": 100000,
+    "ayuda_maxima_eur": 2000000,
+    "max_intentos_por_fila": 100
+  },
+
+  "escenarios": {
+    "BAJO": {
+      "solicitudes": 40,
+      "tasa_admision": 0.80,
+      "_razon": "La incompatibilidad con el sistema CAE deprime la demanda. Patron de CE IMPLEMENTA 6 y MOVES Flotas Plus: no se agota presupuesto y el corte lo fija el minimo de 50 puntos."
+    },
+    "CENTRAL": {
+      "solicitudes": 110,
+      "tasa_admision": 0.80,
+      "_razon": "Del orden de los ~150 convocados al webinar de frio, con abandono. Sobresuscripcion ligera."
+    },
+    "ALTO": {
+      "solicitudes": 260,
+      "tasa_admision": 0.80,
+      "_razon": "Patron HIALMAC: 266 solicitudes para 150 MEUR, sobresuscripcion de 7x."
+    }
+  },
+
+  "variables": [
+    {
+      "nombre": "ahorro_kwh_ano",
+      "tipo": "beneficio",
+      "unidad_salida": "kWh/ano",
+      "por_unidad_baremo": 11630000,
+      "distribucion": { "tipo": "lognormal", "p50": 0.0760, "p90": 0.2327 },
+      "fuente": "Dataset CAE MITECO, ficha IND030 sustitucion de compresores, n=80 filtradas por ahorro >= 120 MWh/ano. https://catalogo.datosabiertos.miteco.gob.es/catalogo/dataset/7709f44a-9b05-4bb4-bcb0-982f94eb742e"
+    },
+    {
+      "nombre": "coste_elegible_eur",
+      "tipo": "coste_por_ratio",
+      "beneficio": "ahorro_kwh_ano",
+      "distribucion": {
+        "tipo": "empirica",
+        "valores": [0.62, 2.99, 3.21, 4.61, 4.76, 4.83, 5.06, 6.09, 7.31, 8.69,
+                    10.46, 10.58, 11.23, 11.55, 12.85, 13.90, 14.01, 14.23, 15.73],
+        "factor_cola": 1.35
+      },
+      "fuente": "19 proyectos reales de frio con inversion elegible y ahorro publicados. Notificaciones DECA del RD 263/2019 (Murcia, Cataluna, Galicia). Ver Fuentes/rpa_observado_frio.csv. https://www.idae.es/ayudas-y-financiacion/para-eficiencia-energetica-en-la-industria/concesion-directa-ccaa-de-las-0/notificaciones-de-proyectos-seleccionados-para-su-cofinanciacion-con-feder",
+      "_aviso_censura": "La muestra procede de un programa con tope de 14,379 MEUR/ktep. Un valor la supera y tres se apilan justo debajo: la cola esta recortada. INNOVAE no tiene ese tope, de ahi el factor_cola de 1,35. Hacer sensibilidad sobre este factor."
+    },
+    {
+      "nombre": "ayuda_solicitada_eur",
+      "tipo": "fraccion_de",
+      "base": "coste_elegible_eur",
+      "distribucion": { "tipo": "triangular", "min": 0.12, "moda": 0.22, "max": 0.30 },
+      "tope": "ayuda_maxima_eur",
+      "fuente": "Intensidad observada sobre los mismos 19 proyectos: mediana 22,0%, rango 11,6-30,0%. Coherente con el maximo del 30% del Anexo 4.2 para gran empresa. La cola baja recoge a quien pide menos ayuda para mejorar el RPE."
+    },
+    {
+      "nombre": "categoria_innovacion",
+      "tipo": "categorica",
+      "probabilidades": {
+        "baja": 0.45,
+        "incremental": 0.35,
+        "intermedia": 0.17,
+        "disruptiva": 0.03
+      },
+      "origen": "JUICIO_EXPERTO",
+      "fuente": "Sin dato publico: ninguna resolucion del IDAE publica el reparto por grado de innovacion, y el Anexo 3 estrena esta taxonomia. Sesgo hacia abajo porque la sustitucion por refrigerante natural es tecnologia madura y disponible, que es la definicion literal de 'baja innovacion' del propio Anexo 3."
+    },
+    {
+      "nombre": "bonus_socioeconomico",
+      "tipo": "booleana",
+      "probabilidad": 0.30,
+      "valores": ["si", "no"],
+      "fuente": "Suelo verificado: 6.974 municipios de reto demografico = 14% de la poblacion (IDAE, misma definicion que el criterio 4). Mas 197 municipios de transicion justa (ITJ). Se sube por encima del 14% porque la industria del frio esta sobrerrepresentada en el medio rural: 74% de las empresas de alimentacion estan en municipios de menos de 50.000 habitantes (FIAB). Valor por arquetipo mas abajo. https://www.idae.es/ayudas-y-financiacion/para-la-rehabilitacion-de-edificios/programa-pree-5000-rehabilitacion/municipios-de-reto-demografico"
+    }
+  ],
+
+  "arquetipos": [
+    {
+      "nombre": "gran industria agroalimentaria - reconversion a NH3",
+      "sector": "industrial",
+      "peso": 0.30,
+      "sobrescribe": {
+        "ahorro_kwh_ano": { "distribucion": { "tipo": "lognormal", "p50": 0.1415, "p90": 0.4224 } },
+        "bonus_socioeconomico": { "probabilidad": 0.35 }
+      }
+    },
+    {
+      "nombre": "industria alimentaria mediana - central frigorifica CO2 transcritico",
+      "sector": "industrial",
+      "peso": 0.28,
+      "sobrescribe": {
+        "bonus_socioeconomico": { "probabilidad": 0.35 }
+      }
+    },
+    {
+      "nombre": "cooperativa agropecuaria o central hortofruticola - CO2",
+      "sector": "agropecuario",
+      "peso": 0.17,
+      "sobrescribe": {
+        "ahorro_kwh_ano": { "distribucion": { "tipo": "lognormal", "p50": 0.045, "p90": 0.150 } },
+        "bonus_socioeconomico": { "probabilidad": 0.55 }
+      }
+    },
+    {
+      "nombre": "logistica frigorifica y distribucion alimentaria - CO2",
+      "sector": "terciario",
+      "peso": 0.15,
+      "sobrescribe": {
+        "ahorro_kwh_ano": { "distribucion": { "tipo": "lognormal", "p50": 0.0281, "p90": 0.1395 } },
+        "bonus_socioeconomico": { "probabilidad": 0.10 }
+      }
+    },
+    {
+      "nombre": "ESE con contrato de servicios energeticos - rebaja de intensidad",
+      "sector": "terciario",
+      "peso": 0.10,
+      "sobrescribe": {
+        "ayuda_solicitada_eur": { "distribucion": { "tipo": "triangular", "min": 0.10, "moda": 0.15, "max": 0.24 } },
+        "bonus_socioeconomico": { "probabilidad": 0.10 }
+      }
+    }
+  ],
+
+  "notas": [
+    "SUPUESTO ABIERTO: el dataset CAE no documenta si el ahorro declarado es anual o de vida util. Si fuera de vida util, el denominador de ambas ratios estaria inflado 10-15x. Verificar en el catalogo de fichas del MITECO. Es el mayor riesgo metodologico de esta ficha.",
+    "SUPUESTO ABIERTO: el tope de 14.379 EUR/tep del RD 263/2019 se ha tomado de fuente secundaria. Verificar contra el texto consolidado del BOE antes de citarlo a cliente.",
+    "SENSIBILIDAD PRIORITARIA: factor_cola del coste elegible. Probar 1,0 / 1,35 / 1,8 y reportar el rango de linea de corte resultante en vez de un numero.",
+    "SENSIBILIDAD PRIORITARIA: reparto de categoria_innovacion. Es juicio experto puro; medir cuanto mueve el corte importa mas que acertar el valor.",
+    "El escenario BAJO no es pesimista: es el modal en las convocatorias IDAE recientes que no van dirigidas a promotores de renovables. Dos de las cuatro del benchmark no agotaron presupuesto.",
+    "La tasa de admision del 80% procede de MOVES Flotas Plus (20 admitidas de 24), con beneficiarios empresariales. No usar la de CE IMPLEMENTA 6 (9 de 42), cuyos solicitantes eran comunidades energeticas sin estructura administrativa.",
+    "Con el escenario BAJO quedan 32 solicitudes admitidas, justo por encima del minimo de 20 que hace operativo el recorte del 5% del Anexo 3. Sin margen: si la demanda cae mas, un unico expediente con otra convencion de ahorro puede desplazar toda la escala.",
+    "HUECO NO CERRADO: no se han encontrado EUR/kW por tecnologia. No hace falta: la ratio se calibra directamente desde proyectos con inversion y ahorro publicados."
+  ]
+}

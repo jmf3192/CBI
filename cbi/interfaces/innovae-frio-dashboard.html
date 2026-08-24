@@ -1,0 +1,1979 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>INNOVAE frío | CONASOC</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --brand: #001426;
+        --ink: #142033;
+        --muted: #687483;
+        --soft: #fbfcfd;
+        --panel: #ffffff;
+        --line: #e5eaf0;
+        --line-strong: #d8e0e8;
+        --focus: #89b8e8;
+        --good: #18775b;
+        --good-soft: #e9f6f1;
+        --warn: #a26207;
+        --warn-soft: #fff3db;
+        --bad: #b72d3a;
+        --bad-soft: #fdecef;
+        --blue: #286aa6;
+        --blue-soft: #eaf3fb;
+        --shadow: 0 18px 52px rgba(0, 20, 38, 0.05);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        font-family:
+          "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--soft);
+        color: var(--ink);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: var(--soft);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .topbar {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        padding: 0 42px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(14px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 146px;
+        height: auto;
+        display: block;
+      }
+
+      .brand-text {
+        margin: 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--line-strong);
+        color: var(--brand);
+        font-size: 9px;
+        font-weight: 700;
+        line-height: 1.5;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .session {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        white-space: nowrap;
+      }
+
+      .session a {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .session a:hover {
+        color: var(--brand);
+      }
+
+      main {
+        width: min(100%, 1380px);
+        margin: 0 auto;
+        padding: 38px 36px 72px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .page-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        color: var(--brand);
+        font-size: clamp(28px, 3.6vw, 42px);
+        line-height: 1.05;
+        letter-spacing: 0;
+        font-weight: 500;
+      }
+
+      .meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .pill {
+        min-height: 30px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 11px;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        color: var(--brand);
+        background: #ffffff;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 430px minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 64px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .panel-header h2 {
+        color: var(--brand);
+        font-size: 19px;
+        line-height: 1.2;
+        font-weight: 500;
+      }
+
+      .panel-header span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .controls {
+        display: grid;
+        gap: 18px;
+        padding: 20px;
+      }
+
+      .sidebar-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f7f9fb;
+      }
+
+      .sidebar-tabs button {
+        min-height: 38px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        color: var(--muted);
+        background: transparent;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .sidebar-tabs button.is-active {
+        border-color: var(--line-strong);
+        color: var(--brand);
+        background: #ffffff;
+        box-shadow: 0 7px 18px rgba(0, 20, 38, 0.06);
+      }
+
+      .tab-panel {
+        display: none;
+        gap: 22px;
+      }
+
+      .tab-panel.is-active {
+        display: grid;
+      }
+
+      .control {
+        display: grid;
+        gap: 10px;
+      }
+
+      .control-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      label,
+      .control-title {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .control-value {
+        color: var(--brand);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .control-note {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .range-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 108px;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .input-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .input-grid.single {
+        grid-template-columns: 1fr;
+      }
+
+      .input-field {
+        display: grid;
+        gap: 8px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--brand);
+      }
+
+      input[type="number"],
+      input[type="text"],
+      select {
+        width: 100%;
+        height: 40px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 0 10px;
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      input:focus,
+      select:focus,
+      button:focus-visible {
+        outline: none;
+        border-color: var(--focus);
+        box-shadow: 0 0 0 4px rgba(137, 184, 232, 0.18);
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f7f9fb;
+      }
+
+      .segmented button {
+        min-height: 38px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        color: var(--muted);
+        background: transparent;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .segmented button.is-active {
+        border-color: var(--line-strong);
+        color: var(--brand);
+        background: #ffffff;
+        box-shadow: 0 7px 18px rgba(0, 20, 38, 0.06);
+      }
+
+      .innovation {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .manual-form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .primary-action,
+      .secondary-action {
+        min-height: 40px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .primary-action {
+        border: 0;
+        color: #ffffff;
+        background: var(--brand);
+      }
+
+      .secondary-action {
+        border: 1px solid var(--line-strong);
+        color: var(--brand);
+        background: #ffffff;
+      }
+
+      .manual-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .empty-state {
+        padding: 14px;
+        border: 1px dashed var(--line-strong);
+        border-radius: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .manual-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: start;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .manual-item strong {
+        display: block;
+        color: var(--brand);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .manual-item span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .icon-button {
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        color: var(--brand);
+        background: #ffffff;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      .switch-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 13px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .switch-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .switch-copy {
+        display: grid;
+        gap: 4px;
+      }
+
+      .switch-copy strong {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .switch-copy span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .switch {
+        position: relative;
+        width: 42px;
+        height: 24px;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+      }
+
+      .switch-track {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--line-strong);
+        transition: background 150ms ease;
+      }
+
+      .switch-track::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 20, 38, 0.16);
+        transition: transform 150ms ease;
+      }
+
+      .switch input:checked + .switch-track {
+        background: var(--brand);
+      }
+
+      .switch input:checked + .switch-track::after {
+        transform: translateX(18px);
+      }
+
+      .dashboard {
+        display: grid;
+        gap: 18px;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 1.1fr repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .score-panel {
+        min-height: 228px;
+        padding: 22px;
+        display: grid;
+        align-content: space-between;
+        gap: 20px;
+      }
+
+      .score-ring {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .ring {
+        width: 118px;
+        height: 118px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at center, #fff 0 58%, transparent 59%),
+          conic-gradient(var(--ring-color) calc(var(--score) * 1%), #eef2f5 0);
+        flex: 0 0 auto;
+      }
+
+      .ring strong {
+        color: var(--brand);
+        font-size: 28px;
+        font-weight: 700;
+      }
+
+      .score-copy {
+        display: grid;
+        gap: 8px;
+      }
+
+      .score-copy h2 {
+        color: var(--brand);
+        font-size: 24px;
+        line-height: 1.15;
+        font-weight: 500;
+      }
+
+      .score-copy p {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .status {
+        min-height: 34px;
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        padding: 0 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .status.good {
+        color: var(--good);
+        background: var(--good-soft);
+      }
+
+      .status.warn {
+        color: var(--warn);
+        background: var(--warn-soft);
+      }
+
+      .status.bad {
+        color: var(--bad);
+        background: var(--bad-soft);
+      }
+
+      .metric {
+        min-height: 146px;
+        display: grid;
+        align-content: space-between;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        color: var(--brand);
+        font-size: 28px;
+        line-height: 1;
+        font-weight: 600;
+      }
+
+      .metric p {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 18px;
+      }
+
+      .criteria {
+        padding: 20px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .criterion {
+        display: grid;
+        gap: 8px;
+      }
+
+      .criterion-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .criterion-name {
+        color: var(--brand);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .criterion-points {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .bar {
+        height: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #eef2f5;
+      }
+
+      .bar span {
+        display: block;
+        height: 100%;
+        width: var(--width);
+        border-radius: inherit;
+        background: var(--bar-color);
+      }
+
+      .analysis-panel {
+        padding: 20px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .analysis-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .analysis-item {
+        display: grid;
+        gap: 4px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .analysis-item strong {
+        color: var(--brand);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .analysis-item span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .chart-panel {
+        padding: 20px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .chart-tools {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .chart-tabs {
+        display: inline-grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f7f9fb;
+      }
+
+      .chart-tabs button {
+        min-height: 34px;
+        min-width: 106px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        color: var(--muted);
+        background: transparent;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .chart-tabs button.is-active {
+        border-color: var(--line-strong);
+        color: var(--brand);
+        background: #ffffff;
+      }
+
+      .chart-note {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .distribution {
+        position: relative;
+        min-height: 236px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(to right, rgba(20, 32, 51, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(20, 32, 51, 0.04) 1px, transparent 1px),
+          #ffffff;
+        background-size: 10% 100%, 100% 25%;
+        overflow: hidden;
+      }
+
+      .histogram {
+        position: absolute;
+        inset: 18px 18px 38px 18px;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 6px;
+        align-items: end;
+      }
+
+      .histogram span {
+        min-height: 4px;
+        border-radius: 4px 4px 0 0;
+        background: #bfd5e8;
+      }
+
+      .marker {
+        position: absolute;
+        top: 14px;
+        bottom: 30px;
+        left: var(--left);
+        width: 2px;
+        background: var(--bad);
+      }
+
+      .marker::before {
+        content: "Tu solicitud";
+        position: absolute;
+        top: -2px;
+        left: 8px;
+        padding: 5px 8px;
+        border-radius: 6px;
+        color: #ffffff;
+        background: var(--bad);
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .axis {
+        position: absolute;
+        right: 18px;
+        bottom: 11px;
+        left: 18px;
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      td {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .row-own td {
+        color: var(--brand);
+        background: var(--blue-soft);
+        font-weight: 700;
+      }
+
+      .mini-status {
+        display: inline-flex;
+        align-items: center;
+        min-height: 24px;
+        padding: 0 8px;
+        border-radius: 999px;
+        color: var(--brand);
+        background: #f2f6f9;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      @media (max-width: 1180px) {
+        .layout,
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .summary-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 22px 24px;
+        }
+
+        .brand {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .brand-text {
+          padding-left: 0;
+          border-left: 0;
+        }
+
+        main {
+          padding: 30px 20px 54px;
+        }
+
+        .page-head,
+        .score-ring,
+        .chart-tools {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .meta-strip {
+          justify-content: flex-start;
+        }
+
+        .summary-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .range-line {
+          grid-template-columns: 1fr;
+        }
+
+        .segmented,
+        .innovation,
+        .input-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="CONASOC">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <p class="brand-text">
+          Consultoría en financiación pública<br />
+          Business intelligence
+        </p>
+      </a>
+
+      <nav class="session" aria-label="Navegación">
+        <a href="./convocatorias.html">Convocatorias</a>
+        <a href="./acceso.html">Salir</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-head" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">CONV-2026-INNOVAE-FRIO</p>
+          <h1 id="page-title">Simulador de solicitud INNOVAE frío</h1>
+        </div>
+        <div class="meta-strip" aria-label="Parámetros de convocatoria">
+          <span class="pill">Dotación 25 M€</span>
+          <span class="pill">Cierre 18/11/2026 12:00</span>
+          <span class="pill">Mínimo 50 puntos</span>
+        </div>
+      </section>
+
+      <section class="layout">
+        <aside class="panel" aria-label="Datos de la solicitud">
+          <div class="panel-header">
+            <h2>Datos de trabajo</h2>
+            <span id="scenario-size">Escenario central</span>
+          </div>
+
+          <div class="controls">
+            <div class="sidebar-tabs" id="input-tabs" aria-label="Datos del simulador">
+              <button class="is-active" type="button" data-tab="own">Tu solicitud</button>
+              <button type="button" data-tab="manual">Añadir competidor</button>
+            </div>
+
+            <section class="tab-panel is-active" id="own-panel" aria-label="Tu solicitud">
+              <div class="control">
+                <div class="control-top">
+                  <span class="control-title">Escenario competitivo</span>
+                  <span class="control-value" id="scenario-label"></span>
+                </div>
+                <label class="input-field">
+                  Solicitudes presentadas
+                  <div class="range-line">
+                    <input id="presented-range" type="range" min="20" max="320" step="1" />
+                    <input id="presented-input" type="number" min="20" max="320" step="1" />
+                  </div>
+                </label>
+                <label class="input-field">
+                  Tasa de admisión
+                  <div class="range-line">
+                    <input id="admission-range" type="range" min="40" max="95" step="1" />
+                    <input id="admission-input" type="number" min="40" max="95" step="1" />
+                  </div>
+                </label>
+              </div>
+
+              <div class="control">
+                <div class="control-top">
+                  <span class="control-title">Datos básicos</span>
+                  <span class="control-value" id="basic-label"></span>
+                </div>
+                <div class="input-grid">
+                  <label class="input-field">
+                    Coste elegible
+                    <input id="cost-input" type="number" min="100000" max="5000000" step="25000" />
+                  </label>
+                  <label class="input-field">
+                    Ahorro anual MWh
+                    <input id="saving-input" type="number" min="120" max="12000" step="20" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="control">
+                <div class="control-top">
+                  <label for="aid-range">Ayuda solicitada sobre coste</label>
+                  <span class="control-value" id="aid-label"></span>
+                </div>
+                <div class="range-line">
+                  <input id="aid-range" type="range" min="10" max="30" step="0.5" />
+                  <input id="aid-input" type="number" min="0" max="2000000" step="10000" />
+                </div>
+              </div>
+
+              <div class="control">
+                <div class="control-top">
+                  <span class="control-title">Grado de innovación</span>
+                  <span class="control-value" id="innovation-label"></span>
+                </div>
+                <div class="segmented innovation" id="innovation-control" aria-label="Grado de innovación">
+                  <button type="button" data-innovation="baja">Baja</button>
+                  <button class="is-active" type="button" data-innovation="incremental">Incremental</button>
+                  <button type="button" data-innovation="intermedia">Intermedia</button>
+                  <button type="button" data-innovation="disruptiva">Disruptiva</button>
+                </div>
+              </div>
+
+              <div class="control">
+                <div class="control-top">
+                  <label for="power-range">Potencia eléctrica de compresores</label>
+                  <span class="control-value" id="power-label"></span>
+                </div>
+                <div class="range-line">
+                  <input id="power-range" type="range" min="50" max="600" step="5" />
+                  <input id="power-input" type="number" min="50" max="600" step="5" />
+                </div>
+              </div>
+
+              <div class="control">
+                <div class="control-top">
+                  <label for="saving-pct-range">Ahorro sobre instalación actual</label>
+                  <span class="control-value" id="saving-pct-label"></span>
+                </div>
+                <div class="range-line">
+                  <input id="saving-pct-range" type="range" min="0" max="60" step="1" />
+                  <input id="saving-pct-input" type="number" min="0" max="60" step="1" />
+                </div>
+              </div>
+
+              <div class="control">
+                <div class="switch-row">
+                  <span class="switch-copy">
+                    <strong>Municipio con bonus</strong>
+                    <span>Reto demográfico o transición justa.</span>
+                  </span>
+                  <label class="switch" aria-label="Municipio con bonus socioeconómico">
+                    <input id="bonus-toggle" type="checkbox" />
+                    <span class="switch-track"></span>
+                  </label>
+                </div>
+                <div class="switch-row">
+                  <span class="switch-copy">
+                    <strong>Refrigerante PCA &lt; 150</strong>
+                    <span>Requisito excluyente del subprograma de frío.</span>
+                  </span>
+                  <label class="switch" aria-label="Refrigerante con PCA inferior a 150">
+                    <input id="pca-toggle" type="checkbox" checked />
+                    <span class="switch-track"></span>
+                  </label>
+                </div>
+                <div class="switch-row">
+                  <span class="switch-copy">
+                    <strong>Memoria técnica completa</strong>
+                    <span>No admite mejora tras el cierre de plazo.</span>
+                  </span>
+                  <label class="switch" aria-label="Memoria técnica completa">
+                    <input id="memory-toggle" type="checkbox" checked />
+                    <span class="switch-track"></span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="tab-panel" id="manual-panel" aria-label="Añadir competidor">
+              <form class="manual-form" id="manual-form">
+                <label class="input-field">
+                  Nombre del competidor
+                  <input id="manual-name" type="text" maxlength="42" placeholder="Competidor conocido" />
+                </label>
+                <div class="input-grid">
+                  <label class="input-field">
+                    Coste elegible
+                    <input id="manual-cost" type="number" min="100000" max="5000000" step="25000" />
+                  </label>
+                  <label class="input-field">
+                    Ahorro anual MWh
+                    <input id="manual-saving" type="number" min="120" max="12000" step="20" />
+                  </label>
+                </div>
+                <div class="input-grid">
+                  <label class="input-field">
+                    Ayuda solicitada
+                    <input id="manual-aid" type="number" min="0" max="2000000" step="10000" />
+                  </label>
+                  <label class="input-field">
+                    Innovación
+                    <select id="manual-innovation">
+                      <option value="baja">Baja</option>
+                      <option value="incremental" selected>Incremental</option>
+                      <option value="intermedia">Intermedia</option>
+                      <option value="disruptiva">Disruptiva</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="switch-row">
+                  <span class="switch-copy">
+                    <strong>Municipio con bonus</strong>
+                    <span>Reto demográfico o transición justa.</span>
+                  </span>
+                  <label class="switch" aria-label="Competidor con bonus socioeconómico">
+                    <input id="manual-bonus" type="checkbox" />
+                    <span class="switch-track"></span>
+                  </label>
+                </div>
+                <button class="primary-action" type="submit">Añadir competidor</button>
+              </form>
+
+              <div class="manual-list" id="manual-list"></div>
+            </section>
+          </div>
+        </aside>
+
+        <section class="dashboard" aria-label="Resultados del simulador">
+          <div class="summary-grid">
+            <article class="panel score-panel">
+              <div class="score-ring">
+                <div class="ring" id="score-ring" style="--score: 0; --ring-color: var(--bad)">
+                  <strong id="total-score">0</strong>
+                </div>
+                <div class="score-copy">
+                  <span class="status warn" id="status-pill">Calculando</span>
+                  <h2 id="status-title">Evaluando solicitud</h2>
+                  <p id="status-copy"></p>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel metric">
+              <span>Posición</span>
+              <strong id="rank-value">-</strong>
+              <p id="rank-copy"></p>
+            </article>
+
+            <article class="panel metric">
+              <span>RPA coste/ahorro</span>
+              <strong id="rpa-value">-</strong>
+              <p id="rpa-copy"></p>
+            </article>
+
+            <article class="panel metric">
+              <span>RPE ayuda/ahorro</span>
+              <strong id="rpe-value">-</strong>
+              <p id="rpe-copy"></p>
+            </article>
+          </div>
+
+          <div class="detail-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <h2>Puntuación por criterio</h2>
+                <span id="cutoff-label">Corte estimado</span>
+              </div>
+              <div class="criteria" id="criteria-list"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <h2>Lectura operativa</h2>
+                <span id="budget-label"></span>
+              </div>
+              <div class="analysis-panel">
+                <div class="analysis-list" id="analysis-list"></div>
+              </div>
+            </article>
+          </div>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Comparación contra población sintética</h2>
+              <span id="population-label"></span>
+            </div>
+            <div class="chart-panel">
+              <div class="chart-tools">
+                <div class="chart-tabs" id="chart-tabs" aria-label="Métrica de distribución">
+                  <button class="is-active" type="button" data-chart="rpa">RPA</button>
+                  <button type="button" data-chart="rpe">RPE</button>
+                </div>
+                <p class="chart-note" id="chart-note"></p>
+              </div>
+              <div class="distribution" aria-label="Histograma competitivo">
+                <div class="histogram" id="histogram"></div>
+                <div class="marker" id="distribution-marker" style="--left: 50%"></div>
+                <div class="axis">
+                  <span id="axis-min">0</span>
+                  <span id="axis-max">0</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const KWH_PER_KTEP = 11630000;
+      const BUDGET = 25000000;
+      const MIN_COST = 100000;
+      const MAX_AID = 2000000;
+      const MIN_SCORE = 50;
+
+      const state = {
+        chart: "rpa",
+        activeTab: "own",
+        presented: 110,
+        admissionRate: 80,
+        cost: 720000,
+        savingMwh: 940,
+        aidPct: 22,
+        innovation: "incremental",
+        powerKw: 165,
+        savingPct: 24,
+        bonus: false,
+        pcaOk: true,
+        memoryReady: true,
+        manualRows: [],
+      };
+
+      const controls = {
+        scenarioSize: document.querySelector("#scenario-size"),
+        scenarioLabel: document.querySelector("#scenario-label"),
+        basicLabel: document.querySelector("#basic-label"),
+        inputTabs: document.querySelector("#input-tabs"),
+        ownPanel: document.querySelector("#own-panel"),
+        manualPanel: document.querySelector("#manual-panel"),
+        presentedRange: document.querySelector("#presented-range"),
+        presentedInput: document.querySelector("#presented-input"),
+        admissionRange: document.querySelector("#admission-range"),
+        admissionInput: document.querySelector("#admission-input"),
+        costInput: document.querySelector("#cost-input"),
+        savingInput: document.querySelector("#saving-input"),
+        aidRange: document.querySelector("#aid-range"),
+        aidInput: document.querySelector("#aid-input"),
+        aidLabel: document.querySelector("#aid-label"),
+        innovationLabel: document.querySelector("#innovation-label"),
+        powerRange: document.querySelector("#power-range"),
+        powerInput: document.querySelector("#power-input"),
+        powerLabel: document.querySelector("#power-label"),
+        savingPctRange: document.querySelector("#saving-pct-range"),
+        savingPctInput: document.querySelector("#saving-pct-input"),
+        savingPctLabel: document.querySelector("#saving-pct-label"),
+        bonusToggle: document.querySelector("#bonus-toggle"),
+        pcaToggle: document.querySelector("#pca-toggle"),
+        memoryToggle: document.querySelector("#memory-toggle"),
+        manualForm: document.querySelector("#manual-form"),
+        manualName: document.querySelector("#manual-name"),
+        manualCost: document.querySelector("#manual-cost"),
+        manualSaving: document.querySelector("#manual-saving"),
+        manualAid: document.querySelector("#manual-aid"),
+        manualInnovation: document.querySelector("#manual-innovation"),
+        manualBonus: document.querySelector("#manual-bonus"),
+        manualList: document.querySelector("#manual-list"),
+      };
+
+      const outputs = {
+        scoreRing: document.querySelector("#score-ring"),
+        totalScore: document.querySelector("#total-score"),
+        statusPill: document.querySelector("#status-pill"),
+        statusTitle: document.querySelector("#status-title"),
+        statusCopy: document.querySelector("#status-copy"),
+        rankValue: document.querySelector("#rank-value"),
+        rankCopy: document.querySelector("#rank-copy"),
+        rpaValue: document.querySelector("#rpa-value"),
+        rpaCopy: document.querySelector("#rpa-copy"),
+        rpeValue: document.querySelector("#rpe-value"),
+        rpeCopy: document.querySelector("#rpe-copy"),
+        criteriaList: document.querySelector("#criteria-list"),
+        cutoffLabel: document.querySelector("#cutoff-label"),
+        budgetLabel: document.querySelector("#budget-label"),
+        analysisList: document.querySelector("#analysis-list"),
+        populationLabel: document.querySelector("#population-label"),
+        histogram: document.querySelector("#histogram"),
+        marker: document.querySelector("#distribution-marker"),
+        axisMin: document.querySelector("#axis-min"),
+        axisMax: document.querySelector("#axis-max"),
+        chartNote: document.querySelector("#chart-note"),
+      };
+
+      const baseRpaValues = [
+        0.62, 2.99, 3.21, 4.61, 4.76, 4.83, 5.06, 6.09, 7.31, 8.69, 10.46, 10.58,
+        11.23, 11.55, 12.85, 13.9, 14.01, 14.23, 15.73,
+      ];
+
+      const archetypes = [
+        {
+          name: "gran industria agroalimentaria - reconversión a NH3",
+          sector: "industrial",
+          weight: 0.3,
+          saving: { p50: 0.1415, p90: 0.4224 },
+          bonus: 0.35,
+          aid: { min: 0.12, mode: 0.22, max: 0.3 },
+        },
+        {
+          name: "industria alimentaria mediana - central frigorífica CO2",
+          sector: "industrial",
+          weight: 0.28,
+          saving: { p50: 0.076, p90: 0.2327 },
+          bonus: 0.35,
+          aid: { min: 0.12, mode: 0.22, max: 0.3 },
+        },
+        {
+          name: "cooperativa agropecuaria - CO2",
+          sector: "agropecuario",
+          weight: 0.17,
+          saving: { p50: 0.045, p90: 0.15 },
+          bonus: 0.55,
+          aid: { min: 0.12, mode: 0.22, max: 0.3 },
+        },
+        {
+          name: "logística frigorífica - CO2",
+          sector: "terciario",
+          weight: 0.15,
+          saving: { p50: 0.0281, p90: 0.1395 },
+          bonus: 0.1,
+          aid: { min: 0.12, mode: 0.22, max: 0.3 },
+        },
+        {
+          name: "ESE con rebaja de intensidad",
+          sector: "terciario",
+          weight: 0.1,
+          saving: { p50: 0.076, p90: 0.2327 },
+          bonus: 0.1,
+          aid: { min: 0.1, mode: 0.15, max: 0.24 },
+        },
+      ];
+
+      function mulberry32(seed) {
+        return function next() {
+          seed |= 0;
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function gaussian(rng) {
+        let u = 0;
+        let v = 0;
+        while (u === 0) u = rng();
+        while (v === 0) v = rng();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+      }
+
+      function chooseWeighted(items, rng) {
+        const total = items.reduce((sum, item) => sum + item.weight, 0);
+        let value = rng() * total;
+        for (const item of items) {
+          value -= item.weight;
+          if (value <= 0) return item;
+        }
+        return items[items.length - 1];
+      }
+
+      function sampleLogNormal(dist, rng) {
+        const mu = Math.log(dist.p50);
+        const sigma = (Math.log(dist.p90) - mu) / 1.2815515655446004;
+        return Math.exp(mu + sigma * gaussian(rng));
+      }
+
+      function sampleTriangular(dist, rng) {
+        const min = dist.min;
+        const max = dist.max;
+        const mode = dist.mode;
+        const u = rng();
+        const c = (mode - min) / (max - min);
+        if (u <= c) return min + Math.sqrt(u * (max - min) * (mode - min));
+        return max - Math.sqrt((1 - u) * (max - min) * (max - mode));
+      }
+
+      function sampleRpa(rng) {
+        const sorted = [...baseRpaValues].sort((a, b) => a - b);
+        const raw = sorted[Math.floor(rng() * sorted.length)] * (0.92 + rng() * 0.16);
+        const p75Index = (sorted.length - 1) * 0.75;
+        const low = Math.floor(p75Index);
+        const high = Math.min(low + 1, sorted.length - 1);
+        const p75 = sorted[low] + (sorted[high] - sorted[low]) * (p75Index - low);
+        if (raw > p75) return p75 + (raw - p75) * 1.35;
+        return raw;
+      }
+
+      function innovationCategory(rng) {
+        const value = rng();
+        if (value < 0.45) return "baja";
+        if (value < 0.8) return "incremental";
+        if (value < 0.97) return "intermedia";
+        return "disruptiva";
+      }
+
+      function innovationPoints(category) {
+        return {
+          baja: 2.5,
+          incremental: 7.5,
+          intermedia: 14,
+          disruptiva: 21.5,
+        }[category] ?? 0;
+      }
+
+      function admittedCount() {
+        return Math.max(1, Math.round(state.presented * (state.admissionRate / 100)));
+      }
+
+      function generatePopulation() {
+        const admitted = admittedCount();
+        const rng = mulberry32(1709 + state.presented * 101 + state.admissionRate * 997);
+        const rows = [];
+        let index = 1;
+        let attempts = 0;
+        while (rows.length < admitted && attempts < admitted * 80) {
+          attempts += 1;
+          const archetype = chooseWeighted(archetypes, rng);
+          const savingKtep = sampleLogNormal(archetype.saving, rng);
+          const rpa = sampleRpa(rng);
+          const cost = rpa * savingKtep * 1000000;
+          if (cost < MIN_COST) continue;
+          const aidPct = sampleTriangular(archetype.aid, rng);
+          const aid = Math.min(MAX_AID, cost * aidPct);
+          rows.push({
+            id: `SIM-${String(index).padStart(4, "0")}`,
+            own: false,
+            manual: false,
+            archetype: archetype.name,
+            sector: archetype.sector,
+            cost,
+            savingKwh: savingKtep * KWH_PER_KTEP,
+            aid,
+            innovation: innovationCategory(rng),
+            bonus: rng() < archetype.bonus,
+          });
+          index += 1;
+        }
+        return rows;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, Number(value)));
+      }
+
+      function formatEuro(value) {
+        return new Intl.NumberFormat("es-ES", {
+          style: "currency",
+          currency: "EUR",
+          maximumFractionDigits: 0,
+        }).format(value);
+      }
+
+      function formatNumber(value, digits = 0) {
+        return new Intl.NumberFormat("es-ES", {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }).format(value);
+      }
+
+      function pct(values, q) {
+        const sorted = [...values].sort((a, b) => a - b);
+        const index = (sorted.length - 1) * q;
+        const low = Math.floor(index);
+        const high = Math.min(low + 1, sorted.length - 1);
+        return sorted[low] + (sorted[high] - sorted[low]) * (index - low);
+      }
+
+      function calculateRatio(row) {
+        const ktep = row.savingKwh / KWH_PER_KTEP;
+        row.savingKtep = ktep;
+        row.rpa = row.cost / 1000000 / ktep;
+        row.rpe = row.aid / 1000000 / ktep;
+      }
+
+      function scale(values) {
+        const sorted = [...values].sort((a, b) => a - b);
+        let usable = sorted;
+        if (sorted.length >= 20) {
+          const cut = Math.floor(sorted.length * 0.05);
+          if (cut > 0) usable = sorted.slice(cut, sorted.length - cut);
+        }
+        const min = usable[0];
+        const max = usable[usable.length - 1];
+        return { min, max, range: max - min };
+      }
+
+      function intervalPoints(value, scaleInfo, steps, fallback) {
+        if (scaleInfo.range <= 0) return steps[0].points;
+        for (const step of steps) {
+          if (value <= scaleInfo.min + step.factor * scaleInfo.range) return step.points;
+        }
+        return fallback;
+      }
+
+      function scoreRows(rows) {
+        rows.forEach(calculateRatio);
+        const rpaScale = scale(rows.map((row) => row.rpa));
+        const rpeScale = scale(rows.map((row) => row.rpe));
+        rows.forEach((row) => {
+          row.c1 = intervalPoints(
+            row.rpa,
+            rpaScale,
+            [
+              { factor: 0.2, points: 40 },
+              { factor: 0.4, points: 32 },
+              { factor: 0.6, points: 24 },
+              { factor: 0.8, points: 16 },
+            ],
+            8,
+          );
+          row.c2 = intervalPoints(
+            row.rpe,
+            rpeScale,
+            [
+              { factor: 0.2, points: 25 },
+              { factor: 0.4, points: 20 },
+              { factor: 0.6, points: 15 },
+              { factor: 0.8, points: 10 },
+            ],
+            6,
+          );
+          row.c3 = innovationPoints(row.innovation);
+          row.c4 = row.bonus ? 10 : 0;
+          row.exclusionReasons = [];
+          if (row.cost < MIN_COST) row.exclusionReasons.push("coste elegible inferior al mínimo");
+          if (row.own && state.powerKw < 100) row.exclusionReasons.push("potencia de compresores < 100 kW");
+          if (row.own && state.savingPct <= 20) row.exclusionReasons.push("ahorro no supera el 20 %");
+          if (row.own && !state.pcaOk) row.exclusionReasons.push("PCA del refrigerante no cumple");
+          if (row.own && !state.memoryReady) row.exclusionReasons.push("memoria técnica incompleta");
+          row.total = row.exclusionReasons.length ? 0 : row.c1 + row.c2 + row.c3 + row.c4;
+          if (row.total < MIN_SCORE && !row.exclusionReasons.length) {
+            row.exclusionReasons.push("no alcanza 50 puntos");
+          }
+        });
+
+        const ranked = [...rows]
+          .filter((row) => row.total >= MIN_SCORE && row.exclusionReasons.length === 0)
+          .sort(
+            (a, b) =>
+              b.total - a.total ||
+              b.c1 - a.c1 ||
+              b.c2 - a.c2 ||
+              b.c3 - a.c3 ||
+              b.c4 - a.c4 ||
+              a.id.localeCompare(b.id),
+          );
+
+        let used = 0;
+        let cutoff = null;
+        ranked.forEach((row, index) => {
+          row.rank = index + 1;
+          const aid = Math.min(row.aid, MAX_AID);
+          if (used + aid <= BUDGET) {
+            used += aid;
+            row.result = "concedida";
+            cutoff = row.total;
+          } else {
+            row.result = "lista_reserva";
+          }
+        });
+
+        rows.forEach((row) => {
+          if (row.exclusionReasons.length) row.result = "excluida";
+        });
+
+        return { rows, ranked, cutoff, used, rpaScale, rpeScale };
+      }
+
+      function currentOwnRow() {
+        const aid = Math.min(MAX_AID, state.cost * 0.3, state.cost * (state.aidPct / 100));
+        return {
+          id: "TU-SOLICITUD",
+          own: true,
+          manual: false,
+          archetype: "Tu solicitud",
+          sector: "propio",
+          cost: state.cost,
+          savingKwh: state.savingMwh * 1000,
+          aid,
+          innovation: state.innovation,
+          bonus: state.bonus,
+        };
+      }
+
+      function manualRowsForScoring() {
+        return state.manualRows.map((row) => ({
+          id: row.id,
+          own: false,
+          manual: true,
+          archetype: row.name,
+          sector: "manual",
+          cost: row.cost,
+          savingKwh: row.savingMwh * 1000,
+          aid: row.aid,
+          innovation: row.innovation,
+          bonus: row.bonus,
+        }));
+      }
+
+      function simulate() {
+        const rows = generatePopulation();
+        rows.push(...manualRowsForScoring());
+        rows.push(currentOwnRow());
+        return scoreRows(rows);
+      }
+
+      function setActiveButtons(containerSelector, value, dataName) {
+        document.querySelectorAll(`${containerSelector} button`).forEach((button) => {
+          button.classList.toggle("is-active", button.dataset[dataName] === value);
+        });
+      }
+
+      function syncControls() {
+        controls.presentedRange.value = state.presented;
+        controls.presentedInput.value = state.presented;
+        controls.admissionRange.value = state.admissionRate;
+        controls.admissionInput.value = state.admissionRate;
+        controls.scenarioLabel.textContent = `${formatNumber(state.presented)} presentadas · ${formatNumber(admittedCount())} admitidas`;
+        controls.scenarioSize.textContent = `${formatNumber(admittedCount() + state.manualRows.length)} competidoras`;
+
+        controls.costInput.value = state.cost;
+        controls.savingInput.value = state.savingMwh;
+        controls.basicLabel.textContent = `${formatEuro(state.cost)} · ${formatNumber(state.savingMwh)} MWh/año`;
+
+        const aidCap = Math.min(MAX_AID, state.cost * 0.3);
+        const aidAmount = Math.min(aidCap, state.cost * (state.aidPct / 100));
+        controls.aidRange.value = state.aidPct;
+        controls.aidInput.max = Math.round(aidCap);
+        controls.aidInput.value = Math.round(aidAmount / 1000) * 1000;
+        controls.aidLabel.textContent = `${formatNumber(state.aidPct, 1)} % · ${formatEuro(aidAmount)}`;
+
+        controls.powerRange.value = state.powerKw;
+        controls.powerInput.value = state.powerKw;
+        controls.powerLabel.textContent = `${formatNumber(state.powerKw)} kW`;
+
+        controls.savingPctRange.value = state.savingPct;
+        controls.savingPctInput.value = state.savingPct;
+        controls.savingPctLabel.textContent = `${formatNumber(state.savingPct)} %`;
+
+        controls.bonusToggle.checked = state.bonus;
+        controls.pcaToggle.checked = state.pcaOk;
+        controls.memoryToggle.checked = state.memoryReady;
+        controls.innovationLabel.textContent =
+          {
+            baja: "2,5 pts",
+            incremental: "7,5 pts",
+            intermedia: "14 pts",
+            disruptiva: "21,5 pts",
+          }[state.innovation] ?? "";
+
+        setActiveButtons("#innovation-control", state.innovation, "innovation");
+        setActiveButtons("#input-tabs", state.activeTab, "tab");
+        controls.ownPanel.classList.toggle("is-active", state.activeTab === "own");
+        controls.manualPanel.classList.toggle("is-active", state.activeTab === "manual");
+      }
+
+      function renderCriteria(own) {
+        const items = [
+          {
+            label: "Ahorro y eficiencia energética",
+            value: own.c1,
+            max: 40,
+            color: "var(--good)",
+          },
+          { label: "Económico", value: own.c2, max: 25, color: "var(--blue)" },
+          { label: "Innovación", value: own.c3, max: 25, color: "var(--warn)" },
+          { label: "Beneficios socioeconómicos", value: own.c4, max: 10, color: "var(--brand)" },
+        ];
+
+        outputs.criteriaList.innerHTML = items
+          .map(
+            (item) => `
+              <div class="criterion">
+                <div class="criterion-top">
+                  <span class="criterion-name">${item.label}</span>
+                  <span class="criterion-points">${formatNumber(item.value, item.value % 1 ? 1 : 0)} / ${item.max}</span>
+                </div>
+                <div class="bar" style="--bar-color: ${item.color}; --width: ${(item.value / item.max) * 100}%">
+                  <span></span>
+                </div>
+              </div>
+            `,
+          )
+          .join("");
+      }
+
+      function renderAnalysis(result, own) {
+        const notes = [];
+        if (own.exclusionReasons.length) {
+          notes.push({
+            title: "Bloqueo de admisibilidad",
+            text: own.exclusionReasons.join(", ") + ". Antes de optimizar puntos, corrige este bloqueo.",
+          });
+        }
+
+        const p60Rpa = pct(result.rows.filter((row) => !row.own).map((row) => row.rpa), 0.6);
+        const p40Rpe = pct(result.rows.filter((row) => !row.own).map((row) => row.rpe), 0.4);
+
+        if (own.rpa > p60Rpa) {
+          notes.push({
+            title: "La ratio coste/ahorro pesa demasiado",
+            text: "Subir ahorro justificable o recortar coste elegible puede mover el criterio de 8-16 puntos a tramos más competitivos.",
+          });
+        } else {
+          notes.push({
+            title: "RPA competitiva",
+            text: "La solicitud cae en una zona razonable de coste por ahorro. Vigila que el ahorro esté muy bien documentado.",
+          });
+        }
+
+        if (own.rpe > p40Rpe) {
+          notes.push({
+            title: "Palanca directa: ayuda solicitada",
+            text: "Reducir intensidad de ayuda mejora el RPE. Prueba bajar el deslizador hasta ver si cambia de tramo.",
+          });
+        } else {
+          notes.push({
+            title: "Ayuda bien posicionada",
+            text: "La ayuda solicitada no penaliza de forma severa frente a la población simulada.",
+          });
+        }
+
+        if (state.innovation === "baja") {
+          notes.push({
+            title: "Innovación frágil",
+            text: "Baja innovación deja poco margen. Recuperación de calor, control avanzado o integración de proceso pueden sostener una categoría superior.",
+          });
+        }
+
+        outputs.analysisList.innerHTML = notes
+          .slice(0, 4)
+          .map(
+            (note) => `
+              <div class="analysis-item">
+                <strong>${note.title}</strong>
+                <span>${note.text}</span>
+              </div>
+            `,
+          )
+          .join("");
+      }
+
+      function renderDistribution(result, own) {
+        const key = state.chart;
+        const values = result.rows.filter((row) => !row.own).map((row) => row[key]);
+        const min = Math.min(...values, own[key]);
+        const max = Math.max(...values, own[key]);
+        const bins = Array.from({ length: 12 }, () => 0);
+        values.forEach((value) => {
+          const position = max === min ? 0 : (value - min) / (max - min);
+          const index = Math.min(bins.length - 1, Math.floor(position * bins.length));
+          bins[index] += 1;
+        });
+        const top = Math.max(...bins, 1);
+        outputs.histogram.innerHTML = bins
+          .map((count) => `<span style="height: ${Math.max(4, (count / top) * 100)}%"></span>`)
+          .join("");
+        const ownPosition = max === min ? 0.5 : (own[key] - min) / (max - min);
+        outputs.marker.style.setProperty("--left", `${Math.min(98, Math.max(2, ownPosition * 100))}%`);
+        outputs.axisMin.textContent = `${formatNumber(min, 1)} M€/ktep`;
+        outputs.axisMax.textContent = `${formatNumber(max, 1)} M€/ktep`;
+        outputs.chartNote.textContent =
+          key === "rpa"
+            ? "RPA mide coste elegible por ktep de ahorro. Cuanto más a la izquierda, mejor tramo."
+            : "RPE mide ayuda solicitada por ktep de ahorro. Menor intensidad puede mejorar puntos.";
+      }
+
+      function renderManualList() {
+        if (!state.manualRows.length) {
+          controls.manualList.innerHTML = `<div class="empty-state">Sin competidores añadidos en esta sesión.</div>`;
+          return;
+        }
+
+        controls.manualList.innerHTML = state.manualRows
+          .map(
+            (row) => `
+              <div class="manual-item">
+                <div>
+                  <strong>${row.name}</strong>
+                  <span>${formatEuro(row.cost)} · ${formatNumber(row.savingMwh)} MWh/año · ${formatEuro(row.aid)}</span>
+                </div>
+                <button class="icon-button" type="button" data-remove-manual="${row.id}" aria-label="Quitar ${row.name}">×</button>
+              </div>
+            `,
+          )
+          .join("");
+      }
+
+      function render() {
+        syncControls();
+        const result = simulate();
+        const own = result.rows.find((row) => row.own);
+        const ownFunded = own.result === "concedida";
+        const ownReserve = own.result === "lista_reserva";
+        const ownExcluded = own.result === "excluida";
+
+        outputs.totalScore.textContent = formatNumber(own.total, own.total % 1 ? 1 : 0);
+        outputs.scoreRing.style.setProperty("--score", Math.min(100, own.total));
+        outputs.scoreRing.style.setProperty(
+          "--ring-color",
+          ownFunded ? "var(--good)" : ownReserve ? "var(--warn)" : "var(--bad)",
+        );
+
+        outputs.statusPill.className = `status ${ownFunded ? "good" : ownReserve ? "warn" : "bad"}`;
+        outputs.statusPill.textContent = ownFunded
+          ? "Concedida en simulación"
+          : ownReserve
+            ? "Lista de reserva"
+            : "Fuera de corte";
+        outputs.statusTitle.textContent = ownFunded
+          ? "La solicitud entra con estos datos"
+          : ownReserve
+            ? "Supera 50 puntos, pero no encaja en presupuesto"
+            : ownExcluded && own.exclusionReasons[0] !== "no alcanza 50 puntos"
+              ? "Hay un requisito excluyente"
+              : "No alcanza posición suficiente";
+        outputs.statusCopy.textContent = own.exclusionReasons.length
+          ? own.exclusionReasons.join(". ") + "."
+          : `Corte estimado: ${result.cutoff ? formatNumber(result.cutoff, 1) + " puntos" : "sin agotar presupuesto"}.`;
+
+        outputs.rankValue.textContent = own.rank ? `#${own.rank}` : "-";
+        outputs.rankCopy.textContent = own.rank
+          ? `De ${admittedCount() + state.manualRows.length + 1} solicitudes evaluadas.`
+          : "Sin orden de prelación al quedar excluida.";
+
+        outputs.rpaValue.textContent = `${formatNumber(own.rpa, 2)}`;
+        outputs.rpaCopy.textContent = `Rm ${formatNumber(result.rpaScale.min, 2)} · RM ${formatNumber(result.rpaScale.max, 2)}`;
+        outputs.rpeValue.textContent = `${formatNumber(own.rpe, 2)}`;
+        outputs.rpeCopy.textContent = `Rm ${formatNumber(result.rpeScale.min, 2)} · RM ${formatNumber(result.rpeScale.max, 2)}`;
+        outputs.cutoffLabel.textContent = result.cutoff
+          ? `Corte estimado ${formatNumber(result.cutoff, 1)} pts`
+          : "No se agota presupuesto";
+        outputs.budgetLabel.textContent = `${formatEuro(BUDGET - result.used)} sin asignar`;
+        outputs.populationLabel.textContent = `${formatNumber(admittedCount())} sintéticas · ${state.manualRows.length} competidores añadidos · tu solicitud`;
+
+        renderCriteria(own);
+        renderAnalysis(result, own);
+        renderDistribution(result, own);
+        renderManualList();
+      }
+
+      function resetManualForm() {
+        controls.manualName.value = "";
+        controls.manualCost.value = "";
+        controls.manualSaving.value = "";
+        controls.manualAid.value = "";
+        controls.manualInnovation.value = "incremental";
+        controls.manualBonus.checked = false;
+      }
+
+      controls.inputTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-tab]");
+        if (!button) return;
+        state.activeTab = button.dataset.tab;
+        render();
+      });
+
+      function bindNumber(input, key, min, max) {
+        input.addEventListener("input", () => {
+          state[key] = clamp(input.value, min, max);
+          render();
+        });
+      }
+
+      function bindNumberRange(range, input, key, min, max) {
+        const update = (value) => {
+          state[key] = clamp(value, min, max);
+          render();
+        };
+        range.addEventListener("input", () => update(range.value));
+        input.addEventListener("input", () => update(input.value));
+      }
+
+      document.querySelector("#innovation-control").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-innovation]");
+        if (!button) return;
+        state.innovation = button.dataset.innovation;
+        render();
+      });
+
+      document.querySelector("#chart-tabs").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-chart]");
+        if (!button) return;
+        state.chart = button.dataset.chart;
+        setActiveButtons("#chart-tabs", state.chart, "chart");
+        render();
+      });
+
+      bindNumberRange(controls.presentedRange, controls.presentedInput, "presented", 20, 320);
+      bindNumberRange(controls.admissionRange, controls.admissionInput, "admissionRate", 40, 95);
+      bindNumber(controls.costInput, "cost", 50000, 5000000);
+      bindNumber(controls.savingInput, "savingMwh", 50, 12000);
+      bindNumberRange(controls.powerRange, controls.powerInput, "powerKw", 50, 600);
+      bindNumberRange(controls.savingPctRange, controls.savingPctInput, "savingPct", 0, 60);
+
+      controls.aidRange.addEventListener("input", () => {
+        state.aidPct = clamp(controls.aidRange.value, 0, 80);
+        render();
+      });
+
+      controls.aidInput.addEventListener("input", () => {
+        const aidAmount = clamp(controls.aidInput.value, 0, Math.min(MAX_AID, state.cost * 0.3));
+        state.aidPct = state.cost > 0 ? (aidAmount / state.cost) * 100 : 0;
+        render();
+      });
+
+      controls.bonusToggle.addEventListener("change", () => {
+        state.bonus = controls.bonusToggle.checked;
+        render();
+      });
+
+      controls.pcaToggle.addEventListener("change", () => {
+        state.pcaOk = controls.pcaToggle.checked;
+        render();
+      });
+
+      controls.memoryToggle.addEventListener("change", () => {
+        state.memoryReady = controls.memoryToggle.checked;
+        render();
+      });
+
+      controls.manualForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const cost = clamp(controls.manualCost.value, 0, 5000000);
+        const savingMwh = clamp(controls.manualSaving.value, 0, 12000);
+        if (!cost || !savingMwh) return;
+        const aid = controls.manualAid.value
+          ? clamp(controls.manualAid.value, 0, MAX_AID)
+          : Math.min(MAX_AID, cost * 0.22);
+
+        state.manualRows.push({
+          id: `MAN-${Date.now()}-${state.manualRows.length}`,
+          name: controls.manualName.value.trim() || `Competidor ${state.manualRows.length + 1}`,
+          cost,
+          savingMwh,
+          aid,
+          innovation: controls.manualInnovation.value,
+          bonus: controls.manualBonus.checked,
+        });
+        resetManualForm();
+        render();
+      });
+
+      controls.manualList.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-remove-manual]");
+        if (!button) return;
+        state.manualRows = state.manualRows.filter((row) => row.id !== button.dataset.removeManual);
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>

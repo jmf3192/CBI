@@ -608,6 +608,7 @@
 
     <script>
       const calls = [
+        { id: 4, code: "CONV-2026-INNOVAE-FRIO", name: "INNOVAE frío" },
         { id: 1, code: "CONV-2026-001", name: "Innovación empresarial" },
         { id: 2, code: "CONV-2026-002", name: "Digitalización y datos" },
         { id: 3, code: "CONV-2026-003", name: "Sostenibilidad e impacto" },
@@ -620,7 +621,7 @@
           email: "admin@conasoc.local",
           role: "Administrador",
           status: "Activo",
-          access: [1, 2, 3],
+          access: [1, 2, 3, 4],
         },
         {
           id: 2,
@@ -628,7 +629,7 @@
           email: "usuario@empresa.local",
           role: "Usuario",
           status: "Activo",
-          access: [1, 2],
+          access: [1, 2, 4],
         },
         {
           id: 3,

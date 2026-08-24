@@ -1,3 +1,14 @@
+# Local databases and runtime state
+data/local/*
+cbi/data/local/*
+!data/local/README.md
+!cbi/data/local/README.md
+
+*.sqlite
+*.sqlite3
+*.db
+
+# System files
 .DS_Store
 
 # Local dependencies or generated build output, if any tooling is used later.
@@ -14,3 +25,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# Python runtime caches
+__pycache__/
+*.pyc
+
+# Duplicate exports from the parallel INNOVAE research package
+Dats proyecto B/**/*-1.csv
+Dats proyecto B/**/*-1.md
+Dats proyecto B/**/*-1.py
+Dats proyecto B/**/*-1.json

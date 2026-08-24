@@ -1,0 +1,5 @@
+﻿id;escenario;origen_dato;arquetipo;sector;coste_elegible_eur;ayuda_solicitada_eur;ahorro_kwh_ano;categoria_innovacion;bonus_socioeconomico
+SIM-EJ-0001;EJEMPLO;EJEMPLO_ILUSTRATIVO;gran industria agroalimentaria - reconversion NH3;industrial;1350000;255000;960000;incremental;no
+SIM-EJ-0002;EJEMPLO;EJEMPLO_ILUSTRATIVO;pequena agroalimentaria en reto demografico - CO2;agropecuario;380000;169000;260000;intermedia;si
+SIM-EJ-0003;EJEMPLO;EJEMPLO_ILUSTRATIVO;ESE distribucion alimentaria - CO2, rebaja de intensidad;terciario;620000;131200;435000;incremental;no
+SIM-EJ-0004;EJEMPLO;EJEMPLO_ILUSTRATIVO;hospital publico - enfriadoras, via art. 38.8;terciario;1900000;665000;1230000;baja;no

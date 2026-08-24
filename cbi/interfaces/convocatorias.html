@@ -121,7 +121,8 @@
         min-height: 270px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
+        gap: 24px;
         padding: 30px 26px;
         border: 1px solid var(--line);
         border-radius: 8px;
@@ -144,6 +145,18 @@
         transform: translateY(-2px);
       }
 
+      .call.is-muted {
+        color: inherit;
+        cursor: default;
+        box-shadow: none;
+      }
+
+      .call.is-muted:hover {
+        border-color: var(--line);
+        box-shadow: none;
+        transform: none;
+      }
+
       .call-top {
         display: grid;
         gap: 12px;
@@ -163,6 +176,35 @@
         color: var(--muted);
         font-size: 14px;
         line-height: 1.6;
+      }
+
+      .call-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .call-cta,
+      .call-status {
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        padding: 0 14px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .call-cta {
+        color: #ffffff;
+        background: var(--brand);
+      }
+
+      .call-status {
+        color: var(--muted);
+        background: #f3f6f8;
       }
 
       @media (max-width: 920px) {
@@ -224,26 +266,49 @@
       </section>
 
       <section class="calls" aria-label="Listado de convocatorias">
-        <a class="call" href="#">
+        <a
+          class="call"
+          href="./innovae-frio-dashboard.html"
+          aria-label="Abrir dashboard de INNOVAE frío"
+        >
+          <div class="call-top">
+            <h2>INNOVAE frío</h2>
+            <p>Código oficial: CONV-2026-INNOVAE-FRIO</p>
+          </div>
+          <div class="call-actions">
+            <span class="call-cta">Abrir dashboard</span>
+          </div>
+        </a>
+
+        <article class="call is-muted">
           <div class="call-top">
             <h2>Innovación empresarial</h2>
             <p>Código oficial: CONV-2026-001</p>
           </div>
-        </a>
+          <div class="call-actions">
+            <span class="call-status">Pendiente de configuración</span>
+          </div>
+        </article>
 
-        <a class="call" href="#">
+        <article class="call is-muted">
           <div class="call-top">
             <h2>Digitalización y datos</h2>
             <p>Código oficial: CONV-2026-002</p>
           </div>
-        </a>
+          <div class="call-actions">
+            <span class="call-status">Pendiente de configuración</span>
+          </div>
+        </article>
 
-        <a class="call" href="#">
+        <article class="call is-muted">
           <div class="call-top">
             <h2>Sostenibilidad e impacto</h2>
             <p>Código oficial: CONV-2026-003</p>
           </div>
-        </a>
+          <div class="call-actions">
+            <span class="call-status">Pendiente de configuración</span>
+          </div>
+        </article>
       </section>
     </main>
   </body>

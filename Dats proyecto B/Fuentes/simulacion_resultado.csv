@@ -1,0 +1,5 @@
+﻿id;escenario;origen_dato;arquetipo;sector;coste_elegible_eur;ayuda_solicitada_eur;ahorro_kwh_ano;categoria_innovacion;bonus_socioeconomico;ahorro_ktep;rpa;rpe;puntos_c1;puntos_c2;puntos_c3;puntos_c4;puntuacion_total;orden_prelacion;resultado;motivo_exclusion
+SIM-EJ-0001;EJEMPLO;EJEMPLO_ILUSTRATIVO;gran industria agroalimentaria - reconversion NH3;industrial;1350000;255000;960000;incremental;no;0,082545;16,355;3,089;40;25;7,50;0;72,50;1;concedida;
+SIM-EJ-0002;EJEMPLO;EJEMPLO_ILUSTRATIVO;pequena agroalimentaria en reto demografico - CO2;agropecuario;380000;169000;260000;intermedia;si;0,022356;16,998;7,560;32;6;13,99;10;61,99;3;concedida;
+SIM-EJ-0003;EJEMPLO;EJEMPLO_ILUSTRATIVO;ESE distribucion alimentaria - CO2, rebaja de intensidad;terciario;620000;131200;435000;incremental;no;0,037403;16,576;3,508;40;25;7,50;0;72,50;2;concedida;
+SIM-EJ-0004;EJEMPLO;EJEMPLO_ILUSTRATIVO;hospital publico - enfriadoras, via art. 38.8;terciario;1900000;665000;1230000;baja;no;0,105761;17,965;6,288;;;;;0;;excluida;no alcanza 50 puntos

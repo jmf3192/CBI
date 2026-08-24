@@ -1,0 +1,22 @@
+﻿columna;fase;para_que;calibrado_por;valores
+id;entrada;Clave unica;-;SIM-<escenario>-<n>
+escenario;entrada;Permite varias corridas con distinto numero de solicitudes;Ruido en prensa;BAJO / CENTRAL / ALTO
+origen_dato;entrada;Impide que un dato generado se confunda con uno observado;-;SINTETICO / REAL / EJEMPLO_ILUSTRATIVO
+arquetipo;entrada;Etiqueta legible del perfil. Absorbe tamano, CNAE, CCAA, tecnologia, refrigerante y potencia;Demanda CAE + precios proveedor;texto libre
+sector;entrada;Unica desagregacion necesaria para leer resultados;Demanda CAE;industrial / terciario / agropecuario
+coste_elegible_eur;entrada;Numerador del RPA - criterio 1;PRECIOS PROVEEDOR (contratos_frio_terciario.csv);EUR, minimo 100.000
+ayuda_solicitada_eur;entrada;Numerador del RPE - criterio 2;Intensidades anexo 4.2 + juicio;EUR, maximo 2.000.000
+ahorro_kwh_ano;entrada;Denominador de ambas ratios;DEMANDA CAE;kWh/ano
+categoria_innovacion;entrada;Criterio 3;Juicio experto;sin / baja / incremental / intermedia / disruptiva
+bonus_socioeconomico;entrada;Criterio 4. Reune reto demografico y transicion justa;Listados IDAE e ITJ;si / no
+ahorro_ktep;derivada;Unidad que exige el anexo 3;-;ahorro_kwh_ano / 11.630.000
+rpa;derivada;Ratio del criterio 1;-;coste_elegible(MEUR) / ahorro(ktep)
+rpe;derivada;Ratio del criterio 2;-;ayuda_solicitada(MEUR) / ahorro(ktep)
+puntos_c1;derivada de poblacion;Criterio 1;-;40 / 32 / 24 / 16 / 8
+puntos_c2;derivada de poblacion;Criterio 2;-;25 / 20 / 15 / 10 / 6
+puntos_c3;derivada de poblacion;Criterio 3. El anexo 3 da rangos, no valores;-;0<p<5 / 5<=p<10 / 10<=p<18 / 18<=p<=25
+puntos_c4;derivada de poblacion;Criterio 4;-;10 o 0
+puntuacion_total;derivada de poblacion;Suma de los cuatro criterios;-;0-100
+orden_prelacion;derivada de poblacion;Art. 22.5 y 22.6;-;entero
+resultado;derivada de poblacion;Art. 22.7 y 24.3;-;concedida / concedida_reserva / lista_reserva / renuncia / excluida
+motivo_exclusion;derivada de poblacion;Por que quedo fuera;-;sin innovacion / no alcanza 50 puntos / recortada por extrema

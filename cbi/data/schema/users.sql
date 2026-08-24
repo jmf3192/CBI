@@ -116,12 +116,15 @@ INSERT OR IGNORE INTO calls (id, code, name, status)
 VALUES
   (1, 'CONV-2026-001', 'Innovacion empresarial', 'active'),
   (2, 'CONV-2026-002', 'Digitalizacion y datos', 'active'),
-  (3, 'CONV-2026-003', 'Sostenibilidad e impacto', 'active');
+  (3, 'CONV-2026-003', 'Sostenibilidad e impacto', 'active'),
+  (4, 'CONV-2026-INNOVAE-FRIO', 'INNOVAE frio', 'active');
 
 INSERT OR IGNORE INTO user_call_access (user_id, call_id, access_level)
 VALUES
   (1, 1, 'admin'),
   (1, 2, 'admin'),
   (1, 3, 'admin'),
+  (1, 4, 'admin'),
   (2, 1, 'evaluate'),
-  (2, 2, 'evaluate');
+  (2, 2, 'evaluate'),
+  (2, 4, 'evaluate');
