@@ -1,49 +1,40 @@
 # Web Conasoc
 
-Nueva web corporativa de Conasoc con integración inicial de CBI como pestaña propia.
+Web estática de Conasoc preparada para publicarse en GitHub Pages.
 
-## Objetivo
+## Estructura
 
-Crear una web pública para Conasoc que reúna:
+```text
+index.html
+styles.css
+assets/
+  logo-conasoc.png
+  wix-hero-buildings.jpeg
+cbi/
+  index.html
+  interfaces/
+  assets/
+docs/
+  modelo-web-conasoc.md
+```
 
-- presentación corporativa y contacto;
-- servicios de financiación pública, I+D+i y asesoramiento jurídico;
-- proceso de trabajo;
-- clientes y sectores;
-- área CBI para business intelligence de convocatorias.
+## Publicación en GitHub Pages
+
+1. Subir este repositorio a GitHub.
+2. Entrar en `Settings > Pages`.
+3. Elegir `Deploy from a branch`.
+4. Seleccionar rama `main` y carpeta `/root`.
+5. Guardar.
+
+La web funciona sin build, sin dependencias y sin servidor propio.
 
 ## CBI
 
-La funcionalidad existente de CBI se ha incorporado inicialmente como estático en:
+CBI queda como pestaña superior y entrada discreta en `cbi/index.html`.
+Las pantallas estáticas actuales se conservan en `cbi/interfaces/`.
 
-```text
-public/cbi/
-```
+## Modelo
 
-La ruta pública `/cbi` funciona como entrada integrada dentro de la nueva web.
+El análisis de las webs previas y las decisiones de diseño están en:
 
-## Documentación
-
-- [Modelo de la nueva web](docs/modelo-web-conasoc.md)
-
-## Desarrollo
-
-```bash
-npm install
-npm run dev
-npm run build
-```
-
-## Estructura principal
-
-```text
-app/
-  page.tsx
-  cbi/page.tsx
-  globals.css
-docs/
-  modelo-web-conasoc.md
-public/
-  assets/
-  cbi/
-```
+- [docs/modelo-web-conasoc.md](docs/modelo-web-conasoc.md)

@@ -14,23 +14,23 @@ La web actual de Conasoc transmite una marca más contemporánea: navegación so
 
 La web Wix previa es más clásica y comercial. Usa fotografía corporativa, logo circular, menú con clientes, financiación y consultoría, servicios jurídicos y contacto. Su mayor valor está en el desglose de servicios: financiación pública, deducciones I+D+i, proyectos I+D+i, licitaciones e internacionalización. También aporta una lista amplia de sectores cliente.
 
-La nueva web debe sintetizar ambas: conservar la confianza, experiencia y lenguaje comercial de las dos versiones, pero ordenar mejor la arquitectura y dar entrada a CBI como parte natural del sitio.
+La nueva web debe sintetizar ambas: conservar la confianza, experiencia y lenguaje comercial de las dos versiones, ordenar mejor la arquitectura y dejar CBI como área privada accesible desde la navegación superior, sin robar protagonismo a la web corporativa.
 
 ## Posicionamiento
 
-Conasoc debe presentarse como consultora especializada en financiación pública, subvenciones, asesoramiento jurídico-administrativo y análisis competitivo para convocatorias.
+Conasoc debe presentarse como consultora especializada en financiación pública, subvenciones y asesoramiento jurídico-administrativo.
 
 Mensaje central:
 
-> Conasoc ayuda a empresas a identificar, tramitar, defender y optimizar financiación pública, ahora con una capa CBI para tomar decisiones con datos.
+> Conasoc ayuda a empresas a identificar, tramitar, defender y optimizar financiación pública.
 
 ## Arquitectura propuesta
 
-- Inicio: promesa principal, CTA de contacto y acceso a CBI.
+- Inicio: promesa principal y CTA de contacto.
 - Quiénes somos: experiencia desde 1996, más de 30 años y más de 300 M€ gestionados.
-- Servicios: financiación pública, innovación/I+D+i, servicios jurídicos, CBI.
+- Servicios: financiación pública, innovación/I+D+i y servicios jurídicos.
 - Cómo trabajamos: proceso de ocho fases desde sesión inicial hasta cobro.
-- CBI: pestaña propia para el área privada de business intelligence.
+- CBI: pestaña propia para el área privada de business intelligence, sin bloque promocional en la home.
 - Clientes y sectores: prueba de transversalidad.
 - Pro bono y convenios: captación de startups, emprendedores y colaboraciones.
 - Contacto: teléfono, correos y dirección.
@@ -42,16 +42,15 @@ El proyecto CBI existente no desaparece: pasa a vivir como área dentro de Conas
 Estado aplicado en esta primera versión:
 
 - Se crea ruta `/cbi`.
-- Se copian las pantallas estáticas actuales a `public/cbi/`.
+- Se copian las pantallas estáticas actuales a `cbi/interfaces/`.
 - La home mantiene CBI solo como pestaña de navegación, sin bloque destacado ni reclamo comercial.
-- La documentación registra que la siguiente fase es migrar la funcionalidad HTML a componentes y conectarla con Supabase.
+- El sitio queda preparado como HTML/CSS estático para publicarse en GitHub Pages.
 
 Siguiente fase técnica:
 
-- Convertir `public/cbi/interfaces/*.html` en componentes dentro de `app/cbi`.
-- Definir autenticación real con Supabase Auth.
-- Migrar convocatorias, usuarios, permisos, evaluaciones y CSV a tablas con RLS.
-- Mantener convocatorias y reglas de scoring versionadas en GitHub.
+- Decidir si CBI seguirá como HTML estático o se convertirá más adelante en una aplicación con autenticación real.
+- Mantener convocatorias, usuarios, permisos, evaluaciones y CSV dentro de una arquitectura versionada y documentada.
+- Evitar que CBI condicione la home corporativa mientras no sea un producto público.
 
 ## Tono y diseño
 
@@ -70,4 +69,3 @@ Mensajes que deben mantenerse:
 - “Más de 30 años de experiencia.”
 - “Más de 300 millones de euros en financiación pública obtenidos.”
 - “Especialistas en subvenciones y financiación pública.”
-- “CBI como plataforma para evaluar competitividad frente a convocatorias.”
