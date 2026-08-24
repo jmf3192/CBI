@@ -21,6 +21,9 @@ cbi/
   index.html
   interfaces/
   assets/
+  data/
+  docs/
+  supabase/
 docs/
   modelo-web-conasoc.md
 references/
@@ -41,6 +44,7 @@ La web funciona sin build, sin dependencias y sin servidor propio.
 
 CBI queda como pestaña superior y entrada discreta en `cbi/index.html`.
 Las pantallas estáticas actuales se conservan en `cbi/interfaces/`.
+La documentación técnica, migraciones y datos de apoyo del proyecto CBI se conservan bajo `cbi/docs/`, `cbi/supabase/` y `cbi/data/`.
 
 ## Páginas
 
