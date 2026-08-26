@@ -1,0 +1,221 @@
+﻿id;escenario;origen_dato;arquetipo;sector;coste_elegible_eur;ayuda_solicitada_eur;ahorro_kwh_ano;categoria_innovacion;bonus_socioeconomico
+SIM-CEN-0001;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;725000;184000;2600000;incremental;si
+SIM-CEN-0002;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;255000;28000;601000;incremental;si
+SIM-CEN-0003;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;900000;281000;818000;incremental;no
+SIM-CEN-0004;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;740000;218000;849000;incremental;no
+SIM-CEN-0005;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;695000;181000;630000;baja;no
+SIM-CEN-0006;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;340000;37000;715000;incremental;si
+SIM-CEN-0007;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1645000;500000;2177000;intermedia;no
+SIM-CEN-0008;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2190000;504000;2307000;baja;no
+SIM-CEN-0009;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1660000;422000;1424000;incremental;no
+SIM-CEN-0010;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;715000;157000;916000;intermedia;no
+SIM-CEN-0011;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2320000;738000;1934000;intermedia;no
+SIM-CEN-0012;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;610000;143000;874000;incremental;no
+SIM-CEN-0013;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;610000;154000;644000;baja;no
+SIM-CEN-0014;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1440000;394000;1261000;baja;no
+SIM-CEN-0015;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;330000;97000;457000;incremental;si
+SIM-CEN-0016;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;720000;192000;889000;incremental;no
+SIM-CEN-0017;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;1105000;243000;1476000;incremental;no
+SIM-CEN-0018;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;325000;62000;948000;incremental;no
+SIM-CEN-0019;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1805000;555000;2600000;baja;no
+SIM-CEN-0020;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;740000;197000;1168000;incremental;si
+SIM-CEN-0021;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;565000;111000;978000;intermedia;no
+SIM-CEN-0022;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;275000;78000;622000;incremental;no
+SIM-CEN-0023;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;1225000;297000;1610000;incremental;si
+SIM-CEN-0024;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;335000;78000;304000;baja;no
+SIM-CEN-0025;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;175000;25000;336000;incremental;no
+SIM-CEN-0026;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1115000;273000;1245000;sin;no
+SIM-CEN-0027;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;660000;154000;1041000;incremental;no
+SIM-CEN-0028;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1270000;186000;2529000;incremental;si
+SIM-CEN-0029;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;675000;126000;1524000;baja;si
+SIM-CEN-0030;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1355000;393000;1922000;incremental;no
+SIM-CEN-0031;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;595000;157000;1149000;intermedia;si
+SIM-CEN-0032;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1190000;309000;1447000;baja;si
+SIM-CEN-0033;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;430000;112000;534000;incremental;no
+SIM-CEN-0034;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1190000;157000;1349000;intermedia;si
+SIM-CEN-0035;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;750000;149000;2600000;incremental;no
+SIM-CEN-0036;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1570000;311000;2042000;incremental;no
+SIM-CEN-0037;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1065000;260000;670000;incremental;no
+SIM-CEN-0038;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;640000;224000;673000;intermedia;no
+SIM-CEN-0039;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;610000;118000;831000;baja;si
+SIM-CEN-0040;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1485000;352000;2600000;disruptiva;si
+SIM-CEN-0041;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;350000;65000;639000;incremental;no
+SIM-CEN-0042;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;1690000;389000;1732000;incremental;no
+SIM-CEN-0043;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;195000;27000;412000;intermedia;no
+SIM-CEN-0044;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;310000;74000;899000;incremental;no
+SIM-CEN-0045;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;645000;127000;565000;intermedia;si
+SIM-CEN-0046;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;465000;92000;463000;incremental;no
+SIM-CEN-0047;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;555000;130000;1287000;incremental;no
+SIM-CEN-0048;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;165000;27000;576000;incremental;no
+SIM-CEN-0049;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;600000;160000;743000;incremental;si
+SIM-CEN-0050;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;850000;150000;1662000;intermedia;no
+SIM-CEN-0051;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;800000;131000;562000;baja;no
+SIM-CEN-0052;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;3200000;800000;2600000;incremental;no
+SIM-CEN-0053;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;770000;185000;934000;baja;no
+SIM-CEN-0054;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;610000;116000;500000;baja;no
+SIM-CEN-0055;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1690000;443000;1966000;incremental;no
+SIM-CEN-0056;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;815000;135000;1847000;incremental;no
+SIM-CEN-0057;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;740000;168000;794000;incremental;no
+SIM-CEN-0058;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;860000;237000;1053000;incremental;no
+SIM-CEN-0059;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;1620000;361000;2600000;incremental;no
+SIM-CEN-0060;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;705000;137000;2600000;baja;no
+SIM-CEN-0061;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;405000;86000;732000;baja;no
+SIM-CEN-0062;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2000000;681000;1885000;incremental;si
+SIM-CEN-0063;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;260000;34000;638000;intermedia;si
+SIM-CEN-0064;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2930000;835000;2600000;incremental;no
+SIM-CEN-0065;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1530000;394000;1974000;disruptiva;si
+SIM-CEN-0066;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;915000;250000;2600000;incremental;si
+SIM-CEN-0067;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;920000;222000;844000;intermedia;no
+SIM-CEN-0068;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1870000;415000;1622000;intermedia;no
+SIM-CEN-0069;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1775000;493000;1427000;incremental;no
+SIM-CEN-0070;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;375000;95000;445000;incremental;si
+SIM-CEN-0071;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2400000;800000;2600000;intermedia;no
+SIM-CEN-0072;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;235000;26000;346000;incremental;no
+SIM-CEN-0073;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1660000;279000;2512000;baja;si
+SIM-CEN-0074;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;650000;132000;740000;disruptiva;no
+SIM-CEN-0075;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;1260000;247000;2167000;intermedia;no
+SIM-CEN-0076;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;470000;103000;416000;intermedia;no
+SIM-CEN-0077;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;535000;117000;454000;incremental;si
+SIM-CEN-0078;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;400000;140000;607000;incremental;no
+SIM-CEN-0079;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;705000;239000;912000;incremental;no
+SIM-CEN-0080;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1025000;174000;711000;incremental;no
+SIM-CEN-0081;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;270000;61000;204000;intermedia;no
+SIM-CEN-0082;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1565000;443000;1514000;intermedia;no
+SIM-CEN-0083;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;660000;141000;1856000;incremental;no
+SIM-CEN-0084;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;810000;138000;1145000;baja;no
+SIM-CEN-0085;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;645000;176000;536000;incremental;no
+SIM-CEN-0086;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;335000;75000;607000;incremental;no
+SIM-CEN-0087;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;910000;248000;843000;incremental;si
+SIM-CEN-0088;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1350000;382000;2045000;baja;no
+SIM-CEN-0089;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;755000;247000;1041000;sin;si
+SIM-CEN-0090;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;720000;136000;699000;incremental;no
+SIM-CEN-0091;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;610000;160000;501000;baja;no
+SIM-CEN-0092;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;790000;138000;1203000;incremental;no
+SIM-CEN-0093;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;955000;125000;1688000;disruptiva;no
+SIM-CEN-0094;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;315000;40000;870000;disruptiva;no
+SIM-CEN-0095;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;950000;273000;1614000;disruptiva;no
+SIM-CEN-0096;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;835000;209000;1166000;baja;no
+SIM-CEN-0097;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;340000;63000;1178000;baja;si
+SIM-CEN-0098;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1770000;391000;2600000;baja;no
+SIM-CEN-0099;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;490000;54000;368000;baja;no
+SIM-CEN-0100;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;160000;27000;466000;baja;no
+SIM-CEN-0101;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2200000;512000;2600000;incremental;no
+SIM-CEN-0102;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;705000;106000;489000;incremental;no
+SIM-CEN-0103;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;325000;65000;325000;incremental;no
+SIM-CEN-0104;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;215000;45000;280000;intermedia;no
+SIM-CEN-0105;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;840000;214000;1449000;incremental;no
+SIM-CEN-0106;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;365000;74000;691000;incremental;no
+SIM-CEN-0107;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;445000;72000;468000;baja;no
+SIM-CEN-0108;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;335000;72000;830000;disruptiva;no
+SIM-CEN-0109;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;360000;108000;511000;incremental;no
+SIM-CEN-0110;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1110000;221000;791000;baja;no
+SIM-CEN-0111;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1385000;424000;935000;incremental;no
+SIM-CEN-0112;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;885000;230000;835000;incremental;no
+SIM-CEN-0113;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1070000;272000;1291000;baja;no
+SIM-CEN-0114;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;3200000;923000;2600000;incremental;no
+SIM-CEN-0115;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;450000;118000;527000;incremental;no
+SIM-CEN-0116;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1035000;314000;651000;intermedia;no
+SIM-CEN-0117;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;270000;79000;431000;baja;no
+SIM-CEN-0118;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;430000;47000;1180000;baja;no
+SIM-CEN-0119;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1075000;216000;2093000;incremental;no
+SIM-CEN-0120;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;845000;186000;2537000;intermedia;no
+SIM-CEN-0121;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;3200000;915000;2600000;sin;no
+SIM-CEN-0122;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;1240000;305000;1683000;incremental;no
+SIM-CEN-0123;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;795000;160000;590000;baja;no
+SIM-CEN-0124;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;255000;43000;426000;intermedia;no
+SIM-CEN-0125;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1185000;269000;873000;incremental;no
+SIM-CEN-0126;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1075000;306000;1076000;intermedia;no
+SIM-CEN-0127;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;480000;99000;790000;baja;no
+SIM-CEN-0128;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1030000;175000;1171000;incremental;no
+SIM-CEN-0129;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1085000;358000;1562000;incremental;no
+SIM-CEN-0130;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;850000;94000;760000;intermedia;no
+SIM-CEN-0131;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;1040000;238000;2124000;incremental;no
+SIM-CEN-0132;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;460000;97000;1128000;baja;si
+SIM-CEN-0133;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;525000;150000;818000;incremental;no
+SIM-CEN-0134;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;345000;65000;682000;incremental;no
+SIM-CEN-0135;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;845000;213000;531000;incremental;no
+SIM-CEN-0136;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;450000;124000;453000;incremental;no
+SIM-CEN-0137;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;430000;115000;1503000;intermedia;no
+SIM-CEN-0138;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1280000;359000;2600000;baja;no
+SIM-CEN-0139;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2755000;711000;2600000;baja;si
+SIM-CEN-0140;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;450000;76000;1140000;incremental;no
+SIM-CEN-0141;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1770000;425000;2600000;disruptiva;no
+SIM-CEN-0142;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;930000;154000;1232000;incremental;no
+SIM-CEN-0143;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;840000;166000;806000;intermedia;no
+SIM-CEN-0144;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;430000;130000;562000;intermedia;si
+SIM-CEN-0145;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;865000;198000;820000;incremental;no
+SIM-CEN-0146;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1565000;422000;1236000;baja;no
+SIM-CEN-0147;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1645000;378000;1338000;incremental;no
+SIM-CEN-0148;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;585000;159000;1225000;incremental;no
+SIM-CEN-0149;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;2395000;722000;2600000;incremental;no
+SIM-CEN-0150;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;705000;125000;503000;incremental;no
+SIM-CEN-0151;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;870000;191000;1396000;baja;no
+SIM-CEN-0152;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1490000;311000;937000;incremental;no
+SIM-CEN-0153;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;400000;77000;268000;incremental;no
+SIM-CEN-0154;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;380000;107000;536000;intermedia;no
+SIM-CEN-0155;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;3135000;974000;2600000;intermedia;no
+SIM-CEN-0156;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;460000;107000;673000;baja;no
+SIM-CEN-0157;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;2305000;580000;2600000;incremental;no
+SIM-CEN-0158;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;495000;83000;598000;intermedia;no
+SIM-CEN-0159;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1340000;321000;2600000;incremental;no
+SIM-CEN-0160;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;1310000;266000;2600000;baja;no
+SIM-CEN-0161;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;3200000;1120000;2600000;incremental;no
+SIM-CEN-0162;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1620000;354000;1783000;disruptiva;no
+SIM-CEN-0163;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;955000;265000;645000;baja;no
+SIM-CEN-0164;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;830000;201000;1439000;sin;no
+SIM-CEN-0165;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;820000;185000;1177000;intermedia;no
+SIM-CEN-0166;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;430000;99000;959000;intermedia;no
+SIM-CEN-0167;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1125000;276000;990000;incremental;no
+SIM-CEN-0168;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;775000;142000;806000;incremental;no
+SIM-CEN-0169;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1420000;471000;1180000;incremental;no
+SIM-CEN-0170;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1485000;470000;1134000;incremental;si
+SIM-CEN-0171;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;495000;122000;311000;incremental;no
+SIM-CEN-0172;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;340000;119000;754000;incremental;no
+SIM-CEN-0173;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;215000;25000;681000;incremental;no
+SIM-CEN-0174;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;1190000;192000;2489000;incremental;si
+SIM-CEN-0175;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;650000;135000;695000;intermedia;no
+SIM-CEN-0176;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;2115000;551000;2600000;disruptiva;no
+SIM-CEN-0177;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1085000;248000;1620000;incremental;si
+SIM-CEN-0178;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;680000;118000;1151000;disruptiva;si
+SIM-CEN-0179;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1010000;190000;2600000;intermedia;no
+SIM-CEN-0180;CENTRAL;SINTETICO_PRELIMINAR;planta de procesado alimentario - CO2 subcritico;industrial;1850000;532000;2600000;baja;no
+SIM-CEN-0181;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1845000;233000;1515000;incremental;no
+SIM-CEN-0182;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;1385000;389000;1814000;disruptiva;no
+SIM-CEN-0183;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;830000;180000;1310000;incremental;no
+SIM-CEN-0184;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;410000;75000;1254000;incremental;no
+SIM-CEN-0185;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;225000;65000;174000;incremental;no
+SIM-CEN-0186;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1005000;178000;632000;intermedia;no
+SIM-CEN-0187;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1395000;219000;1609000;incremental;si
+SIM-CEN-0188;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1205000;317000;1472000;intermedia;no
+SIM-CEN-0189;CENTRAL;SINTETICO_PRELIMINAR;matadero y sala de despiece - recuperacion de calor;industrial;650000;133000;979000;sin;si
+SIM-CEN-0190;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1270000;309000;1630000;disruptiva;si
+SIM-CEN-0191;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;410000;118000;593000;incremental;no
+SIM-CEN-0192;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;1270000;322000;798000;intermedia;no
+SIM-CEN-0193;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;960000;194000;2055000;baja;no
+SIM-CEN-0194;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;340000;81000;797000;baja;no
+SIM-CEN-0195;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1465000;222000;1831000;incremental;no
+SIM-CEN-0196;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;2515000;880000;2600000;incremental;si
+SIM-CEN-0197;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1830000;431000;2600000;baja;no
+SIM-CEN-0198;CENTRAL;SINTETICO_PRELIMINAR;distribucion alimentaria - central CO2 transcritica;terciario;1145000;178000;1074000;intermedia;si
+SIM-CEN-0199;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;2385000;621000;2600000;incremental;no
+SIM-CEN-0200;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;485000;144000;682000;intermedia;no
+SIM-CEN-0201;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;795000;247000;1848000;intermedia;no
+SIM-CEN-0202;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;990000;234000;1175000;intermedia;si
+SIM-CEN-0203;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;340000;88000;1017000;intermedia;no
+SIM-CEN-0204;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;375000;99000;443000;baja;si
+SIM-CEN-0205;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;470000;106000;565000;incremental;no
+SIM-CEN-0206;CENTRAL;SINTETICO_PRELIMINAR;supermercado mediano - sustitucion de central frigorifica;terciario;390000;55000;373000;intermedia;si
+SIM-CEN-0207;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;1050000;215000;868000;incremental;no
+SIM-CEN-0208;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;2260000;531000;2600000;disruptiva;no
+SIM-CEN-0209;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;3200000;905000;2600000;incremental;no
+SIM-CEN-0210;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;1605000;391000;2434000;incremental;si
+SIM-CEN-0211;CENTRAL;SINTETICO_PRELIMINAR;gran industria agroalimentaria - reconversion NH3;industrial;3200000;728000;2600000;incremental;no
+SIM-CEN-0212;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;520000;88000;481000;incremental;si
+SIM-CEN-0213;CENTRAL;SINTETICO_PRELIMINAR;logistica de temperatura controlada - recuperacion energetica;terciario;765000;181000;646000;intermedia;no
+SIM-CEN-0214;CENTRAL;SINTETICO_PRELIMINAR;hospital publico - enfriadoras con refrigerante natural;terciario;1270000;383000;1467000;incremental;no
+SIM-CEN-0215;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;120000;25000;240000;baja;si
+SIM-CEN-0216;CENTRAL;SINTETICO_PRELIMINAR;bodega - refrigeracion eficiente de proceso;industrial;465000;62000;1468000;baja;no
+SIM-CEN-0217;CENTRAL;SINTETICO_PRELIMINAR;cooperativa agropecuaria - camaras modulares R-290;agropecuario;370000;87000;875000;baja;si
+SIM-CEN-0218;CENTRAL;SINTETICO_PRELIMINAR;camaras frigorificas industriales - variadores y control;industrial;845000;155000;820000;disruptiva;no
+SIM-CEN-0219;CENTRAL;SINTETICO_PRELIMINAR;ESE en red comercial - rebaja de intensidad de ayuda;terciario;1085000;198000;1084000;incremental;no
+SIM-CEN-0220;CENTRAL;SINTETICO_PRELIMINAR;central hortofruticola - preenfriamiento eficiente;agropecuario;885000;200000;2408000;incremental;no

@@ -185,6 +185,21 @@
         box-shadow: var(--shadow);
       }
 
+      .input-panel {
+        position: sticky;
+        top: 102px;
+        z-index: 4;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow:
+          0 24px 70px rgba(0, 20, 38, 0.12),
+          0 0 0 1px rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(10px);
+      }
+
       .panel-header {
         display: flex;
         align-items: center;
@@ -303,6 +318,15 @@
       .input-field {
         display: grid;
         gap: 8px;
+      }
+
+      .requirement-stack {
+        display: grid;
+        gap: 14px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
       }
 
       input[type="range"] {
@@ -576,29 +600,30 @@
       }
 
       .status {
-        min-height: 34px;
         display: inline-flex;
         width: fit-content;
         align-items: center;
-        padding: 0 12px;
-        border-radius: 999px;
+        gap: 8px;
+        padding: 4px 0 4px 10px;
+        border-left: 3px solid var(--status-color);
+        border-radius: 0;
+        color: var(--status-color);
+        background: transparent;
         font-size: 12px;
-        font-weight: 800;
+        font-weight: 700;
+        letter-spacing: 0;
       }
 
       .status.good {
-        color: var(--good);
-        background: var(--good-soft);
+        --status-color: var(--good);
       }
 
       .status.warn {
-        color: var(--warn);
-        background: var(--warn-soft);
+        --status-color: #9a6a0a;
       }
 
       .status.bad {
-        color: var(--bad);
-        background: var(--bad-soft);
+        --status-color: #8c3a31;
       }
 
       .metric {
@@ -641,6 +666,129 @@
         gap: 16px;
       }
 
+      .score-guide {
+        display: grid;
+        gap: 14px;
+        padding: 20px;
+      }
+
+      .score-track {
+        display: grid;
+        grid-template-columns: 40fr 25fr 25fr 10fr;
+        min-height: 84px;
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .score-block {
+        min-width: 0;
+        display: grid;
+        align-content: space-between;
+        gap: 8px;
+        padding: 12px 10px;
+        border-right: 1px solid rgba(0, 20, 38, 0.08);
+      }
+
+      .score-block:last-child {
+        border-right: 0;
+      }
+
+      .score-block.c1 {
+        background: #eaf5ef;
+      }
+
+      .score-block.c2 {
+        background: #eaf1f7;
+      }
+
+      .score-block.c3 {
+        background: #fff4df;
+      }
+
+      .score-block.c4 {
+        background: #f2f5f7;
+      }
+
+      .score-block strong {
+        color: var(--brand);
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .score-block span {
+        display: block;
+        line-height: 1.25;
+      }
+
+      .score-block span {
+        color: var(--brand);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .competition-panel {
+        padding: 20px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .score-distribution {
+        width: 100%;
+        height: 220px;
+        display: block;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .competition-axis,
+      .competition-metrics {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .competition-axis {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .competition-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .competition-metrics div {
+        min-width: 0;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .competition-metrics strong,
+      .competition-metrics span {
+        display: block;
+      }
+
+      .competition-metrics strong {
+        color: var(--brand);
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .competition-metrics span {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
       .criterion {
         display: grid;
         gap: 8px;
@@ -678,38 +826,6 @@
         width: var(--width);
         border-radius: inherit;
         background: var(--bar-color);
-      }
-
-      .analysis-panel {
-        padding: 20px;
-        display: grid;
-        gap: 16px;
-      }
-
-      .analysis-list {
-        display: grid;
-        gap: 10px;
-      }
-
-      .analysis-item {
-        display: grid;
-        gap: 4px;
-        padding: 12px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #ffffff;
-      }
-
-      .analysis-item strong {
-        color: var(--brand);
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      .analysis-item span {
-        color: var(--muted);
-        font-size: 12px;
-        line-height: 1.45;
       }
 
       .chart-panel {
@@ -797,7 +913,7 @@
       }
 
       .marker::before {
-        content: "Tu solicitud";
+        content: "Proyecto";
         position: absolute;
         top: -2px;
         left: 8px;
@@ -877,6 +993,15 @@
           grid-template-columns: 1fr;
         }
 
+        .input-panel {
+          position: static;
+          max-height: none;
+          overflow: visible;
+          background: var(--panel);
+          box-shadow: var(--shadow);
+          backdrop-filter: none;
+        }
+
         .summary-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
@@ -925,8 +1050,19 @@
 
         .segmented,
         .innovation,
-        .input-grid {
+        .input-grid,
+        .score-track,
+        .competition-metrics {
           grid-template-columns: 1fr;
+        }
+
+        .score-block {
+          border-right: 0;
+          border-bottom: 1px solid rgba(0, 20, 38, 0.08);
+        }
+
+        .score-block:last-child {
+          border-bottom: 0;
         }
       }
     </style>
@@ -961,7 +1097,7 @@
       </section>
 
       <section class="layout">
-        <aside class="panel" aria-label="Datos de la solicitud">
+        <aside class="panel input-panel" aria-label="Datos de la solicitud">
           <div class="panel-header">
             <h2>Datos de trabajo</h2>
             <span id="scenario-size">Escenario central</span>
@@ -969,32 +1105,11 @@
 
           <div class="controls">
             <div class="sidebar-tabs" id="input-tabs" aria-label="Datos del simulador">
-              <button class="is-active" type="button" data-tab="own">Tu solicitud</button>
+              <button class="is-active" type="button" data-tab="own">Proyecto</button>
               <button type="button" data-tab="manual">Añadir competidor</button>
             </div>
 
-            <section class="tab-panel is-active" id="own-panel" aria-label="Tu solicitud">
-              <div class="control">
-                <div class="control-top">
-                  <span class="control-title">Escenario competitivo</span>
-                  <span class="control-value" id="scenario-label"></span>
-                </div>
-                <label class="input-field">
-                  Solicitudes presentadas
-                  <div class="range-line">
-                    <input id="presented-range" type="range" min="20" max="320" step="1" />
-                    <input id="presented-input" type="number" min="20" max="320" step="1" />
-                  </div>
-                </label>
-                <label class="input-field">
-                  Tasa de admisión
-                  <div class="range-line">
-                    <input id="admission-range" type="range" min="40" max="95" step="1" />
-                    <input id="admission-input" type="number" min="40" max="95" step="1" />
-                  </div>
-                </label>
-              </div>
-
+            <section class="tab-panel is-active" id="own-panel" aria-label="Datos del proyecto">
               <div class="control">
                 <div class="control-top">
                   <span class="control-title">Datos básicos</span>
@@ -1038,23 +1153,26 @@
 
               <div class="control">
                 <div class="control-top">
-                  <label for="power-range">Potencia eléctrica de compresores</label>
-                  <span class="control-value" id="power-label"></span>
+                  <span class="control-title">Requisitos mínimos</span>
+                  <span class="control-value" id="requirements-label"></span>
                 </div>
-                <div class="range-line">
-                  <input id="power-range" type="range" min="50" max="600" step="5" />
-                  <input id="power-input" type="number" min="50" max="600" step="5" />
-                </div>
-              </div>
-
-              <div class="control">
-                <div class="control-top">
-                  <label for="saving-pct-range">Ahorro sobre instalación actual</label>
-                  <span class="control-value" id="saving-pct-label"></span>
-                </div>
-                <div class="range-line">
-                  <input id="saving-pct-range" type="range" min="0" max="60" step="1" />
-                  <input id="saving-pct-input" type="number" min="0" max="60" step="1" />
+                <div class="requirement-stack">
+                  <label class="input-field">
+                    Potencia eléctrica de compresores
+                    <div class="range-line">
+                      <input id="power-range" type="range" min="50" max="600" step="5" />
+                      <input id="power-input" type="number" min="50" max="600" step="5" />
+                    </div>
+                    <span class="control-value" id="power-label"></span>
+                  </label>
+                  <label class="input-field">
+                    Ahorro sobre instalación actual
+                    <div class="range-line">
+                      <input id="saving-pct-range" type="range" min="0" max="60" step="1" />
+                      <input id="saving-pct-input" type="number" min="0" max="60" step="1" />
+                    </div>
+                    <span class="control-value" id="saving-pct-label"></span>
+                  </label>
                 </div>
               </div>
 
@@ -1066,26 +1184,6 @@
                   </span>
                   <label class="switch" aria-label="Municipio con bonus socioeconómico">
                     <input id="bonus-toggle" type="checkbox" />
-                    <span class="switch-track"></span>
-                  </label>
-                </div>
-                <div class="switch-row">
-                  <span class="switch-copy">
-                    <strong>Refrigerante PCA &lt; 150</strong>
-                    <span>Requisito excluyente del subprograma de frío.</span>
-                  </span>
-                  <label class="switch" aria-label="Refrigerante con PCA inferior a 150">
-                    <input id="pca-toggle" type="checkbox" checked />
-                    <span class="switch-track"></span>
-                  </label>
-                </div>
-                <div class="switch-row">
-                  <span class="switch-copy">
-                    <strong>Memoria técnica completa</strong>
-                    <span>No admite mejora tras el cierre de plazo.</span>
-                  </span>
-                  <label class="switch" aria-label="Memoria técnica completa">
-                    <input id="memory-toggle" type="checkbox" checked />
                     <span class="switch-track"></span>
                   </label>
                 </div>
@@ -1142,15 +1240,42 @@
         </aside>
 
         <section class="dashboard" aria-label="Resultados del simulador">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Esquema de puntuación</h2>
+              <span>100 puntos</span>
+            </div>
+            <div class="score-guide" aria-label="Esquema de puntuación por criterio">
+              <div class="score-track" aria-label="Reparto de 100 puntos">
+                <div class="score-block c1">
+                  <strong>40</strong>
+                  <span>C1 · Coste/ahorro</span>
+                </div>
+                <div class="score-block c2">
+                  <strong>25</strong>
+                  <span>C2 · Ayuda/ahorro</span>
+                </div>
+                <div class="score-block c3">
+                  <strong>25</strong>
+                  <span>C3 · Innovación</span>
+                </div>
+                <div class="score-block c4">
+                  <strong>10</strong>
+                  <span>C4 · Bonus</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
           <div class="summary-grid">
             <article class="panel score-panel">
               <div class="score-ring">
                 <div class="ring" id="score-ring" style="--score: 0; --ring-color: var(--bad)">
-                  <strong id="total-score">0</strong>
+                  <strong id="approval-rate">0%</strong>
                 </div>
                 <div class="score-copy">
                   <span class="status warn" id="status-pill">Calculando</span>
-                  <h2 id="status-title">Evaluando solicitud</h2>
+                  <h2 id="status-title">Probabilidad estimada de aprobación</h2>
                   <p id="status-copy"></p>
                 </div>
               </div>
@@ -1186,18 +1311,43 @@
 
             <article class="panel">
               <div class="panel-header">
-                <h2>Lectura operativa</h2>
-                <span id="budget-label"></span>
+                <h2>Distribución competitiva</h2>
+                <span id="competition-label"></span>
               </div>
-              <div class="analysis-panel">
-                <div class="analysis-list" id="analysis-list"></div>
+              <div class="competition-panel">
+                <canvas
+                  class="score-distribution"
+                  id="score-distribution"
+                  width="640"
+                  height="220"
+                  aria-label="Distribución de puntuaciones totales"
+                ></canvas>
+                <div class="competition-axis" aria-hidden="true">
+                  <span>0 pts</span>
+                  <span>50</span>
+                  <span>100 pts</span>
+                </div>
+                <div class="competition-metrics">
+                  <div>
+                    <strong id="competition-own-score">-</strong>
+                    <span>nuestro proyecto</span>
+                  </div>
+                  <div>
+                    <strong id="competition-mean-score">-</strong>
+                    <span>media</span>
+                  </div>
+                  <div>
+                    <strong id="competition-cutoff-score">-</strong>
+                    <span>corte</span>
+                  </div>
+                </div>
               </div>
             </article>
           </div>
 
           <article class="panel">
             <div class="panel-header">
-              <h2>Comparación contra población sintética</h2>
+              <h2>Comparación competitiva</h2>
               <span id="population-label"></span>
             </div>
             <div class="chart-panel">
@@ -1229,12 +1379,16 @@
       const MIN_COST = 100000;
       const MAX_AID = 2000000;
       const MIN_SCORE = 50;
+      const DATA_SOURCE_URL = "../data/innovae-frio/simulacion_solicitudes.csv";
 
       const state = {
         chart: "rpa",
         activeTab: "own",
-        presented: 110,
-        admissionRate: 80,
+        dataLoaded: false,
+        dataError: "",
+        dataWarnings: [],
+        dataScenario: "",
+        populationRows: [],
         cost: 720000,
         savingMwh: 940,
         aidPct: 22,
@@ -1242,28 +1396,22 @@
         powerKw: 165,
         savingPct: 24,
         bonus: false,
-        pcaOk: true,
-        memoryReady: true,
         manualRows: [],
       };
 
       const controls = {
         scenarioSize: document.querySelector("#scenario-size"),
-        scenarioLabel: document.querySelector("#scenario-label"),
         basicLabel: document.querySelector("#basic-label"),
         inputTabs: document.querySelector("#input-tabs"),
         ownPanel: document.querySelector("#own-panel"),
         manualPanel: document.querySelector("#manual-panel"),
-        presentedRange: document.querySelector("#presented-range"),
-        presentedInput: document.querySelector("#presented-input"),
-        admissionRange: document.querySelector("#admission-range"),
-        admissionInput: document.querySelector("#admission-input"),
         costInput: document.querySelector("#cost-input"),
         savingInput: document.querySelector("#saving-input"),
         aidRange: document.querySelector("#aid-range"),
         aidInput: document.querySelector("#aid-input"),
         aidLabel: document.querySelector("#aid-label"),
         innovationLabel: document.querySelector("#innovation-label"),
+        requirementsLabel: document.querySelector("#requirements-label"),
         powerRange: document.querySelector("#power-range"),
         powerInput: document.querySelector("#power-input"),
         powerLabel: document.querySelector("#power-label"),
@@ -1271,8 +1419,6 @@
         savingPctInput: document.querySelector("#saving-pct-input"),
         savingPctLabel: document.querySelector("#saving-pct-label"),
         bonusToggle: document.querySelector("#bonus-toggle"),
-        pcaToggle: document.querySelector("#pca-toggle"),
-        memoryToggle: document.querySelector("#memory-toggle"),
         manualForm: document.querySelector("#manual-form"),
         manualName: document.querySelector("#manual-name"),
         manualCost: document.querySelector("#manual-cost"),
@@ -1285,7 +1431,7 @@
 
       const outputs = {
         scoreRing: document.querySelector("#score-ring"),
-        totalScore: document.querySelector("#total-score"),
+        approvalRate: document.querySelector("#approval-rate"),
         statusPill: document.querySelector("#status-pill"),
         statusTitle: document.querySelector("#status-title"),
         statusCopy: document.querySelector("#status-copy"),
@@ -1297,8 +1443,11 @@
         rpeCopy: document.querySelector("#rpe-copy"),
         criteriaList: document.querySelector("#criteria-list"),
         cutoffLabel: document.querySelector("#cutoff-label"),
-        budgetLabel: document.querySelector("#budget-label"),
-        analysisList: document.querySelector("#analysis-list"),
+        competitionLabel: document.querySelector("#competition-label"),
+        scoreDistribution: document.querySelector("#score-distribution"),
+        competitionOwnScore: document.querySelector("#competition-own-score"),
+        competitionMeanScore: document.querySelector("#competition-mean-score"),
+        competitionCutoffScore: document.querySelector("#competition-cutoff-score"),
         populationLabel: document.querySelector("#population-label"),
         histogram: document.querySelector("#histogram"),
         marker: document.querySelector("#distribution-marker"),
@@ -1306,117 +1455,6 @@
         axisMax: document.querySelector("#axis-max"),
         chartNote: document.querySelector("#chart-note"),
       };
-
-      const baseRpaValues = [
-        0.62, 2.99, 3.21, 4.61, 4.76, 4.83, 5.06, 6.09, 7.31, 8.69, 10.46, 10.58,
-        11.23, 11.55, 12.85, 13.9, 14.01, 14.23, 15.73,
-      ];
-
-      const archetypes = [
-        {
-          name: "gran industria agroalimentaria - reconversión a NH3",
-          sector: "industrial",
-          weight: 0.3,
-          saving: { p50: 0.1415, p90: 0.4224 },
-          bonus: 0.35,
-          aid: { min: 0.12, mode: 0.22, max: 0.3 },
-        },
-        {
-          name: "industria alimentaria mediana - central frigorífica CO2",
-          sector: "industrial",
-          weight: 0.28,
-          saving: { p50: 0.076, p90: 0.2327 },
-          bonus: 0.35,
-          aid: { min: 0.12, mode: 0.22, max: 0.3 },
-        },
-        {
-          name: "cooperativa agropecuaria - CO2",
-          sector: "agropecuario",
-          weight: 0.17,
-          saving: { p50: 0.045, p90: 0.15 },
-          bonus: 0.55,
-          aid: { min: 0.12, mode: 0.22, max: 0.3 },
-        },
-        {
-          name: "logística frigorífica - CO2",
-          sector: "terciario",
-          weight: 0.15,
-          saving: { p50: 0.0281, p90: 0.1395 },
-          bonus: 0.1,
-          aid: { min: 0.12, mode: 0.22, max: 0.3 },
-        },
-        {
-          name: "ESE con rebaja de intensidad",
-          sector: "terciario",
-          weight: 0.1,
-          saving: { p50: 0.076, p90: 0.2327 },
-          bonus: 0.1,
-          aid: { min: 0.1, mode: 0.15, max: 0.24 },
-        },
-      ];
-
-      function mulberry32(seed) {
-        return function next() {
-          seed |= 0;
-          seed = (seed + 0x6d2b79f5) | 0;
-          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function gaussian(rng) {
-        let u = 0;
-        let v = 0;
-        while (u === 0) u = rng();
-        while (v === 0) v = rng();
-        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-      }
-
-      function chooseWeighted(items, rng) {
-        const total = items.reduce((sum, item) => sum + item.weight, 0);
-        let value = rng() * total;
-        for (const item of items) {
-          value -= item.weight;
-          if (value <= 0) return item;
-        }
-        return items[items.length - 1];
-      }
-
-      function sampleLogNormal(dist, rng) {
-        const mu = Math.log(dist.p50);
-        const sigma = (Math.log(dist.p90) - mu) / 1.2815515655446004;
-        return Math.exp(mu + sigma * gaussian(rng));
-      }
-
-      function sampleTriangular(dist, rng) {
-        const min = dist.min;
-        const max = dist.max;
-        const mode = dist.mode;
-        const u = rng();
-        const c = (mode - min) / (max - min);
-        if (u <= c) return min + Math.sqrt(u * (max - min) * (mode - min));
-        return max - Math.sqrt((1 - u) * (max - min) * (max - mode));
-      }
-
-      function sampleRpa(rng) {
-        const sorted = [...baseRpaValues].sort((a, b) => a - b);
-        const raw = sorted[Math.floor(rng() * sorted.length)] * (0.92 + rng() * 0.16);
-        const p75Index = (sorted.length - 1) * 0.75;
-        const low = Math.floor(p75Index);
-        const high = Math.min(low + 1, sorted.length - 1);
-        const p75 = sorted[low] + (sorted[high] - sorted[low]) * (p75Index - low);
-        if (raw > p75) return p75 + (raw - p75) * 1.35;
-        return raw;
-      }
-
-      function innovationCategory(rng) {
-        const value = rng();
-        if (value < 0.45) return "baja";
-        if (value < 0.8) return "incremental";
-        if (value < 0.97) return "intermedia";
-        return "disruptiva";
-      }
 
       function innovationPoints(category) {
         return {
@@ -1427,40 +1465,126 @@
         }[category] ?? 0;
       }
 
-      function admittedCount() {
-        return Math.max(1, Math.round(state.presented * (state.admissionRate / 100)));
+      function parseCsv(text) {
+        const records = [];
+        let row = [];
+        let field = "";
+        let quoted = false;
+        const clean = text.replace(/^\uFEFF/, "");
+
+        for (let index = 0; index < clean.length; index += 1) {
+          const char = clean[index];
+          const next = clean[index + 1];
+          if (char === "\"") {
+            if (quoted && next === "\"") {
+              field += "\"";
+              index += 1;
+            } else {
+              quoted = !quoted;
+            }
+          } else if (char === ";" && !quoted) {
+            row.push(field);
+            field = "";
+          } else if ((char === "\n" || char === "\r") && !quoted) {
+            if (char === "\r" && next === "\n") index += 1;
+            row.push(field);
+            if (row.some((cell) => cell.trim())) records.push(row);
+            row = [];
+            field = "";
+          } else {
+            field += char;
+          }
+        }
+
+        row.push(field);
+        if (row.some((cell) => cell.trim())) records.push(row);
+        if (records.length < 2) return [];
+
+        const headers = records[0].map((header) => header.trim());
+        return records.slice(1).map((record) =>
+          Object.fromEntries(headers.map((header, index) => [header, record[index] ?? ""])),
+        );
       }
 
-      function generatePopulation() {
-        const admitted = admittedCount();
-        const rng = mulberry32(1709 + state.presented * 101 + state.admissionRate * 997);
-        const rows = [];
-        let index = 1;
-        let attempts = 0;
-        while (rows.length < admitted && attempts < admitted * 80) {
-          attempts += 1;
-          const archetype = chooseWeighted(archetypes, rng);
-          const savingKtep = sampleLogNormal(archetype.saving, rng);
-          const rpa = sampleRpa(rng);
-          const cost = rpa * savingKtep * 1000000;
-          if (cost < MIN_COST) continue;
-          const aidPct = sampleTriangular(archetype.aid, rng);
-          const aid = Math.min(MAX_AID, cost * aidPct);
-          rows.push({
-            id: `SIM-${String(index).padStart(4, "0")}`,
-            own: false,
-            manual: false,
-            archetype: archetype.name,
-            sector: archetype.sector,
-            cost,
-            savingKwh: savingKtep * KWH_PER_KTEP,
-            aid,
-            innovation: innovationCategory(rng),
-            bonus: rng() < archetype.bonus,
-          });
-          index += 1;
+      function parseCsvNumber(value) {
+        const text = String(value ?? "").trim().replace(/\s/g, "");
+        if (!text) return 0;
+        const normalized = text.includes(",")
+          ? text.replace(/\./g, "").replace(",", ".")
+          : text;
+        const number = Number(normalized);
+        return Number.isFinite(number) ? number : 0;
+      }
+
+      function parseCsvBoolean(value) {
+        return ["si", "sí", "s", "1", "true", "verdadero", "yes"].includes(
+          String(value ?? "").trim().toLowerCase(),
+        );
+      }
+
+      function normalizeInnovation(value) {
+        const category = String(value ?? "").trim().toLowerCase();
+        return ["baja", "incremental", "intermedia", "disruptiva", "sin"].includes(category)
+          ? category
+          : "baja";
+      }
+
+      function csvRowToPopulationRow(row, index) {
+        const cost = parseCsvNumber(row.coste_elegible_eur);
+        const savingKwh = parseCsvNumber(row.ahorro_kwh_ano);
+        const aid = parseCsvNumber(row.ayuda_solicitada_eur);
+        if (cost <= 0 || savingKwh <= 0) return null;
+
+        return {
+          id: String(row.id || `CSV-${index + 1}`),
+          own: false,
+          manual: false,
+          archetype: row.arquetipo || `Solicitud CSV ${index + 1}`,
+          sector: row.sector || "csv",
+          cost,
+          savingKwh,
+          aid: Math.min(MAX_AID, Math.max(0, aid)),
+          innovation: normalizeInnovation(row.categoria_innovacion),
+          bonus: parseCsvBoolean(row.bonus_socioeconomico),
+          scenario: row.escenario || "",
+          origin: row.origen_dato || "",
+        };
+      }
+
+      async function loadPopulationCsv() {
+        try {
+          const response = await fetch(DATA_SOURCE_URL, { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const csvText = await response.text();
+          const rawRows = parseCsv(csvText);
+          const rows = rawRows
+            .map(csvRowToPopulationRow)
+            .filter(Boolean);
+
+          if (!rows.length) {
+            throw new Error("CSV sin filas válidas");
+          }
+
+          const scenarios = [...new Set(rows.map((row) => row.scenario).filter(Boolean))];
+          state.populationRows = rows;
+          state.dataScenario = scenarios.length === 1 ? scenarios[0] : "CSV";
+          state.dataWarnings = rawRows.length === rows.length
+            ? []
+            : [`${rawRows.length - rows.length} filas sin coste o ahorro válido`];
+          state.dataError = "";
+        } catch (error) {
+          state.populationRows = [];
+          state.dataScenario = "";
+          state.dataWarnings = [];
+          state.dataError = "No se pudo cargar la población de solicitudes";
+        } finally {
+          state.dataLoaded = true;
+          render();
         }
-        return rows;
+      }
+
+      function admittedCount() {
+        return state.populationRows.length;
       }
 
       function clamp(value, min, max) {
@@ -1480,14 +1604,6 @@
           minimumFractionDigits: digits,
           maximumFractionDigits: digits,
         }).format(value);
-      }
-
-      function pct(values, q) {
-        const sorted = [...values].sort((a, b) => a - b);
-        const index = (sorted.length - 1) * q;
-        const low = Math.floor(index);
-        const high = Math.min(low + 1, sorted.length - 1);
-        return sorted[low] + (sorted[high] - sorted[low]) * (index - low);
       }
 
       function calculateRatio(row) {
@@ -1519,8 +1635,10 @@
 
       function scoreRows(rows) {
         rows.forEach(calculateRatio);
-        const rpaScale = scale(rows.map((row) => row.rpa));
-        const rpeScale = scale(rows.map((row) => row.rpe));
+        const scaleRows = rows.filter((row) => row.innovation !== "sin");
+        const scaleBase = scaleRows.length ? scaleRows : rows;
+        const rpaScale = scale(scaleBase.map((row) => row.rpa));
+        const rpeScale = scale(scaleBase.map((row) => row.rpe));
         rows.forEach((row) => {
           row.c1 = intervalPoints(
             row.rpa,
@@ -1547,11 +1665,10 @@
           row.c3 = innovationPoints(row.innovation);
           row.c4 = row.bonus ? 10 : 0;
           row.exclusionReasons = [];
+          if (row.innovation === "sin") row.exclusionReasons.push("sin innovación");
           if (row.cost < MIN_COST) row.exclusionReasons.push("coste elegible inferior al mínimo");
           if (row.own && state.powerKw < 100) row.exclusionReasons.push("potencia de compresores < 100 kW");
           if (row.own && state.savingPct <= 20) row.exclusionReasons.push("ahorro no supera el 20 %");
-          if (row.own && !state.pcaOk) row.exclusionReasons.push("PCA del refrigerante no cumple");
-          if (row.own && !state.memoryReady) row.exclusionReasons.push("memoria técnica incompleta");
           row.total = row.exclusionReasons.length ? 0 : row.c1 + row.c2 + row.c3 + row.c4;
           if (row.total < MIN_SCORE && !row.exclusionReasons.length) {
             row.exclusionReasons.push("no alcanza 50 puntos");
@@ -1594,10 +1711,10 @@
       function currentOwnRow() {
         const aid = Math.min(MAX_AID, state.cost * 0.3, state.cost * (state.aidPct / 100));
         return {
-          id: "TU-SOLICITUD",
+          id: "PROYECTO",
           own: true,
           manual: false,
-          archetype: "Tu solicitud",
+          archetype: "Nuestro proyecto",
           sector: "propio",
           cost: state.cost,
           savingKwh: state.savingMwh * 1000,
@@ -1623,10 +1740,44 @@
       }
 
       function simulate() {
-        const rows = generatePopulation();
+        const rows = state.populationRows.map((row) => ({ ...row }));
         rows.push(...manualRowsForScoring());
         rows.push(currentOwnRow());
         return scoreRows(rows);
+      }
+
+      function approvalProbability(result, own) {
+        if (own.exclusionReasons.length) return 0;
+
+        const viableRows = result.ranked.length || 1;
+        const fundedRows = result.ranked.filter((row) => row.result === "concedida").length;
+        const rankStrength = own.rank
+          ? 1 - (own.rank - 1) / Math.max(1, viableRows - 1)
+          : 0;
+        const scoreMargin = Math.max(0, own.total - MIN_SCORE);
+        const cutoff = result.cutoff ?? MIN_SCORE;
+        const cutoffMargin = own.total - cutoff;
+        let probability = 0;
+
+        if (own.result === "concedida") {
+          probability =
+            52 +
+            rankStrength * 18 +
+            Math.min(18, Math.max(0, cutoffMargin) * 1.2) +
+            Math.min(7, scoreMargin * 0.25);
+        } else if (own.result === "lista_reserva") {
+          probability =
+            18 +
+            rankStrength * 12 +
+            Math.min(22, scoreMargin * 0.55) +
+            Math.max(-12, cutoffMargin * 0.6);
+        }
+
+        const budgetCoverage = fundedRows / viableRows;
+        if (budgetCoverage > 0.85) probability += 4;
+        if (budgetCoverage < 0.35) probability -= 6;
+
+        return Math.round(clamp(probability, 0, 95));
       }
 
       function setActiveButtons(containerSelector, value, dataName) {
@@ -1636,12 +1787,10 @@
       }
 
       function syncControls() {
-        controls.presentedRange.value = state.presented;
-        controls.presentedInput.value = state.presented;
-        controls.admissionRange.value = state.admissionRate;
-        controls.admissionInput.value = state.admissionRate;
-        controls.scenarioLabel.textContent = `${formatNumber(state.presented)} presentadas · ${formatNumber(admittedCount())} admitidas`;
-        controls.scenarioSize.textContent = `${formatNumber(admittedCount() + state.manualRows.length)} competidoras`;
+        const populationCount = admittedCount();
+        controls.scenarioSize.textContent = state.dataLoaded
+          ? `${formatNumber(populationCount + state.manualRows.length)} competidoras`
+          : "Cargando datos";
 
         controls.costInput.value = state.cost;
         controls.savingInput.value = state.savingMwh;
@@ -1661,10 +1810,10 @@
         controls.savingPctRange.value = state.savingPct;
         controls.savingPctInput.value = state.savingPct;
         controls.savingPctLabel.textContent = `${formatNumber(state.savingPct)} %`;
+        controls.requirementsLabel.textContent =
+          state.powerKw >= 100 && state.savingPct > 20 ? "Cumple" : "Revisar";
 
         controls.bonusToggle.checked = state.bonus;
-        controls.pcaToggle.checked = state.pcaOk;
-        controls.memoryToggle.checked = state.memoryReady;
         controls.innovationLabel.textContent =
           {
             baja: "2,5 pts",
@@ -1709,60 +1858,145 @@
           .join("");
       }
 
-      function renderAnalysis(result, own) {
-        const notes = [];
-        if (own.exclusionReasons.length) {
-          notes.push({
-            title: "Bloqueo de admisibilidad",
-            text: own.exclusionReasons.join(", ") + ". Antes de optimizar puntos, corrige este bloqueo.",
-          });
+      function renderCompetition(result, own) {
+        const canvas = outputs.scoreDistribution;
+        const ctx = canvas.getContext("2d");
+        const ratio = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const width = Math.max(320, Math.round(rect.width || 640));
+        const height = 220;
+        const pad = { top: 18, right: 18, bottom: 30, left: 26 };
+        const plotWidth = width - pad.left - pad.right;
+        const plotHeight = height - pad.top - pad.bottom;
+        const values = result.rows
+          .filter((row) => !row.own)
+          .map((row) => clamp(row.total, 0, 100));
+        const mean = values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length);
+        const variance =
+          values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / Math.max(1, values.length);
+        const deviation = Math.max(5, Math.sqrt(variance));
+        const cutoff = result.cutoff ?? MIN_SCORE;
+        const xFor = (score) => pad.left + (clamp(score, 0, 100) / 100) * plotWidth;
+        const yBase = pad.top + plotHeight;
+
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
+
+        const cutoffX = xFor(cutoff);
+        ctx.fillStyle = "rgba(51, 125, 88, 0.08)";
+        ctx.fillRect(cutoffX, pad.top, width - pad.right - cutoffX, plotHeight);
+
+        ctx.strokeStyle = "rgba(20, 32, 51, 0.08)";
+        ctx.lineWidth = 1;
+        [0, 25, 50, 75, 100].forEach((tick) => {
+          const x = xFor(tick);
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, yBase);
+          ctx.stroke();
+        });
+
+        const bins = Array.from({ length: 20 }, () => 0);
+        values.forEach((value) => {
+          const index = Math.min(bins.length - 1, Math.floor((clamp(value, 0, 100) / 100) * bins.length));
+          bins[index] += 1;
+        });
+        const topBin = Math.max(...bins, 1);
+        const barWidth = plotWidth / bins.length;
+        ctx.fillStyle = "#c9dbe8";
+        bins.forEach((count, index) => {
+          const barHeight = Math.max(3, (count / topBin) * plotHeight * 0.72);
+          const x = pad.left + index * barWidth + 2;
+          ctx.fillRect(x, yBase - barHeight, Math.max(2, barWidth - 4), barHeight);
+        });
+
+        ctx.strokeStyle = "#001426";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let index = 0; index <= 100; index += 1) {
+          const score = index;
+          const x = xFor(score);
+          const density = Math.exp(-0.5 * ((score - mean) / deviation) ** 2);
+          const y = yBase - density * plotHeight * 0.62;
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
         }
+        ctx.stroke();
 
-        const p60Rpa = pct(result.rows.filter((row) => !row.own).map((row) => row.rpa), 0.6);
-        const p40Rpe = pct(result.rows.filter((row) => !row.own).map((row) => row.rpe), 0.4);
+        const drawMarker = (score, label, color, yLabel) => {
+          const x = xFor(score);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, yBase);
+          ctx.stroke();
 
-        if (own.rpa > p60Rpa) {
-          notes.push({
-            title: "La ratio coste/ahorro pesa demasiado",
-            text: "Subir ahorro justificable o recortar coste elegible puede mover el criterio de 8-16 puntos a tramos más competitivos.",
-          });
-        } else {
-          notes.push({
-            title: "RPA competitiva",
-            text: "La solicitud cae en una zona razonable de coste por ahorro. Vigila que el ahorro esté muy bien documentado.",
-          });
-        }
+          ctx.font = '700 11px "Avenir Next", "Helvetica Neue", Arial, sans-serif';
+          const labelWidth = ctx.measureText(label).width + 14;
+          const labelX = clamp(x - labelWidth / 2, pad.left, width - pad.right - labelWidth);
+          ctx.fillStyle = color;
+          ctx.fillRect(labelX, yLabel, labelWidth, 22);
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(label, labelX + 7, yLabel + 15);
+        };
 
-        if (own.rpe > p40Rpe) {
-          notes.push({
-            title: "Palanca directa: ayuda solicitada",
-            text: "Reducir intensidad de ayuda mejora el RPE. Prueba bajar el deslizador hasta ver si cambia de tramo.",
-          });
-        } else {
-          notes.push({
-            title: "Ayuda bien posicionada",
-            text: "La ayuda solicitada no penaliza de forma severa frente a la población simulada.",
-          });
-        }
+        drawMarker(cutoff, "Corte", "#9a6a0a", 22);
+        drawMarker(own.total, "Proyecto", "#001426", 52);
 
-        if (state.innovation === "baja") {
-          notes.push({
-            title: "Innovación frágil",
-            text: "Baja innovación deja poco margen. Recuperación de calor, control avanzado o integración de proceso pueden sostener una categoría superior.",
-          });
-        }
+        ctx.strokeStyle = "rgba(20, 32, 51, 0.24)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, yBase);
+        ctx.lineTo(width - pad.right, yBase);
+        ctx.stroke();
 
-        outputs.analysisList.innerHTML = notes
-          .slice(0, 4)
-          .map(
-            (note) => `
-              <div class="analysis-item">
-                <strong>${note.title}</strong>
-                <span>${note.text}</span>
-              </div>
-            `,
-          )
-          .join("");
+        outputs.competitionLabel.textContent =
+          own.result === "concedida" ? "financiable" : own.result === "lista_reserva" ? "reserva" : "fuera";
+        outputs.competitionOwnScore.textContent = formatNumber(own.total, own.total % 1 ? 1 : 0);
+        outputs.competitionMeanScore.textContent = formatNumber(mean, 1);
+        outputs.competitionCutoffScore.textContent = result.cutoff ? formatNumber(result.cutoff, 1) : "-";
+      }
+
+      function renderUnavailable() {
+        const loading = !state.dataLoaded;
+        outputs.approvalRate.textContent = "--";
+        outputs.scoreRing.style.setProperty("--score", 0);
+        outputs.scoreRing.style.setProperty("--ring-color", loading ? "var(--warn)" : "var(--bad)");
+        outputs.statusPill.className = `status ${loading ? "warn" : "bad"}`;
+        outputs.statusPill.textContent = loading ? "Cargando datos" : "Datos no disponibles";
+        outputs.statusTitle.textContent = "Esperando población de solicitudes";
+        outputs.statusCopy.textContent = loading
+          ? "Cargando archivo de población."
+          : "No se genera población alternativa.";
+        outputs.rankValue.textContent = "-";
+        outputs.rankCopy.textContent = "Sin orden de prelación hasta cargar la población.";
+        outputs.rpaValue.textContent = "-";
+        outputs.rpaCopy.textContent = "Fuente de datos";
+        outputs.rpeValue.textContent = "-";
+        outputs.rpeCopy.textContent = "Fuente de datos";
+        outputs.cutoffLabel.textContent = "Sin datos";
+        outputs.populationLabel.textContent = state.dataError || "Población no cargada";
+        outputs.criteriaList.innerHTML = `<div class="empty-state">Carga un CSV válido para calcular la puntuación.</div>`;
+        outputs.competitionLabel.textContent = loading ? "cargando" : "sin datos";
+        outputs.competitionOwnScore.textContent = "-";
+        outputs.competitionMeanScore.textContent = "-";
+        outputs.competitionCutoffScore.textContent = "-";
+        outputs.histogram.innerHTML = "";
+        outputs.marker.style.setProperty("--left", "50%");
+        outputs.axisMin.textContent = "0";
+        outputs.axisMax.textContent = "0";
+        outputs.chartNote.textContent = "Sin distribución hasta cargar los datos.";
+
+        const canvas = outputs.scoreDistribution;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
 
       function renderDistribution(result, own) {
@@ -1813,14 +2047,20 @@
 
       function render() {
         syncControls();
+        if (!state.dataLoaded || !state.populationRows.length) {
+          renderUnavailable();
+          renderManualList();
+          return;
+        }
+
         const result = simulate();
         const own = result.rows.find((row) => row.own);
         const ownFunded = own.result === "concedida";
         const ownReserve = own.result === "lista_reserva";
-        const ownExcluded = own.result === "excluida";
+        const probability = approvalProbability(result, own);
 
-        outputs.totalScore.textContent = formatNumber(own.total, own.total % 1 ? 1 : 0);
-        outputs.scoreRing.style.setProperty("--score", Math.min(100, own.total));
+        outputs.approvalRate.textContent = `${formatNumber(probability)}%`;
+        outputs.scoreRing.style.setProperty("--score", probability);
         outputs.scoreRing.style.setProperty(
           "--ring-color",
           ownFunded ? "var(--good)" : ownReserve ? "var(--warn)" : "var(--bad)",
@@ -1828,20 +2068,16 @@
 
         outputs.statusPill.className = `status ${ownFunded ? "good" : ownReserve ? "warn" : "bad"}`;
         outputs.statusPill.textContent = ownFunded
-          ? "Concedida en simulación"
+          ? "Dentro del corte estimado"
           : ownReserve
-            ? "Lista de reserva"
-            : "Fuera de corte";
-        outputs.statusTitle.textContent = ownFunded
-          ? "La solicitud entra con estos datos"
-          : ownReserve
-            ? "Supera 50 puntos, pero no encaja en presupuesto"
-            : ownExcluded && own.exclusionReasons[0] !== "no alcanza 50 puntos"
-              ? "Hay un requisito excluyente"
-              : "No alcanza posición suficiente";
+            ? "Reserva estimada"
+            : "Bajo corte estimado";
+        outputs.statusTitle.textContent = "Probabilidad estimada de aprobación";
         outputs.statusCopy.textContent = own.exclusionReasons.length
-          ? own.exclusionReasons.join(". ") + "."
-          : `Corte estimado: ${result.cutoff ? formatNumber(result.cutoff, 1) + " puntos" : "sin agotar presupuesto"}.`;
+          ? `${own.exclusionReasons.join(". ")}. Puntuación actual: ${formatNumber(own.total, own.total % 1 ? 1 : 0)} / 100.`
+          : `Puntuación: ${formatNumber(own.total, own.total % 1 ? 1 : 0)} / 100. Corte estimado: ${
+              result.cutoff ? formatNumber(result.cutoff, 1) + " puntos" : "sin agotar presupuesto"
+            }.`;
 
         outputs.rankValue.textContent = own.rank ? `#${own.rank}` : "-";
         outputs.rankCopy.textContent = own.rank
@@ -1855,11 +2091,10 @@
         outputs.cutoffLabel.textContent = result.cutoff
           ? `Corte estimado ${formatNumber(result.cutoff, 1)} pts`
           : "No se agota presupuesto";
-        outputs.budgetLabel.textContent = `${formatEuro(BUDGET - result.used)} sin asignar`;
-        outputs.populationLabel.textContent = `${formatNumber(admittedCount())} sintéticas · ${state.manualRows.length} competidores añadidos · tu solicitud`;
+        outputs.populationLabel.textContent = `${formatNumber(admittedCount())} solicitudes · ${state.manualRows.length} competidores añadidos · nuestro proyecto`;
 
         renderCriteria(own);
-        renderAnalysis(result, own);
+        renderCompetition(result, own);
         renderDistribution(result, own);
         renderManualList();
       }
@@ -1911,8 +2146,6 @@
         render();
       });
 
-      bindNumberRange(controls.presentedRange, controls.presentedInput, "presented", 20, 320);
-      bindNumberRange(controls.admissionRange, controls.admissionInput, "admissionRate", 40, 95);
       bindNumber(controls.costInput, "cost", 50000, 5000000);
       bindNumber(controls.savingInput, "savingMwh", 50, 12000);
       bindNumberRange(controls.powerRange, controls.powerInput, "powerKw", 50, 600);
@@ -1931,16 +2164,6 @@
 
       controls.bonusToggle.addEventListener("change", () => {
         state.bonus = controls.bonusToggle.checked;
-        render();
-      });
-
-      controls.pcaToggle.addEventListener("change", () => {
-        state.pcaOk = controls.pcaToggle.checked;
-        render();
-      });
-
-      controls.memoryToggle.addEventListener("change", () => {
-        state.memoryReady = controls.memoryToggle.checked;
         render();
       });
 
@@ -1973,7 +2196,14 @@
         render();
       });
 
+      let resizeTimer = null;
+      window.addEventListener("resize", () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(render, 120);
+      });
+
       render();
+      loadPopulationCsv();
     </script>
   </body>
 </html>
