@@ -1079,7 +1079,7 @@
 
       <nav class="session" aria-label="Navegación">
         <a href="./convocatorias.html">Convocatorias</a>
-        <a href="./acceso.html">Salir</a>
+        <a id="logout" href="./acceso.html">Salir</a>
       </nav>
     </header>
 
@@ -2204,6 +2204,29 @@
 
       render();
       loadPopulationCsv();
+    </script>
+
+    <script type="module">
+      import { CBI } from "../assets/cbi-supabase.js";
+
+      const auth = await CBI.requireSession();
+      if (auth) {
+        try {
+          const calls = await CBI.listCalls(auth.session);
+          const hasAccess = calls.some((call) => call.code === "CONV-2026-INNOVAE-FRIO");
+          if (!hasAccess) {
+            window.location.replace("./convocatorias.html");
+          }
+        } catch {
+          window.location.replace("./convocatorias.html");
+        }
+      }
+
+      document.querySelector("#logout").addEventListener("click", async (event) => {
+        event.preventDefault();
+        await CBI.signOut();
+        window.location.href = "./acceso.html";
+      });
     </script>
   </body>
 </html>

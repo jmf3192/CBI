@@ -80,14 +80,21 @@
       .session {
         display: flex;
         align-items: center;
+        gap: 18px;
       }
 
+      .admin-link,
       .logout {
         color: var(--muted);
         font-size: 13px;
         font-weight: 500;
       }
 
+      .admin-link[hidden] {
+        display: none;
+      }
+
+      .admin-link:hover,
       .logout:hover {
         color: var(--brand);
       }
@@ -207,6 +214,13 @@
         background: #f3f6f8;
       }
 
+      .empty-state {
+        grid-column: 1 / -1;
+        padding: 28px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
       @media (max-width: 920px) {
         .calls {
           grid-template-columns: 1fr;
@@ -256,7 +270,8 @@
       </a>
 
       <div class="session" aria-label="Sesión">
-        <a class="logout" href="./acceso.html">Salir</a>
+        <a class="admin-link" id="admin-link" href="./admin.html" hidden>Panel de control</a>
+        <a class="logout" id="logout" href="./acceso.html">Salir</a>
       </div>
     </header>
 
@@ -265,51 +280,73 @@
         <h1 id="page-title">Convocatorias activas</h1>
       </section>
 
-      <section class="calls" aria-label="Listado de convocatorias">
-        <a
-          class="call"
-          href="./innovae-frio-dashboard.html"
-          aria-label="Abrir dashboard de INNOVAE frío"
-        >
-          <div class="call-top">
-            <h2>INNOVAE frío</h2>
-            <p>Código oficial: CONV-2026-INNOVAE-FRIO</p>
-          </div>
-          <div class="call-actions">
-            <span class="call-cta">Abrir dashboard</span>
-          </div>
-        </a>
-
-        <article class="call is-muted">
-          <div class="call-top">
-            <h2>Innovación empresarial</h2>
-            <p>Código oficial: CONV-2026-001</p>
-          </div>
-          <div class="call-actions">
-            <span class="call-status">Pendiente de configuración</span>
-          </div>
-        </article>
-
-        <article class="call is-muted">
-          <div class="call-top">
-            <h2>Digitalización y datos</h2>
-            <p>Código oficial: CONV-2026-002</p>
-          </div>
-          <div class="call-actions">
-            <span class="call-status">Pendiente de configuración</span>
-          </div>
-        </article>
-
-        <article class="call is-muted">
-          <div class="call-top">
-            <h2>Sostenibilidad e impacto</h2>
-            <p>Código oficial: CONV-2026-003</p>
-          </div>
-          <div class="call-actions">
-            <span class="call-status">Pendiente de configuración</span>
-          </div>
-        </article>
+      <section class="calls" id="calls" aria-label="Listado de convocatorias">
+        <p class="empty-state">Cargando convocatorias.</p>
       </section>
     </main>
+
+    <script type="module">
+      import { CBI } from "../assets/cbi-supabase.js";
+
+      const callsContainer = document.querySelector("#calls");
+      const adminLink = document.querySelector("#admin-link");
+      const logout = document.querySelector("#logout");
+
+      function callHref(call) {
+        if (call.code === "CONV-2026-INNOVAE-FRIO") return "./innovae-frio-dashboard.html";
+        return "";
+      }
+
+      function createCallCard(call) {
+        const href = callHref(call);
+        const element = document.createElement(href ? "a" : "article");
+        element.className = href ? "call" : "call is-muted";
+        if (href) {
+          element.href = href;
+          element.setAttribute("aria-label", `Abrir ${call.name}`);
+        }
+
+        element.innerHTML = `
+          <div class="call-top">
+            <h2>${call.name}</h2>
+            <p>Código oficial: ${call.code}</p>
+          </div>
+          <div class="call-actions">
+            <span class="${href ? "call-cta" : "call-status"}">${href ? "Abrir dashboard" : "Pendiente"}</span>
+          </div>
+        `;
+
+        return element;
+      }
+
+      async function loadPage() {
+        try {
+          const auth = await CBI.requireSession();
+          if (!auth) return;
+
+          adminLink.hidden = auth.profile.role !== "admin";
+
+          const calls = await CBI.listCalls(auth.session);
+          callsContainer.innerHTML = "";
+
+          if (!calls.length) {
+            callsContainer.innerHTML = '<p class="empty-state">No hay convocatorias activas disponibles.</p>';
+            return;
+          }
+
+          calls.forEach((call) => callsContainer.appendChild(createCallCard(call)));
+        } catch (error) {
+          callsContainer.innerHTML = `<p class="empty-state">${error instanceof Error ? error.message : "No se han podido cargar las convocatorias."}</p>`;
+        }
+      }
+
+      logout.addEventListener("click", async (event) => {
+        event.preventDefault();
+        await CBI.signOut();
+        window.location.href = "./acceso.html";
+      });
+
+      loadPage();
+    </script>
   </body>
 </html>

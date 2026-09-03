@@ -72,7 +72,7 @@ Elementos previstos:
 
 - Usuario/email.
 - Contrasena.
-- Recuperacion de acceso, si se decide incluir.
+- Recuperacion de acceso: fuera de alcance en esta fase; la gestion se hara manualmente desde administracion/Codex.
 - Control de sesion.
 
 ### Area privada

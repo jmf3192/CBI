@@ -511,7 +511,7 @@
 
       <nav class="session" aria-label="Administración">
         <a href="./convocatorias.html">Convocatorias</a>
-        <a href="./acceso.html">Salir</a>
+        <a id="logout" href="./acceso.html">Salir</a>
       </nav>
     </header>
 
@@ -564,16 +564,16 @@
             <label>
               Rol
               <select id="role" name="role">
-                <option value="Administrador">Administrador</option>
-                <option value="Usuario">Usuario</option>
+                <option value="admin">Administrador</option>
+                <option value="user">Usuario</option>
               </select>
             </label>
 
             <label>
               Estado
               <select id="status" name="status">
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
+                <option value="active">Activo</option>
+                <option value="inactive">Inactivo</option>
               </select>
             </label>
 
@@ -606,43 +606,13 @@
       </section>
     </main>
 
-    <script>
-      const calls = [
-        { id: 4, code: "CONV-2026-INNOVAE-FRIO", name: "INNOVAE frío" },
-        { id: 1, code: "CONV-2026-001", name: "Innovación empresarial" },
-        { id: 2, code: "CONV-2026-002", name: "Digitalización y datos" },
-        { id: 3, code: "CONV-2026-003", name: "Sostenibilidad e impacto" },
-      ];
+    <script type="module">
+      import { CBI } from "../assets/cbi-supabase.js";
 
-      const users = [
-        {
-          id: 1,
-          fullName: "Administrador CONASOC",
-          email: "admin@conasoc.local",
-          role: "Administrador",
-          status: "Activo",
-          access: [1, 2, 3, 4],
-        },
-        {
-          id: 2,
-          fullName: "Usuario demo",
-          email: "usuario@empresa.local",
-          role: "Usuario",
-          status: "Activo",
-          access: [1, 2, 4],
-        },
-        {
-          id: 3,
-          fullName: "Revisión externa",
-          email: "revision@empresa.local",
-          role: "Usuario",
-          status: "Inactivo",
-          access: [],
-        },
-      ];
-
-      let selectedId = 1;
-      let nextId = 4;
+      let authSession = null;
+      let calls = [];
+      let users = [];
+      let selectedId = null;
 
       const usersBody = document.querySelector("#users-body");
       const recordCount = document.querySelector("#record-count");
@@ -659,6 +629,15 @@
       const accessList = document.querySelector("#access-list");
       const feedback = document.querySelector("#feedback");
       const disableButton = document.querySelector("#disable-user");
+      const logout = document.querySelector("#logout");
+
+      function roleText(role) {
+        return role === "admin" ? "Administrador" : "Usuario";
+      }
+
+      function statusText(status) {
+        return status === "inactive" ? "Inactivo" : "Activo";
+      }
 
       function accessText(user) {
         if (user.access.length === calls.length) return "Todas";
@@ -676,11 +655,11 @@
           row.className = user.id === selectedId ? "is-selected" : "";
           row.innerHTML = `
             <td>
-              <span class="user-name">${user.fullName}</span>
+              <span class="user-name">${user.full_name}</span>
               <span class="user-email">${user.email}</span>
             </td>
-            <td><span class="badge">${user.role}</span></td>
-            <td>${user.status}</td>
+            <td><span class="badge">${roleText(user.role)}</span></td>
+            <td>${statusText(user.status)}</td>
             <td class="muted">${accessText(user)}</td>
             <td><button class="table-action" type="button">Editar</button></td>
           `;
@@ -715,16 +694,16 @@
 
         selectedId = user.id;
         editorTitle.textContent = "Editar usuario";
-        editorStatus.textContent = user.status;
+        editorStatus.textContent = statusText(user.status);
         userIdInput.value = user.id;
-        fullNameInput.value = user.fullName;
+        fullNameInput.value = user.full_name;
         emailInput.value = user.email;
         roleInput.value = user.role;
         statusInput.value = user.status;
         passwordInput.value = "";
         passwordConfirmInput.value = "";
         disableButton.disabled = false;
-        disableButton.textContent = user.status === "Inactivo" ? "Activar" : "Desactivar";
+        disableButton.textContent = user.status === "inactive" ? "Activar" : "Desactivar";
         feedback.textContent = "";
         renderAccess(user);
         renderUsers();
@@ -737,8 +716,8 @@
         userIdInput.value = "";
         fullNameInput.value = "";
         emailInput.value = "";
-        roleInput.value = "Usuario";
-        statusInput.value = "Activo";
+        roleInput.value = "user";
+        statusInput.value = "active";
         passwordInput.value = "";
         passwordConfirmInput.value = "";
         disableButton.disabled = true;
@@ -751,9 +730,12 @@
 
       function saveUser(event) {
         event.preventDefault();
+        saveCurrentUser();
+      }
 
+      async function saveCurrentUser() {
         const access = Array.from(accessList.querySelectorAll("input:checked")).map((input) =>
-          Number(input.value),
+          input.value,
         );
         const password = passwordInput.value;
         const passwordConfirm = passwordConfirmInput.value;
@@ -770,60 +752,104 @@
         }
 
         const values = {
-          fullName: fullNameInput.value.trim(),
+          full_name: fullNameInput.value.trim(),
           email: emailInput.value.trim(),
           role: roleInput.value,
           status: statusInput.value,
-          access,
+          call_ids: access,
         };
 
-        if (!values.fullName || !values.email) return;
+        if (!values.full_name || !values.email) return;
 
         if (!selectedId && !passwordRequested) {
           feedback.textContent = "La contraseña es obligatoria para crear el usuario";
           return;
         }
 
-        if (selectedId) {
-          const user = users.find((item) => item.id === selectedId);
-          Object.assign(user, values);
-          feedback.textContent = passwordRequested ? "Contraseña actualizada" : "Cambios guardados";
-        } else {
-          const user = { id: nextId, ...values };
-          users.push(user);
-          nextId += 1;
-          selectedId = user.id;
-          userIdInput.value = user.id;
-          editorTitle.textContent = "Editar usuario";
-          disableButton.disabled = false;
-          feedback.textContent = "Usuario creado";
-        }
+        const method = selectedId ? "PATCH" : "POST";
+        const body = {
+          id: selectedId,
+          ...values,
+          password: passwordRequested ? password : undefined,
+        };
 
-        const current = users.find((item) => item.id === selectedId);
-        editorStatus.textContent = current.status;
-        disableButton.textContent = current.status === "Inactivo" ? "Activar" : "Desactivar";
-        passwordInput.value = "";
-        passwordConfirmInput.value = "";
-        renderUsers();
+        feedback.textContent = "Guardando";
+
+        try {
+          const payload = await CBI.invokeAdminUsers(authSession, {
+            method,
+            body,
+          });
+          hydrateAdminData(payload);
+          const nextSelected = selectedId || payload.users.find((user) => user.email === values.email)?.id;
+          selectedId = nextSelected || payload.users[0]?.id || null;
+          if (selectedId) selectUser(selectedId);
+          feedback.textContent = passwordRequested ? "Contraseña actualizada" : "Cambios guardados";
+        } catch (error) {
+          feedback.textContent =
+            error instanceof Error ? error.message : "No se han podido guardar los cambios";
+        }
       }
 
-      function disableUser() {
+      async function disableUser() {
         if (!selectedId) return;
 
         const user = users.find((item) => item.id === selectedId);
-        user.status = user.status === "Inactivo" ? "Activo" : "Inactivo";
+        if (!user) return;
+
+        const nextStatus = user.status === "inactive" ? "active" : "inactive";
+        user.status = nextStatus;
         statusInput.value = user.status;
-        editorStatus.textContent = user.status;
-        disableButton.textContent = user.status === "Inactivo" ? "Activar" : "Desactivar";
-        feedback.textContent = user.status === "Inactivo" ? "Usuario desactivado" : "Usuario activado";
-        renderUsers();
+        await saveCurrentUser();
+      }
+
+      function hydrateAdminData(payload) {
+        calls = payload.calls || [];
+        const accessByUser = new Map();
+
+        (payload.access || []).forEach((item) => {
+          if (!accessByUser.has(item.user_id)) accessByUser.set(item.user_id, []);
+          accessByUser.get(item.user_id).push(item.call_id);
+        });
+
+        users = (payload.users || []).map((user) => ({
+          ...user,
+          access: accessByUser.get(user.id) || [],
+        }));
+      }
+
+      async function loadAdmin() {
+        try {
+          const auth = await CBI.requireSession({ adminOnly: true });
+          if (!auth) return;
+
+          authSession = auth.session;
+          const payload = await CBI.invokeAdminUsers(authSession);
+          hydrateAdminData(payload);
+          selectedId = users[0]?.id || null;
+
+          if (selectedId) {
+            selectUser(selectedId);
+          } else {
+            newUser();
+            renderUsers();
+          }
+        } catch (error) {
+          feedback.textContent =
+            error instanceof Error ? error.message : "No se ha podido cargar el panel";
+        }
       }
 
       document.querySelector("#new-user").addEventListener("click", newUser);
       document.querySelector("#disable-user").addEventListener("click", disableUser);
       userForm.addEventListener("submit", saveUser);
+      logout.addEventListener("click", async (event) => {
+        event.preventDefault();
+        await CBI.signOut();
+        window.location.href = "./acceso.html";
+      });
 
-      selectUser(selectedId);
+      loadAdmin();
     </script>
   </body>
 </html>

@@ -140,6 +140,15 @@
         outline-offset: 3px;
       }
 
+      .feedback {
+        min-height: 18px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+        text-align: center;
+      }
+
       @media (max-width: 440px) {
         body {
           padding: 18px;
@@ -167,20 +176,73 @@
           </p>
         </header>
 
-        <form action="./convocatorias.html" method="get">
+        <form id="login-form">
           <label>
             Usuario
-            <input type="text" name="usuario" autocomplete="username" required />
+            <input id="email" type="email" name="usuario" autocomplete="username" required />
           </label>
 
           <label>
             Contraseña
-            <input type="password" name="password" autocomplete="current-password" required />
+            <input id="password" type="password" name="password" autocomplete="current-password" required />
           </label>
 
-          <button type="submit">Entrar</button>
+          <button id="submit-button" type="submit">Entrar</button>
+          <p class="feedback" id="feedback" aria-live="polite"></p>
         </form>
       </section>
     </main>
+
+    <script type="module">
+      import { CBI } from "../assets/cbi-supabase.js";
+
+      const form = document.querySelector("#login-form");
+      const emailInput = document.querySelector("#email");
+      const passwordInput = document.querySelector("#password");
+      const button = document.querySelector("#submit-button");
+      const feedback = document.querySelector("#feedback");
+
+      async function redirectIfAuthenticated() {
+        try {
+          const session = await CBI.getSession();
+          if (!session) return;
+
+          const profile = await CBI.getProfile(session);
+          if (profile?.status === "active") {
+            window.location.replace("./convocatorias.html");
+          }
+        } catch {
+          CBI.clearSession();
+        }
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        feedback.textContent = "";
+        button.disabled = true;
+        button.textContent = "Entrando";
+
+        try {
+          const session = await CBI.signIn(emailInput.value.trim(), passwordInput.value);
+          const profile = await CBI.getProfile(session);
+
+          if (!profile || profile.status !== "active") {
+            await CBI.signOut();
+            feedback.textContent = "Usuario sin acceso activo.";
+            return;
+          }
+
+          window.location.href = "./convocatorias.html";
+        } catch (error) {
+          feedback.textContent =
+            error instanceof Error ? error.message : "No se ha podido iniciar sesion.";
+        } finally {
+          button.disabled = false;
+          button.textContent = "Entrar";
+        }
+      });
+
+      redirectIfAuthenticated();
+    </script>
   </body>
 </html>
