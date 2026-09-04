@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Business Intelligence | Conasoc</title>
+    <link rel="icon" href="assets/favicon-conasoc.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        --paper: #ffffff;
+        --background: #f4f6f8;
+        --ink: #001426;
+        --ink-soft: #3d4a59;
+        --muted: #687483;
+        --brand: #315bbb;
+        --indigo: #514c9f;
+        --line: #dde4eb;
+        --hero: #edf2f8;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: 0;
+      }
+
+      button { font: inherit; }
+
+      .shell {
+        width: min(1180px, calc(100% - 64px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        min-height: 86px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+        padding: 14px 42px;
+        border-bottom: 1px solid var(--line);
+        background: var(--paper);
+      }
+
+      .brand {
+        display: grid;
+        justify-items: center;
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .brand img {
+        display: block;
+        width: 155px;
+      }
+
+      .brand span {
+        margin-top: 4px;
+        font-size: 10px;
+        font-weight: 650;
+      }
+
+      nav {
+        display: flex;
+        gap: 27px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      nav span[aria-current="page"] { color: var(--brand); }
+
+      .hero {
+        padding: 82px 0 78px;
+        background: var(--hero);
+      }
+
+      .eyebrow,
+      .section-label,
+      .panel-label {
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 920px;
+        margin: 20px 0 0;
+        font-size: 56px;
+        font-weight: 650;
+        line-height: 1.04;
+      }
+
+      .hero-copy {
+        max-width: 820px;
+        margin: 27px 0 0;
+        color: var(--ink-soft);
+        font-size: 20px;
+        line-height: 1.6;
+      }
+
+      .intelligence {
+        padding: 82px 0 88px;
+        background: var(--paper);
+      }
+
+      .intelligence-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.1fr);
+        gap: 92px;
+        align-items: start;
+      }
+
+      .intelligence h2,
+      .demo h2 {
+        margin: 17px 0 0;
+        font-size: 42px;
+        font-weight: 640;
+        line-height: 1.08;
+      }
+
+      .section-copy {
+        margin: 24px 0 0;
+        color: var(--ink-soft);
+        font-size: 18px;
+        line-height: 1.62;
+      }
+
+      .intelligence-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 1px solid var(--line);
+        border-left: 1px solid var(--line);
+      }
+
+      .intelligence-tab {
+        position: relative;
+        min-height: 88px;
+        padding: 18px;
+        border: 0;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        color: var(--ink);
+        background: var(--paper);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 720;
+        line-height: 1.3;
+        text-align: left;
+        transition: color 160ms ease, background-color 160ms ease;
+      }
+
+      .intelligence-tab::before,
+      .capability-tab::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 4px;
+        background: transparent;
+        content: "";
+      }
+
+      .intelligence-tab:hover,
+      .intelligence-tab:focus-visible,
+      .intelligence-tab[aria-selected="true"] {
+        color: var(--brand);
+        background: #f7f9fc;
+        outline: 0;
+      }
+
+      .intelligence-tab[aria-selected="true"]::before { background: var(--brand); }
+
+      .intelligence-detail {
+        min-height: 245px;
+        padding: 36px 38px;
+        border: 1px solid var(--line);
+        border-top: 0;
+      }
+
+      .intelligence-detail h3 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 640;
+        line-height: 1.16;
+      }
+
+      .intelligence-detail p {
+        margin: 18px 0 0;
+        color: var(--ink-soft);
+        font-size: 17px;
+        line-height: 1.64;
+      }
+
+      .intelligence-output {
+        display: block;
+        margin-top: 27px;
+        padding-top: 19px;
+        border-top: 1px solid var(--line);
+        color: var(--indigo);
+        font-size: 14px;
+        font-weight: 750;
+      }
+
+      .demo {
+        padding: 80px 0 86px;
+        border-top: 1px solid var(--line);
+        background: var(--background);
+      }
+
+      .demo-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(420px, 1.15fr);
+        gap: 80px;
+        align-items: end;
+        margin-bottom: 42px;
+      }
+
+      .demo-heading p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 17px;
+        line-height: 1.6;
+      }
+
+      .process {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin: 0 0 24px;
+      }
+
+      .process::before {
+        position: absolute;
+        top: 6px;
+        right: 12.5%;
+        left: 12.5%;
+        height: 1px;
+        background: #b7c2cf;
+        content: "";
+      }
+
+      .process-step {
+        position: relative;
+        padding-top: 22px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .process-step::before {
+        position: absolute;
+        top: 1px;
+        left: calc(50% - 5px);
+        width: 10px;
+        height: 10px;
+        border: 2px solid var(--brand);
+        border-radius: 50%;
+        background: var(--background);
+        content: "";
+      }
+
+      .process-step:last-child { color: var(--ink); }
+      .process-step:last-child::before { border-color: var(--indigo); background: var(--indigo); }
+
+      .cbi-tool {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        min-height: 310px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+      }
+
+      .capability-tabs {
+        display: grid;
+        align-content: start;
+        padding: 25px 20px;
+        border-right: 1px solid var(--line);
+        background: #fafbfc;
+      }
+
+      .capability-tab {
+        position: relative;
+        min-height: 72px;
+        padding: 18px 15px;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-soft);
+        background: transparent;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.3;
+        text-align: left;
+      }
+
+      .capability-tab:hover,
+      .capability-tab:focus-visible,
+      .capability-tab[aria-selected="true"] {
+        color: var(--brand);
+        background: #edf2fb;
+        outline: 0;
+      }
+
+      .capability-tab[aria-selected="true"]::before { background: var(--brand); }
+
+      .capability-detail {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 235px;
+        gap: 55px;
+        align-items: center;
+        padding: 42px 46px;
+      }
+
+      .capability-detail h3 {
+        margin: 13px 0 0;
+        font-size: 33px;
+        font-weight: 640;
+        line-height: 1.13;
+      }
+
+      .capability-detail p {
+        max-width: 620px;
+        margin: 17px 0 0;
+        color: var(--ink-soft);
+        font-size: 17px;
+        line-height: 1.6;
+      }
+
+      .result {
+        padding-left: 30px;
+        border-left: 1px solid var(--line);
+      }
+
+      .result span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .result strong {
+        display: block;
+        margin-top: 10px;
+        color: var(--indigo);
+        font-size: 20px;
+        line-height: 1.3;
+      }
+
+      .method-note {
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      footer {
+        padding: 28px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      @media (max-width: 900px) {
+        .site-header nav { display: none; }
+        .intelligence-grid,
+        .demo-heading,
+        .cbi-tool,
+        .capability-detail { grid-template-columns: 1fr; }
+        .intelligence-grid { gap: 46px; }
+        .capability-tabs { border-right: 0; border-bottom: 1px solid var(--line); }
+        .result { padding: 25px 0 0; border-top: 1px solid var(--line); border-left: 0; }
+      }
+
+      @media (max-width: 620px) {
+        .shell { width: min(100% - 32px, 560px); }
+        .site-header { padding: 12px 16px; }
+        .brand img { width: 135px; }
+        h1 { font-size: 39px; }
+        .hero { padding: 60px 0; }
+        .intelligence, .demo { padding: 62px 0; }
+        .intelligence h2, .demo h2 { font-size: 34px; }
+        .intelligence-tabs { grid-template-columns: 1fr; }
+        .process { grid-template-columns: 1fr; gap: 14px; }
+        .process::before { display: none; }
+        .process-step { padding: 0 0 0 23px; text-align: left; }
+        .process-step::before { top: 3px; left: 0; }
+        .capability-detail { padding: 32px 25px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="business-intelligence.html" aria-label="Conasoc inicio">
+        <img src="assets/logo-conasoc.png" alt="CONASOC" />
+        <span>financiación pública</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <span>Inicio</span>
+        <span>Financiación pública</span>
+        <span>Servicios Jurídicos</span>
+        <span aria-current="page">Business Intelligence</span>
+        <span>Contacto</span>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="shell">
+          <span class="eyebrow">Conasoc Business Intelligence</span>
+          <h1>Aplicamos tecnología y datos para tomar mejores decisiones sobre financiación pública.</h1>
+          <p class="hero-copy">Combinamos más de 30 años de experiencia en convocatorias con herramientas propias de análisis para interpretar mejor las oportunidades, anticipar escenarios competitivos y orientar las decisiones empresariales antes de presentar un proyecto.</p>
+        </div>
+      </section>
+
+      <section class="intelligence" aria-labelledby="intelligence-title">
+        <div class="shell intelligence-grid">
+          <div>
+            <span class="section-label">Una consultora a la vanguardia</span>
+            <h2 id="intelligence-title">El criterio experto mejora cuando dispone de mejores datos.</h2>
+            <p class="section-copy">La tecnología no sustituye nuestra experiencia: la amplía. Nos permite analizar cada convocatoria con más contexto y convertir información dispersa en una decisión empresarial comprensible.</p>
+          </div>
+
+          <div>
+            <div class="intelligence-tabs" role="tablist" aria-label="Capacidades de la consultora">
+              <button class="intelligence-tab" id="intelligence-tab-0" type="button" role="tab" aria-selected="true" aria-controls="intelligence-panel">Especialización</button>
+              <button class="intelligence-tab" id="intelligence-tab-1" type="button" role="tab" aria-selected="false" aria-controls="intelligence-panel" tabindex="-1">Tecnología aplicada</button>
+              <button class="intelligence-tab" id="intelligence-tab-2" type="button" role="tab" aria-selected="false" aria-controls="intelligence-panel" tabindex="-1">Decisiones con datos</button>
+            </div>
+            <article class="intelligence-detail" id="intelligence-panel" role="tabpanel" aria-labelledby="intelligence-tab-0">
+              <h3 id="intelligence-detail-title">Conocemos cómo se construye y se defiende un proyecto.</h3>
+              <p id="intelligence-detail-copy">Nuestra experiencia en financiación pública nos permite interpretar las bases, los criterios de valoración y el procedimiento completo de cada convocatoria antes de convertirlos en un modelo de análisis.</p>
+              <strong class="intelligence-output" id="intelligence-detail-output">Conocimiento técnico, económico y jurídico conectado.</strong>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo" aria-labelledby="demo-title">
+        <div class="shell">
+          <header class="demo-heading">
+            <div>
+              <span class="section-label">Plataforma CBI</span>
+              <h2 id="demo-title">Así convertimos una convocatoria en una lectura competitiva.</h2>
+            </div>
+            <p>CBI transforma el baremo oficial en una evaluación guiada, calcula la puntuación estimada del proyecto y la sitúa frente a una población de solicitudes probables.</p>
+          </header>
+
+          <div class="process" aria-label="Proceso de análisis CBI">
+            <div class="process-step">Convocatoria</div>
+            <div class="process-step">Proyecto</div>
+            <div class="process-step">Competencia</div>
+            <div class="process-step">Posición estimada</div>
+          </div>
+
+          <div class="cbi-tool">
+            <div class="capability-tabs" role="tablist" aria-label="Capacidades de CBI">
+              <button class="capability-tab" id="capability-tab-0" type="button" role="tab" aria-selected="true" aria-controls="capability-panel">Evaluación del proyecto</button>
+              <button class="capability-tab" id="capability-tab-1" type="button" role="tab" aria-selected="false" aria-controls="capability-panel" tabindex="-1">Competencia simulada</button>
+              <button class="capability-tab" id="capability-tab-2" type="button" role="tab" aria-selected="false" aria-controls="capability-panel" tabindex="-1">Lectura estratégica</button>
+            </div>
+
+            <article class="capability-detail" id="capability-panel" role="tabpanel" aria-labelledby="capability-tab-0">
+              <div>
+                <span class="panel-label">Evaluación específica</span>
+                <h3 id="capability-title">Una puntuación construida criterio a criterio.</h3>
+                <p id="capability-copy">El usuario responde a las variables reales de la convocatoria y CBI calcula una puntuación estimada, desglosando la contribución de cada bloque del baremo.</p>
+              </div>
+              <div class="result">
+                <span>Resultado</span>
+                <strong id="capability-result">Puntuación trazable</strong>
+              </div>
+            </article>
+          </div>
+
+          <p class="method-note">La simulación ofrece una estimación orientativa y no predice la resolución administrativa.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer><div class="shell">CONASOC · Consultoría en financiación pública y Business Intelligence</div></footer>
+
+    <script>
+      const intelligenceItems = [
+        {
+          title: "Conocemos cómo se construye y se defiende un proyecto.",
+          copy: "Nuestra experiencia en financiación pública nos permite interpretar las bases, los criterios de valoración y el procedimiento completo de cada convocatoria antes de convertirlos en un modelo de análisis.",
+          output: "Conocimiento técnico, económico y jurídico conectado."
+        },
+        {
+          title: "Convertimos las reglas de la convocatoria en herramientas útiles.",
+          copy: "Estructuramos baremos, pesos, requisitos y datos comparativos en modelos reproducibles. Así podemos probar escenarios y comprender cómo cambia la posición del proyecto cuando cambian sus variables.",
+          output: "Tecnología aplicada a preguntas empresariales concretas."
+        },
+        {
+          title: "La información se transforma en una decisión.",
+          copy: "Relacionamos la puntuación propia con el nivel competitivo esperado para identificar fortalezas, debilidades y margen de mejora antes de dedicar recursos a preparar la solicitud.",
+          output: "Más contexto para elegir, priorizar y reforzar."
+        }
+      ];
+
+      const capabilityItems = [
+        {
+          label: "Evaluación específica",
+          title: "Una puntuación construida criterio a criterio.",
+          copy: "El usuario responde a las variables reales de la convocatoria y CBI calcula una puntuación estimada, desglosando la contribución de cada bloque del baremo.",
+          result: "Puntuación trazable"
+        },
+        {
+          label: "Comparación competitiva",
+          title: "El proyecto se compara con solicitudes probables.",
+          copy: "CBI utiliza datos históricos y de referencia para modelar el escenario competitivo, al que pueden añadirse competidores conocidos para enriquecer la comparación.",
+          result: "Distribución y corte estimado"
+        },
+        {
+          label: "Decisión antes de presentar",
+          title: "La posición revela dónde merece la pena actuar.",
+          copy: "La lectura conjunta de puntuación y competencia permite localizar debilidades, entender el margen disponible y priorizar las variables que pueden reforzar el proyecto.",
+          result: "Fortalezas y margen de mejora"
+        }
+      ];
+
+      function activateTabs(selector, items, render) {
+        const tabs = [...document.querySelectorAll(selector)];
+
+        function activate(index, moveFocus = false) {
+          tabs.forEach((tab, tabIndex) => {
+            const selected = tabIndex === index;
+            tab.setAttribute("aria-selected", String(selected));
+            tab.tabIndex = selected ? 0 : -1;
+          });
+          render(items[index], tabs[index]);
+          if (moveFocus) tabs[index].focus();
+        }
+
+        tabs.forEach((tab, index) => {
+          tab.addEventListener("click", () => activate(index));
+          tab.addEventListener("mouseenter", () => activate(index));
+          tab.addEventListener("keydown", (event) => {
+            if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(event.key)) return;
+            event.preventDefault();
+            const forward = ["ArrowRight", "ArrowDown"].includes(event.key);
+            activate((index + (forward ? 1 : -1) + tabs.length) % tabs.length, true);
+          });
+        });
+
+        activate(0);
+      }
+
+      activateTabs(".intelligence-tab", intelligenceItems, (item, tab) => {
+        document.querySelector("#intelligence-panel").setAttribute("aria-labelledby", tab.id);
+        document.querySelector("#intelligence-detail-title").textContent = item.title;
+        document.querySelector("#intelligence-detail-copy").textContent = item.copy;
+        document.querySelector("#intelligence-detail-output").textContent = item.output;
+      });
+
+      activateTabs(".capability-tab", capabilityItems, (item, tab) => {
+        document.querySelector("#capability-panel").setAttribute("aria-labelledby", tab.id);
+        document.querySelector(".panel-label").textContent = item.label;
+        document.querySelector("#capability-title").textContent = item.title;
+        document.querySelector("#capability-copy").textContent = item.copy;
+        document.querySelector("#capability-result").textContent = item.result;
+      });
+    </script>
+  </body>
+</html>

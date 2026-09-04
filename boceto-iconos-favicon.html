@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Opciones de icono | Conasoc</title>
+    <style>
+      :root {
+        --paper: #fbfcfd;
+        --ink: #142033;
+        --muted: #687483;
+        --navy: #001426;
+        --blue: #315bbb;
+        --line: #e5eaf0;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      main {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 88px 0;
+      }
+
+      h1 {
+        max-width: 640px;
+        margin: 0;
+        color: var(--navy);
+        font-size: 42px;
+        font-weight: 650;
+        line-height: 1.08;
+      }
+
+      .intro {
+        max-width: 620px;
+        margin: 18px 0 46px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.55;
+      }
+
+      .options {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 1px solid var(--line);
+        border-left: 1px solid var(--line);
+      }
+
+      article {
+        min-height: 308px;
+        padding: 30px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .favicon {
+        display: grid;
+        width: 96px;
+        height: 96px;
+        place-items: center;
+        margin-bottom: 34px;
+      }
+
+      .favicon-circle {
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--navy);
+        font-size: 54px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .favicon-block {
+        color: #ffffff;
+        background: var(--blue);
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .favicon-mark {
+        gap: 9px;
+        padding: 20px;
+        background: var(--navy);
+      }
+
+      .favicon-mark span {
+        display: block;
+        width: 46px;
+        height: 7px;
+        background: #ffffff;
+      }
+
+      .favicon-mark span:nth-child(2) { width: 32px; }
+      .favicon-mark span:nth-child(3) { width: 18px; background: var(--blue); }
+
+      h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 20px;
+        font-weight: 650;
+      }
+
+      article p {
+        margin: 11px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 700px) {
+        main { padding: 50px 0; }
+        h1 { font-size: 34px; }
+        .options { grid-template-columns: 1fr; }
+        article { min-height: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Opciones para el icono de pestaña.</h1>
+      <p class="intro">Diseñadas para leerse con claridad en los 16 píxeles de una pestaña, sin intentar reducir el logotipo completo.</p>
+      <section class="options" aria-label="Opciones de favicon">
+        <article>
+          <div class="favicon favicon-circle" aria-hidden="true">C</div>
+          <h2>Monograma circular</h2>
+          <p>La opción más sobria y fácilmente reconocible. Es mi recomendación.</p>
+        </article>
+        <article>
+          <div class="favicon favicon-block" aria-hidden="true">C</div>
+          <h2>Inicial en bloque</h2>
+          <p>Más directa y contemporánea; destaca con algo más de color.</p>
+        </article>
+        <article>
+          <div class="favicon favicon-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <h2>Marca de criterio</h2>
+          <p>Un símbolo abstracto, pensado para transmitir análisis y estructura.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

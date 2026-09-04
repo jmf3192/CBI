@@ -26,9 +26,9 @@ Mensaje central:
 
 ## Arquitectura propuesta
 
-- Inicio: promesa principal, quiénes somos, financiación y consultoría, proceso y acceso discreto a Probono.
+- Inicio: promesa principal, quiénes somos, financiación y método de trabajo.
 - Servicios jurídicos: página independiente para reclamaciones, recursos, justificación y contratación pública.
-- Probono: página independiente para la revisión inicial de startups y emprendedores.
+- Business Intelligence: análisis competitivo de convocatorias y optimización de proyectos de innovación e inversión.
 - Contacto: página independiente con teléfono, correos, dirección y datos útiles para una primera revisión.
 - Legal: aviso legal, política de privacidad y política de cookies enlazadas desde el pie.
 - CBI: pestaña propia para el área privada de business intelligence, sin bloque promocional en la home.
@@ -42,7 +42,7 @@ Estado aplicado en esta primera versión:
 - Se crea ruta `/cbi`.
 - Se copian las pantallas estáticas actuales a `cbi/interfaces/`.
 - La home mantiene CBI solo como pestaña de navegación, sin bloque destacado ni reclamo comercial.
-- Probono, contacto y servicios jurídicos viven como páginas independientes.
+- Business Intelligence, contacto y servicios jurídicos viven como páginas independientes.
 - El sitio queda preparado como HTML/CSS estático para publicarse en GitHub Pages.
 
 Siguiente fase técnica:

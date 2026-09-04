@@ -7,7 +7,7 @@ Web estática de Conasoc preparada para publicarse en GitHub Pages.
 ```text
 index.html
 juridicos.html
-probono.html
+business-intelligence.html
 contacto.html
 alternativas-inicio.html
 aviso-legal.html
@@ -48,9 +48,9 @@ La documentación técnica, migraciones y datos de apoyo del proyecto CBI se con
 
 ## Páginas
 
-- `index.html`: inicio, financiación y consultoría, proceso y acceso a Probono.
+- `index.html`: inicio, quiénes somos, áreas de trabajo y método.
 - `juridicos.html`: servicios jurídicos.
-- `probono.html`: orientación inicial para startups y emprendedores.
+- `business-intelligence.html`: análisis competitivo de convocatorias y optimización de proyectos de innovación e inversión.
 - `contacto.html`: datos de contacto y primera revisión.
 - `alternativas-inicio.html`: laboratorio de alternativas narrativas y visuales para la página de inicio.
 - `aviso-legal.html`: información legal del titular y condiciones de uso.

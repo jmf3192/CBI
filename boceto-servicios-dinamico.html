@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boceto de servicios dinámicos | Conasoc</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --background: #fbfcfd;
+        --paper: #ffffff;
+        --navy: #02334d;
+        --ink: #142033;
+        --muted: #556a7a;
+        --blue: #315bbb;
+        --indigo: #514c9f;
+        --line: #d9e1e9;
+        --line-soft: #e9edf2;
+        --shadow: 0 18px 44px rgba(2, 51, 77, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--ink);
+        font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        letter-spacing: 0;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .services-demo {
+        min-height: 100vh;
+        padding: 62px 0 82px;
+      }
+
+      .inner {
+        width: min(1440px, calc(100% - 64px));
+        margin: 0 auto;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        gap: 56px;
+        align-items: start;
+      }
+
+      .section-label {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-top: 13px;
+        color: var(--blue);
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .section-label::before {
+        width: 38px;
+        height: 2px;
+        background: var(--blue);
+        content: "";
+      }
+
+      h1 {
+        max-width: 1040px;
+        margin: 0;
+        color: var(--navy);
+        font-size: 56px;
+        font-weight: 650;
+        line-height: 1.06;
+      }
+
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 48px;
+      }
+
+      .service {
+        position: relative;
+        min-height: 206px;
+        padding: 27px 26px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-top: 4px solid var(--service-color, var(--blue));
+        border-radius: 6px;
+        background: var(--paper);
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .service:nth-child(1) {
+        --service-color: var(--navy);
+      }
+
+      .service:nth-child(2) {
+        --service-color: var(--blue);
+      }
+
+      .service:nth-child(3) {
+        --service-color: var(--indigo);
+      }
+
+      .service:nth-child(4) {
+        --service-color: var(--blue);
+      }
+
+      .service:hover,
+      .service:focus-within {
+        transform: translateY(-6px);
+        border-color: var(--service-color);
+        box-shadow: var(--shadow);
+      }
+
+      .service h2 {
+        margin: 0 0 16px;
+        color: var(--navy);
+        font-size: 23px;
+        font-weight: 700;
+        line-height: 1.18;
+      }
+
+      .service p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .process-panel {
+        margin-top: 52px;
+        padding: 32px 30px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: var(--paper);
+      }
+
+      .process-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .process-heading h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 25px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .process-heading span {
+        color: var(--indigo);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .phase-track {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        margin: 44px 0 0;
+        padding: 0 0 188px;
+        list-style: none;
+      }
+
+      .phase-track::before {
+        position: absolute;
+        top: 21px;
+        right: calc(6.25% - 21px);
+        left: calc(6.25% - 21px);
+        height: 1px;
+        background: var(--line);
+        content: "";
+      }
+
+      .phase {
+        position: relative;
+        min-width: 0;
+      }
+
+      .phase-button {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+        padding: 0 5px;
+        border: 0;
+        background: transparent;
+        color: var(--navy);
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .phase-node {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--phase-color, var(--blue));
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--phase-color, var(--blue));
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1;
+        transition:
+          transform 180ms ease,
+          background-color 180ms ease,
+          color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .phase:nth-child(3n + 1) {
+        --phase-color: var(--navy);
+      }
+
+      .phase:nth-child(3n + 2) {
+        --phase-color: var(--blue);
+      }
+
+      .phase:nth-child(3n) {
+        --phase-color: var(--indigo);
+      }
+
+      .phase-name {
+        max-width: 132px;
+        min-height: 38px;
+        color: var(--navy);
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .phase-detail {
+        position: absolute;
+        z-index: 4;
+        top: 88px;
+        left: 50%;
+        width: 260px;
+        min-height: 128px;
+        padding: 20px;
+        border-radius: 6px;
+        background: var(--navy);
+        color: #ffffff;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        visibility: hidden;
+        transform: translate(-50%, 10px) scale(0.94);
+        transform-origin: top center;
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease,
+          visibility 180ms ease;
+      }
+
+      .phase:first-child .phase-detail {
+        left: 0;
+        transform: translate(0, 10px) scale(0.94);
+        transform-origin: top left;
+      }
+
+      .phase:last-child .phase-detail {
+        right: 0;
+        left: auto;
+        transform: translate(0, 10px) scale(0.94);
+        transform-origin: top right;
+      }
+
+      .phase:hover .phase-node,
+      .phase:focus-within .phase-node,
+      .phase.is-active .phase-node {
+        transform: scale(1.16);
+        background: var(--phase-color);
+        color: #ffffff;
+        box-shadow: 0 0 0 7px rgba(49, 91, 187, 0.1);
+      }
+
+      .phase:hover .phase-detail,
+      .phase:focus-within .phase-detail,
+      .phase.is-active .phase-detail {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, 0) scale(1);
+      }
+
+      .phase:first-child:hover .phase-detail,
+      .phase:first-child:focus-within .phase-detail,
+      .phase:first-child.is-active .phase-detail,
+      .phase:last-child:hover .phase-detail,
+      .phase:last-child:focus-within .phase-detail,
+      .phase:last-child.is-active .phase-detail {
+        transform: translate(0, 0) scale(1);
+      }
+
+      .phase-detail strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #ffffff;
+        font-size: 17px;
+        line-height: 1.25;
+      }
+
+      .phase-detail p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .phase-button:focus-visible {
+        outline: none;
+      }
+
+      .phase-button:focus-visible .phase-node {
+        box-shadow:
+          0 0 0 6px rgba(49, 91, 187, 0.1),
+          0 0 0 8px rgba(49, 91, 187, 0.52);
+      }
+
+      @media (max-width: 1050px) {
+        .inner {
+          width: min(100% - 40px, 900px);
+        }
+
+        .section-heading {
+          grid-template-columns: 1fr;
+          gap: 22px;
+        }
+
+        h1 {
+          font-size: 44px;
+        }
+
+        .service-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .phase-track {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 210px 0;
+          padding-bottom: 170px;
+        }
+
+        .phase-track::before {
+          right: calc(12.5% - 21px);
+          left: calc(12.5% - 21px);
+        }
+
+        .phase:nth-child(4)::after {
+          position: absolute;
+          top: 21px;
+          left: calc(50% + 21px);
+          width: 50%;
+          height: 210px;
+          border-top: 1px solid var(--line);
+          border-right: 1px solid var(--line);
+          content: "";
+        }
+
+        .phase:nth-child(5)::before {
+          position: absolute;
+          top: -189px;
+          left: 0;
+          width: 50%;
+          height: 210px;
+          border-bottom: 1px solid var(--line);
+          border-left: 1px solid var(--line);
+          content: "";
+        }
+      }
+
+      @media (max-width: 680px) {
+        .services-demo {
+          padding: 42px 0 60px;
+        }
+
+        .inner {
+          width: min(100% - 28px, 620px);
+        }
+
+        h1 {
+          font-size: 36px;
+        }
+
+        .service-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .service {
+          min-height: 0;
+        }
+
+        .process-panel {
+          padding: 28px 20px;
+        }
+
+        .process-heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .phase-track {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 0;
+          margin-top: 28px;
+          padding: 0;
+        }
+
+        .phase-track::before {
+          top: 21px;
+          right: auto;
+          bottom: 21px;
+          left: 20px;
+          width: 1px;
+          height: auto;
+        }
+
+        .phase {
+          display: grid;
+          grid-template-columns: 42px minmax(0, 1fr);
+          column-gap: 15px;
+          padding-bottom: 20px;
+        }
+
+        .phase:nth-child(4)::after,
+        .phase:nth-child(5)::before {
+          display: none;
+        }
+
+        .phase-button {
+          grid-column: 1 / -1;
+          grid-template-columns: 42px minmax(0, 1fr);
+          justify-items: start;
+          gap: 15px;
+          padding: 0;
+          text-align: left;
+        }
+
+        .phase-name {
+          max-width: none;
+          min-height: 0;
+          padding-top: 11px;
+        }
+
+        .phase-detail,
+        .phase:first-child .phase-detail,
+        .phase:last-child .phase-detail {
+          position: static;
+          grid-column: 2;
+          width: auto;
+          min-height: 0;
+          max-height: 0;
+          margin-top: 0;
+          padding: 0 18px;
+          overflow: hidden;
+          opacity: 0;
+          visibility: hidden;
+          transform: none;
+          transition:
+            max-height 220ms ease,
+            margin-top 220ms ease,
+            padding 220ms ease,
+            opacity 180ms ease,
+            visibility 180ms ease;
+        }
+
+        .phase:hover .phase-detail,
+        .phase:focus-within .phase-detail,
+        .phase.is-active .phase-detail,
+        .phase:first-child:hover .phase-detail,
+        .phase:first-child:focus-within .phase-detail,
+        .phase:first-child.is-active .phase-detail,
+        .phase:last-child:hover .phase-detail,
+        .phase:last-child:focus-within .phase-detail,
+        .phase:last-child.is-active .phase-detail {
+          max-height: 180px;
+          margin-top: 12px;
+          padding: 18px;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="services-demo">
+      <div class="inner">
+        <header class="section-heading">
+          <span class="section-label">Servicios</span>
+          <h1>Financiación pública, innovación y defensa para llevar cada proyecto hasta el final.</h1>
+        </header>
+
+        <section class="service-grid" aria-label="Servicios de Conasoc">
+          <article class="service">
+            <h2>Financiación pública</h2>
+            <p>Ayudas para nuevas empresas, ampliación de centros productivos, renovación de activos y proyectos de inversión.</p>
+          </article>
+          <article class="service">
+            <h2>Deducciones e I+D+i</h2>
+            <p>Preparación de deducciones, informes técnicos y expedientes de innovación con soporte documental.</p>
+          </article>
+          <article class="service">
+            <h2>Licitaciones e internacionalización</h2>
+            <p>Análisis de oportunidades, documentación y defensa procesal en contratación pública o proyectos en el exterior.</p>
+          </article>
+          <article class="service">
+            <h2>Servicios jurídicos</h2>
+            <p>Recursos, reclamaciones y asesoramiento legal durante solicitud, concesión, ejecución o justificación.</p>
+          </article>
+        </section>
+
+        <section class="process-panel" aria-labelledby="process-title">
+          <header class="process-heading">
+            <h2 id="process-title">Un proceso completo, de principio a fin</h2>
+            <span>8 fases</span>
+          </header>
+
+          <ol class="phase-track">
+            <li class="phase is-active">
+              <button class="phase-button" type="button" aria-expanded="true" aria-controls="phase-detail-1">
+                <span class="phase-node">01</span>
+                <span class="phase-name">Reunión inicial</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-1">
+                <strong>Reunión inicial</strong>
+                <p>Definimos la inversión, el calendario, los objetivos y el alcance real del proyecto.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-2">
+                <span class="phase-node">02</span>
+                <span class="phase-name">Búsqueda</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-2">
+                <strong>Búsqueda</strong>
+                <p>Filtramos las ayudas disponibles y priorizamos las que ofrecen un encaje competitivo.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-3">
+                <span class="phase-node">03</span>
+                <span class="phase-name">Preparación</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-3">
+                <strong>Preparación</strong>
+                <p>Construimos la memoria y ordenamos la información técnica, económica y administrativa.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-4">
+                <span class="phase-node">04</span>
+                <span class="phase-name">Presentación</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-4">
+                <strong>Presentación</strong>
+                <p>Registramos la solicitud, controlamos los plazos y respondemos a las subsanaciones.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-5">
+                <span class="phase-node">05</span>
+                <span class="phase-name">Resolución</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-5">
+                <strong>Resolución</strong>
+                <p>Revisamos la concesión, sus condiciones y los compromisos que asume la empresa.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-6">
+                <span class="phase-node">06</span>
+                <span class="phase-name">Ejecución</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-6">
+                <strong>Ejecución</strong>
+                <p>Monitorizamos hitos, gastos, proveedores y cambios para proteger la ayuda concedida.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-7">
+                <span class="phase-node">07</span>
+                <span class="phase-name">Justificación</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-7">
+                <strong>Justificación</strong>
+                <p>Preparamos la memoria técnica y la cuenta económica con toda la trazabilidad documental.</p>
+              </article>
+            </li>
+            <li class="phase">
+              <button class="phase-button" type="button" aria-expanded="false" aria-controls="phase-detail-8">
+                <span class="phase-node">08</span>
+                <span class="phase-name">Cobro y cierre</span>
+              </button>
+              <article class="phase-detail" id="phase-detail-8">
+                <strong>Cobro y cierre</strong>
+                <p>Atendemos la revisión final y acompañamos el expediente hasta el cobro de la ayuda.</p>
+              </article>
+            </li>
+          </ol>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const phases = Array.from(document.querySelectorAll(".phase"));
+
+      function activatePhase(selectedPhase) {
+        phases.forEach((phase) => {
+          const isSelected = phase === selectedPhase;
+          phase.classList.toggle("is-active", isSelected);
+          phase.querySelector("button").setAttribute("aria-expanded", String(isSelected));
+        });
+      }
+
+      phases.forEach((phase, index) => {
+        const button = phase.querySelector("button");
+
+        phase.addEventListener("mouseenter", () => activatePhase(phase));
+        button.addEventListener("focus", () => activatePhase(phase));
+        button.addEventListener("click", () => activatePhase(phase));
+        button.addEventListener("keydown", (event) => {
+          if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(event.key)) return;
+
+          event.preventDefault();
+          const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+          const nextIndex = (index + direction + phases.length) % phases.length;
+          phases[nextIndex].querySelector("button").focus();
+        });
+      });
+    </script>
+  </body>
+</html>

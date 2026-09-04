@@ -8,7 +8,7 @@
       name="description"
       content="Servicios jurídicos para reclamación, recurso y defensa de ayudas públicas."
     />
-    <link rel="icon" href="assets/logo-conasoc.png" />
+    <link rel="icon" href="assets/favicon-conasoc.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -21,7 +21,7 @@
         <a href="index.html">Inicio</a>
         <a href="index.html#financiacion">Financiación pública</a>
         <a href="juridicos.html" aria-current="page">Servicios Jurídicos</a>
-        <a href="probono.html">Probono</a>
+        <a href="business-intelligence.html">Business Intelligence</a>
         <a href="contacto.html">Contacto</a>
       </nav>
       <div class="header-actions">
@@ -29,68 +29,59 @@
       </div>
     </header>
 
-    <main>
-      <section class="page-hero section-band">
-        <div class="section-inner two-column">
-          <div class="section-kicker">Servicios Jurídicos</div>
+    <main class="legal-page">
+      <section class="legal-hero section-band">
+        <div class="section-inner legal-hero-inner">
           <div>
-            <h1>Defensa jurídica vinculada a ayudas públicas.</h1>
-            <p class="lead">
-              Acompañamos expedientes cuando una denegación, una subsanación,
-              una justificación o una reclamación exige criterio jurídico y
-              experiencia administrativa.
-            </p>
+            <h1>Especialistas en defensa administrativa y judicial de subvenciones y financiación pública.</h1>
           </div>
+          <p>
+            Somos especialistas en la gestión, reclamación y defensa de asuntos
+            legales vinculados a ayudas públicas y subvenciones.
+          </p>
         </div>
       </section>
 
-      <section class="page-content section-band">
-        <div class="section-inner service-list">
-          <article>
-            <h3>Reclamaciones y recursos</h3>
-            <p>
-              Análisis de denegaciones, preparación de recursos y respuesta a
-              criterios administrativos que puedan perjudicar al solicitante.
-            </p>
-          </article>
-          <article>
-            <h3>Defensa durante el procedimiento</h3>
-            <p>
-              Soporte legal en fases de solicitud, concesión, subsanación,
-              ejecución, verificación o reintegro.
-            </p>
-          </article>
-          <article>
-            <h3>Justificación de ayudas</h3>
-            <p>
-              Revisión documental, trazabilidad de gastos, control de plazos y
-              preparación de argumentos ante incidencias.
-            </p>
-          </article>
-          <article>
-            <h3>Contratación pública</h3>
-            <p>
-              Gestión procesal y documental en licitaciones, aclaraciones,
-              alegaciones y defensa de posiciones.
-            </p>
+      <section class="legal-services section-band" aria-labelledby="legal-services-title">
+        <div class="section-inner">
+          <h2 class="sr-only" id="legal-services-title">Servicios jurídicos especializados</h2>
+          <div class="legal-service-tabs" role="tablist" aria-label="Servicios jurídicos">
+            <button class="legal-service-tab" id="legal-service-tab-0" type="button" role="tab" aria-selected="true" aria-controls="legal-service-panel">Recursos y alegaciones</button>
+            <button class="legal-service-tab" id="legal-service-tab-1" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Solicitud y concesión</button>
+            <button class="legal-service-tab" id="legal-service-tab-2" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Defensa judicial</button>
+            <button class="legal-service-tab" id="legal-service-tab-3" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Justificación de ayudas</button>
+            <button class="legal-service-tab" id="legal-service-tab-4" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Asesoramiento jurídico</button>
+          </div>
+
+          <article class="legal-service-detail" id="legal-service-panel" role="tabpanel" aria-labelledby="legal-service-tab-0">
+            <h3 id="legal-service-title">Recursos y alegaciones ante denegaciones e inadmisiones.</h3>
+            <div class="legal-service-content">
+              <p id="legal-service-summary">Estudiamos las resoluciones desfavorables y el expediente de ayuda para formular los recursos y alegaciones que correspondan ante la Administración.</p>
+              <ul id="legal-service-list">
+                <li>Revisión de las resoluciones de denegación e inadmisión y de los motivos que las sustentan.</li>
+                <li>Preparación de recursos y alegaciones vinculados al expediente y a la normativa aplicable.</li>
+                <li>Defensa de los intereses del solicitante ante el órgano competente.</li>
+              </ul>
+            </div>
           </article>
         </div>
       </section>
 
-      <section class="cta-strip section-band">
-        <div class="section-inner cta-row">
-          <p>Si el expediente ya está en marcha, conviene revisar plazos y documentación cuanto antes.</p>
-          <a class="text-link" href="contacto.html">Contacto</a>
+      <section class="legal-specialism section-band">
+        <div class="section-inner legal-specialism-inner">
+          <p>
+            Somos el único despacho especializado en fondos europeos y financiación pública a nivel nacional, con experiencia en todo tipo de procedimientos, tanto en vía administrativa como contencioso-administrativa.
+          </p>
         </div>
       </section>
+
     </main>
 
     <footer class="site-footer">
       <div class="section-inner footer-inner">
         <img src="assets/logo-conasoc.png" alt="CONASOC" />
         <p>
-          © 2026 Apoyo e Iniciativas Empresariales S.L. Consultores Asociados
-          de Andalucía S.L.
+          © 2026 Consultores Asociados de Andalucía S.L.
         </p>
         <nav aria-label="Pie de página">
           <a href="index.html">Inicio</a>
@@ -101,5 +92,102 @@
         </nav>
       </div>
     </footer>
+
+    <script>
+      const legalServices = [
+        {
+          title: "Recursos y alegaciones ante denegaciones e inadmisiones.",
+          summary: "Estudiamos las resoluciones desfavorables y el expediente de ayuda para formular los recursos y alegaciones que correspondan ante la Administración.",
+          items: [
+            "Revisión de las resoluciones de denegación e inadmisión y de los motivos que las sustentan.",
+            "Preparación de recursos y alegaciones vinculados al expediente y a la normativa aplicable.",
+            "Defensa de los intereses del solicitante ante el órgano competente."
+          ]
+        },
+        {
+          title: "Defensa durante la solicitud y concesión.",
+          summary: "Intervenimos durante la tramitación cuando una actuación de la Administración puede condicionar el acceso a la ayuda o su correcta concesión.",
+          items: [
+            "Revisión de requerimientos, trámites de audiencia y otras actuaciones administrativas.",
+            "Elaboración de alegaciones para sostener correctamente la tramitación del expediente.",
+            "Recursos frente a excesos de la Administración durante la solicitud y la concesión."
+          ]
+        },
+        {
+          title: "Defensa judicial de ayudas públicas.",
+          summary: "Asumimos la representación y defensa cuando la controversia sobre una ayuda pública llega a la vía judicial, partiendo del análisis completo del expediente.",
+          items: [
+            "Estudio jurídico de la controversia y de la documentación administrativa disponible.",
+            "Representación y defensa en caso de reclamaciones judiciales vinculadas a la ayuda.",
+            "Seguimiento de la defensa hasta la resolución del asunto."
+          ]
+        },
+        {
+          title: "Gestión jurídica en la justificación de ayudas.",
+          summary: "Acompañamos los expedientes que se encuentran en fase de justificación para afrontar las cuestiones jurídicas que puedan surgir ante la Administración.",
+          items: [
+            "Revisión de incidencias jurídicas relacionadas con la justificación de la ayuda.",
+            "Preparación de respuestas y alegaciones ante requerimientos que afecten al expediente.",
+            "Apoyo en la defensa de la correcta aplicación de la ayuda concedida."
+          ]
+        },
+        {
+          title: "Asesoramiento legal durante todo el procedimiento.",
+          summary: "Aportamos una visión jurídica especializada en subvenciones y financiación pública durante todas las fases de la ayuda.",
+          items: [
+            "Acompañamiento en las fases de solicitud y concesión.",
+            "Apoyo legal durante la ejecución, la justificación y el cierre del expediente.",
+            "Criterio especializado para anticipar incidencias y tomar decisiones con respaldo jurídico."
+          ]
+        }
+      ];
+
+      const legalServiceTabs = [...document.querySelectorAll(".legal-service-tab")];
+      const legalServiceTitle = document.querySelector("#legal-service-title");
+      const legalServiceSummary = document.querySelector("#legal-service-summary");
+      const legalServiceList = document.querySelector("#legal-service-list");
+      const legalServicePanel = document.querySelector("#legal-service-panel");
+
+      function selectLegalService(index, moveFocus = false) {
+        const service = legalServices[index];
+
+        legalServiceTabs.forEach((tab, tabIndex) => {
+          const selected = tabIndex === index;
+          tab.setAttribute("aria-selected", String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+        });
+
+        legalServicePanel.setAttribute("aria-labelledby", legalServiceTabs[index].id);
+        legalServiceTitle.textContent = service.title;
+        legalServiceSummary.textContent = service.summary;
+        legalServiceList.replaceChildren(
+          ...service.items.map((item) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = item;
+            return listItem;
+          })
+        );
+
+        if (moveFocus) legalServiceTabs[index].focus();
+      }
+
+      legalServiceTabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => selectLegalService(index));
+        tab.addEventListener("mouseenter", () => selectLegalService(index));
+        tab.addEventListener("keydown", (event) => {
+          if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+
+          event.preventDefault();
+          const nextIndex = event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? legalServiceTabs.length - 1
+              : (index + (event.key === "ArrowRight" ? 1 : -1) + legalServiceTabs.length) % legalServiceTabs.length;
+          selectLegalService(nextIndex, true);
+        });
+      });
+
+      selectLegalService(0);
+    </script>
   </body>
 </html>

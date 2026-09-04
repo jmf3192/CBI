@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Opciones Business Intelligence | Conasoc</title>
+    <link rel="icon" href="assets/favicon-conasoc.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        --paper: #ffffff;
+        --background: #f5f7f9;
+        --ink: #001426;
+        --soft: #526173;
+        --blue: #315bbb;
+        --line: #dce3ea;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--ink);
+        font-family: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: 0;
+      }
+
+      header {
+        width: min(1380px, calc(100% - 64px));
+        margin: 0 auto;
+        padding: 55px 0 38px;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: 46px;
+        font-weight: 650;
+        line-height: 1.08;
+      }
+
+      header p {
+        max-width: 720px;
+        margin: 18px 0 0;
+        color: var(--soft);
+        font-size: 17px;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(1380px, calc(100% - 64px));
+        margin: 0 auto;
+        padding-bottom: 72px;
+      }
+
+      article {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+        gap: 0;
+        margin-top: 24px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+      }
+
+      .preview {
+        min-width: 0;
+        border-right: 1px solid var(--line);
+        background: #eef1f5;
+      }
+
+      .preview img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 34px;
+        padding: 34px;
+      }
+
+      .number {
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      h2 {
+        margin: 14px 0 0;
+        font-size: 28px;
+        font-weight: 650;
+        line-height: 1.12;
+      }
+
+      .copy p {
+        margin: 15px 0 0;
+        color: var(--soft);
+        font-size: 15px;
+        line-height: 1.58;
+      }
+
+      a {
+        align-self: flex-start;
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 18px;
+        color: #ffffff;
+        background: var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus-visible {
+        background: var(--blue);
+        outline: none;
+      }
+
+      @media (max-width: 850px) {
+        header,
+        main { width: min(100% - 32px, 680px); }
+        h1 { font-size: 36px; }
+        article { grid-template-columns: 1fr; }
+        .preview { border-right: 0; border-bottom: 1px solid var(--line); }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Tres formas de presentar CBI.</h1>
+      <p>Las tres propuestas comparten el mismo contenido. Cambia la manera de explicar la evaluación, la competencia simulada y la posición estimada del proyecto.</p>
+    </header>
+    <main>
+      <article>
+        <div class="preview"><img src="assets/boceto-bi-panel.png" alt="Vista previa del panel editorial" /></div>
+        <div class="copy">
+          <div><span class="number">OPCIÓN A</span><h2>Panel editorial</h2><p>La alternativa más sobria. Organiza las capacidades de CBI en un selector interactivo y mantiene el discurso comercial en primer plano.</p></div>
+          <a href="boceto-bi-panel-v2.html">Abrir versión interactiva</a>
+        </div>
+      </article>
+      <article>
+        <div class="preview"><img src="assets/boceto-bi-posicion.png" alt="Vista previa de la posición competitiva" /></div>
+        <div class="copy">
+          <div><span class="number">OPCIÓN B</span><h2>Posición competitiva</h2><p>La alternativa más diferencial. El protagonista es el lugar del proyecto dentro de una distribución de solicitudes probables.</p></div>
+          <a href="boceto-bi-posicion-v2.html">Abrir versión interactiva</a>
+        </div>
+      </article>
+      <article>
+        <div class="preview"><img src="assets/boceto-bi-recorrido.png" alt="Vista previa del recorrido guiado" /></div>
+        <div class="copy">
+          <div><span class="number">OPCIÓN C</span><h2>Recorrido guiado</h2><p>La alternativa más explicativa. Muestra cómo CBI avanza desde las bases de la convocatoria hasta una posición competitiva estimada.</p></div>
+          <a href="boceto-bi-recorrido.html">Abrir versión interactiva</a>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

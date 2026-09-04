@@ -36,3 +36,5 @@ El frontend publico usa la publishable key de Supabase y todas las lecturas/escr
 No hay recuperacion automatica de acceso. Los usuarios y cambios de contrasena se gestionaran por administradores o desde Codex/Supabase.
 
 La Edge Function `admin-users` centraliza las operaciones sensibles del panel de control. Solo responde si la peticion incluye una sesion valida de un perfil `admin` activo.
+
+La Edge Function publica `contact-form` recibe las consultas de `contacto.html`, valida los campos y las reenvia a Make. Su variable secreta `CONTACT_MAKE_WEBHOOK` se configura solo en Supabase y nunca se incluye en el repositorio ni en el navegador.

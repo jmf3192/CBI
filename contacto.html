@@ -8,7 +8,7 @@
       name="description"
       content="Contacto de Conasoc para consultas sobre subvenciones, financiación pública y servicios jurídicos."
     />
-    <link rel="icon" href="assets/logo-conasoc.png" />
+    <link rel="icon" href="assets/favicon-conasoc.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -21,7 +21,7 @@
         <a href="index.html">Inicio</a>
         <a href="index.html#financiacion">Financiación pública</a>
         <a href="juridicos.html">Servicios Jurídicos</a>
-        <a href="probono.html">Probono</a>
+        <a href="business-intelligence.html">Business Intelligence</a>
         <a href="contacto.html" aria-current="page">Contacto</a>
       </nav>
       <div class="header-actions">
@@ -30,39 +30,54 @@
     </header>
 
     <main>
-      <section class="page-hero section-band">
-        <div class="section-inner two-column">
-          <div class="section-kicker">Contacto</div>
-          <div>
-            <h1>Contacto con Conasoc.</h1>
-            <p class="lead">
-              Cuanto antes entendamos la situación, mejor podremos valorar
-              convocatorias, plazos, documentación y riesgos.
-            </p>
-          </div>
+      <section class="contact-hero section-band">
+        <div class="section-inner">
+          <h1>Hablemos de tu proyecto.</h1>
+          <p>Cuéntanos brevemente qué necesitas y nos pondremos en contacto contigo.</p>
         </div>
       </section>
 
       <section class="contact-page section-band">
         <div class="section-inner contact-grid">
-          <address class="contact-card">
-            <span>Teléfono</span>
-            <a href="tel:+34638841238">(+34) 638 84 12 38</a>
-            <span>Correo</span>
-            <a href="mailto:con-asoc@con-asociados.com">con-asoc@con-asociados.com</a>
-            <a href="mailto:jorgemoreno@con-asociados.com">jorgemoreno@con-asociados.com</a>
-            <span>Dirección</span>
-            <p>C. Santo Domingo, 12. 11500 El Puerto de Sta María, Cádiz</p>
-          </address>
-          <div class="contact-note">
-            <span class="section-kicker">Primera revisión</span>
-            <h2>Información útil para una primera revisión</h2>
-            <ul class="plain-list">
-              <li>Descripción corta de la empresa y el proyecto.</li>
-              <li>Importe aproximado de inversión o gasto previsto.</li>
-              <li>Calendario esperado de ejecución.</li>
-              <li>Ayuda o convocatoria concreta, si ya existe.</li>
-            </ul>
+          <form class="contact-form" id="contact-form">
+            <h2>Escríbenos</h2>
+            <div class="contact-form-grid">
+              <label>
+                <span>Nombre</span>
+                <input type="text" name="nombre" autocomplete="name" required />
+              </label>
+              <label>
+                <span>Empresa</span>
+                <input type="text" name="empresa" autocomplete="organization" required />
+              </label>
+            </div>
+            <label>
+              <span>Correo electrónico</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              <span>Mensaje</span>
+              <textarea name="mensaje" rows="6" required></textarea>
+            </label>
+            <label class="contact-honeypot" aria-hidden="true">
+              <span>Sitio web</span>
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </label>
+            <label class="contact-consent">
+              <input type="checkbox" name="privacidad" value="aceptada" required />
+              <span>He leído y acepto la <a href="politica-privacidad.html">política de privacidad</a>.</span>
+            </label>
+            <div class="contact-form-actions">
+              <button type="submit">Enviar consulta</button>
+              <p class="contact-form-status" id="contact-form-status" aria-live="polite"></p>
+            </div>
+          </form>
+
+          <div class="contact-intro">
+            <h2>O mándanos un email.</h2>
+            <address class="contact-details">
+              <a href="mailto:con-asoc@con-asociados.com">con-asoc@con-asociados.com</a>
+            </address>
           </div>
         </div>
       </section>
@@ -72,8 +87,7 @@
       <div class="section-inner footer-inner">
         <img src="assets/logo-conasoc.png" alt="CONASOC" />
         <p>
-          © 2026 Apoyo e Iniciativas Empresariales S.L. Consultores Asociados
-          de Andalucía S.L.
+          © 2026 Consultores Asociados de Andalucía S.L.
         </p>
         <nav aria-label="Pie de página">
           <a href="index.html">Inicio</a>
@@ -84,5 +98,37 @@
         </nav>
       </div>
     </footer>
+    <script>
+      const contactForm = document.querySelector("#contact-form");
+      const contactStatus = document.querySelector("#contact-form-status");
+      const contactButton = contactForm.querySelector('button[type="submit"]');
+
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(contactForm);
+        if (formData.get("website")) return;
+
+        const payload = Object.fromEntries(formData.entries());
+        payload.pagina = window.location.href;
+        contactButton.disabled = true;
+        contactStatus.textContent = "Enviando consulta...";
+
+        try {
+          const response = await fetch("https://wtiugprfadlwfpmfnvhe.supabase.co/functions/v1/contact-form", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!response.ok) throw new Error("No se pudo enviar el formulario");
+          contactForm.reset();
+          contactStatus.textContent = "Consulta enviada correctamente. Nos pondremos en contacto contigo.";
+        } catch (error) {
+          contactStatus.textContent = "No hemos podido enviar la consulta. Escríbenos a con-asoc@con-asociados.com.";
+        } finally {
+          contactButton.disabled = false;
+        }
+      });
+    </script>
   </body>
 </html>

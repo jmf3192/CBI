@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boceto Servicios Jurídicos | Conasoc</title>
+    <link rel="icon" href="assets/favicon-conasoc.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        --panel-paper: #fbfcfd;
+        --panel-white: #ffffff;
+        --panel-ink: #142033;
+        --panel-ink-strong: #001426;
+        --panel-brand: #315bbb;
+        --panel-indigo: #514c9f;
+        --panel-body: #3d4a59;
+        --panel-line: #e5eaf0;
+      }
+
+      .legal-panel-draft {
+        background: var(--panel-paper);
+        padding: 46px 0 88px;
+      }
+
+      .legal-panel-shell {
+        width: min(1180px, calc(100% - 64px));
+        margin: 0 auto;
+      }
+
+      .legal-panel-intro {
+        padding: 52px 52px 55px;
+        color: var(--panel-white);
+        background: var(--panel-brand);
+      }
+
+      .legal-panel-intro h1 {
+        max-width: 820px;
+        margin: 0;
+        color: inherit;
+        font-size: 48px;
+        font-weight: 650;
+        letter-spacing: 0;
+        line-height: 1.1;
+      }
+
+      .legal-panel-tabs {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-left: 1px solid var(--panel-line);
+        background: var(--panel-white);
+      }
+
+      .legal-panel-tab {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        min-height: 92px;
+        padding: 18px 16px;
+        border: 0;
+        border-right: 1px solid var(--panel-line);
+        border-bottom: 1px solid var(--panel-line);
+        color: var(--panel-ink);
+        background: var(--panel-white);
+        cursor: pointer;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 750;
+        letter-spacing: 0;
+        line-height: 1.3;
+        text-align: left;
+        transition: background-color 160ms ease, color 160ms ease;
+      }
+
+      .legal-panel-tab::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 4px;
+        background: transparent;
+        content: "";
+        transition: background-color 160ms ease;
+      }
+
+      .legal-panel-tab:hover,
+      .legal-panel-tab:focus-visible,
+      .legal-panel-tab[aria-selected="true"] {
+        color: var(--panel-brand);
+        background: #f6f8fc;
+        outline: 0;
+      }
+
+      .legal-panel-tab:focus-visible {
+        box-shadow: inset 0 0 0 2px var(--panel-indigo);
+      }
+
+      .legal-panel-tab[aria-selected="true"]::before {
+        background: var(--panel-brand);
+      }
+
+      .legal-panel-detail {
+        min-height: 184px;
+        padding: 37px 44px 40px;
+        background: var(--panel-white);
+        border-bottom: 1px solid var(--panel-line);
+      }
+
+      .legal-panel-detail h2 {
+        max-width: 740px;
+        margin: 0;
+        color: var(--panel-ink-strong);
+        font-size: 28px;
+        font-weight: 650;
+        letter-spacing: 0;
+        line-height: 1.12;
+      }
+
+      .legal-panel-summary {
+        max-width: 760px;
+        margin: 17px 0 0;
+        color: var(--panel-body);
+        font-size: 18px;
+        line-height: 1.58;
+      }
+
+      @media (max-width: 900px) {
+        .legal-panel-tabs {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .legal-panel-tab {
+          min-height: 106px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .legal-panel-draft {
+          padding-top: 28px;
+        }
+
+        .legal-panel-shell {
+          width: min(100% - 32px, 540px);
+        }
+
+        .legal-panel-intro h1 {
+          font-size: 34px;
+        }
+
+        .legal-panel-intro {
+          padding: 38px 27px 41px;
+        }
+
+        .legal-panel-tabs {
+          grid-template-columns: 1fr;
+        }
+
+        .legal-panel-tab {
+          min-height: 76px;
+          align-items: center;
+          padding: 16px 18px;
+        }
+
+        .legal-panel-detail {
+          padding: 31px 25px;
+        }
+
+        .legal-panel-detail h2 {
+          font-size: 29px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Conasoc inicio">
+        <img src="assets/logo-conasoc.png" alt="CONASOC" />
+        <span class="brand-tagline">financiación pública</span>
+      </a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="index.html#financiacion">Financiación pública</a>
+        <a href="juridicos.html" aria-current="page">Servicios Jurídicos</a>
+        <a href="business-intelligence.html">Business Intelligence</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <a class="platform-button" href="cbi/interfaces/acceso.html">ACCESO A PLATAFORMA</a>
+      </div>
+    </header>
+
+    <main class="legal-panel-draft">
+      <div class="legal-panel-shell">
+        <section class="legal-panel-intro" aria-labelledby="panel-title">
+          <h1 id="panel-title">Defensa jurídica especializada en financiación pública y subvenciones.</h1>
+        </section>
+
+        <section aria-label="Servicios jurídicos disponibles">
+          <div class="legal-panel-tabs" role="tablist" aria-label="Servicios jurídicos">
+            <button class="legal-panel-tab" id="service-tab-0" type="button" role="tab" aria-selected="true" aria-controls="service-panel" data-service="0">Recursos y alegaciones</button>
+            <button class="legal-panel-tab" id="service-tab-1" type="button" role="tab" aria-selected="false" aria-controls="service-panel" data-service="1" tabindex="-1">Solicitud y concesión</button>
+            <button class="legal-panel-tab" id="service-tab-2" type="button" role="tab" aria-selected="false" aria-controls="service-panel" data-service="2" tabindex="-1">Defensa judicial</button>
+            <button class="legal-panel-tab" id="service-tab-3" type="button" role="tab" aria-selected="false" aria-controls="service-panel" data-service="3" tabindex="-1">Justificación de ayudas</button>
+            <button class="legal-panel-tab" id="service-tab-4" type="button" role="tab" aria-selected="false" aria-controls="service-panel" data-service="4" tabindex="-1">Asesoramiento jurídico</button>
+          </div>
+
+          <article class="legal-panel-detail" id="service-panel" role="tabpanel" aria-labelledby="service-tab-0">
+            <h2 id="service-title">Reclamación de denegaciones improcedentes.</h2>
+            <p class="legal-panel-summary" id="service-summary">Estudio y reclamación de resoluciones desfavorables en ayudas y subvenciones.</p>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const services = [
+        {
+          title: "Recursos y alegaciones ante resoluciones desfavorables.",
+          summary: "Analizamos denegaciones y otras decisiones administrativas que afectan al expediente para formular los recursos y alegaciones que procedan en materia de ayudas y subvenciones."
+        },
+        {
+          title: "Recursos durante la solicitud y concesión.",
+          summary: "Intervenimos durante la solicitud y la concesión para responder a requerimientos, plantear alegaciones y recurrir actuaciones de la Administración que puedan condicionar la ayuda."
+        },
+        {
+          title: "Defensa judicial de ayudas públicas.",
+          summary: "Representamos y defendemos a la entidad cuando la controversia sobre una ayuda pública llega a la vía judicial, con conocimiento específico de la normativa de subvenciones y del expediente."
+        },
+        {
+          title: "Gestión de ayudas en justificación.",
+          summary: "Acompañamos los expedientes en fase de justificación, atendiendo las incidencias jurídicas y preparando las respuestas o alegaciones necesarias ante la Administración."
+        },
+        {
+          title: "Asesoramiento durante todo el procedimiento.",
+          summary: "Ofrecemos acompañamiento jurídico en las fases de solicitud, concesión, ejecución y cierre para anticipar riesgos y sostener una posición sólida durante todo el procedimiento."
+        }
+      ];
+
+      const tabs = [...document.querySelectorAll(".legal-panel-tab")];
+      const title = document.querySelector("#service-title");
+      const summary = document.querySelector("#service-summary");
+      const panel = document.querySelector("#service-panel");
+
+      function selectService(index, moveFocus = false) {
+        const service = services[index];
+
+        tabs.forEach((tab, tabIndex) => {
+          const selected = tabIndex === index;
+          tab.setAttribute("aria-selected", String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+        });
+
+        panel.setAttribute("aria-labelledby", tabs[index].id);
+        title.textContent = service.title;
+        summary.textContent = service.summary;
+
+        if (moveFocus) tabs[index].focus();
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => selectService(index));
+        tab.addEventListener("mouseenter", () => selectService(index));
+        tab.addEventListener("keydown", (event) => {
+          if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+
+          event.preventDefault();
+          const nextIndex = event.key === 'Home'
+            ? 0
+            : event.key === 'End'
+              ? tabs.length - 1
+              : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+          selectService(nextIndex, true);
+        });
+      });
+
+      selectService(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONASOC CBI | Posición competitiva</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #001426;
+      --blue: #315bbb;
+      --violet: #514c9f;
+      --white: #ffffff;
+      --mist: #f4f6f9;
+      --line: #d9dee7;
+      --muted: #5f6b78;
+      --marker-position: 74%;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      min-width: 1180px;
+      height: 100%;
+      margin: 0;
+      background: var(--white);
+      color: var(--ink);
+      font-family: "Avenir Next", Avenir, Helvetica, Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    body {
+      min-height: 1000px;
+      overflow-x: hidden;
+    }
+
+    button,
+    input { font: inherit; }
+
+    .page {
+      width: 100%;
+      min-height: 1000px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 92px;
+      flex: 0 0 92px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar__inner,
+    .hero__inner,
+    .capabilities__inner,
+    .footer__inner {
+      width: min(1440px, calc(100% - 112px));
+      margin: 0 auto;
+    }
+
+    .topbar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 15px;
+    }
+
+    .brand__name {
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .brand__tagline {
+      padding-left: 15px;
+      border-left: 1px solid #aeb7c3;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--muted);
+    }
+
+    .product-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .product-label::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+    }
+
+    .hero {
+      flex: 0 0 588px;
+      background: var(--mist);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero__inner {
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(650px, 1.18fr);
+      gap: 62px;
+      align-items: stretch;
+    }
+
+    .intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 44px 0 38px;
+    }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      color: var(--blue);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 0;
+      font-size: 47px;
+      line-height: 1.08;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 650px;
+      margin: 25px 0 0;
+      color: #394655;
+      font-size: 18px;
+      line-height: 1.52;
+    }
+
+    .process {
+      margin-top: 34px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .process__step {
+      position: relative;
+      min-width: 0;
+      padding-right: 14px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 650;
+    }
+
+    .process__step::before {
+      content: "";
+      display: block;
+      width: 7px;
+      height: 7px;
+      margin-bottom: 11px;
+      border: 2px solid #9da8b5;
+      border-radius: 50%;
+      background: var(--mist);
+    }
+
+    .process__step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 13px;
+      width: calc(100% - 18px);
+      height: 1px;
+      background: #bfc7d1;
+    }
+
+    .process__step:last-child {
+      color: var(--blue);
+    }
+
+    .process__step:last-child::before {
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .visual {
+      height: 100%;
+      padding: 42px 0 36px 58px;
+      border-left: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .visual__topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .visual__title {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+      font-weight: 750;
+    }
+
+    .visual__meta {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .illustrative-tag {
+      flex: 0 0 auto;
+      padding: 7px 10px;
+      border: 1px solid #c7ced8;
+      color: var(--muted);
+      background: var(--white);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .scenario-bar {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .scenario-bar__label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .scenario-control {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 3px;
+      border: 1px solid #cbd2dc;
+      background: var(--white);
+    }
+
+    .scenario-button {
+      min-width: 91px;
+      height: 32px;
+      padding: 0 13px;
+      border: 0;
+      color: #455262;
+      background: transparent;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      transition: color 180ms ease, background 180ms ease;
+    }
+
+    .scenario-button:hover,
+    .scenario-button:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: -2px;
+    }
+
+    .scenario-button[aria-pressed="true"] {
+      color: var(--white);
+      background: var(--ink);
+    }
+
+    .chart {
+      position: relative;
+      margin-top: 26px;
+      padding: 26px 0 31px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .chart__plot {
+      position: relative;
+      height: 144px;
+      margin: 0 24px;
+    }
+
+    .histogram {
+      position: absolute;
+      inset: 21px 0 27px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      border-bottom: 1px solid #99a5b3;
+    }
+
+    .histogram__bar {
+      flex: 1 1 0;
+      min-width: 0;
+      height: var(--height);
+      background: #d5dbe4;
+      transition: background 180ms ease;
+    }
+
+    .histogram__bar:nth-child(7n),
+    .histogram__bar:nth-child(11n) {
+      background: #c8d0db;
+    }
+
+    .reference {
+      position: absolute;
+      z-index: 2;
+      top: 9px;
+      bottom: 27px;
+      left: 68%;
+      width: 1px;
+      border-left: 1px dashed var(--violet);
+    }
+
+    .reference__label {
+      position: absolute;
+      top: 0;
+      left: 8px;
+      width: 100px;
+      color: var(--violet);
+      font-size: 10px;
+      line-height: 1.25;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .marker {
+      position: absolute;
+      z-index: 3;
+      top: 19px;
+      bottom: 23px;
+      left: var(--marker-position);
+      width: 2px;
+      background: var(--blue);
+      transition: left 520ms cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .marker::before {
+      content: "";
+      position: absolute;
+      top: -3px;
+      left: -5px;
+      width: 12px;
+      height: 12px;
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue);
+    }
+
+    .marker__label {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: max-content;
+      padding: 6px 8px;
+      color: var(--white);
+      background: var(--blue);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 800;
+      text-transform: uppercase;
+      transform: translateX(100%);
+      transition: transform 300ms ease;
+    }
+
+    .marker[data-side="right"] .marker__label {
+      right: auto;
+      left: 10px;
+      transform: none;
+    }
+
+    .axis-label {
+      position: absolute;
+      bottom: 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .axis-label--start { left: 0; }
+    .axis-label--middle { left: 50%; transform: translateX(-50%); }
+    .axis-label--end { right: 0; }
+
+    .result {
+      min-height: 69px;
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 126px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .result__number {
+      color: var(--blue);
+      font-size: 35px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .result__number span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .result__copy {
+      margin: 0;
+      color: #364351;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .capabilities {
+      flex: 0 0 251px;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .capabilities__inner {
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .capability {
+      padding: 36px 40px 26px 0;
+    }
+
+    .capability + .capability {
+      padding-left: 40px;
+      border-left: 1px solid var(--line);
+    }
+
+    .capability__index {
+      display: block;
+      margin-bottom: 25px;
+      color: var(--blue);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .capability h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 750;
+    }
+
+    .capability p {
+      max-width: 390px;
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .footer {
+      flex: 1 0 69px;
+      min-height: 69px;
+      display: flex;
+      align-items: center;
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .caveat {
+      margin: 0;
+      color: #dce2e9;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .footer__mark {
+      flex: 0 0 auto;
+      color: #aab5c3;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1320px) {
+      .topbar__inner,
+      .hero__inner,
+      .capabilities__inner,
+      .footer__inner { width: calc(100% - 80px); }
+      .hero__inner { gap: 42px; grid-template-columns: minmax(0, 0.78fr) minmax(620px, 1.22fr); }
+      .visual { padding-left: 38px; }
+      h1 { font-size: 42px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="brand" aria-label="CONASOC, financiación pública">
+          <span class="brand__name">CONASOC</span>
+          <span class="brand__tagline">financiación pública</span>
+        </div>
+        <div class="product-label">Business Intelligence</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="intro">
+          <p class="eyebrow">Inteligencia competitiva para convocatorias</p>
+          <h1>No basta con saber cuánto puntúa tu proyecto. Hay que saber contra quién compite.</h1>
+          <p class="lede">CBI convierte el baremo de cada convocatoria en una evaluación guiada, compara el proyecto con una población de solicitudes probables y ayuda a identificar qué decisiones pueden mejorar su posición.</p>
+
+          <div class="process" aria-label="Proceso de evaluación">
+            <div class="process__step">Convocatoria</div>
+            <div class="process__step">Proyecto</div>
+            <div class="process__step">Competencia</div>
+            <div class="process__step">Posición estimada</div>
+          </div>
+        </div>
+
+        <div class="visual">
+          <div class="visual__topline">
+            <div>
+              <h2 class="visual__title">Posición frente a solicitudes probables</h2>
+              <p class="visual__meta">Distribución competitiva simulada · índice relativo 0–100</p>
+            </div>
+            <span class="illustrative-tag">Valores ilustrativos</span>
+          </div>
+
+          <div class="scenario-bar">
+            <span class="scenario-bar__label">Escenario de competencia</span>
+            <div class="scenario-control" role="group" aria-label="Elegir escenario">
+              <button class="scenario-button" type="button" data-scenario="prudente" aria-pressed="false">Prudente</button>
+              <button class="scenario-button" type="button" data-scenario="central" aria-pressed="true">Central</button>
+              <button class="scenario-button" type="button" data-scenario="exigente" aria-pressed="false">Exigente</button>
+            </div>
+          </div>
+
+          <div class="chart" aria-label="Gráfico de distribución competitiva ilustrativa">
+            <div class="chart__plot">
+              <div class="histogram" aria-hidden="true">
+                <span class="histogram__bar" style="--height:10%"></span>
+                <span class="histogram__bar" style="--height:14%"></span>
+                <span class="histogram__bar" style="--height:20%"></span>
+                <span class="histogram__bar" style="--height:28%"></span>
+                <span class="histogram__bar" style="--height:37%"></span>
+                <span class="histogram__bar" style="--height:49%"></span>
+                <span class="histogram__bar" style="--height:63%"></span>
+                <span class="histogram__bar" style="--height:76%"></span>
+                <span class="histogram__bar" style="--height:88%"></span>
+                <span class="histogram__bar" style="--height:96%"></span>
+                <span class="histogram__bar" style="--height:100%"></span>
+                <span class="histogram__bar" style="--height:94%"></span>
+                <span class="histogram__bar" style="--height:83%"></span>
+                <span class="histogram__bar" style="--height:71%"></span>
+                <span class="histogram__bar" style="--height:57%"></span>
+                <span class="histogram__bar" style="--height:44%"></span>
+                <span class="histogram__bar" style="--height:33%"></span>
+                <span class="histogram__bar" style="--height:23%"></span>
+                <span class="histogram__bar" style="--height:16%"></span>
+                <span class="histogram__bar" style="--height:10%"></span>
+              </div>
+              <div class="reference" aria-hidden="true">
+                <span class="reference__label">Referencia 68</span>
+              </div>
+              <div class="marker" id="project-marker" data-side="left" aria-hidden="true">
+                <span class="marker__label">Tu proyecto</span>
+              </div>
+              <span class="axis-label axis-label--start">0</span>
+              <span class="axis-label axis-label--middle">50</span>
+              <span class="axis-label axis-label--end">100</span>
+            </div>
+          </div>
+
+          <div class="result" aria-live="polite">
+            <div class="result__number"><strong id="score">74</strong><span>Índice relativo</span></div>
+            <p class="result__copy" id="scenario-copy"><strong>Escenario central.</strong> El proyecto se sitúa por encima de la referencia competitiva estimada, con margen limitado.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="capabilities" aria-label="Capacidades de CBI">
+      <div class="capabilities__inner">
+        <article class="capability">
+          <span class="capability__index">01</span>
+          <h2>Evaluación específica</h2>
+          <p>Respondemos al baremo real de la convocatoria y calculamos la puntuación estimada del proyecto criterio a criterio.</p>
+        </article>
+        <article class="capability">
+          <span class="capability__index">02</span>
+          <h2>Competencia simulada</h2>
+          <p>Modelamos solicitudes probables con datos históricos y de referencia para entender el nivel competitivo esperado.</p>
+        </article>
+        <article class="capability">
+          <span class="capability__index">03</span>
+          <h2>Decisión antes de presentar</h2>
+          <p>Situamos el proyecto, detectamos debilidades y mostramos qué variables pueden reforzarse antes de preparar la solicitud.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <p class="caveat">La simulación ofrece una estimación orientativa; no predice la resolución administrativa.</p>
+        <span class="footer__mark">CONASOC · CBI</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const scenarios = {
+      prudente: {
+        score: 82,
+        copy: "<strong>Escenario prudente.</strong> El proyecto mantiene una posición favorable y supera con claridad la referencia estimada."
+      },
+      central: {
+        score: 74,
+        copy: "<strong>Escenario central.</strong> El proyecto se sitúa por encima de la referencia competitiva estimada, con margen limitado."
+      },
+      exigente: {
+        score: 57,
+        copy: "<strong>Escenario exigente.</strong> El proyecto queda por debajo de la referencia; conviene reforzar los criterios con mayor impacto."
+      }
+    };
+
+    const root = document.documentElement;
+    const score = document.getElementById("score");
+    const copy = document.getElementById("scenario-copy");
+    const marker = document.getElementById("project-marker");
+    const buttons = document.querySelectorAll(".scenario-button");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const scenario = scenarios[button.dataset.scenario];
+
+        buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        root.style.setProperty("--marker-position", scenario.score + "%");
+        marker.dataset.side = scenario.score < 24 ? "right" : "left";
+        score.textContent = scenario.score;
+        copy.innerHTML = scenario.copy;
+      });
+    });
+  </script>
+</body>
+</html>
