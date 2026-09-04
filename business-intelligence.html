@@ -48,9 +48,18 @@
 
           <div>
             <div class="bi-tabs" role="tablist" aria-label="Capacidades de la consultora">
-              <button class="bi-tab" id="bi-tab-0" type="button" role="tab" aria-selected="true" aria-controls="bi-panel">Especialización</button>
-              <button class="bi-tab" id="bi-tab-1" type="button" role="tab" aria-selected="false" aria-controls="bi-panel" tabindex="-1">Tecnología aplicada</button>
-              <button class="bi-tab" id="bi-tab-2" type="button" role="tab" aria-selected="false" aria-controls="bi-panel" tabindex="-1">Decisiones con datos</button>
+              <div class="bi-tab-item">
+                <button class="bi-tab" id="bi-tab-0" type="button" role="tab" aria-selected="true" aria-expanded="true" aria-controls="bi-panel bi-mobile-detail-0">Especialización</button>
+                <div class="bi-mobile-detail" id="bi-mobile-detail-0"></div>
+              </div>
+              <div class="bi-tab-item">
+                <button class="bi-tab" id="bi-tab-1" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="bi-panel bi-mobile-detail-1" tabindex="-1">Tecnología aplicada</button>
+                <div class="bi-mobile-detail" id="bi-mobile-detail-1" hidden></div>
+              </div>
+              <div class="bi-tab-item">
+                <button class="bi-tab" id="bi-tab-2" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="bi-panel bi-mobile-detail-2" tabindex="-1">Decisiones con datos</button>
+                <div class="bi-mobile-detail" id="bi-mobile-detail-2" hidden></div>
+              </div>
             </div>
             <article class="bi-detail" id="bi-panel" role="tabpanel" aria-labelledby="bi-tab-0">
               <h3 id="bi-detail-title">Entendemos la convocatoria antes de analizarla.</h3>
@@ -156,11 +165,13 @@
       ];
 
       const intelligenceTabs = [...document.querySelectorAll(".bi-tab")];
+      const intelligenceMobileDetails = [...document.querySelectorAll(".bi-mobile-detail")];
 
       function activateIntelligence(index, moveFocus = false) {
         intelligenceTabs.forEach((tab, tabIndex) => {
           const selected = tabIndex === index;
           tab.setAttribute("aria-selected", String(selected));
+          tab.setAttribute("aria-expanded", String(selected));
           tab.tabIndex = selected ? 0 : -1;
         });
 
@@ -169,6 +180,13 @@
         document.querySelector("#bi-panel").setAttribute("aria-labelledby", tab.id);
         document.querySelector("#bi-detail-title").textContent = item.title;
         document.querySelector("#bi-detail-copy").innerHTML = item.copy;
+        intelligenceMobileDetails.forEach((detail, detailIndex) => {
+          const selected = detailIndex === index;
+          detail.hidden = !selected;
+          if (selected) {
+            detail.innerHTML = `<h3>${item.title}</h3><p>${item.copy}</p>`;
+          }
+        });
         if (moveFocus) tab.focus();
       }
 
@@ -182,6 +200,8 @@
           activateIntelligence((index + (forward ? 1 : -1) + intelligenceTabs.length) % intelligenceTabs.length, true);
         });
       });
+
+      activateIntelligence(0);
 
       const scenarios = {
         prudente: {

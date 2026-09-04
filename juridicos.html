@@ -46,11 +46,26 @@
         <div class="section-inner">
           <h2 class="sr-only" id="legal-services-title">Servicios jurídicos especializados</h2>
           <div class="legal-service-tabs" role="tablist" aria-label="Servicios jurídicos">
-            <button class="legal-service-tab" id="legal-service-tab-0" type="button" role="tab" aria-selected="true" aria-controls="legal-service-panel">Recursos y alegaciones</button>
-            <button class="legal-service-tab" id="legal-service-tab-1" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Solicitud y concesión</button>
-            <button class="legal-service-tab" id="legal-service-tab-2" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Defensa judicial</button>
-            <button class="legal-service-tab" id="legal-service-tab-3" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Justificación de ayudas</button>
-            <button class="legal-service-tab" id="legal-service-tab-4" type="button" role="tab" aria-selected="false" aria-controls="legal-service-panel" tabindex="-1">Asesoramiento jurídico</button>
+            <div class="legal-service-item">
+              <button class="legal-service-tab" id="legal-service-tab-0" type="button" role="tab" aria-selected="true" aria-expanded="true" aria-controls="legal-service-panel legal-service-mobile-detail-0">Recursos y alegaciones</button>
+              <div class="legal-service-mobile-detail" id="legal-service-mobile-detail-0"></div>
+            </div>
+            <div class="legal-service-item">
+              <button class="legal-service-tab" id="legal-service-tab-1" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="legal-service-panel legal-service-mobile-detail-1" tabindex="-1">Solicitud y concesión</button>
+              <div class="legal-service-mobile-detail" id="legal-service-mobile-detail-1" hidden></div>
+            </div>
+            <div class="legal-service-item">
+              <button class="legal-service-tab" id="legal-service-tab-2" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="legal-service-panel legal-service-mobile-detail-2" tabindex="-1">Defensa judicial</button>
+              <div class="legal-service-mobile-detail" id="legal-service-mobile-detail-2" hidden></div>
+            </div>
+            <div class="legal-service-item">
+              <button class="legal-service-tab" id="legal-service-tab-3" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="legal-service-panel legal-service-mobile-detail-3" tabindex="-1">Justificación de ayudas</button>
+              <div class="legal-service-mobile-detail" id="legal-service-mobile-detail-3" hidden></div>
+            </div>
+            <div class="legal-service-item">
+              <button class="legal-service-tab" id="legal-service-tab-4" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="legal-service-panel legal-service-mobile-detail-4" tabindex="-1">Asesoramiento jurídico</button>
+              <div class="legal-service-mobile-detail" id="legal-service-mobile-detail-4" hidden></div>
+            </div>
           </div>
 
           <article class="legal-service-detail" id="legal-service-panel" role="tabpanel" aria-labelledby="legal-service-tab-0">
@@ -147,6 +162,7 @@
       const legalServiceSummary = document.querySelector("#legal-service-summary");
       const legalServiceList = document.querySelector("#legal-service-list");
       const legalServicePanel = document.querySelector("#legal-service-panel");
+      const legalServiceMobileDetails = [...document.querySelectorAll(".legal-service-mobile-detail")];
 
       function selectLegalService(index, moveFocus = false) {
         const service = legalServices[index];
@@ -154,6 +170,7 @@
         legalServiceTabs.forEach((tab, tabIndex) => {
           const selected = tabIndex === index;
           tab.setAttribute("aria-selected", String(selected));
+          tab.setAttribute("aria-expanded", String(selected));
           tab.tabIndex = selected ? 0 : -1;
         });
 
@@ -167,6 +184,14 @@
             return listItem;
           })
         );
+
+        legalServiceMobileDetails.forEach((detail, detailIndex) => {
+          const selected = detailIndex === index;
+          detail.hidden = !selected;
+          if (selected) {
+            detail.innerHTML = `<p>${service.summary}</p>`;
+          }
+        });
 
         if (moveFocus) legalServiceTabs[index].focus();
       }

@@ -810,6 +810,8 @@ h3 {
   background: var(--paper);
 }
 
+.legal-service-item { min-width: 0; }
+
 .legal-service-tab {
   position: relative;
   display: flex;
@@ -858,6 +860,8 @@ h3 {
 .legal-service-tab[aria-selected="true"]::before {
   background: var(--brand);
 }
+
+.legal-service-mobile-detail { display: none; }
 
 .legal-service-detail {
   display: grid;
@@ -2386,11 +2390,35 @@ h3 {
 
   .legal-service-tabs {
     grid-template-columns: 1fr;
+    border-bottom: 1px solid var(--line);
   }
 
   .legal-service-tab {
     min-height: 76px;
     align-items: center;
+  }
+
+  .legal-service-detail {
+    display: none;
+  }
+
+  .legal-service-mobile-detail {
+    display: block;
+    padding: 1px 20px 24px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #f6f8fc;
+  }
+
+  .legal-service-mobile-detail[hidden] {
+    display: none;
+  }
+
+  .legal-service-mobile-detail p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.58;
   }
 
   .legal-service-detail {
