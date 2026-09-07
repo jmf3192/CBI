@@ -285,12 +285,13 @@
 
       .module-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
 
-      .module-grid label:first-child {
-        grid-column: span 2;
+      .module-field {
+        display: grid;
+        gap: 8px;
       }
 
       .module-summary {
@@ -1176,27 +1177,39 @@
               </div>
 
               <div class="field-group">
-                <div class="group-title">
+              <div class="group-title">
                   <h3>Módulos de precio</h3>
                   <span>m² computables</span>
                 </div>
                 <div class="module-grid">
-                  <label>
-                    Módulo aplicable
-                    <select id="module-code"></select>
-                  </label>
-                  <label>
+                  <label class="module-field">
                     m² inversión
                     <input id="module-area" type="number" min="0" step="10" value="3500" />
                   </label>
+                  <label class="module-field tourism-only" hidden>
+                    Estrellas
+                    <select id="module-stars" aria-label="Estrellas del hotel">
+                      <option value="3">3</option>
+                      <option value="4" selected>4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </label>
+                  <label class="module-field industrial-only" hidden>
+                    Nave frigorífica
+                    <select id="module-fridge" aria-label="Nave frigorífica">
+                      <option value="no" selected>No</option>
+                      <option value="si">Sí</option>
+                    </select>
+                  </label>
                 </div>
+                <input id="module-code" type="hidden" value="nave_industrial" />
                 <input id="module-work-mode" type="hidden" value="nueva" />
                 <div class="segmented work-mode" id="module-work-mode-buttons" aria-label="Tipo de obra">
                   <button class="is-active" type="button" data-work-mode="nueva">Obra nueva</button>
                   <button type="button" data-work-mode="reforma">Reforma</button>
                 </div>
                 <div class="module-summary" id="module-summary">
-                  <span id="module-cap-label">Límite por módulo</span>
+                  <span id="module-cap-label">Coste total estimado</span>
                   <strong id="module-cap-value">-</strong>
                 </div>
               </div>
@@ -1501,6 +1514,8 @@
         civilInvestment: document.querySelector("#civil-investment"),
         moduleCode: document.querySelector("#module-code"),
         moduleArea: document.querySelector("#module-area"),
+        moduleStars: document.querySelector("#module-stars"),
+        moduleFridge: document.querySelector("#module-fridge"),
         moduleWorkMode: document.querySelector("#module-work-mode"),
         moduleWorkModeButtons: document.querySelector("#module-work-mode-buttons"),
         jobsCreated: document.querySelector("#jobs-created"),
@@ -1694,44 +1709,25 @@
         return false;
       }
 
-      function preferredModuleCode(sector) {
-        return sector === "turismo" ? "hotel_4" : "nave_industrial";
+      function moduleByCode(code) {
+        return investmentModules.find((module) => module.codigo === code) || null;
       }
 
-      function applicableModules(sector) {
-        return investmentModules.filter((module) =>
-          module.unidad === "m2"
-            && module.incluye_en_ui !== "no"
-            && (module.sector === sector || module.sector === "ambos"),
-        );
-      }
-
-      function syncModuleOptions(sector) {
-        const options = applicableModules(sector);
-        const current = controls.moduleCode.value;
-        const preferred = preferredModuleCode(sector);
-        const next = options.some((module) => module.codigo === current)
-          ? current
-          : options.find((module) => module.codigo === preferred)?.codigo || options[0]?.codigo || "";
-
-        if (
-          controls.moduleCode.dataset.optionsSector !== sector
-          || controls.moduleCode.dataset.optionCount !== String(options.length)
-        ) {
-          controls.moduleCode.innerHTML = options
-            .map((module) => `<option value="${escapeHtml(module.codigo)}">${escapeHtml(module.concepto)}</option>`)
-            .join("");
-          controls.moduleCode.dataset.optionsSector = sector;
-          controls.moduleCode.dataset.optionCount = String(options.length);
+      function selectedModuleCode(values) {
+        if (values.sector === "turismo") {
+          return `hotel_${clamp(values.moduleStars, 3, 5)}`;
         }
-
-        controls.moduleCode.value = next;
+        return values.moduleFridge === "si" ? "nave_frigorifica" : "nave_industrial";
       }
 
-      function currentModule() {
-        return investmentModules.find((module) => module.codigo === controls.moduleCode.value)
-          || applicableModules(controls.sector.value)[0]
-          || {};
+      function syncModuleControls(values) {
+        const moduleCode = selectedModuleCode(values);
+        const stars = values.sector === "turismo" ? clamp(values.moduleStars, 3, 5) : 4;
+        const fridge = values.sector === "industria" && values.moduleFridge === "si" ? "si" : "no";
+
+        controls.moduleCode.value = moduleCode;
+        controls.moduleStars.value = String(stars);
+        controls.moduleFridge.value = fridge;
       }
 
       function moduleRate(module, workMode) {
@@ -1743,7 +1739,6 @@
 
       function currentValues() {
         const row = currentTerritory();
-        const module = currentModule();
         return {
           row,
           sector: controls.sector.value,
@@ -1751,8 +1746,9 @@
           projectType: controls.projectType.value,
           investment: clamp(controls.investment.value, 0, 500000000),
           civilInvestment: clamp(controls.civilInvestment.value, 0, 500000000),
-          module,
           moduleArea: clamp(controls.moduleArea.value, 0, 10000000),
+          moduleStars: clamp(controls.moduleStars.value, 3, 5),
+          moduleFridge: controls.moduleFridge.value === "si" ? "si" : "no",
           moduleWorkMode: controls.moduleWorkMode.value,
           jobsCreated: clamp(controls.jobsCreated.value, 0, 10000),
           jobsMaintained: clamp(controls.jobsMaintained.value, 0, 100000),
@@ -1822,24 +1818,39 @@
         return toNumber(values.row[field]);
       }
 
-      function calculateModuleLimit(values) {
-        const rate = moduleRate(values.module, values.moduleWorkMode);
-        const civilDeclared = Math.min(values.civilInvestment, values.investment);
-        const moduleCap = values.module?.codigo && rate > 0
-          ? values.moduleArea * rate
-          : civilDeclared;
-        const eligibleCivil = Math.min(civilDeclared, moduleCap);
-        const excludedCivil = Math.max(0, civilDeclared - eligibleCivil);
-        const eligibleInvestment = Math.max(0, values.investment - excludedCivil);
+      function calculateModuleEstimate(values) {
+        const totalMeters = Math.max(0, values.moduleArea);
+        const workMode = values.moduleWorkMode;
+        const mainCode = selectedModuleCode(values);
+        const mainModule = moduleByCode(mainCode) || {};
+        const commonModule = moduleByCode("oficinas_laboratorios") || {};
+        const accessModule = moduleByCode("urbanizacion") || {};
+        const fridgeModule = moduleByCode("nave_frigorifica") || {};
+        const shares = values.sector === "turismo"
+          ? { main: 0.75, common: 0.15, office: 0, fridge: 0, access: 0.10 }
+          : {
+              main: values.moduleFridge === "si" ? 0.75 : 0.80,
+              common: 0,
+              office: 0.10,
+              fridge: values.moduleFridge === "si" ? 0.05 : 0,
+              access: 0.10,
+            };
+
+        const unitCost = (
+          shares.main * moduleRate(mainModule, workMode)
+          + shares.common * moduleRate(commonModule, workMode)
+          + shares.office * moduleRate(commonModule, workMode)
+          + shares.fridge * moduleRate(fridgeModule, workMode)
+          + shares.access * moduleRate(accessModule, workMode)
+        );
+
+        const estimatedInvestment = totalMeters * unitCost;
 
         return {
-          rate,
-          civilDeclared,
-          moduleCap,
-          eligibleCivil,
-          excludedCivil,
-          eligibleInvestment,
-          limited: excludedCivil > 1,
+          mainCode,
+          unitCost,
+          estimatedInvestment,
+          limited: estimatedInvestment + 1 < values.investment,
         };
       }
 
@@ -1873,8 +1884,9 @@
         const roundedPercent = Math.round(basePercent);
         const territorialBonus = tpb >= 25 ? toNumber(values.row.bonificacion_especial_pp) : 0;
         const finalPercent = Math.min(adjustedIntensity, roundedPercent + territorialBonus);
-        const moduleLimit = calculateModuleLimit(values);
-        const aidAmount = moduleLimit.eligibleInvestment * finalPercent / 100;
+        const moduleEstimate = calculateModuleEstimate(values);
+        const eligibleInvestment = Math.min(values.investment, moduleEstimate.estimatedInvestment);
+        const aidAmount = eligibleInvestment * finalPercent / 100;
         const displayPercent = values.investment
           ? (aidAmount / values.investment) * 100
           : 0;
@@ -1895,8 +1907,9 @@
           finalPercent,
           displayPercent,
           aidAmount,
-          moduleLimit,
-          moduleLimited: moduleLimit.limited,
+          eligibleInvestment,
+          moduleEstimate,
+          moduleLimited: moduleEstimate.limited,
         };
       }
 
@@ -1935,6 +1948,7 @@
           ? `${formatNumber(values.jobsCreated)} empleos nuevos`
           : `${formatNumber(values.jobsCreated)} nuevos / ${formatNumber(values.jobsMaintained)} mantenidos`;
         controls.jobsMaintainedCard.hidden = newProject;
+        syncModuleControls(values);
         renderProjectTypeButtons(values);
         renderWorkModeButtons(values);
       }
@@ -2216,15 +2230,9 @@
       }
 
       function renderModuleSummary(values, result) {
-        const limit = result.moduleLimit;
-        const modeLabel = values.moduleWorkMode === "reforma" ? "reforma" : "obra nueva";
         labels.moduleSummary.classList.toggle("is-limited", result.moduleLimited);
-        labels.moduleCapLabel.textContent = result.moduleLimited
-          ? "Ayuda limitada"
-          : "Límite por módulo";
-        labels.moduleCapValue.textContent = values.module?.codigo
-          ? `${formatEuro(limit.moduleCap)} · ${formatNumber(values.moduleArea)} m² · ${formatEuro(limit.rate)}/m² ${modeLabel}`
-          : "Sin módulo aplicable";
+        labels.moduleCapLabel.textContent = "Coste total estimado";
+        labels.moduleCapValue.textContent = `${formatEuro(result.moduleEstimate.estimatedInvestment)}`;
       }
 
       function renderBreakdown(values, result) {
@@ -2274,7 +2282,6 @@
 
       function render() {
         syncPriorityControl(currentTerritory());
-        syncModuleOptions(controls.sector.value);
         const values = currentValues();
         syncControls(values);
         const result = calculate(values);
@@ -2295,10 +2302,8 @@
         outputs.status.textContent = statusText;
         outputs.tpb.textContent = formatNumber(result.tpb, 1);
         outputs.im.textContent = `${formatNumber(result.adjustedIntensity, 1)}%`;
-        outputs.investment.textContent = formatEuro(result.moduleLimit.eligibleInvestment);
-        outputs.investmentLabel.textContent = result.moduleLimited
-          ? "Inversión admitida por módulos"
-          : "Inversión subvencionable";
+        outputs.investment.textContent = formatEuro(result.eligibleInvestment);
+        outputs.investmentLabel.textContent = "Inversión subvencionable";
         outputs.employment.textContent = formatNumber(result.employment, 1);
 
         renderMap(values);
@@ -2318,7 +2323,7 @@
         controls.territory.value = String(defaultIndex >= 0 ? defaultIndex : 0);
         activeTerritoryIndex = -1;
         renderMapGeometry();
-        labels.csvStatus.textContent = `${rows.length} territorios · ${priorityRows.length} ámbitos prioritarios · ${investmentModules.length} módulos`;
+        labels.csvStatus.textContent = "Datos cargados";
       }
 
       function hydrateInvestmentModules(rows) {
@@ -2413,6 +2418,8 @@
         controls.civilInvestment.value = "800000";
         controls.moduleCode.value = "nave_industrial";
         controls.moduleArea.value = "3500";
+        controls.moduleStars.value = "4";
+        controls.moduleFridge.value = "no";
         controls.moduleWorkMode.value = "nueva";
         controls.jobsCreated.value = "8";
         controls.jobsMaintained.value = "42";
