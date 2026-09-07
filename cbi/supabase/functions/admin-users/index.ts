@@ -89,7 +89,7 @@ async function listData(admin: ReturnType<typeof createAdminClient>) {
       .from("profiles")
       .select("id, email, full_name, role, status, last_login_at, created_at, updated_at")
       .order("full_name", { ascending: true }),
-    admin.from("calls").select("id, code, name, status").eq("status", "active").order("name"),
+    admin.from("calls").select("id, code, name, status").order("name"),
     admin.from("user_call_access").select("user_id, call_id, access_level"),
   ]);
 
