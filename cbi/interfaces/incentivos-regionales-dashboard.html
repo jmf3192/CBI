@@ -1,0 +1,2441 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Incentivos regionales | CONASOC</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --brand: #001426;
+        --ink: #142033;
+        --muted: #667383;
+        --soft: #f7f9fb;
+        --panel: #ffffff;
+        --line: #e3e9ef;
+        --line-strong: #ced9e4;
+        --blue: #2f6f9f;
+        --green: #337d58;
+        --amber: #9a6a0a;
+        --red: #a33a32;
+        --violet: #6f5aa8;
+        --shadow: 0 18px 52px rgba(0, 20, 38, 0.06);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        font-family:
+          "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--soft);
+        color: var(--ink);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: var(--soft);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .topbar {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        padding: 18px 42px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(14px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 146px;
+        height: auto;
+        display: block;
+      }
+
+      .brand-text {
+        margin: 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--line-strong);
+        color: var(--brand);
+        font-size: 9px;
+        font-weight: 700;
+        line-height: 1.5;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .session {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .session a {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .session a:hover {
+        color: var(--brand);
+      }
+
+      main {
+        width: min(100%, 1360px);
+        margin: 0 auto;
+        padding: 48px 36px 72px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .page-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 780px;
+        color: var(--brand);
+        font-size: clamp(32px, 4vw, 48px);
+        line-height: 1.04;
+        letter-spacing: 0;
+        font-weight: 500;
+      }
+
+      .meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .pill {
+        min-height: 34px;
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0 12px;
+        color: var(--muted);
+        background: #ffffff;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(500px, 0.94fr) minmax(520px, 1.06fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .calculator-form {
+        display: grid;
+        gap: 18px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 20px 22px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .panel-header h2 {
+        color: var(--brand);
+        font-size: 19px;
+        line-height: 1.2;
+        font-weight: 500;
+      }
+
+      .panel-header span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .input-panel {
+        position: sticky;
+        top: 16px;
+      }
+
+      .form-stack {
+        display: grid;
+        gap: 18px;
+        padding: 20px;
+      }
+
+      .field-group {
+        display: grid;
+        gap: 12px;
+      }
+
+      .field-group + .field-group {
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .group-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .group-title h3 {
+        color: var(--brand);
+        font-size: 14px;
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      .group-title span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      label,
+      .input-field {
+        display: grid;
+        gap: 8px;
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      input[type="number"],
+      select {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 0 12px;
+        color: var(--ink);
+        background: #ffffff;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--brand);
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #89b8e8;
+        box-shadow: 0 0 0 4px rgba(137, 184, 232, 0.18);
+      }
+
+      .input-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .module-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .module-grid label:first-child {
+        grid-column: span 2;
+      }
+
+      .module-summary {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #fbfdff;
+      }
+
+      .module-summary span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .module-summary strong {
+        color: var(--brand);
+        font-size: 13px;
+        text-align: right;
+      }
+
+      .module-summary.is-limited {
+        border-color: rgba(154, 106, 10, 0.36);
+        background: rgba(154, 106, 10, 0.06);
+      }
+
+      .module-summary.is-limited strong {
+        color: var(--amber);
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .segmented.project-type {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .segmented.work-mode {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .segmented button,
+      .map-priority {
+        min-height: 38px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        color: var(--muted);
+        background: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .map-priority:disabled {
+        cursor: default;
+        opacity: 0.72;
+      }
+
+      .segmented button.is-active,
+      .map-priority[aria-pressed="true"] {
+        border-color: var(--brand);
+        color: #ffffff;
+        background: var(--brand);
+      }
+
+      .map-panel {
+        display: grid;
+        gap: 12px;
+      }
+
+      .map-panel-card {
+        padding: 20px;
+      }
+
+      .map-summary {
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #fbfdff;
+      }
+
+      .map-summary strong {
+        color: var(--brand);
+        font-size: 13px;
+        line-height: 1.25;
+      }
+
+      .map-summary span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .map-canvas {
+        position: relative;
+        min-height: 430px;
+        display: grid;
+        grid-template-rows: minmax(302px, 1fr) auto;
+        gap: 8px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px;
+        background: #f7fbff;
+      }
+
+      .map-geometry {
+        position: relative;
+        min-height: 302px;
+      }
+
+      .map-loading {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .spain-map {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .map-area {
+        fill: var(--area-color, #d9e2ea);
+        stroke: #ffffff;
+        stroke-width: 1.2;
+        vector-effect: non-scaling-stroke;
+        transition:
+          fill 160ms ease,
+          opacity 160ms ease,
+          stroke 160ms ease,
+          stroke-width 160ms ease;
+        cursor: pointer;
+      }
+
+      .map-area.is-ineligible {
+        opacity: 0.46;
+      }
+
+      .map-area.is-selected {
+        stroke: var(--brand);
+        stroke-width: 2.6;
+      }
+
+      .map-priority-layer {
+        fill: url(#priority-hatch);
+        pointer-events: none;
+      }
+
+      .map-priority-layer.is-total {
+        opacity: 0.58;
+      }
+
+      .map-priority-layer.is-partial {
+        opacity: 0.2;
+      }
+
+      .map-area:hover,
+      .map-area:focus-visible,
+      .map-marker:hover,
+      .map-marker:focus-visible {
+        outline: none;
+        stroke: var(--brand);
+        stroke-width: 2.4;
+      }
+
+      .map-marker {
+        fill: var(--area-color, var(--amber));
+        stroke: #ffffff;
+        stroke-width: 2;
+        vector-effect: non-scaling-stroke;
+        filter: drop-shadow(0 8px 12px rgba(0, 20, 38, 0.18));
+        cursor: pointer;
+      }
+
+      .map-marker-dot {
+        fill: #ffffff;
+        pointer-events: none;
+      }
+
+      .map-marker.is-selected {
+        stroke: var(--brand);
+        stroke-width: 3.2;
+      }
+
+      .map-priority-panel {
+        position: relative;
+        display: grid;
+        gap: 8px;
+        border: 1px solid rgba(206, 217, 228, 0.92);
+        border-radius: 8px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.91);
+        backdrop-filter: blur(10px);
+      }
+
+      .map-priority-copy {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .map-location-field {
+        gap: 6px;
+      }
+
+      .map-location-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .map-location-label strong {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .map-location-field select {
+        min-height: 38px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .map-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .map-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .map-legend span::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--legend-color);
+      }
+
+      .map-legend .is-priority::before {
+        border-radius: 2px;
+        background:
+          repeating-linear-gradient(
+            135deg,
+            var(--brand) 0 2px,
+            transparent 2px 5px
+          ),
+          #dfe9f2;
+      }
+
+      .map-tools {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .employment-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .counter-card {
+        display: grid;
+        gap: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: #fbfdff;
+      }
+
+      .counter-card[hidden] {
+        display: none;
+      }
+
+      .counter-card > span {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .counter {
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr) 38px;
+        gap: 8px;
+      }
+
+      .counter button {
+        min-height: 38px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        color: var(--brand);
+        background: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .counter input {
+        width: 100%;
+        min-height: 38px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        color: var(--ink);
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .employment-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #ffffff;
+      }
+
+      .employment-summary span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .employment-summary strong {
+        color: var(--brand);
+        font-size: 13px;
+        text-align: right;
+      }
+
+      .range-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .range-top span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .switch-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 44px;
+      }
+
+      .switch-copy {
+        display: grid;
+        gap: 3px;
+      }
+
+      .switch-copy strong {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .switch-copy span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .switch {
+        position: relative;
+        width: 42px;
+        height: 24px;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+      }
+
+      .switch-track {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--line-strong);
+        transition: background 150ms ease;
+      }
+
+      .switch-track::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 2px 7px rgba(0, 20, 38, 0.14);
+        transition: transform 150ms ease;
+      }
+
+      .switch input:checked + .switch-track {
+        background: var(--brand);
+      }
+
+      .switch input:checked + .switch-track::after {
+        transform: translateX(18px);
+      }
+
+      .primary-action {
+        min-height: 42px;
+        border: 0;
+        border-radius: 6px;
+        padding: 0 18px;
+        color: #ffffff;
+        background: var(--brand);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .dashboard {
+        display: grid;
+        gap: 18px;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .result-panel {
+        min-height: 236px;
+        display: grid;
+        grid-template-columns: 168px minmax(0, 1fr);
+        gap: 24px;
+        align-items: center;
+        padding: 28px;
+      }
+
+      .score-ring {
+        width: 160px;
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at center, #ffffff 58%, transparent 59%),
+          conic-gradient(var(--ring-color) calc(var(--score) * 1%), #ecf1f5 0);
+      }
+
+      .score-ring strong {
+        color: rgba(0, 20, 38, 0.26);
+        font-size: 11px;
+        line-height: 1;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .aid-head {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .aid-head strong {
+        color: var(--brand);
+        font-size: 42px;
+        line-height: 1;
+        font-weight: 600;
+      }
+
+      .result-copy {
+        display: grid;
+        gap: 12px;
+      }
+
+      .status {
+        width: fit-content;
+        min-height: 30px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 0 11px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .status.good {
+        color: var(--green);
+        background: rgba(51, 125, 88, 0.1);
+      }
+
+      .status.warn {
+        color: var(--amber);
+        background: rgba(154, 106, 10, 0.1);
+      }
+
+      .status.bad {
+        color: var(--red);
+        background: rgba(163, 58, 50, 0.1);
+      }
+
+      .result-copy h2 {
+        color: var(--brand);
+        font-size: 25px;
+        line-height: 1.18;
+        font-weight: 500;
+      }
+
+      .limit-note {
+        max-width: 360px;
+        color: var(--amber);
+        font-size: 12px;
+        line-height: 1.45;
+        font-weight: 800;
+      }
+
+      .subjective-panel {
+        overflow: visible;
+      }
+
+      .subjective-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px 18px;
+        padding: 22px;
+        overflow: visible;
+      }
+
+      .subjective-grid .group-title,
+      .subjective-grid .primary-action {
+        grid-column: 1 / -1;
+      }
+
+      .subjective-grid .primary-action {
+        justify-self: start;
+        min-width: 160px;
+      }
+
+      .criterion-tip {
+        position: relative;
+        cursor: help;
+      }
+
+      .criterion-tip::before,
+      .criterion-tip::after {
+        position: absolute;
+        left: 0;
+        z-index: 40;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 140ms ease,
+          transform 140ms ease;
+      }
+
+      .criterion-tip::before {
+        content: attr(data-tooltip);
+        bottom: calc(100% + 12px);
+        width: min(360px, calc(100vw - 48px));
+        border: 1px solid rgba(0, 20, 38, 0.12);
+        border-radius: 8px;
+        padding: 12px 13px;
+        color: #ffffff;
+        background: rgba(0, 20, 38, 0.96);
+        box-shadow: 0 18px 38px rgba(0, 20, 38, 0.2);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.45;
+        transform: translateY(6px);
+        white-space: normal;
+      }
+
+      .criterion-tip::after {
+        content: "";
+        bottom: calc(100% + 5px);
+        width: 14px;
+        height: 14px;
+        margin-left: 18px;
+        background: rgba(0, 20, 38, 0.96);
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      .criterion-tip:hover::before,
+      .criterion-tip:hover::after,
+      .criterion-tip:focus-within::before,
+      .criterion-tip:focus-within::after {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .criterion-tip:hover::after,
+      .criterion-tip:focus-within::after {
+        transform: translateY(0) rotate(45deg);
+      }
+
+      .criterion-label {
+        width: fit-content;
+        border-bottom: 1px dotted rgba(0, 20, 38, 0.32);
+      }
+
+      .metric-stack {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        border-top: 1px solid var(--line);
+      }
+
+      .metric {
+        min-height: 110px;
+        display: grid;
+        align-content: center;
+        gap: 6px;
+        padding: 20px 22px;
+        border-right: 1px solid var(--line);
+      }
+
+      .metric:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .metric strong {
+        color: var(--brand);
+        font-size: 25px;
+        line-height: 1;
+        font-weight: 600;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .bars {
+        display: grid;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .inline-breakdown .bars {
+        padding: 0;
+      }
+
+      .bar-row {
+        display: grid;
+        gap: 8px;
+      }
+
+      .bar-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .bar-top strong {
+        font-weight: 500;
+      }
+
+      .bar-top span {
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .bar {
+        height: 9px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #edf2f6;
+      }
+
+      .bar span {
+        display: block;
+        width: var(--width);
+        height: 100%;
+        border-radius: inherit;
+        background: var(--color);
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      @media (max-width: 1120px) {
+        .layout,
+        .summary-grid,
+        .result-panel,
+        .subjective-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .input-panel {
+          position: static;
+        }
+
+        .score-ring {
+          width: 150px;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .topbar,
+        .page-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .topbar {
+          padding: 24px;
+        }
+
+        .brand {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .brand-text {
+          padding-left: 0;
+          border-left: 0;
+        }
+
+        main {
+          padding: 36px 20px 56px;
+        }
+
+        .meta-strip {
+          justify-content: flex-start;
+        }
+
+        .input-grid,
+        .module-grid,
+        .employment-grid,
+        .metric-stack,
+        .segmented.project-type,
+        .segmented.work-mode {
+          grid-template-columns: 1fr;
+        }
+
+        .module-grid label:first-child {
+          grid-column: auto;
+        }
+
+        .metric,
+        .metric:nth-child(2n) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .metric:last-child {
+          border-bottom: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="CONASOC">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <p class="brand-text">
+          Consultoría en financiación pública<br />
+          Business intelligence
+        </p>
+      </a>
+
+      <nav class="session" aria-label="Navegación">
+        <a href="./convocatorias.html">Convocatorias</a>
+        <a href="./acceso.html">Salir</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-head" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Convocatoria abierta · No competitiva</p>
+          <h1 id="page-title">Incentivos regionales</h1>
+        </div>
+        <div class="meta-strip" aria-label="Periodo de cálculo">
+          <span class="pill">Periodo 2022-2027</span>
+          <span class="pill">Mapa 2024-2027</span>
+        </div>
+      </section>
+
+      <form class="calculator-form" id="calculator-form">
+        <section class="layout">
+          <aside class="panel input-panel" aria-label="Datos objetivos del proyecto">
+            <div class="panel-header">
+              <h2>Datos objetivos</h2>
+              <span id="csv-status">Cargando CSV</span>
+            </div>
+
+            <div class="form-stack">
+            <section class="field-group">
+              <div class="group-title">
+                <h3>Base económica</h3>
+                <span>Importes sin IVA</span>
+              </div>
+
+              <div class="input-grid">
+                <label>
+                  Sector
+                  <select id="sector">
+                    <option value="industria">Industrial</option>
+                    <option value="turismo">Turístico</option>
+                  </select>
+                </label>
+
+                <label>
+                  Tamaño
+                  <select id="company-size">
+                    <option value="pequena">Pequeña</option>
+                    <option value="mediana" selected>Mediana</option>
+                    <option value="gran">Gran empresa</option>
+                  </select>
+                </label>
+              </div>
+
+              <input id="project-type" type="hidden" value="ampliacion" />
+              <div class="field-group">
+                <div class="group-title">
+                  <h3>Tipo de proyecto</h3>
+                </div>
+                <div class="segmented project-type" id="project-type-buttons" aria-label="Tipo de proyecto">
+                  <button type="button" data-project-type="nueva_empresa">Nueva empresa</button>
+                  <button type="button" data-project-type="nueva_instalacion">Nueva instalación</button>
+                  <button class="is-active" type="button" data-project-type="ampliacion">Ampliación</button>
+                  <button type="button" data-project-type="modernizacion">Modernización</button>
+                </div>
+              </div>
+
+              <div class="input-grid">
+                <label>
+                  Inversión total declarada
+                  <input id="investment" type="number" min="0" step="10000" value="1400000" />
+                </label>
+                <label>
+                  Obra civil incluida
+                  <input id="civil-investment" type="number" min="0" step="10000" value="800000" />
+                </label>
+              </div>
+
+              <div class="field-group">
+                <div class="group-title">
+                  <h3>Módulos de precio</h3>
+                  <span>m² computables</span>
+                </div>
+                <div class="module-grid">
+                  <label>
+                    Módulo aplicable
+                    <select id="module-code"></select>
+                  </label>
+                  <label>
+                    m² inversión
+                    <input id="module-area" type="number" min="0" step="10" value="3500" />
+                  </label>
+                </div>
+                <input id="module-work-mode" type="hidden" value="nueva" />
+                <div class="segmented work-mode" id="module-work-mode-buttons" aria-label="Tipo de obra">
+                  <button class="is-active" type="button" data-work-mode="nueva">Obra nueva</button>
+                  <button type="button" data-work-mode="reforma">Reforma</button>
+                </div>
+                <div class="module-summary" id="module-summary">
+                  <span id="module-cap-label">Límite por módulo</span>
+                  <strong id="module-cap-value">-</strong>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <div class="group-title">
+                  <h3>Empleo</h3>
+                  <span id="employment-mode">Ampliación</span>
+                </div>
+                <div class="employment-grid">
+                  <label class="counter-card">
+                    <span>Empleos a crear</span>
+                    <span class="counter">
+                      <button type="button" data-step-target="jobs-created" data-step="-1">-</button>
+                      <input id="jobs-created" type="number" min="0" step="1" value="8" />
+                      <button type="button" data-step-target="jobs-created" data-step="1">+</button>
+                    </span>
+                  </label>
+
+                  <label class="counter-card" id="jobs-maintained-card">
+                    <span>Empleos a mantener</span>
+                    <span class="counter">
+                      <button type="button" data-step-target="jobs-maintained" data-step="-5">-</button>
+                      <input id="jobs-maintained" type="number" min="0" step="1" value="42" />
+                      <button type="button" data-step-target="jobs-maintained" data-step="5">+</button>
+                    </span>
+                  </label>
+                </div>
+                <div class="employment-summary">
+                  <span>Impacto laboral</span>
+                  <strong id="employment-ratio">8 nuevos / 42 mantenidos</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="field-group inline-breakdown">
+              <div class="group-title">
+                <h3>Desglose de puntuación</h3>
+                <span id="breakdown-total">100 puntos</span>
+              </div>
+              <div class="bars" id="breakdown"></div>
+            </section>
+
+            </div>
+        </aside>
+
+        <section class="dashboard" aria-label="Resultado estimado">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Localización</h2>
+              <span id="territory-status">Pendiente</span>
+            </div>
+            <input id="territory-select" type="hidden" value="0" />
+            <div class="map-panel map-panel-card">
+              <div class="map-summary">
+                <strong id="map-selection">Selecciona territorio</strong>
+                <span id="map-intensity">-</span>
+              </div>
+              <div class="map-canvas" id="territory-map" aria-label="Mapa de España para seleccionar territorio">
+                <div class="map-geometry" id="map-geometry">
+                  <span class="map-loading">Cargando mapa de España</span>
+                </div>
+                <div class="map-priority-panel">
+                  <button class="map-priority" id="priority-zone" type="button" aria-pressed="false">
+                    Zona prioritaria +20%
+                  </button>
+                  <label class="map-location-field" for="municipality-select">
+                    <span class="map-location-label">
+                      <span>Municipio o ámbito prioritario</span>
+                      <strong id="municipality-count">-</strong>
+                    </span>
+                    <select id="municipality-select" disabled>
+                      <option value="">Selecciona territorio</option>
+                    </select>
+                  </label>
+                  <span class="map-priority-copy" id="priority-note">Selecciona un territorio</span>
+                </div>
+              </div>
+              <div class="map-tools">
+                <div class="map-legend" aria-label="Leyenda de intensidad">
+                  <span style="--legend-color: var(--green)">60% o más</span>
+                  <span style="--legend-color: var(--blue)">40%-59%</span>
+                  <span style="--legend-color: var(--amber)">25%-39%</span>
+                  <span style="--legend-color: #9aa7b4">No acogible</span>
+                  <span class="is-priority">Prioridad</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="summary-grid">
+            <article class="panel">
+              <div class="result-panel">
+                <div class="score-ring" id="score-ring" style="--score: 0; --ring-color: var(--amber)">
+                  <strong>Ayuda</strong>
+                </div>
+                <div class="result-copy">
+                  <div class="aid-head">
+                    <strong id="aid-percent">0%</strong>
+                    <span class="status warn" id="result-status">Calculando</span>
+                  </div>
+                  <h2 id="aid-amount">0 €</h2>
+                  <p class="limit-note" id="limit-note" hidden>Ayuda limitada, estudiar presupuesto con Conasoc.</p>
+                </div>
+              </div>
+              <div class="metric-stack">
+                <div class="metric">
+                  <strong id="tpb-value">0</strong>
+                  <span>Puntuación básica</span>
+                </div>
+                <div class="metric">
+                  <strong id="im-value">0%</strong>
+                  <span>Intensidad máxima aplicable</span>
+                </div>
+                <div class="metric">
+                  <strong id="investment-value">0 €</strong>
+                  <span id="investment-label">Inversión subvencionable</span>
+                </div>
+                <div class="metric">
+                  <strong id="employment-value">0</strong>
+                  <span>Puntos de empleo</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+      </section>
+
+        <section class="panel subjective-panel" aria-label="Valoración subjetiva">
+          <div class="panel-header">
+            <h2>Valoración subjetiva</h2>
+            <span id="score-mode">Industrial</span>
+          </div>
+
+          <section class="subjective-grid">
+            <label class="criterion-tip industrial-only" data-tooltip="Se valora: materias primas originarias de la comunidad autónoma usadas en el proceso productivo y justificadas en memoria. No se valora: compras externas, servicios generales o importes sin trazabilidad territorial.">
+              <span class="range-top">
+                <span class="criterion-label">Materias primas de la zona</span>
+                <span id="local-material-label">45%</span>
+              </span>
+              <input id="local-material" type="range" min="0" max="100" step="5" value="45" />
+            </label>
+
+            <label class="criterion-tip tourism-only" data-tooltip="Se valora: rehabilitación de patrimonio histórico, edificios emblemáticos, jardines, casas-palacio o arquitectura tradicional. Puntúa más si es BIC. No se valora: obra nueva sin valor patrimonial o mantenimiento ordinario." hidden>
+              <span class="criterion-label">Rehabilitación patrimonial</span>
+              <select id="heritage">
+                <option value="0">No aplica</option>
+                <option value="3">Sin declaración formal</option>
+                <option value="8">Bien declarado de interés cultural</option>
+              </select>
+            </label>
+
+            <label class="criterion-tip tourism-only" data-tooltip="Se valora: rutas turísticas, culturales, históricas o gastronómicas, elementos etnográficos, ambientales o sociales. No se valora: atractivo genérico sin conexión demostrable con el territorio." hidden>
+              <span class="range-top">
+                <span class="criterion-label">Valor sociocultural</span>
+                <span id="sociocultural-label">2 / 4</span>
+              </span>
+              <input id="sociocultural" type="range" min="0" max="4" step="1" value="2" />
+            </label>
+
+            <label class="criterion-tip" data-tooltip="Se valora: medidas ambientales que exceden obligaciones legales, reflejadas en el cuestionario ambiental y valorables por informe. No se valora: cumplimiento mínimo obligatorio o declaraciones sin medida concreta.">
+              <span class="range-top">
+                <span class="criterion-label">Medidas ambientales superiores a obligación legal</span>
+                <span id="env-measures-label">5 / 8</span>
+              </span>
+              <input id="env-measures" type="range" min="0" max="8" step="1" value="5" />
+            </label>
+
+            <label class="criterion-tip" data-tooltip="Se valora: externalidades positivas, desarrollo sostenible e innovación ambiental incorporada al centro. En turismo también suma formación ambiental. No se valora: impacto neutro, mitigaciones básicas o actividad con efecto negativo.">
+              <span class="range-top">
+                <span class="criterion-label">Incidencia ambiental positiva</span>
+                <span id="env-impact-label">3 / 5</span>
+              </span>
+              <input id="env-impact" type="range" min="0" max="5" step="1" value="3" />
+            </label>
+
+            <div class="switch-row criterion-tip" data-tooltip="Se valora: sistema de gestión ambiental reconocido o certificados oficiales vinculados al centro, actividad o fase de obra. No se valora: políticas internas sin certificación o certificados ajenos al proyecto.">
+              <span class="switch-copy">
+                <strong class="criterion-label">Sistema ambiental certificado</strong>
+                <span>ISO 14001, EMAS u otro certificado aplicable.</span>
+              </span>
+              <label class="switch" aria-label="Sistema ambiental certificado">
+                <input id="env-system" type="checkbox" checked />
+                <span class="switch-track"></span>
+              </label>
+            </div>
+
+            <label class="criterion-tip" data-tooltip="Se valora: incremento de productividad ligado a tecnologías de transformación digital. No se valora: sustitución de equipos sin mejora medible, simple reposición o eficiencia no acreditada.">
+              <span class="range-top">
+                <span class="criterion-label">Incremento de productividad</span>
+                <span id="productivity-label">3 / 5</span>
+              </span>
+              <input id="productivity" type="range" min="0" max="5" step="1" value="3" />
+            </label>
+
+            <label class="criterion-tip" data-tooltip="Se valora: innovación real de proceso o producto; en industria, patentes, control en línea o trazabilidad ayudan. En turismo, originalidad de instalaciones, producto, emplazamiento o tematización. No se valora: mejora habitual ya estándar en el sector.">
+              <span class="range-top">
+                <span class="criterion-label">Carácter innovador</span>
+                <span id="innovation-label">3 / 5</span>
+              </span>
+              <input id="innovation" type="range" min="0" max="5" step="1" value="3" />
+            </label>
+
+            <label class="criterion-tip" data-tooltip="Se valora: sistemas de calidad certificados o en tramitación, controles de proceso/producto, laboratorios y estándares sectoriales. En turismo, Q turística, ISO 9001, ERP/PMS, reservas online o domótica. No se valora: sellos genéricos sin vínculo con el centro.">
+              <span class="range-top">
+                <span class="criterion-label">Sistemas de calidad</span>
+                <span id="quality-label">3 / 5</span>
+              </span>
+              <input id="quality" type="range" min="0" max="5" step="1" value="3" />
+            </label>
+
+            <label class="criterion-tip industrial-only" data-tooltip="Se valora: personal cualificado, laboratorios, colaboración con universidades, centros tecnológicos o proyectos de investigación vinculados al producto o proceso. No se valora: ingeniería rutinaria, mantenimiento o gastos sin soporte documental.">
+              <span class="range-top">
+                <span class="criterion-label">Gastos y estructura de I+D+i</span>
+                <span id="rdi-label">4 / 8</span>
+              </span>
+              <input id="rdi" type="range" min="0" max="8" step="1" value="4" />
+            </label>
+
+            <label class="criterion-tip" data-tooltip="Se valora: tecnologías que incrementan la digitalización del proceso o del centro. En turismo, seguridad, zonas comunes, habitaciones, cocinas, oficinas y accesibilidad. No se valora: software administrativo genérico sin impacto operativo.">
+              <span class="range-top">
+                <span class="criterion-label">Digitalización</span>
+                <span id="digitization-label">5 / 7</span>
+              </span>
+              <input id="digitization" type="range" min="0" max="8" step="1" value="5" />
+            </label>
+
+            <label class="criterion-tip tourism-only" data-tooltip="Se valora: actividades y equipamientos complementarios como gimnasio, spa, piscina, aparcamiento, jardines o espectáculos. No se valora: servicios mínimos exigibles o instalaciones ya existentes sin mejora sustancial." hidden>
+              <span class="range-top">
+                <span class="criterion-label">Instalaciones complementarias</span>
+                <span id="complementary-label">1 / 3</span>
+              </span>
+              <input id="complementary" type="range" min="0" max="3" step="1" value="1" />
+            </label>
+
+            <label class="criterion-tip" data-tooltip="Se valora: diversificación de oferta, nueva actividad, contratos con empresas locales, empleo indirecto, formación o, en turismo, desestacionalización y acuerdos con agentes de la zona. No se valora: impacto económico genérico sin evidencia local.">
+              <span class="range-top">
+                <span class="criterion-label">Beneficios inducidos</span>
+                <span id="benefits-label">3 / 5</span>
+              </span>
+              <input id="benefits" type="range" min="0" max="5" step="1" value="3" />
+            </label>
+
+            <label class="criterion-tip industrial-only" data-tooltip="Se valora: carácter exportador de la empresa y aumento previsto del porcentaje de exportación por el proyecto. No se valora: ventas sólo nacionales o previsiones sin base verificable.">
+              <span class="range-top">
+                <span class="criterion-label">Carácter exportador</span>
+                <span id="export-label">2 / 5</span>
+              </span>
+              <input id="export" type="range" min="0" max="5" step="1" value="2" />
+            </label>
+
+            <button class="primary-action" id="reset" type="button">Restablecer</button>
+          </section>
+        </section>
+      </form>
+    </main>
+
+    <script>
+      const DATA_SOURCE_URL = "../data/incentivos-regionales/zonas_intensidades.csv";
+      const GEOJSON_SOURCE_URL = "../data/incentivos-regionales/espana_nuts3_10m.geojson";
+      const MODULES_SOURCE_URL = "../data/incentivos-regionales/modulos_inversion.csv";
+      const PRIORITY_SOURCE_URL = "../data/incentivos-regionales/municipios_prioritarios.csv";
+
+      const sectorConfig = {
+        industria: {
+          label: "Industrial",
+          employmentCoefficient: 3.714,
+          blocks: [
+            ["Empleo", 30, "employment", "var(--green)"],
+            ["Factores endógenos", 5, "endogenous", "var(--blue)"],
+            ["Mejoras medioambientales", 15, "environment", "var(--amber)"],
+            ["Productividad y tecnología", 30, "technology", "var(--violet)"],
+            ["Carácter dinamizador", 20, "dynamizer", "var(--brand)"],
+          ],
+        },
+        turismo: {
+          label: "Turístico",
+          employmentCoefficient: 1.928,
+          blocks: [
+            ["Empleo", 30, "employment", "var(--green)"],
+            ["Factores endógenos", 12, "endogenous", "var(--blue)"],
+            ["Mejoras medioambientales", 12, "environment", "var(--amber)"],
+            ["Productividad y tecnología", 24, "technology", "var(--violet)"],
+            ["Carácter dinamizador", 22, "dynamizer", "var(--brand)"],
+          ],
+        },
+      };
+
+      const controls = {
+        form: document.querySelector("#calculator-form"),
+        territory: document.querySelector("#territory-select"),
+        priority: document.querySelector("#priority-zone"),
+        municipality: document.querySelector("#municipality-select"),
+        territoryMap: document.querySelector("#territory-map"),
+        mapGeometry: document.querySelector("#map-geometry"),
+        sector: document.querySelector("#sector"),
+        companySize: document.querySelector("#company-size"),
+        projectType: document.querySelector("#project-type"),
+        projectTypeButtons: document.querySelector("#project-type-buttons"),
+        investment: document.querySelector("#investment"),
+        civilInvestment: document.querySelector("#civil-investment"),
+        moduleCode: document.querySelector("#module-code"),
+        moduleArea: document.querySelector("#module-area"),
+        moduleWorkMode: document.querySelector("#module-work-mode"),
+        moduleWorkModeButtons: document.querySelector("#module-work-mode-buttons"),
+        jobsCreated: document.querySelector("#jobs-created"),
+        jobsMaintained: document.querySelector("#jobs-maintained"),
+        jobsMaintainedCard: document.querySelector("#jobs-maintained-card"),
+        localMaterial: document.querySelector("#local-material"),
+        heritage: document.querySelector("#heritage"),
+        sociocultural: document.querySelector("#sociocultural"),
+        envMeasures: document.querySelector("#env-measures"),
+        envImpact: document.querySelector("#env-impact"),
+        envSystem: document.querySelector("#env-system"),
+        productivity: document.querySelector("#productivity"),
+        innovation: document.querySelector("#innovation"),
+        quality: document.querySelector("#quality"),
+        rdi: document.querySelector("#rdi"),
+        digitization: document.querySelector("#digitization"),
+        complementary: document.querySelector("#complementary"),
+        benefits: document.querySelector("#benefits"),
+        export: document.querySelector("#export"),
+        reset: document.querySelector("#reset"),
+      };
+
+      const labels = {
+        csvStatus: document.querySelector("#csv-status"),
+        territoryStatus: document.querySelector("#territory-status"),
+        mapSelection: document.querySelector("#map-selection"),
+        mapIntensity: document.querySelector("#map-intensity"),
+        priorityNote: document.querySelector("#priority-note"),
+        municipalityCount: document.querySelector("#municipality-count"),
+        moduleSummary: document.querySelector("#module-summary"),
+        moduleCapLabel: document.querySelector("#module-cap-label"),
+        moduleCapValue: document.querySelector("#module-cap-value"),
+        employmentMode: document.querySelector("#employment-mode"),
+        employmentRatio: document.querySelector("#employment-ratio"),
+        scoreMode: document.querySelector("#score-mode"),
+        localMaterial: document.querySelector("#local-material-label"),
+        sociocultural: document.querySelector("#sociocultural-label"),
+        envMeasures: document.querySelector("#env-measures-label"),
+        envImpact: document.querySelector("#env-impact-label"),
+        productivity: document.querySelector("#productivity-label"),
+        innovation: document.querySelector("#innovation-label"),
+        quality: document.querySelector("#quality-label"),
+        rdi: document.querySelector("#rdi-label"),
+        digitization: document.querySelector("#digitization-label"),
+        complementary: document.querySelector("#complementary-label"),
+        benefits: document.querySelector("#benefits-label"),
+        export: document.querySelector("#export-label"),
+      };
+
+      const outputs = {
+        scoreRing: document.querySelector("#score-ring"),
+        aidPercent: document.querySelector("#aid-percent"),
+        aidAmount: document.querySelector("#aid-amount"),
+        status: document.querySelector("#result-status"),
+        limitNote: document.querySelector("#limit-note"),
+        tpb: document.querySelector("#tpb-value"),
+        im: document.querySelector("#im-value"),
+        investment: document.querySelector("#investment-value"),
+        investmentLabel: document.querySelector("#investment-label"),
+        employment: document.querySelector("#employment-value"),
+        breakdown: document.querySelector("#breakdown"),
+        breakdownTotal: document.querySelector("#breakdown-total"),
+      };
+
+      let territoryRows = [];
+      let investmentModules = [];
+      let priorityRows = [];
+      let geoFeatures = [];
+      let rowIndexByNuts = new Map();
+      let activeTerritoryIndex = -1;
+
+      function parseCsv(text) {
+        const records = [];
+        let row = [];
+        let field = "";
+        let quoted = false;
+        const clean = text.replace(/^\uFEFF/, "");
+
+        for (let index = 0; index < clean.length; index += 1) {
+          const char = clean[index];
+          const next = clean[index + 1];
+          if (char === "\"") {
+            if (quoted && next === "\"") {
+              field += "\"";
+              index += 1;
+            } else {
+              quoted = !quoted;
+            }
+          } else if (char === ";" && !quoted) {
+            row.push(field);
+            field = "";
+          } else if ((char === "\n" || char === "\r") && !quoted) {
+            if (char === "\r" && next === "\n") index += 1;
+            row.push(field);
+            if (row.some((cell) => cell.trim())) records.push(row);
+            row = [];
+            field = "";
+          } else {
+            field += char;
+          }
+        }
+
+        row.push(field);
+        if (row.some((cell) => cell.trim())) records.push(row);
+        const headers = records.shift()?.map((header) => header.trim()) || [];
+        return records.map((record) =>
+          Object.fromEntries(headers.map((header, index) => [header, record[index] ?? ""])),
+        );
+      }
+
+      function toNumber(value) {
+        const number = Number(String(value ?? "").replace(",", "."));
+        return Number.isFinite(number) ? number : 0;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, toNumber(value)));
+      }
+
+      function formatEuro(value) {
+        return new Intl.NumberFormat("es-ES", {
+          style: "currency",
+          currency: "EUR",
+          maximumFractionDigits: 0,
+        }).format(value);
+      }
+
+      function formatNumber(value, digits = 0) {
+        return new Intl.NumberFormat("es-ES", {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }).format(value);
+      }
+
+      function currentTerritory() {
+        return territoryRows[Number(controls.territory.value)] || territoryRows[0] || {};
+      }
+
+      function normalizeKey(value) {
+        return String(value ?? "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[ºª]/g, "")
+          .replace(/[^a-zA-Z0-9]+/g, " ")
+          .trim()
+          .toLowerCase();
+      }
+
+      function currentPrioritySelection() {
+        return priorityRows.find((row) => row.id === controls.municipality.value) || null;
+      }
+
+      function priorityRowsForTerritory(row) {
+        const scope = row.prioridad_alcance || "no";
+        if (scope !== "parcial") return [];
+
+        const rowTerritory = normalizeKey(row.territorio);
+        const rowCommunity = normalizeKey(row.comunidad);
+        const explicitMunicipality = normalizeKey(row.municipio_regla);
+
+        if (explicitMunicipality) {
+          return priorityRows.filter((entry) =>
+            normalizeKey(entry.municipio) === explicitMunicipality
+            && normalizeKey(entry.comunidad) === rowCommunity,
+          );
+        }
+
+        return priorityRows.filter((entry) => {
+          const entryTerritory = normalizeKey(entry.territorio);
+          const entryCommunity = normalizeKey(entry.comunidad);
+          return entryCommunity === rowCommunity && entryTerritory === rowTerritory;
+        });
+      }
+
+      function priorityOptionLabel(entry) {
+        const suffix = {
+          municipio_con_exclusiones: "revisar pedanía",
+          seccion_censal: "secciones censales",
+          zona_industrial: "zona industrial",
+          todo_territorio: "todo el territorio",
+        }[entry.ambito];
+        return suffix ? `${entry.municipio} · ${suffix}` : entry.municipio;
+      }
+
+      function priorityApplies(row) {
+        if (row.prioridad_alcance === "total") return true;
+        if (row.prioridad_alcance === "parcial") {
+          const selection = currentPrioritySelection();
+          return selection?.prioritario === "si" && ["si", "revision"].includes(selection.aplica_auto);
+        }
+        return false;
+      }
+
+      function preferredModuleCode(sector) {
+        return sector === "turismo" ? "hotel_4" : "nave_industrial";
+      }
+
+      function applicableModules(sector) {
+        return investmentModules.filter((module) =>
+          module.unidad === "m2"
+            && module.incluye_en_ui !== "no"
+            && (module.sector === sector || module.sector === "ambos"),
+        );
+      }
+
+      function syncModuleOptions(sector) {
+        const options = applicableModules(sector);
+        const current = controls.moduleCode.value;
+        const preferred = preferredModuleCode(sector);
+        const next = options.some((module) => module.codigo === current)
+          ? current
+          : options.find((module) => module.codigo === preferred)?.codigo || options[0]?.codigo || "";
+
+        if (
+          controls.moduleCode.dataset.optionsSector !== sector
+          || controls.moduleCode.dataset.optionCount !== String(options.length)
+        ) {
+          controls.moduleCode.innerHTML = options
+            .map((module) => `<option value="${escapeHtml(module.codigo)}">${escapeHtml(module.concepto)}</option>`)
+            .join("");
+          controls.moduleCode.dataset.optionsSector = sector;
+          controls.moduleCode.dataset.optionCount = String(options.length);
+        }
+
+        controls.moduleCode.value = next;
+      }
+
+      function currentModule() {
+        return investmentModules.find((module) => module.codigo === controls.moduleCode.value)
+          || applicableModules(controls.sector.value)[0]
+          || {};
+      }
+
+      function moduleRate(module, workMode) {
+        const baseRate = toNumber(module.modulo_eur);
+        if (workMode !== "reforma") return baseRate;
+        const reformFactor = toNumber(module.factor_reforma_pct) || 60;
+        return baseRate * reformFactor / 100;
+      }
+
+      function currentValues() {
+        const row = currentTerritory();
+        const module = currentModule();
+        return {
+          row,
+          sector: controls.sector.value,
+          companySize: controls.companySize.value,
+          projectType: controls.projectType.value,
+          investment: clamp(controls.investment.value, 0, 500000000),
+          civilInvestment: clamp(controls.civilInvestment.value, 0, 500000000),
+          module,
+          moduleArea: clamp(controls.moduleArea.value, 0, 10000000),
+          moduleWorkMode: controls.moduleWorkMode.value,
+          jobsCreated: clamp(controls.jobsCreated.value, 0, 10000),
+          jobsMaintained: clamp(controls.jobsMaintained.value, 0, 100000),
+          priority: priorityApplies(row),
+          localMaterial: clamp(controls.localMaterial.value, 0, 100),
+          heritage: clamp(controls.heritage.value, 0, 8),
+          sociocultural: clamp(controls.sociocultural.value, 0, 4),
+          envMeasures: clamp(controls.envMeasures.value, 0, 8),
+          envImpact: clamp(controls.envImpact.value, 0, controls.sector.value === "turismo" ? 2 : 5),
+          envSystem: controls.envSystem.checked,
+          productivity: clamp(controls.productivity.value, 0, 5),
+          innovation: clamp(controls.innovation.value, 0, controls.sector.value === "turismo" ? 3 : 5),
+          quality: clamp(controls.quality.value, 0, 5),
+          rdi: clamp(controls.rdi.value, 0, 8),
+          digitization: clamp(controls.digitization.value, 0, controls.sector.value === "turismo" ? 8 : 7),
+          complementary: clamp(controls.complementary.value, 0, 3),
+          benefits: clamp(controls.benefits.value, 0, 5),
+          export: clamp(controls.export.value, 0, 5),
+        };
+      }
+
+      function isNewProject(type) {
+        return type === "nueva_empresa" || type === "nueva_instalacion";
+      }
+
+      function employmentInvestmentPoints(values) {
+        if (!values.investment || !values.jobsCreated) return 0;
+        const investmentThousands = values.investment / 1000;
+        const points = sectorConfig[values.sector].employmentCoefficient * values.jobsCreated / investmentThousands;
+        return clamp(points, 0, 15);
+      }
+
+      function employmentTypePoints(values) {
+        if (isNewProject(values.projectType)) {
+          if (!values.jobsCreated) return 0;
+          return clamp(4 * Math.sqrt(values.jobsCreated) + 1, 0, 15);
+        }
+
+        if (!values.jobsMaintained) return 0;
+        const createdRatio = values.jobsCreated ? (values.jobsCreated / values.jobsMaintained) * 45 : 0;
+        const maintenance = Math.sqrt(values.jobsMaintained) / 3;
+        return clamp(createdRatio + maintenance, 0, 15);
+      }
+
+      function unemploymentPoints(values) {
+        const max = toNumber(values.row.paro_max_pts);
+        if (!max) return 0;
+        if (values.row.paro_tramo === "<10" && max === 5) return 5;
+
+        const extra = values.jobsCreated > 10
+          ? Math.floor((values.jobsCreated - 1) / 10) * 0.5
+          : 0;
+
+        if (isNewProject(values.projectType)) {
+          const base = max === 3 ? 1 : max === 4 ? 2 : 3;
+          return values.jobsCreated ? clamp(base + extra, 0, max) : 0;
+        }
+
+        if (max === 3) return 0;
+        const maintenance = values.jobsMaintained ? (max === 4 ? 1 : 2) : 0;
+        const creation = values.jobsCreated ? 2 + extra : 0;
+        return clamp(maintenance + creation, 0, max);
+      }
+
+      function maximumIntensity(values) {
+        const field = `intensidad_${values.companySize}_pct`;
+        return toNumber(values.row[field]);
+      }
+
+      function calculateModuleLimit(values) {
+        const rate = moduleRate(values.module, values.moduleWorkMode);
+        const civilDeclared = Math.min(values.civilInvestment, values.investment);
+        const moduleCap = values.module?.codigo && rate > 0
+          ? values.moduleArea * rate
+          : civilDeclared;
+        const eligibleCivil = Math.min(civilDeclared, moduleCap);
+        const excludedCivil = Math.max(0, civilDeclared - eligibleCivil);
+        const eligibleInvestment = Math.max(0, values.investment - excludedCivil);
+
+        return {
+          rate,
+          civilDeclared,
+          moduleCap,
+          eligibleCivil,
+          excludedCivil,
+          eligibleInvestment,
+          limited: excludedCivil > 1,
+        };
+      }
+
+      function calculate(values) {
+        const employmentA = employmentInvestmentPoints(values);
+        const employmentP = employmentTypePoints(values);
+        const employment = employmentA + employmentP;
+        const endogenous = values.sector === "industria"
+          ? 5 * values.localMaterial / 100
+          : clamp(values.heritage + values.sociocultural, 0, 12);
+        const environmentMax = values.sector === "industria" ? 15 : 12;
+        const environment = clamp(
+          values.envMeasures + values.envImpact + (values.envSystem ? 2 : 0),
+          0,
+          environmentMax,
+        );
+        const technologyMax = values.sector === "industria" ? 30 : 24;
+        const technology = values.sector === "industria"
+          ? clamp(values.productivity + values.innovation + values.quality + values.rdi + values.digitization, 0, technologyMax)
+          : clamp(values.productivity + values.innovation + values.quality + values.complementary + values.digitization, 0, technologyMax);
+        const unemployment = unemploymentPoints(values);
+        const dynamizer = values.sector === "industria"
+          ? clamp((isNewProject(values.projectType) ? 5 : 0) + values.benefits + values.export + unemployment, 0, 20)
+          : clamp(values.benefits + toNumber(values.row.turismo_equilibrio_pts) + unemployment, 0, 22);
+        const tpb = employment + endogenous + environment + technology + dynamizer;
+        const im = maximumIntensity(values);
+        const adjustedIntensity = im;
+        const basePercent = values.row.zona_elegible === "si"
+          ? Math.min(adjustedIntensity, (tpb * adjustedIntensity * (values.priority ? 1.2 : 1)) / 100)
+          : 0;
+        const roundedPercent = Math.round(basePercent);
+        const territorialBonus = tpb >= 25 ? toNumber(values.row.bonificacion_especial_pp) : 0;
+        const finalPercent = Math.min(adjustedIntensity, roundedPercent + territorialBonus);
+        const moduleLimit = calculateModuleLimit(values);
+        const aidAmount = moduleLimit.eligibleInvestment * finalPercent / 100;
+        const displayPercent = values.investment
+          ? (aidAmount / values.investment) * 100
+          : 0;
+
+        return {
+          employment,
+          endogenous,
+          environment,
+          technology,
+          dynamizer,
+          unemployment,
+          tpb,
+          im,
+          adjustedIntensity,
+          basePercent,
+          roundedPercent,
+          territorialBonus,
+          finalPercent,
+          displayPercent,
+          aidAmount,
+          moduleLimit,
+          moduleLimited: moduleLimit.limited,
+        };
+      }
+
+      function syncControls(values) {
+        const isTourism = values.sector === "turismo";
+        const newProject = isNewProject(values.projectType);
+        document.querySelectorAll(".industrial-only").forEach((element) => {
+          element.hidden = isTourism;
+        });
+        document.querySelectorAll(".tourism-only").forEach((element) => {
+          element.hidden = !isTourism;
+        });
+
+        controls.envImpact.max = isTourism ? 2 : 5;
+        controls.innovation.max = isTourism ? 3 : 5;
+        controls.digitization.max = isTourism ? 8 : 7;
+        controls.envImpact.value = values.envImpact;
+        controls.innovation.value = values.innovation;
+        controls.digitization.value = values.digitization;
+
+        labels.scoreMode.textContent = sectorConfig[values.sector].label;
+        labels.localMaterial.textContent = `${formatNumber(values.localMaterial)}%`;
+        labels.sociocultural.textContent = `${formatNumber(values.sociocultural)} / 4`;
+        labels.envMeasures.textContent = `${formatNumber(values.envMeasures)} / 8`;
+        labels.envImpact.textContent = `${formatNumber(values.envImpact)} / ${isTourism ? 2 : 5}`;
+        labels.productivity.textContent = `${formatNumber(values.productivity)} / 5`;
+        labels.innovation.textContent = `${formatNumber(values.innovation)} / ${isTourism ? 3 : 5}`;
+        labels.quality.textContent = `${formatNumber(values.quality)} / 5`;
+        labels.rdi.textContent = `${formatNumber(values.rdi)} / 8`;
+        labels.digitization.textContent = `${formatNumber(values.digitization)} / ${isTourism ? 8 : 7}`;
+        labels.complementary.textContent = `${formatNumber(values.complementary)} / 3`;
+        labels.benefits.textContent = `${formatNumber(values.benefits)} / 5`;
+        labels.export.textContent = `${formatNumber(values.export)} / 5`;
+        labels.employmentMode.textContent = newProject ? "Nueva inversión" : "Proyecto existente";
+        labels.employmentRatio.textContent = newProject
+          ? `${formatNumber(values.jobsCreated)} empleos nuevos`
+          : `${formatNumber(values.jobsCreated)} nuevos / ${formatNumber(values.jobsMaintained)} mantenidos`;
+        controls.jobsMaintainedCard.hidden = newProject;
+        renderProjectTypeButtons(values);
+        renderWorkModeButtons(values);
+      }
+
+      function areaColorFor(row, companySize) {
+        if (row.zona_elegible !== "si") return "#9aa7b4";
+        const intensity = toNumber(row[`intensidad_${companySize}_pct`]);
+        if (intensity >= 60) return "var(--green)";
+        if (intensity >= 40) return "var(--blue)";
+        return "var(--amber)";
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "\"": "&quot;",
+          "'": "&#39;",
+        })[char]);
+      }
+
+      function rowNutsIds(row) {
+        return String(row.nuts_ids || "")
+          .split("|")
+          .map((id) => id.trim())
+          .filter(Boolean);
+      }
+
+      function projectPoint(lon, lat, nutsId = "") {
+        const longitude = toNumber(lon);
+        const latitude = toNumber(lat);
+        const isCanary = String(nutsId).startsWith("ES7");
+
+        if (isCanary) {
+          const x = 62 + ((longitude + 18.4) / 5.1) * 190;
+          const y = 407 + ((29.6 - latitude) / 2.4) * 82;
+          return [x, y];
+        }
+
+        const x = 70 + ((longitude + 9.7) / 14.4) * 690;
+        const y = 28 + ((44 - latitude) / 8.5) * 365;
+        return [x, y];
+      }
+
+      function pathFromGeometry(geometry, nutsId) {
+        if (!geometry) return "";
+        const polygons = geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates;
+        return polygons
+          .flatMap((polygon) =>
+            polygon.map((ring) =>
+              ring
+                .map(([lon, lat], index) => {
+                  const [x, y] = projectPoint(lon, lat, nutsId);
+                  return `${index ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`;
+                })
+                .join(" ") + " Z",
+            ),
+          )
+          .join(" ");
+      }
+
+      function renderMapGeometry() {
+        const areas = [];
+        const priorityLayers = [];
+
+        geoFeatures.forEach((feature) => {
+          const nutsId = feature.properties?.nuts_id || feature.properties?.NUTS_ID || "";
+          const rowIndex = rowIndexByNuts.get(nutsId);
+          const row = territoryRows[rowIndex];
+          if (rowIndex === undefined || !row) return;
+
+          const label = `${row.territorio}, ${row.comunidad}`;
+          const d = pathFromGeometry(feature.geometry, nutsId);
+          const priorityClass = row.prioridad_alcance === "total" ? "is-total" : "is-partial";
+          const priority = row.zona_elegible === "si" && row.prioridad_alcance !== "no";
+
+          areas.push(`
+            <path
+              class="map-area"
+              data-row-index="${rowIndex}"
+              data-nuts-id="${escapeHtml(nutsId)}"
+              d="${d}"
+              fill-rule="evenodd"
+              tabindex="0"
+              role="button"
+              aria-label="${escapeHtml(label)}"
+            >
+              <title>${escapeHtml(label)}</title>
+            </path>
+          `);
+
+          if (priority) {
+            priorityLayers.push(`
+              <path
+                class="map-priority-layer ${priorityClass}"
+                data-row-index="${rowIndex}"
+                d="${d}"
+                fill-rule="evenodd"
+              ></path>
+            `);
+          }
+        });
+
+        const markers = territoryRows
+          .map((row, index) => ({ row, index }))
+          .filter(({ row }) => row.marker_lon && row.marker_lat)
+          .map(({ row, index }) => {
+            const [x, y] = projectPoint(row.marker_lon, row.marker_lat, row.nuts_ids || "ES620");
+            const label = `${row.territorio}, ${row.comunidad}`;
+            return `
+              <g
+                class="map-marker"
+                data-row-index="${index}"
+                tabindex="0"
+                role="button"
+                aria-label="${escapeHtml(label)}"
+                transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"
+              >
+                <title>${escapeHtml(label)}</title>
+                <circle r="8"></circle>
+                <circle class="map-marker-dot" r="4"></circle>
+              </g>
+            `;
+          })
+          .join("");
+
+        controls.mapGeometry.innerHTML = `
+          <svg class="spain-map" viewBox="0 0 820 520" aria-label="Mapa de intensidades regionales">
+            <defs>
+              <pattern id="priority-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(135)">
+                <rect width="8" height="8" fill="transparent"></rect>
+                <path d="M 0 0 L 0 8" stroke="rgba(0, 20, 38, 0.3)" stroke-width="2"></path>
+              </pattern>
+            </defs>
+            <rect x="54" y="398" width="214" height="100" rx="8" fill="rgba(227, 238, 246, 0.58)"></rect>
+            <text x="66" y="418" fill="#667383" font-size="12" font-weight="700">Canarias</text>
+            <g>${areas.join("")}</g>
+            <g>${priorityLayers.join("")}</g>
+            <g>${markers}</g>
+          </svg>
+        `;
+      }
+
+      function renderProjectTypeButtons(values) {
+        controls.projectTypeButtons.querySelectorAll("button").forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.projectType === values.projectType);
+        });
+      }
+
+      function renderWorkModeButtons(values) {
+        controls.moduleWorkModeButtons.querySelectorAll("button").forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.workMode === values.moduleWorkMode);
+        });
+      }
+
+      function syncMunicipalityOptions(row) {
+        const scope = row.prioridad_alcance || "no";
+        const options = priorityRowsForTerritory(row);
+        const previousValue = controls.municipality.value;
+        const explicitMunicipality = normalizeKey(row.municipio_regla);
+        const exactOption = explicitMunicipality
+          ? options.find((entry) => normalizeKey(entry.municipio) === explicitMunicipality)
+          : null;
+        const hasPrevious = options.some((entry) => entry.id === previousValue);
+
+        if (scope === "total") {
+          controls.municipality.innerHTML = '<option value="">Todo el territorio seleccionado</option>';
+          controls.municipality.disabled = true;
+          labels.municipalityCount.textContent = "total";
+          return;
+        }
+
+        if (scope !== "parcial" || row.zona_elegible !== "si") {
+          controls.municipality.innerHTML = '<option value="">No aplica</option>';
+          controls.municipality.disabled = true;
+          labels.municipalityCount.textContent = "no aplica";
+          return;
+        }
+
+        if (!options.length) {
+          controls.municipality.innerHTML = '<option value="">Sin lista municipal</option>';
+          controls.municipality.disabled = true;
+          labels.municipalityCount.textContent = "0 opciones";
+          return;
+        }
+
+        controls.municipality.innerHTML = [
+          '<option value="">No seleccionado / fuera de prioridad</option>',
+          ...options.map((entry) => `
+            <option value="${escapeHtml(entry.id)}">${escapeHtml(priorityOptionLabel(entry))}</option>
+          `),
+        ].join("");
+        controls.municipality.value = exactOption?.id || (hasPrevious ? previousValue : "");
+        controls.municipality.disabled = Boolean(exactOption) && options.length === 1;
+        labels.municipalityCount.textContent = `${options.length} ${options.length === 1 ? "opción" : "opciones"}`;
+      }
+
+      function syncPriorityControl(row) {
+        const selectedIndex = Number(controls.territory.value);
+        if (selectedIndex !== activeTerritoryIndex) {
+          activeTerritoryIndex = selectedIndex;
+          syncMunicipalityOptions(row);
+        }
+      }
+
+      function compactText(text, limit = 260) {
+        const value = String(text || "").replace(/\s+/g, " ").trim();
+        return value.length > limit ? `${value.slice(0, limit - 3).trim()}...` : value;
+      }
+
+      function priorityNoteFor(row, selection) {
+        const scope = row.prioridad_alcance || "no";
+        if (row.zona_elegible !== "si") return "Territorio no acogible.";
+        if (scope === "total") {
+          return row.prioridad_notas || "Prioridad territorial aplicada a todo el territorio.";
+        }
+        if (scope === "no") {
+          return row.prioridad_notas || "Sin prioridad territorial.";
+        }
+        if (!selection) {
+          return "El incremento se aplica si el municipio o ámbito figura en el anexo oficial.";
+        }
+
+        if (selection.requiere_revision === "si") {
+          const limits = selection.exclusiones ? ` Condición: ${selection.exclusiones}.` : "";
+          return compactText(`${selection.municipio}: prioridad sujeta a revisión de ubicación exacta. ${selection.notas || ""}${limits}`);
+        }
+
+        return `${selection.municipio}: prioridad aplicada por anexo oficial.`;
+      }
+
+      function renderMap(values) {
+        const row = values.row;
+        const selection = currentPrioritySelection();
+        const eligible = row.zona_elegible === "si";
+        labels.territoryStatus.textContent = eligible ? "Zona acogible" : "No acogible";
+
+        const sizeLabel = {
+          pequena: "Pequeña",
+          mediana: "Mediana",
+          gran: "Gran empresa",
+        }[values.companySize];
+
+        labels.mapSelection.textContent = row.comunidad
+          ? `${row.territorio} · ${row.comunidad}`
+          : "Selecciona territorio";
+        const bonus = toNumber(row.bonificacion_especial_pp);
+        labels.mapIntensity.textContent = eligible
+          ? `${sizeLabel}: ${formatNumber(maximumIntensity(values))}%${bonus ? ` · +${formatNumber(bonus)} pp especial` : ""}`
+          : "No acogible";
+
+        const scope = row.prioridad_alcance || "no";
+        controls.priority.disabled = true;
+        controls.priority.setAttribute("aria-pressed", String(values.priority));
+        controls.priority.textContent = scope === "total"
+          ? "Prioridad aplicada +20%"
+          : scope === "parcial"
+            ? values.priority
+              ? selection?.requiere_revision === "si"
+                ? "Prioridad con revisión +20%"
+                : "Prioridad aplicada +20%"
+              : "Selecciona municipio"
+            : "Sin prioridad territorial";
+        labels.priorityNote.textContent = priorityNoteFor(row, selection);
+
+        controls.territoryMap.querySelectorAll(".map-area, .map-marker").forEach((area) => {
+          const territory = territoryRows[Number(area.dataset.rowIndex)];
+          const selected = Number(area.dataset.rowIndex) === Number(controls.territory.value);
+          area.classList.toggle("is-selected", selected);
+          area.classList.toggle("is-ineligible", territory?.zona_elegible !== "si");
+          area.style.setProperty("--area-color", areaColorFor(territory || {}, values.companySize));
+        });
+
+        controls.territoryMap.querySelectorAll(".map-priority-layer").forEach((area) => {
+          const selected = Number(area.dataset.rowIndex) === Number(controls.territory.value);
+          area.classList.toggle("is-selected", selected);
+        });
+      }
+
+      function renderModuleSummary(values, result) {
+        const limit = result.moduleLimit;
+        const modeLabel = values.moduleWorkMode === "reforma" ? "reforma" : "obra nueva";
+        labels.moduleSummary.classList.toggle("is-limited", result.moduleLimited);
+        labels.moduleCapLabel.textContent = result.moduleLimited
+          ? "Ayuda limitada"
+          : "Límite por módulo";
+        labels.moduleCapValue.textContent = values.module?.codigo
+          ? `${formatEuro(limit.moduleCap)} · ${formatNumber(values.moduleArea)} m² · ${formatEuro(limit.rate)}/m² ${modeLabel}`
+          : "Sin módulo aplicable";
+      }
+
+      function renderBreakdown(values, result) {
+        const config = sectorConfig[values.sector];
+        const valuesByKey = {
+          employment: result.employment,
+          endogenous: result.endogenous,
+          environment: result.environment,
+          technology: result.technology,
+          dynamizer: result.dynamizer,
+        };
+
+        outputs.breakdownTotal.textContent = `${formatNumber(result.tpb, 1)} / 100 puntos`;
+        outputs.breakdown.innerHTML = config.blocks
+          .map(([label, max, key, color]) => {
+            const value = valuesByKey[key];
+            return `
+              <div class="bar-row">
+                <div class="bar-top">
+                  <strong>${label}</strong>
+                  <span>${formatNumber(value, value % 1 ? 1 : 0)} / ${max}</span>
+                </div>
+                <div class="bar" style="--color: ${color}; --width: ${(value / max) * 100}%">
+                  <span></span>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function resultState(values, result) {
+        if (values.row.zona_elegible !== "si") {
+          return ["bad", "Fuera de zona"];
+        }
+        if (result.tpb < 25) {
+          return ["bad", "Bajo mínimo técnico"];
+        }
+        if (result.finalPercent < 5) {
+          return ["warn", "Ayuda no incentivadora"];
+        }
+        if (result.moduleLimited) {
+          return ["warn", "Ayuda limitada"];
+        }
+        return ["good", "Estimación viable"];
+      }
+
+      function render() {
+        syncPriorityControl(currentTerritory());
+        syncModuleOptions(controls.sector.value);
+        const values = currentValues();
+        syncControls(values);
+        const result = calculate(values);
+        const [statusClass, statusText] = resultState(values, result);
+        const ringColor = statusClass === "good"
+          ? "var(--green)"
+          : statusClass === "warn"
+            ? "var(--amber)"
+            : "var(--red)";
+        const limitMarker = result.moduleLimited ? "*" : "";
+
+        outputs.scoreRing.style.setProperty("--score", result.displayPercent);
+        outputs.scoreRing.style.setProperty("--ring-color", ringColor);
+        outputs.aidPercent.textContent = `${formatNumber(result.displayPercent)}%${limitMarker}`;
+        outputs.aidAmount.textContent = `${formatEuro(result.aidAmount)}${limitMarker}`;
+        outputs.limitNote.hidden = !result.moduleLimited;
+        outputs.status.className = `status ${statusClass}`;
+        outputs.status.textContent = statusText;
+        outputs.tpb.textContent = formatNumber(result.tpb, 1);
+        outputs.im.textContent = `${formatNumber(result.adjustedIntensity, 1)}%`;
+        outputs.investment.textContent = formatEuro(result.moduleLimit.eligibleInvestment);
+        outputs.investmentLabel.textContent = result.moduleLimited
+          ? "Inversión admitida por módulos"
+          : "Inversión subvencionable";
+        outputs.employment.textContent = formatNumber(result.employment, 1);
+
+        renderMap(values);
+        renderModuleSummary(values, result);
+        renderBreakdown(values, result);
+      }
+
+      function hydrateTerritories(rows, featureCollection) {
+        territoryRows = rows;
+        geoFeatures = featureCollection.features || [];
+        rowIndexByNuts = new Map();
+        rows.forEach((row, index) => {
+          rowNutsIds(row).forEach((nutsId) => rowIndexByNuts.set(nutsId, index));
+        });
+
+        const defaultIndex = rows.findIndex((row) => row.territorio === "Cordoba");
+        controls.territory.value = String(defaultIndex >= 0 ? defaultIndex : 0);
+        activeTerritoryIndex = -1;
+        renderMapGeometry();
+        labels.csvStatus.textContent = `${rows.length} territorios · ${priorityRows.length} ámbitos prioritarios · ${investmentModules.length} módulos`;
+      }
+
+      function hydrateInvestmentModules(rows) {
+        investmentModules = rows.map((row) => ({
+          ...row,
+          modulo_eur: toNumber(row.modulo_eur),
+          factor_reforma_pct: toNumber(row.factor_reforma_pct) || 60,
+        }));
+      }
+
+      function hydratePriorityRows(rows) {
+        priorityRows = rows;
+      }
+
+      async function loadData() {
+        try {
+          const [csvResponse, geoResponse, modulesResponse, priorityResponse] = await Promise.all([
+            fetch(DATA_SOURCE_URL, { cache: "no-store" }),
+            fetch(GEOJSON_SOURCE_URL, { cache: "no-store" }),
+            fetch(MODULES_SOURCE_URL, { cache: "no-store" }),
+            fetch(PRIORITY_SOURCE_URL, { cache: "no-store" }),
+          ]);
+          if (!csvResponse.ok) throw new Error(`CSV HTTP ${csvResponse.status}`);
+          if (!geoResponse.ok) throw new Error(`GeoJSON HTTP ${geoResponse.status}`);
+          if (!modulesResponse.ok) throw new Error(`Módulos HTTP ${modulesResponse.status}`);
+          if (!priorityResponse.ok) throw new Error(`Prioritarios HTTP ${priorityResponse.status}`);
+          const rows = parseCsv(await csvResponse.text());
+          const geoJson = await geoResponse.json();
+          const modules = parseCsv(await modulesResponse.text());
+          const priorities = parseCsv(await priorityResponse.text());
+          if (!rows.length || !modules.length || !priorities.length) throw new Error("CSV vacío");
+          hydrateInvestmentModules(modules);
+          hydratePriorityRows(priorities);
+          hydrateTerritories(rows, geoJson);
+        } catch (error) {
+          labels.csvStatus.textContent = "Datos no disponibles";
+          controls.territory.value = "0";
+          controls.mapGeometry.innerHTML = '<span class="map-loading">No se pudo cargar el mapa</span>';
+          territoryRows = [{ zona_elegible: "no", territorio: "Sin datos", prioridad_alcance: "no" }];
+          investmentModules = [];
+          priorityRows = [];
+        } finally {
+          render();
+        }
+      }
+
+      controls.form.addEventListener("input", render);
+      controls.form.addEventListener("change", render);
+      controls.form.addEventListener("submit", (event) => event.preventDefault());
+      controls.territoryMap.addEventListener("click", (event) => {
+        const target = event.target.closest("[data-row-index]");
+        if (!target || target.classList.contains("map-priority-layer")) return;
+        controls.territory.value = target.dataset.rowIndex;
+        activeTerritoryIndex = -1;
+        render();
+      });
+      controls.territoryMap.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const target = event.target.closest("[data-row-index]");
+        if (!target || target.classList.contains("map-priority-layer")) return;
+        event.preventDefault();
+        controls.territory.value = target.dataset.rowIndex;
+        activeTerritoryIndex = -1;
+        render();
+      });
+      controls.projectTypeButtons.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-project-type]");
+        if (!button) return;
+        controls.projectType.value = button.dataset.projectType;
+        render();
+      });
+      controls.moduleWorkModeButtons.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-work-mode]");
+        if (!button) return;
+        controls.moduleWorkMode.value = button.dataset.workMode;
+        render();
+      });
+      controls.form.addEventListener("click", (event) => {
+        const stepper = event.target.closest("button[data-step-target]");
+        if (!stepper) return;
+        const input = document.querySelector(`#${stepper.dataset.stepTarget}`);
+        if (!input) return;
+        const next = clamp(toNumber(input.value) + toNumber(stepper.dataset.step), toNumber(input.min), 100000);
+        input.value = String(next);
+        render();
+      });
+      controls.reset.addEventListener("click", () => {
+        controls.sector.value = "industria";
+        controls.companySize.value = "mediana";
+        controls.projectType.value = "ampliacion";
+        controls.investment.value = "1400000";
+        controls.civilInvestment.value = "800000";
+        controls.moduleCode.value = "nave_industrial";
+        controls.moduleArea.value = "3500";
+        controls.moduleWorkMode.value = "nueva";
+        controls.jobsCreated.value = "8";
+        controls.jobsMaintained.value = "42";
+        activeTerritoryIndex = -1;
+        controls.municipality.value = "";
+        controls.localMaterial.value = "45";
+        controls.heritage.value = "0";
+        controls.sociocultural.value = "2";
+        controls.envMeasures.value = "5";
+        controls.envImpact.value = "3";
+        controls.envSystem.checked = true;
+        controls.productivity.value = "3";
+        controls.innovation.value = "3";
+        controls.quality.value = "3";
+        controls.rdi.value = "4";
+        controls.digitization.value = "5";
+        controls.complementary.value = "1";
+        controls.benefits.value = "3";
+        controls.export.value = "2";
+        render();
+      });
+
+      loadData();
+    </script>
+  </body>
+</html>

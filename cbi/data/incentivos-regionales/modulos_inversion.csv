@@ -1,0 +1,11 @@
+codigo;sector;concepto;unidad;modulo_eur;factor_reforma_pct;superficie_max_regla;incluye_en_ui;notas;fuente
+urbanizacion;ambos;Acondicionamiento y urbanizacion;m2;36;60;Maximo general: 5 veces la superficie construida en planta baja salvo justificacion;si;Modulo de obra civil para acondicionamiento y urbanizacion.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+nave_industrial;industria;Naves industriales;m2;252;60;;si;Modulo de obra civil para naves industriales.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+nave_frigorifica;industria;Naves frigorificas;m2;315;60;;si;Modulo de obra civil para naves frigorificas.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+oficinas_laboratorios;ambos;Oficinas, laboratorios y zonas comunes;m2;303;60;;si;Modulo de obra civil para oficinas, laboratorios y zonas comunes.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+hotel_5;turismo;Hotel 5 estrellas;m2;1003;60;;si;Modulo de obra civil para hoteles de 5 estrellas.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+hotel_4;turismo;Hotel 4 estrellas;m2;821;60;;si;Modulo de obra civil para hoteles de 4 estrellas.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+hotel_3;turismo;Hotel 3 estrellas;m2;730;60;;si;Modulo de obra civil para hoteles de 3 estrellas.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.1
+hotel_otras_5;turismo;Hotel 5 estrellas - otras inversiones;unidad_alojativa;16672;100;;no;Modulo para mobiliario, decoracion, enseres, menaje, televisores, minibares y similares.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.5
+hotel_otras_4;turismo;Hotel 4 estrellas - otras inversiones;unidad_alojativa;11670;100;;no;Modulo para mobiliario, decoracion, enseres, menaje, televisores, minibares y similares.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.5
+hotel_otras_3;turismo;Hotel 3 estrellas - otras inversiones;unidad_alojativa;8336;100;;no;Modulo para mobiliario, decoracion, enseres, menaje, televisores, minibares y similares.;Acuerdo Consejo Rector Incentivos Regionales 2022-2027, apartado 3.5
