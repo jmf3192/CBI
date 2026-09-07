@@ -426,6 +426,20 @@
         font-size: 13px;
       }
 
+      .calls-panel {
+        margin-top: 18px;
+      }
+
+      .calls-table tbody tr {
+        cursor: default;
+      }
+
+      .call-row-name {
+        display: block;
+        color: var(--brand);
+        font-weight: 500;
+      }
+
       @media (max-width: 980px) {
         .layout {
           grid-template-columns: 1fr;
@@ -604,6 +618,23 @@
           </form>
         </aside>
       </section>
+
+      <section class="panel calls-panel" aria-label="Convocatorias">
+        <div class="panel-header">
+          <h2>Convocatorias</h2>
+          <span id="calls-count"></span>
+        </div>
+
+        <table class="calls-table" aria-label="Convocatorias">
+          <thead>
+            <tr>
+              <th>Convocatoria</th>
+              <th>Código oficial</th>
+            </tr>
+          </thead>
+          <tbody id="calls-body"></tbody>
+        </table>
+      </section>
     </main>
 
     <script type="module">
@@ -628,6 +659,8 @@
       const passwordConfirmInput = document.querySelector("#password-confirm");
       const accessList = document.querySelector("#access-list");
       const feedback = document.querySelector("#feedback");
+      const callsBody = document.querySelector("#calls-body");
+      const callsCount = document.querySelector("#calls-count");
       const disableButton = document.querySelector("#disable-user");
       const logout = document.querySelector("#logout");
 
@@ -685,6 +718,27 @@
             </span>
           `;
           accessList.appendChild(item);
+        });
+      }
+
+      function renderCalls() {
+        callsCount.textContent = `${calls.length} convocatorias`;
+        callsBody.innerHTML = "";
+
+        if (!calls.length) {
+          callsBody.innerHTML = '<tr><td colspan="2" class="muted">No hay convocatorias cargadas.</td></tr>';
+          return;
+        }
+
+        calls.forEach((call) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>
+              <span class="call-row-name">${call.name}</span>
+            </td>
+            <td class="muted">${call.code}</td>
+          `;
+          callsBody.appendChild(row);
         });
       }
 
@@ -781,6 +835,7 @@
             body,
           });
           hydrateAdminData(payload);
+          renderCalls();
           const nextSelected = selectedId || payload.users.find((user) => user.email === values.email)?.id;
           selectedId = nextSelected || payload.users[0]?.id || null;
           if (selectedId) selectUser(selectedId);
@@ -826,6 +881,7 @@
           authSession = auth.session;
           const payload = await CBI.invokeAdminUsers(authSession);
           hydrateAdminData(payload);
+          renderCalls();
           selectedId = users[0]?.id || null;
 
           if (selectedId) {

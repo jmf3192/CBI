@@ -185,7 +185,7 @@ async function requireSession(options = {}) {
 
 async function listCalls(session) {
   return supabaseFetch(
-    "/rest/v1/calls?select=id,code,name,status&status=eq.active&order=name.asc",
+    "/rest/v1/calls?select=id,code,name&status=eq.active&order=name.asc",
     { session },
   );
 }

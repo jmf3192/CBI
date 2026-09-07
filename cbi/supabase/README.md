@@ -29,6 +29,7 @@ Las migraciones aplicadas en Supabase estan versionadas en:
 - `migrations/20260903124116_add_innovae_frio_call.sql`
 - `migrations/20260903124144_enforce_active_profiles_for_access.sql`
 - `migrations/20260907090000_add_incentivos_economicos_regionales_call.sql`
+- `migrations/20260907120000_activate_incentivos_regionales_call.sql`
 
 ## Acceso operativo
 
@@ -36,6 +37,6 @@ El frontend publico usa la publishable key de Supabase y todas las lecturas/escr
 
 No hay recuperacion automatica de acceso. Los usuarios y cambios de contrasena se gestionaran por administradores o desde Codex/Supabase.
 
-La Edge Function `admin-users` centraliza las operaciones sensibles del panel de control. Solo responde si la peticion incluye una sesion valida de un perfil `admin` activo. El panel administrativo lista todas las convocatorias, activas o no, para poder gestionar accesos y cambios de estado sin perder visibilidad.
+La Edge Function `admin-users` centraliza las operaciones sensibles del panel de control. Solo responde si la peticion incluye una sesion valida de un perfil `admin` activo. El panel administrativo lista todas las convocatorias para poder gestionar accesos sin perder visibilidad.
 
 La Edge Function publica `contact-form` recibe las consultas de `contacto.html`, valida los campos y las reenvia a Make. Su variable secreta `CONTACT_MAKE_WEBHOOK` se configura solo en Supabase y nunca se incluye en el repositorio ni en el navegador.

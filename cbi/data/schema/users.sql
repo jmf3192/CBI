@@ -118,7 +118,7 @@ VALUES
   (2, 'CONV-2026-002', 'Digitalizacion y datos', 'active'),
   (3, 'CONV-2026-003', 'Sostenibilidad e impacto', 'active'),
   (4, 'CONV-2026-INNOVAE-FRIO', 'INNOVAE frio', 'active'),
-  (5, 'CONV-2026-INCENTIVOS-REGIONALES', 'Incentivos economicos regionales', 'inactive');
+  (5, 'CONV-2026-INCENTIVOS-REGIONALES', 'Incentivos economicos regionales', 'active');
 
 INSERT OR IGNORE INTO user_call_access (user_id, call_id, access_level)
 VALUES

@@ -89,7 +89,7 @@ async function listData(admin: ReturnType<typeof createAdminClient>) {
       .from("profiles")
       .select("id, email, full_name, role, status, last_login_at, created_at, updated_at")
       .order("full_name", { ascending: true }),
-    admin.from("calls").select("id, code, name, status").order("name"),
+    admin.from("calls").select("id, code, name").order("name"),
     admin.from("user_call_access").select("user_id, call_id, access_level"),
   ]);
 
@@ -163,8 +163,7 @@ async function replaceAccess(
   if (insertError) throw insertError;
 }
 
-async function createUser(req: Request, admin: ReturnType<typeof createAdminClient>) {
-  const body = await req.json();
+async function createUser(body: Record<string, unknown>, admin: ReturnType<typeof createAdminClient>) {
   const email = requireString(body.email, "email").toLowerCase();
   const fullName = requireString(body.full_name, "nombre");
   const password = requireString(body.password, "password");
@@ -199,8 +198,7 @@ async function createUser(req: Request, admin: ReturnType<typeof createAdminClie
   return data.user.id;
 }
 
-async function updateUser(req: Request, admin: ReturnType<typeof createAdminClient>) {
-  const body = await req.json();
+async function updateUser(body: Record<string, unknown>, admin: ReturnType<typeof createAdminClient>) {
   const userId = requireString(body.id, "id");
   const email = requireString(body.email, "email").toLowerCase();
   const fullName = requireString(body.full_name, "nombre");
@@ -251,7 +249,8 @@ Deno.serve(async (req) => {
     }
 
     if (req.method === "POST") {
-      const userId = await createUser(req, admin);
+      const body = await req.json();
+      const userId = await createUser(body, admin);
       await admin.from("audit_log").insert({
         actor_user_id: actor.id,
         action: "user.create",
@@ -262,12 +261,14 @@ Deno.serve(async (req) => {
     }
 
     if (req.method === "PATCH") {
-      await updateUser(req, admin);
+      const body = await req.json();
+      await updateUser(body, admin);
       await admin.from("audit_log").insert({
         actor_user_id: actor.id,
         action: "user.update",
         entity_type: "user",
       });
+
       return json(await listData(admin));
     }
 
