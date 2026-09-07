@@ -656,7 +656,7 @@
 
       .detail-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 360px;
+        grid-template-columns: minmax(0, 1fr) 340px;
         gap: 18px;
       }
 
@@ -674,8 +674,8 @@
 
       .score-track {
         display: grid;
-        grid-template-columns: 40fr 25fr 25fr 10fr;
-        min-height: 84px;
+        grid-template-columns: 1fr;
+        min-height: 0;
         overflow: hidden;
         border: 1px solid var(--line-strong);
         border-radius: 8px;
@@ -685,14 +685,16 @@
       .score-block {
         min-width: 0;
         display: grid;
-        align-content: space-between;
-        gap: 8px;
-        padding: 12px 10px;
-        border-right: 1px solid rgba(0, 20, 38, 0.08);
+        grid-template-columns: 58px minmax(0, 1fr);
+        align-items: center;
+        gap: 14px;
+        min-height: 72px;
+        padding: 14px 16px;
+        border-bottom: 1px solid rgba(0, 20, 38, 0.08);
       }
 
       .score-block:last-child {
-        border-right: 0;
+        border-bottom: 0;
       }
 
       .score-block.c1 {
@@ -713,20 +715,16 @@
 
       .score-block strong {
         color: var(--brand);
-        font-size: 22px;
+        font-size: 28px;
         line-height: 1;
       }
 
       .score-block span {
         display: block;
-        line-height: 1.25;
-      }
-
-      .score-block span {
         color: var(--brand);
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 700;
-        text-transform: uppercase;
+        line-height: 1.35;
       }
 
       .competition-panel {
@@ -737,7 +735,7 @@
 
       .score-distribution {
         width: 100%;
-        height: 220px;
+        height: 280px;
         display: block;
         border: 1px solid var(--line);
         border-radius: 8px;
@@ -1240,32 +1238,40 @@
         </aside>
 
         <section class="dashboard" aria-label="Resultados del simulador">
-          <article class="panel">
-            <div class="panel-header">
-              <h2>Esquema de puntuación</h2>
-              <span>100 puntos</span>
-            </div>
-            <div class="score-guide" aria-label="Esquema de puntuación por criterio">
-              <div class="score-track" aria-label="Reparto de 100 puntos">
-                <div class="score-block c1">
-                  <strong>40</strong>
-                  <span>C1 · Coste/ahorro</span>
+            <article class="panel">
+              <div class="panel-header">
+                <h2>Distribución competitiva</h2>
+                <span id="competition-label"></span>
+              </div>
+              <div class="competition-panel">
+                <canvas
+                  class="score-distribution"
+                  id="score-distribution"
+                  width="640"
+                  height="280"
+                  aria-label="Distribución de puntuaciones totales"
+                ></canvas>
+                <div class="competition-axis" aria-hidden="true">
+                  <span>0 pts</span>
+                  <span>50</span>
+                  <span>100 pts</span>
                 </div>
-                <div class="score-block c2">
-                  <strong>25</strong>
-                  <span>C2 · Ayuda/ahorro</span>
-                </div>
-                <div class="score-block c3">
-                  <strong>25</strong>
-                  <span>C3 · Innovación</span>
-                </div>
-                <div class="score-block c4">
-                  <strong>10</strong>
-                  <span>C4 · Bonus</span>
+                <div class="competition-metrics">
+                  <div>
+                    <strong id="competition-own-score">-</strong>
+                    <span>nuestro proyecto</span>
+                  </div>
+                  <div>
+                    <strong id="competition-mean-score">-</strong>
+                    <span>media</span>
+                  </div>
+                  <div>
+                    <strong id="competition-cutoff-score">-</strong>
+                    <span>corte</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
+            </article>
 
           <div class="summary-grid">
             <article class="panel score-panel">
@@ -1311,34 +1317,26 @@
 
             <article class="panel">
               <div class="panel-header">
-                <h2>Distribución competitiva</h2>
-                <span id="competition-label"></span>
+                <h2>Esquema de puntuación</h2>
+                <span>100 puntos</span>
               </div>
-              <div class="competition-panel">
-                <canvas
-                  class="score-distribution"
-                  id="score-distribution"
-                  width="640"
-                  height="220"
-                  aria-label="Distribución de puntuaciones totales"
-                ></canvas>
-                <div class="competition-axis" aria-hidden="true">
-                  <span>0 pts</span>
-                  <span>50</span>
-                  <span>100 pts</span>
-                </div>
-                <div class="competition-metrics">
-                  <div>
-                    <strong id="competition-own-score">-</strong>
-                    <span>nuestro proyecto</span>
+              <div class="score-guide" aria-label="Esquema de puntuación por criterio">
+                <div class="score-track" aria-label="Reparto de 100 puntos">
+                  <div class="score-block c1">
+                    <strong>40</strong>
+                    <span>C1 · Coste/ahorro</span>
                   </div>
-                  <div>
-                    <strong id="competition-mean-score">-</strong>
-                    <span>media</span>
+                  <div class="score-block c2">
+                    <strong>25</strong>
+                    <span>C2 · Ayuda/ahorro</span>
                   </div>
-                  <div>
-                    <strong id="competition-cutoff-score">-</strong>
-                    <span>corte</span>
+                  <div class="score-block c3">
+                    <strong>25</strong>
+                    <span>C3 · Innovación</span>
+                  </div>
+                  <div class="score-block c4">
+                    <strong>10</strong>
+                    <span>C4 · Bonus</span>
                   </div>
                 </div>
               </div>
@@ -1864,7 +1862,7 @@
         const ratio = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
         const width = Math.max(320, Math.round(rect.width || 640));
-        const height = 220;
+        const height = 280;
         const pad = { top: 18, right: 18, bottom: 30, left: 26 };
         const plotWidth = width - pad.left - pad.right;
         const plotHeight = height - pad.top - pad.bottom;
