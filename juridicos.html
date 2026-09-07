@@ -36,7 +36,7 @@
             <h1>Especialistas en defensa administrativa y judicial de subvenciones y financiación pública.</h1>
           </div>
           <p>
-            Somos especialistas en la gestión, reclamación y defensa de asuntos
+            Somos especialistas en la <strong class="legal-key">gestión, reclamación y defensa</strong> de asuntos
             legales vinculados a ayudas públicas y subvenciones.
           </p>
         </div>
@@ -71,7 +71,7 @@
           <article class="legal-service-detail" id="legal-service-panel" role="tabpanel" aria-labelledby="legal-service-tab-0">
             <h3 id="legal-service-title">Recursos y alegaciones ante denegaciones e inadmisiones.</h3>
             <div class="legal-service-content">
-              <p id="legal-service-summary">Estudiamos las resoluciones desfavorables y el expediente de ayuda para formular los recursos y alegaciones que correspondan ante la Administración.</p>
+              <p id="legal-service-summary">Estudiamos las <strong class="legal-key">resoluciones desfavorables</strong> y el expediente de ayuda para formular los recursos y alegaciones que correspondan ante la Administración.</p>
               <ul id="legal-service-list">
                 <li>Revisión de las resoluciones de denegación e inadmisión y de los motivos que las sustentan.</li>
                 <li>Preparación de recursos y alegaciones vinculados al expediente y a la normativa aplicable.</li>
@@ -112,7 +112,7 @@
       const legalServices = [
         {
           title: "Recursos y alegaciones ante denegaciones e inadmisiones.",
-          summary: "Estudiamos las resoluciones desfavorables y el expediente de ayuda para formular los recursos y alegaciones que correspondan ante la Administración.",
+          summary: "Estudiamos las <strong class=\"legal-key\">resoluciones desfavorables</strong> y el expediente de ayuda para formular los recursos y alegaciones que correspondan ante la Administración.",
           items: [
             "Revisión de las resoluciones de denegación e inadmisión y de los motivos que las sustentan.",
             "Preparación de recursos y alegaciones vinculados al expediente y a la normativa aplicable.",
@@ -121,7 +121,7 @@
         },
         {
           title: "Defensa durante la solicitud y concesión.",
-          summary: "Intervenimos durante la tramitación cuando una actuación de la Administración puede condicionar el acceso a la ayuda o su correcta concesión.",
+          summary: "Intervenimos durante la tramitación cuando una <strong class=\"legal-key\">actuación de la Administración</strong> puede condicionar el acceso a la ayuda o su correcta concesión.",
           items: [
             "Revisión de requerimientos, trámites de audiencia y otras actuaciones administrativas.",
             "Elaboración de alegaciones para sostener correctamente la tramitación del expediente.",
@@ -130,7 +130,7 @@
         },
         {
           title: "Defensa judicial de ayudas públicas.",
-          summary: "Asumimos la representación y defensa cuando la controversia sobre una ayuda pública llega a la vía judicial, partiendo del análisis completo del expediente.",
+          summary: "Asumimos la <strong class=\"legal-key\">representación y defensa</strong> cuando la controversia sobre una ayuda pública llega a la vía judicial, partiendo del análisis completo del expediente.",
           items: [
             "Estudio jurídico de la controversia y de la documentación administrativa disponible.",
             "Representación y defensa en caso de reclamaciones judiciales vinculadas a la ayuda.",
@@ -139,7 +139,7 @@
         },
         {
           title: "Gestión jurídica en la justificación de ayudas.",
-          summary: "Acompañamos los expedientes que se encuentran en fase de justificación para afrontar las cuestiones jurídicas que puedan surgir ante la Administración.",
+          summary: "Acompañamos los expedientes que se encuentran en fase de justificación para afrontar las <strong class=\"legal-key\">cuestiones jurídicas</strong> que puedan surgir ante la Administración.",
           items: [
             "Revisión de incidencias jurídicas relacionadas con la justificación de la ayuda.",
             "Preparación de respuestas y alegaciones ante requerimientos que afecten al expediente.",
@@ -148,7 +148,7 @@
         },
         {
           title: "Asesoramiento legal durante todo el procedimiento.",
-          summary: "Aportamos una visión jurídica especializada en subvenciones y financiación pública durante todas las fases de la ayuda.",
+          summary: "Aportamos una <strong class=\"legal-key\">visión jurídica especializada</strong> en subvenciones y financiación pública durante todas las fases de la ayuda.",
           items: [
             "Acompañamiento en las fases de solicitud y concesión.",
             "Apoyo legal durante la ejecución, la justificación y el cierre del expediente.",
@@ -175,8 +175,8 @@
         });
 
         legalServicePanel.setAttribute("aria-labelledby", legalServiceTabs[index].id);
-        legalServiceTitle.textContent = service.title;
-        legalServiceSummary.textContent = service.summary;
+        legalServiceTitle.innerHTML = service.title;
+        legalServiceSummary.innerHTML = service.summary;
         legalServiceList.replaceChildren(
           ...service.items.map((item) => {
             const listItem = document.createElement("li");

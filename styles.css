@@ -786,6 +786,16 @@ h3 {
   line-height: 1.58;
 }
 
+.home-key,
+.legal-key {
+  color: inherit;
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(49, 91, 187, 0.38);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+}
+
 .legal-services {
   padding: 0 0 82px;
   background: var(--paper);
