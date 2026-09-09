@@ -26,9 +26,13 @@ CREATE TABLE IF NOT EXISTS calls (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   code TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
+  kind TEXT NOT NULL DEFAULT 'normal',
+  description TEXT NOT NULL DEFAULT '',
+  route_path TEXT,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CHECK (kind IN ('normal', 'strategy', 'tracking', 'sprint')),
   CHECK (status IN ('draft', 'active', 'inactive', 'archived'))
 );
 

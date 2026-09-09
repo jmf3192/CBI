@@ -114,6 +114,11 @@
         margin-bottom: 28px;
       }
 
+      .heading-actions {
+        display: flex;
+        gap: 10px;
+      }
+
       h1,
       h2,
       p {
@@ -427,11 +432,18 @@
       }
 
       .calls-panel {
-        margin-top: 18px;
+        margin-top: 34px;
+      }
+
+      .calls-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 18px;
+        align-items: start;
       }
 
       .calls-table tbody tr {
-        cursor: default;
+        cursor: pointer;
       }
 
       .call-row-name {
@@ -440,8 +452,75 @@
         font-weight: 500;
       }
 
+      .call-row-code {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .call-kind {
+        display: inline-flex;
+        align-items: center;
+        min-height: 27px;
+        border-radius: 999px;
+        padding: 0 9px;
+        color: #315c73;
+        background: #edf6fa;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .call-kind.strategy {
+        color: #5d5086;
+        background: #f2effa;
+      }
+
+      .call-kind.tracking {
+        color: #7d5b17;
+        background: #fbf5e7;
+      }
+
+      .call-kind.sprint {
+        color: #146473;
+        background: #eaf7f8;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 27px;
+        border-radius: 999px;
+        padding: 0 9px;
+        color: var(--muted);
+        background: #f2f5f7;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .status-badge.active {
+        color: #2e6d4d;
+        background: #edf7f1;
+      }
+
+      .route-help {
+        margin-top: -2px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 400;
+        line-height: 1.45;
+      }
+
+      .section-intro {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
       @media (max-width: 980px) {
-        .layout {
+        .layout,
+        .calls-layout {
           grid-template-columns: 1fr;
         }
 
@@ -475,6 +554,14 @@
         .heading {
           align-items: flex-start;
           flex-direction: column;
+        }
+
+        .heading-actions {
+          width: 100%;
+        }
+
+        .heading-actions button {
+          flex: 1;
         }
 
         table,
@@ -524,7 +611,7 @@
       </a>
 
       <nav class="session" aria-label="Administración">
-        <a href="./convocatorias.html">Convocatorias</a>
+        <a href="./convocatorias.html">Espacio de trabajo</a>
         <a id="logout" href="./acceso.html">Salir</a>
       </nav>
     </header>
@@ -532,7 +619,10 @@
     <main>
       <section class="heading" aria-labelledby="page-title">
         <h1 id="page-title">Panel de control</h1>
-        <button class="primary-action" id="new-user" type="button">Nuevo usuario</button>
+        <div class="heading-actions">
+          <button class="secondary-action" id="new-call" type="button">Nuevo contenido</button>
+          <button class="primary-action" id="new-user" type="button">Nuevo usuario</button>
+        </div>
       </section>
 
       <section class="layout">
@@ -619,21 +709,85 @@
         </aside>
       </section>
 
-      <section class="panel calls-panel" aria-label="Convocatorias">
-        <div class="panel-header">
-          <h2>Convocatorias</h2>
+      <section class="calls-panel" aria-labelledby="calls-title">
+        <div class="panel-header" style="padding-left:0;padding-right:0;border-bottom:0">
+          <div>
+            <h2 id="calls-title">Contenidos de la plataforma</h2>
+            <p class="section-intro">Crea y configura convocatorias, estrategias, seguimientos o sprints.</p>
+          </div>
           <span id="calls-count"></span>
         </div>
 
-        <table class="calls-table" aria-label="Convocatorias">
-          <thead>
-            <tr>
-              <th>Convocatoria</th>
-              <th>Código oficial</th>
-            </tr>
-          </thead>
-          <tbody id="calls-body"></tbody>
-        </table>
+        <div class="calls-layout">
+          <div class="panel">
+            <table class="calls-table" aria-label="Contenidos de la plataforma">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                  <th>Estado</th>
+                  <th>Accesos</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="calls-body"></tbody>
+            </table>
+          </div>
+
+          <aside class="editor panel" aria-label="Editor de contenido">
+            <div class="panel-header">
+              <h2 id="call-editor-title">Editar contenido</h2>
+              <span id="call-editor-status"></span>
+            </div>
+
+            <form id="call-form">
+              <input id="call-id" type="hidden" />
+
+              <label>
+                Nombre
+                <input id="call-name" type="text" required />
+              </label>
+
+              <label>
+                Código
+                <input id="call-code" type="text" required placeholder="CONV-2027-EJEMPLO" />
+              </label>
+
+              <label>
+                Tipo
+                <select id="call-kind">
+                  <option value="normal">Convocatoria</option>
+                  <option value="strategy">Estrategia de financiación</option>
+                  <option value="tracking">Seguimiento</option>
+                  <option value="sprint">Sprint</option>
+                </select>
+              </label>
+
+              <label id="call-route-field">
+                Ruta de acceso
+                <input id="call-route" type="text" placeholder="./nombre-dashboard.html" />
+                <span class="route-help">En las estrategias se asigna automáticamente el panel gráfico.</span>
+              </label>
+
+              <label>
+                Estado
+                <select id="call-status">
+                  <option value="draft">Borrador</option>
+                  <option value="active">Activo</option>
+                  <option value="inactive">Inactivo</option>
+                  <option value="archived">Archivado</option>
+                </select>
+              </label>
+
+              <div class="form-actions">
+                <button class="primary-action" type="submit">Guardar contenido</button>
+                <button class="secondary-action" id="toggle-call-status" type="button">Desactivar</button>
+              </div>
+
+              <p class="feedback" id="call-feedback" aria-live="polite"></p>
+            </form>
+          </aside>
+        </div>
       </section>
     </main>
 
@@ -644,6 +798,8 @@
       let calls = [];
       let users = [];
       let selectedId = null;
+      let selectedCallId = null;
+      let callAccessByCall = new Map();
 
       const usersBody = document.querySelector("#users-body");
       const recordCount = document.querySelector("#record-count");
@@ -662,6 +818,18 @@
       const callsBody = document.querySelector("#calls-body");
       const callsCount = document.querySelector("#calls-count");
       const disableButton = document.querySelector("#disable-user");
+      const callForm = document.querySelector("#call-form");
+      const callIdInput = document.querySelector("#call-id");
+      const callNameInput = document.querySelector("#call-name");
+      const callCodeInput = document.querySelector("#call-code");
+      const callKindInput = document.querySelector("#call-kind");
+      const callRouteInput = document.querySelector("#call-route");
+      const callRouteField = document.querySelector("#call-route-field");
+      const callStatusInput = document.querySelector("#call-status");
+      const callEditorTitle = document.querySelector("#call-editor-title");
+      const callEditorStatus = document.querySelector("#call-editor-status");
+      const callFeedback = document.querySelector("#call-feedback");
+      const toggleCallStatusButton = document.querySelector("#toggle-call-status");
       const logout = document.querySelector("#logout");
 
       function roleText(role) {
@@ -672,11 +840,38 @@
         return status === "inactive" ? "Inactivo" : "Activo";
       }
 
+      function callStatusText(status) {
+        return {
+          draft: "Borrador",
+          active: "Activo",
+          inactive: "Inactivo",
+          archived: "Archivado",
+        }[status] || status;
+      }
+
+      function callKindText(kind) {
+        return {
+          normal: "Convocatoria",
+          strategy: "Estrategia",
+          tracking: "Seguimiento",
+          sprint: "Sprint",
+        }[kind] || "Convocatoria";
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
       function accessText(user) {
-        if (user.access.length === calls.length) return "Todas";
+        if (calls.length > 0 && user.access.length === calls.length) return "Todos";
         if (user.access.length === 0) return "Sin acceso";
-        if (user.access.length === 1) return "1 convocatoria";
-        return `${user.access.length} convocatorias`;
+        if (user.access.length === 1) return "1 contenido";
+        return `${user.access.length} contenidos`;
       }
 
       function renderUsers() {
@@ -688,8 +883,8 @@
           row.className = user.id === selectedId ? "is-selected" : "";
           row.innerHTML = `
             <td>
-              <span class="user-name">${user.full_name}</span>
-              <span class="user-email">${user.email}</span>
+              <span class="user-name">${escapeHtml(user.full_name)}</span>
+              <span class="user-email">${escapeHtml(user.email)}</span>
             </td>
             <td><span class="badge">${roleText(user.role)}</span></td>
             <td>${statusText(user.status)}</td>
@@ -709,8 +904,8 @@
           item.className = "access-item";
           item.innerHTML = `
             <span class="access-copy">
-              <strong class="access-title">${call.name}</strong>
-              <span class="access-code">${call.code}</span>
+              <strong class="access-title">${escapeHtml(call.name)}</strong>
+              <span class="access-code">${callKindText(call.kind)} · ${escapeHtml(call.code)}</span>
             </span>
             <span class="switch">
               <input type="checkbox" value="${call.id}" ${user.access.includes(call.id) ? "checked" : ""} />
@@ -722,24 +917,110 @@
       }
 
       function renderCalls() {
-        callsCount.textContent = `${calls.length} convocatorias`;
+        callsCount.textContent = `${calls.length} contenidos`;
         callsBody.innerHTML = "";
 
         if (!calls.length) {
-          callsBody.innerHTML = '<tr><td colspan="2" class="muted">No hay convocatorias cargadas.</td></tr>';
+          callsBody.innerHTML = '<tr><td colspan="5" class="muted">No hay contenidos cargados.</td></tr>';
           return;
         }
 
         calls.forEach((call) => {
           const row = document.createElement("tr");
+          row.className = call.id === selectedCallId ? "is-selected" : "";
           row.innerHTML = `
             <td>
-              <span class="call-row-name">${call.name}</span>
+              <span class="call-row-name">${escapeHtml(call.name)}</span>
+              <span class="call-row-code">${escapeHtml(call.code)}</span>
             </td>
-            <td class="muted">${call.code}</td>
+            <td><span class="call-kind ${escapeHtml(call.kind || "normal")}">${callKindText(call.kind)}</span></td>
+            <td><span class="status-badge ${call.status === "active" ? "active" : ""}">${callStatusText(call.status)}</span></td>
+            <td class="muted">${(callAccessByCall.get(call.id) || []).length}</td>
+            <td><button class="table-action" type="button">Editar</button></td>
           `;
+          row.addEventListener("click", () => selectCall(call.id));
           callsBody.appendChild(row);
         });
+      }
+
+      function routeFromName(name) {
+        const slug = String(name || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        return slug ? `./${slug}.html` : "";
+      }
+
+      function updateCallRouteState() {
+        const kind = callKindInput.value;
+        const previousKind = callRouteInput.dataset.currentKind || "normal";
+        const strategy = kind === "strategy";
+        const placeholder = kind === "tracking" || kind === "sprint";
+        const strategyRoute = "./estrategia-financiacion-demo.html";
+        if (previousKind === "normal") callRouteInput.dataset.normalRoute = callRouteInput.value;
+        callRouteInput.disabled = kind !== "normal";
+        if (strategy) {
+          callRouteInput.value = strategyRoute;
+        } else if (placeholder) {
+          callRouteInput.value = "";
+        } else {
+          callRouteInput.value = callRouteInput.dataset.normalRoute || routeFromName(callNameInput.value);
+          callRouteInput.dataset.normalRoute = callRouteInput.value;
+        }
+        callRouteInput.dataset.currentKind = kind;
+        callRouteField.querySelector(".route-help").textContent = strategy
+          ? "La estrategia utiliza automáticamente el panel gráfico de planificación."
+          : placeholder
+            ? "El panel específico de este tipo se añadirá más adelante."
+            : "Se genera a partir del nombre y puedes editarla manualmente.";
+      }
+
+      function selectCall(id) {
+        const call = calls.find((item) => item.id === id);
+        if (!call) return;
+
+        selectedCallId = call.id;
+        callEditorTitle.textContent = "Editar contenido";
+        callEditorStatus.textContent = callStatusText(call.status);
+        callIdInput.value = call.id;
+        callNameInput.value = call.name;
+        callCodeInput.value = call.code;
+        callKindInput.value = call.kind || "normal";
+        callRouteInput.value = call.route_path || "";
+        callRouteInput.dataset.normalRoute = call.kind === "normal" ? call.route_path || "" : "";
+        callRouteInput.dataset.currentKind = call.kind || "normal";
+        callRouteInput.dataset.autoRoute = String(
+          call.kind === "normal" && (!call.route_path || call.route_path === routeFromName(call.name)),
+        );
+        callStatusInput.value = call.status || "draft";
+        toggleCallStatusButton.disabled = false;
+        toggleCallStatusButton.textContent = call.status === "active" ? "Desactivar" : "Activar";
+        callFeedback.textContent = "";
+        updateCallRouteState();
+        renderCalls();
+      }
+
+      function newCall() {
+        selectedCallId = null;
+        callEditorTitle.textContent = "Nuevo contenido";
+        callEditorStatus.textContent = "Borrador";
+        callIdInput.value = "";
+        callNameInput.value = "";
+        callCodeInput.value = "";
+        callKindInput.value = "normal";
+        callRouteInput.value = "";
+        callRouteInput.dataset.normalRoute = "";
+        callRouteInput.dataset.currentKind = "normal";
+        callRouteInput.dataset.autoRoute = "true";
+        callStatusInput.value = "draft";
+        toggleCallStatusButton.disabled = true;
+        toggleCallStatusButton.textContent = "Activar";
+        callFeedback.textContent = "";
+        updateCallRouteState();
+        renderCalls();
+        callNameInput.focus();
       }
 
       function selectUser(id) {
@@ -858,13 +1139,57 @@
         await saveCurrentUser();
       }
 
+      async function saveCurrentCall(event) {
+        if (event) event.preventDefault();
+        const values = {
+          id: selectedCallId,
+          name: callNameInput.value.trim(),
+          code: callCodeInput.value.trim(),
+          kind: callKindInput.value,
+          route_path: callKindInput.value === "strategy"
+            ? "./estrategia-financiacion-demo.html"
+            : callKindInput.value === "normal"
+              ? callRouteInput.value.trim()
+              : null,
+          status: callStatusInput.value,
+        };
+        if (!values.name || !values.code) return;
+
+        callFeedback.textContent = "Guardando";
+        try {
+          const payload = await CBI.invokeAdminCalls(authSession, {
+            method: selectedCallId ? "PATCH" : "POST",
+            body: values,
+          });
+          hydrateCalls(payload);
+          const saved = selectedCallId
+            ? calls.find((call) => call.id === selectedCallId)
+            : calls.find((call) => call.code === values.code.toUpperCase().replace(/\s+/g, "-"));
+          selectedCallId = saved?.id || calls[0]?.id || null;
+          renderAccess(users.find((user) => user.id === selectedId) || { access: [] });
+          if (selectedCallId) selectCall(selectedCallId);
+          callFeedback.textContent = "Contenido guardado";
+        } catch (error) {
+          callFeedback.textContent = error instanceof Error ? error.message : "No se ha podido guardar el contenido";
+        }
+      }
+
+      async function toggleCallStatus() {
+        if (!selectedCallId) return;
+        callStatusInput.value = callStatusInput.value === "active" ? "inactive" : "active";
+        await saveCurrentCall();
+      }
+
       function hydrateAdminData(payload) {
-        calls = payload.calls || [];
+        if (payload.calls?.length && !calls.length) calls = payload.calls;
         const accessByUser = new Map();
+        callAccessByCall = new Map();
 
         (payload.access || []).forEach((item) => {
           if (!accessByUser.has(item.user_id)) accessByUser.set(item.user_id, []);
           accessByUser.get(item.user_id).push(item.call_id);
+          if (!callAccessByCall.has(item.call_id)) callAccessByCall.set(item.call_id, []);
+          callAccessByCall.get(item.call_id).push(item.user_id);
         });
 
         users = (payload.users || []).map((user) => ({
@@ -873,16 +1198,34 @@
         }));
       }
 
+      function hydrateCalls(payload) {
+        calls = payload.calls || [];
+        callAccessByCall = new Map();
+        (payload.access || []).forEach((item) => {
+          if (!callAccessByCall.has(item.call_id)) callAccessByCall.set(item.call_id, []);
+          callAccessByCall.get(item.call_id).push(item.user_id);
+        });
+        users = users.map((user) => ({
+          ...user,
+          access: (payload.access || []).filter((item) => item.user_id === user.id).map((item) => item.call_id),
+        }));
+        renderCalls();
+      }
+
       async function loadAdmin() {
         try {
           const auth = await CBI.requireSession({ adminOnly: true });
           if (!auth) return;
 
           authSession = auth.session;
-          const payload = await CBI.invokeAdminUsers(authSession);
-          hydrateAdminData(payload);
-          renderCalls();
+          const [userPayload, callPayload] = await Promise.all([
+            CBI.invokeAdminUsers(authSession),
+            CBI.invokeAdminCalls(authSession),
+          ]);
+          hydrateAdminData(userPayload);
+          hydrateCalls(callPayload);
           selectedId = users[0]?.id || null;
+          selectedCallId = calls[0]?.id || null;
 
           if (selectedId) {
             selectUser(selectedId);
@@ -890,6 +1233,9 @@
             newUser();
             renderUsers();
           }
+
+          if (selectedCallId) selectCall(selectedCallId);
+          else newCall();
         } catch (error) {
           feedback.textContent =
             error instanceof Error ? error.message : "No se ha podido cargar el panel";
@@ -897,7 +1243,21 @@
       }
 
       document.querySelector("#new-user").addEventListener("click", newUser);
+      document.querySelector("#new-call").addEventListener("click", newCall);
       document.querySelector("#disable-user").addEventListener("click", disableUser);
+      callKindInput.addEventListener("change", updateCallRouteState);
+      callNameInput.addEventListener("input", () => {
+        if (callKindInput.value !== "normal" || callRouteInput.dataset.autoRoute !== "true") return;
+        callRouteInput.value = routeFromName(callNameInput.value);
+        callRouteInput.dataset.normalRoute = callRouteInput.value;
+      });
+      callRouteInput.addEventListener("input", () => {
+        if (callKindInput.value !== "normal") return;
+        callRouteInput.dataset.autoRoute = "false";
+        callRouteInput.dataset.normalRoute = callRouteInput.value;
+      });
+      callForm.addEventListener("submit", saveCurrentCall);
+      toggleCallStatusButton.addEventListener("click", toggleCallStatus);
       userForm.addEventListener("submit", saveUser);
       logout.addEventListener("click", async (event) => {
         event.preventDefault();

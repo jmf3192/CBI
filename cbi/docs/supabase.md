@@ -27,3 +27,5 @@ Las variables sensibles deberan vivir en el entorno de despliegue. En el reposit
 - No se activara recuperacion automatica de acceso en esta fase. Seran pocos usuarios y la gestion se hara por admin/Codex.
 - Admin inicial: `jorgemoreno@con-asociados.com`, creado en Supabase Auth y enlazado a `public.profiles` con rol `admin`.
 - Funcion admin: `admin-users`, desplegada como Edge Function con verificacion interna de sesion y rol admin activo.
+- Los accesos se modelan en `calls` y se clasifican mediante `kind`: `normal`, `strategy`, `tracking` o `sprint`.
+- Seguimientos y sprints pueden asignarse desde administracion, pero inicialmente no tienen una ruta funcional asociada.

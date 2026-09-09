@@ -13,7 +13,7 @@ Este documento define el esquema inicial del producto y servira como base para e
 Incluido en la primera arquitectura:
 
 - Portal de acceso con usuario y contrasena.
-- Pantalla privada con convocatorias activas.
+- Espacio privado organizado en convocatorias, estrategias, seguimientos y sprints.
 - Vista de detalle de convocatoria.
 - Cuestionario de evaluacion del proyecto.
 - Sistema de puntuacion por convocatoria.
@@ -77,11 +77,14 @@ Elementos previstos:
 
 ### Area privada
 
-Pantalla posterior al login donde el usuario ve solo las convocatorias activas disponibles para el.
+Pantalla posterior al login donde el usuario ve solo los contenidos activos disponibles para el.
 
 Elementos previstos:
 
-- Listado de convocatorias visibles.
+- Cuatro categorias: convocatorias, estrategias de financiacion, seguimientos y sprints.
+- Ocultacion completa de las categorias en las que el usuario no tiene ningun acceso.
+- Listado de contenidos visibles segun los permisos asignados.
+- El espacio de trabajo solo permite abrir contenidos; la creacion de nuevas estrategias se realiza desde administracion.
 - Estado de cada convocatoria.
 - Acceso a evaluaciones creadas.
 - Acceso a crear nueva evaluacion.
@@ -100,6 +103,8 @@ Cada convocatoria tendra una estructura configurable:
 - Requisitos minimos, si existen.
 - Campos necesarios para comparar el proyecto.
 - CSV o dataset competitivo asociado.
+
+El campo `Call.kind` organiza todos los accesos de la plataforma: `normal`, `strategy`, `tracking` y `sprint`. Seguimientos y sprints quedan inicialmente como categorias sin panel funcional propio.
 
 ### Cuestionario de proyecto
 

@@ -185,9 +185,47 @@ async function requireSession(options = {}) {
 
 async function listCalls(session) {
   return supabaseFetch(
-    "/rest/v1/calls?select=id,code,name&status=eq.active&order=name.asc",
+    "/rest/v1/calls?select=id,code,name,kind,description,route_path&status=eq.active&order=name.asc",
     { session },
   );
+}
+
+async function listStrategyStudies(session, callId) {
+  const callFilter = callId ? `&call_id=eq.${encodeURIComponent(callId)}` : "";
+  return supabaseFetch(
+    `/rest/v1/strategy_studies?select=id,call_id,owner_user_id,client_name,project_name,status,schema_version,payload,created_at,updated_at${callFilter}&order=updated_at.desc`,
+    { session },
+  );
+}
+
+async function createStrategyStudy(session, values) {
+  const result = await supabaseFetch(
+    "/rest/v1/strategy_studies?select=id,call_id,owner_user_id,client_name,project_name,status,schema_version,payload,created_at,updated_at",
+    {
+      method: "POST",
+      headers: { Prefer: "return=representation" },
+      session,
+      body: {
+        ...values,
+        owner_user_id: session.user.id,
+      },
+    },
+  );
+  return result?.[0] || null;
+}
+
+async function updateStrategyStudy(session, id, values) {
+  const encodedId = encodeURIComponent(id);
+  const result = await supabaseFetch(
+    `/rest/v1/strategy_studies?id=eq.${encodedId}&owner_user_id=eq.${encodeURIComponent(session.user.id)}&select=id,call_id,owner_user_id,client_name,project_name,status,schema_version,payload,created_at,updated_at`,
+    {
+      method: "PATCH",
+      headers: { Prefer: "return=representation" },
+      session,
+      body: values,
+    },
+  );
+  return result?.[0] || null;
 }
 
 async function invokeAdminUsers(session, options = {}) {
@@ -197,15 +235,26 @@ async function invokeAdminUsers(session, options = {}) {
   });
 }
 
+async function invokeAdminCalls(session, options = {}) {
+  return supabaseFetch("/functions/v1/admin-calls", {
+    ...options,
+    session,
+  });
+}
+
 export const CBI = {
   clearSession,
+  createStrategyStudy,
   getProfile,
   getSession,
+  invokeAdminCalls,
   invokeAdminUsers,
   isConfigured,
   listCalls,
+  listStrategyStudies,
   requireSession,
   signIn,
   signOut,
+  updateStrategyStudy,
   url: SUPABASE_URL,
 };

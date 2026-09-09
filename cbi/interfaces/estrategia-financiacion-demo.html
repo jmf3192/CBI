@@ -1,0 +1,2905 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Estrategia de financiación · Demo | CONASOC</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --brand: #001426;
+        --ink: #142033;
+        --muted: #667383;
+        --soft: #f6f8fa;
+        --panel: #ffffff;
+        --line: #e2e8ee;
+        --line-strong: #cad5df;
+        --blue: #2f78ae;
+        --cyan: #34b4c6;
+        --green: #73a958;
+        --amber: #c38925;
+        --red: #b24d48;
+        --violet: #7963aa;
+        --shadow: 0 18px 50px rgba(0, 20, 38, 0.06);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--soft);
+        color: var(--ink);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background:
+          radial-gradient(circle at 84% 0%, rgba(52, 180, 198, 0.08), transparent 28rem),
+          var(--soft);
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .topbar {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 16px 40px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(14px);
+        position: sticky;
+        top: 0;
+        z-index: 30;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 146px;
+        height: auto;
+        display: block;
+      }
+
+      .brand-text {
+        margin: 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--line-strong);
+        color: var(--brand);
+        font-size: 9px;
+        font-weight: 700;
+        line-height: 1.45;
+        text-transform: uppercase;
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .quiet-link,
+      .presentation-button {
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 7px;
+        padding: 0 14px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .quiet-link {
+        color: var(--muted);
+      }
+
+      .presentation-button {
+        border: 0;
+        color: #fff;
+        background: var(--brand);
+        cursor: pointer;
+      }
+
+      main {
+        width: min(100%, 1500px);
+        margin: 0 auto;
+        padding: 42px 32px 76px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .page-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        margin-bottom: 9px;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 820px;
+        color: var(--brand);
+        font-size: clamp(34px, 4vw, 52px);
+        line-height: 1.02;
+        font-weight: 500;
+      }
+
+      .project-badge {
+        min-width: 270px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .project-badge span {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .project-badge strong {
+        color: var(--brand);
+        font-size: 15px;
+      }
+
+      .view-switcher {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 18px;
+        padding: 6px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .view-tab {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 16px;
+        color: var(--muted);
+        background: transparent;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .view-tab:hover {
+        background: #f5f8fa;
+      }
+
+      .view-tab.is-active {
+        color: #fff;
+        background: var(--brand);
+      }
+
+      .view-tab strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .demo-view[hidden] {
+        display: none;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .panel-header h2 {
+        color: var(--brand);
+        font-size: 18px;
+        font-weight: 650;
+      }
+
+      .panel-header span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .data-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .data-main,
+      .data-side {
+        display: grid;
+        gap: 16px;
+      }
+
+      .data-panel {
+        padding: 22px;
+      }
+
+      .study-toolbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .study-toolbar select,
+      .data-field input,
+      .data-field select {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        padding: 0 11px;
+        color: var(--ink);
+        background: #fff;
+      }
+
+      .data-form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px;
+      }
+
+      .data-field {
+        display: grid;
+        gap: 7px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .data-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .editable-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .editable-row {
+        display: grid;
+        grid-template-columns: minmax(180px, 1.4fr) repeat(3, minmax(80px, 0.6fr));
+        gap: 8px;
+        align-items: end;
+        padding: 11px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcfd;
+      }
+
+      .editable-row.budget-row {
+        grid-template-columns: minmax(180px, 1.5fr) minmax(110px, 0.7fr) minmax(110px, 0.7fr) auto;
+      }
+
+      .editable-row.phase-data-row {
+        grid-template-columns: minmax(180px, 1.4fr) repeat(3, minmax(80px, 0.6fr)) auto;
+      }
+
+      .editable-row .remove-row {
+        min-height: 36px;
+        border: 1px solid #e1c4c0;
+        border-radius: 6px;
+        padding: 0 11px;
+        color: var(--red);
+        background: #fff;
+        font: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .editable-row .remove-row:hover {
+        background: #fff6f5;
+      }
+
+      .editable-row .remove-row:disabled,
+      .secondary-button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+
+      .add-row-button {
+        justify-self: start;
+        margin-top: 10px;
+      }
+
+      .editable-row.call-data-row {
+        grid-template-columns: minmax(180px, 1.4fr) minmax(130px, 0.8fr) repeat(5, minmax(76px, 0.5fr)) auto;
+      }
+
+      .editable-row.scenario-data-row {
+        grid-template-columns: minmax(150px, 0.9fr) minmax(130px, 0.7fr) minmax(220px, 1.35fr) minmax(220px, 1fr) auto;
+      }
+
+      .scenario-aid-picker {
+        min-width: 0;
+        margin: 0;
+        border: 0;
+        padding: 0;
+      }
+
+      .scenario-aid-picker legend {
+        margin-bottom: 5px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .scenario-aid-options {
+        min-height: 36px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 12px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 6px 9px;
+        background: #fff;
+      }
+
+      .editable-row .scenario-aid-option {
+        display: inline-flex;
+        grid-template-columns: none;
+        align-items: center;
+        gap: 5px;
+        color: var(--ink);
+        font-size: 10px;
+        font-weight: 650;
+        text-transform: none;
+        cursor: pointer;
+      }
+
+      .editable-row .scenario-aid-option input {
+        width: 14px;
+        min-height: 14px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .editable-row label {
+        display: grid;
+        gap: 5px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .editable-row input,
+      .editable-row select {
+        width: 100%;
+        min-height: 36px;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 0 9px;
+        color: var(--ink);
+        background: #fff;
+        font-size: 11px;
+      }
+
+      .data-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 17px;
+      }
+
+      .data-actions .presentation-button,
+      .data-actions .secondary-button {
+        min-height: 42px;
+      }
+
+      .save-status {
+        min-height: 18px;
+        margin-top: 11px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .data-summary {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .data-summary-item {
+        padding: 13px;
+        border-radius: 8px;
+        background: #f5f8fa;
+      }
+
+      .data-summary-item span,
+      .data-summary-item strong {
+        display: block;
+      }
+
+      .data-summary-item span {
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .data-summary-item strong {
+        margin-top: 6px;
+        color: var(--brand);
+        font-size: 15px;
+      }
+
+      .data-tip {
+        padding: 15px;
+        border-left: 3px solid var(--blue);
+        border-radius: 7px;
+        color: #53616e;
+        background: #f1f7fb;
+        font-size: 11px;
+        line-height: 1.55;
+      }
+
+      .timeline-layout {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .control-panel {
+        padding: 22px;
+      }
+
+      .strategy-select {
+        width: 100%;
+        min-height: 42px;
+        margin-bottom: 18px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        padding: 0 12px;
+        color: var(--ink);
+        background: #fff;
+      }
+
+      .call-control-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .call-control {
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcfd;
+      }
+
+      .call-control-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .call-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--brand);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .call-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: var(--call-color);
+      }
+
+      .switch {
+        width: 38px;
+        height: 22px;
+        position: relative;
+        display: inline-block;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        width: 1px;
+        height: 1px;
+        position: absolute;
+        opacity: 0;
+      }
+
+      .switch-track {
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        background: #cfd8e0;
+        cursor: pointer;
+        transition: 160ms ease;
+      }
+
+      .switch-track::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 20, 38, 0.2);
+        transition: 160ms ease;
+      }
+
+      .switch input:checked + .switch-track {
+        background: var(--call-color, var(--green));
+      }
+
+      .switch input:checked + .switch-track::after {
+        transform: translateX(16px);
+      }
+
+      .control-meta {
+        margin: 5px 0 12px 18px;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .range-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 8px;
+        margin-top: 9px;
+      }
+
+      .range-row label {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .range-row output {
+        min-width: 48px;
+        color: var(--brand);
+        font-size: 11px;
+        font-weight: 750;
+        text-align: right;
+      }
+
+      .range-row input {
+        grid-column: 1 / -1;
+        width: 100%;
+        accent-color: var(--call-color, var(--blue));
+      }
+
+      .secondary-button {
+        min-height: 38px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        padding: 0 13px;
+        color: var(--brand);
+        background: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .control-panel > .secondary-button {
+        width: 100%;
+        margin-top: 16px;
+      }
+
+      .timeline-main {
+        min-width: 0;
+        display: grid;
+        gap: 16px;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .kpi {
+        min-height: 96px;
+        padding: 17px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #fff;
+      }
+
+      .kpi span,
+      .kpi small,
+      .kpi strong {
+        display: block;
+      }
+
+      .kpi span {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .kpi strong {
+        margin-top: 7px;
+        color: var(--brand);
+        font-size: clamp(20px, 2.4vw, 29px);
+        line-height: 1;
+        font-weight: 650;
+      }
+
+      .kpi small {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .timeline-panel {
+        min-width: 0;
+        padding: 21px;
+        overflow: hidden;
+      }
+
+      .timeline-scroll {
+        overflow-x: auto;
+        padding-bottom: 5px;
+      }
+
+      .gantt {
+        min-width: 940px;
+      }
+
+      .gantt-row {
+        min-height: 44px;
+        display: grid;
+        grid-template-columns: 220px repeat(var(--quarter-count, 8), minmax(82px, 1fr));
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        background-image: linear-gradient(to right, transparent 219px, var(--line) 220px, transparent 221px);
+      }
+
+      .gantt-row:last-child {
+        border-bottom: 0;
+      }
+
+      .gantt-head {
+        min-height: 36px;
+        color: var(--muted);
+        background: #f8fafb;
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .gantt-head span {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        border-left: 1px solid var(--line);
+      }
+
+      .gantt-head span:first-child {
+        place-items: center start;
+        border-left: 0;
+        padding-left: 11px;
+      }
+
+      .row-label {
+        grid-column: 1;
+        padding: 0 11px;
+        color: var(--ink);
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .row-label small {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 9px;
+      }
+
+      .group-row {
+        min-height: 31px;
+        color: var(--brand);
+        background: #f5f8fa;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .group-row .row-label {
+        font-size: 10px;
+      }
+
+      .gantt-bar {
+        min-width: 28px;
+        height: 18px;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 0 8px;
+        color: #fff;
+        background: var(--bar-color);
+        box-shadow: 0 5px 12px color-mix(in srgb, var(--bar-color) 24%, transparent);
+        font-size: 9px;
+        font-weight: 750;
+        white-space: nowrap;
+        overflow: visible;
+      }
+
+      .gantt-bar.phase {
+        height: 8px;
+        border-radius: 3px;
+        padding: 0;
+      }
+
+      .gantt-bar.phase span {
+        position: absolute;
+        top: -17px;
+        right: 0;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 650;
+      }
+
+      .gantt-bar.call {
+        background:
+          linear-gradient(90deg, rgba(255,255,255,.4) 0 18%, transparent 18% 78%, rgba(255,255,255,.25) 78% 100%),
+          var(--bar-color);
+      }
+
+      .gantt-payment {
+        width: 24px;
+        height: 24px;
+        z-index: 2;
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        place-items: center;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        color: #fff;
+        background: var(--bar-color);
+        box-shadow: 0 4px 12px rgba(0, 20, 38, 0.16);
+        font-size: 9px;
+        font-weight: 850;
+      }
+
+      .payment-panel {
+        padding: 20px;
+      }
+
+      .chart-legend {
+        display: flex;
+        gap: 14px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .chart-legend span::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+        margin-right: 6px;
+        border-radius: 2px;
+        background: var(--legend-color);
+      }
+
+      #payment-chart {
+        width: 100%;
+        height: 170px;
+        display: block;
+      }
+
+      .alert-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .alert-item {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 11px;
+        border-radius: 7px;
+        color: #4b5662;
+        background: #f5f7f9;
+        font-size: 10px;
+        line-height: 1.35;
+      }
+
+      .alert-item::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: var(--alert-color, var(--green));
+      }
+
+      .matrix-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 14px;
+        padding: 18px 20px;
+      }
+
+      .scenario-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+      }
+
+      .toolbar-copy h2 {
+        color: var(--brand);
+        font-size: 18px;
+      }
+
+      .toolbar-copy p {
+        max-width: 760px;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .scenario-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .scenario-card {
+        min-width: 0;
+        padding: 21px;
+        transition: border-color 160ms ease, transform 160ms ease;
+      }
+
+      .scenario-card.is-working {
+        border-color: var(--blue);
+        box-shadow: 0 20px 55px rgba(47, 120, 174, 0.13);
+        transform: translateY(-2px);
+      }
+
+      .scenario-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .scenario-kicker {
+        color: var(--blue);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .scenario-head h2 {
+        margin-top: 5px;
+        color: var(--brand);
+        font-size: 23px;
+        font-weight: 600;
+      }
+
+      .scenario-description {
+        margin-top: 9px;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .preference-pill {
+        min-height: 27px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 0 9px;
+        color: var(--blue);
+        background: color-mix(in srgb, var(--blue) 12%, white);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .scenario-call-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin: 18px 0;
+      }
+
+      .scenario-call-chip {
+        min-height: 32px;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        padding: 0 11px;
+        color: var(--muted);
+        background: #fff;
+        font-size: 11px;
+        font-weight: 750;
+        cursor: pointer;
+      }
+
+      .scenario-call-chip.is-active {
+        border-color: var(--chip-color);
+        color: #fff;
+        background: var(--chip-color);
+      }
+
+      .scenario-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .scenario-metric {
+        min-height: 70px;
+        padding: 12px;
+        border-radius: 7px;
+        background: #f6f8fa;
+      }
+
+      .scenario-metric span,
+      .scenario-metric strong {
+        display: block;
+      }
+
+      .scenario-metric span {
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .scenario-metric strong {
+        margin-top: 7px;
+        color: var(--brand);
+        font-size: 18px;
+        font-weight: 650;
+      }
+
+      .mini-timeline {
+        display: grid;
+        gap: 7px;
+        margin: 18px 0;
+        padding: 13px;
+        border-radius: 8px;
+        background: #fbfcfd;
+      }
+
+      .mini-row {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 800;
+      }
+
+      .mini-track {
+        height: 7px;
+        position: relative;
+        border-radius: 999px;
+        background: #e8edf1;
+      }
+
+      .mini-bar {
+        height: 100%;
+        position: absolute;
+        left: var(--mini-start);
+        width: var(--mini-width);
+        border-radius: inherit;
+        background: var(--mini-color);
+      }
+
+      .mini-payment {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 50%;
+        left: var(--mini-payment);
+        display: grid;
+        place-items: center;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        color: #fff;
+        background: var(--mini-color);
+        transform: translate(-50%, -50%);
+        font-size: 7px;
+        font-weight: 850;
+      }
+
+      .scenario-alert {
+        min-height: 44px;
+        margin-bottom: 12px;
+        padding: 10px 12px;
+        border-left: 3px solid var(--alert-color);
+        color: #4d5964;
+        background: color-mix(in srgb, var(--alert-color) 7%, white);
+        font-size: 10px;
+        line-height: 1.4;
+      }
+
+      .choose-scenario {
+        width: 100%;
+        min-height: 40px;
+        border: 1px solid var(--brand);
+        border-radius: 7px;
+        color: var(--brand);
+        background: #fff;
+        font-size: 12px;
+        font-weight: 750;
+        cursor: pointer;
+      }
+
+      .scenario-card.is-working .choose-scenario {
+        color: #fff;
+        background: var(--brand);
+      }
+
+      .matrix-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
+        gap: 14px;
+      }
+
+      .matrix-panel,
+      .coverage-panel {
+        padding: 21px;
+      }
+
+      .matrix-scroll {
+        overflow-x: auto;
+      }
+
+      .coverage-matrix {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: separate;
+        border-spacing: 6px;
+      }
+
+      .coverage-matrix th {
+        padding: 8px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .coverage-matrix th:first-child {
+        text-align: left;
+      }
+
+      .coverage-matrix td {
+        padding: 0;
+      }
+
+      .budget-label {
+        min-width: 210px;
+        padding: 11px 12px !important;
+        border-radius: 7px;
+        background: #f5f7f9;
+      }
+
+      .budget-label strong,
+      .budget-label span {
+        display: block;
+      }
+
+      .budget-label strong {
+        color: var(--brand);
+        font-size: 12px;
+      }
+
+      .budget-label span {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .matrix-cell {
+        width: 100%;
+        min-height: 58px;
+        border: 1px dashed var(--line-strong);
+        border-radius: 7px;
+        color: #8a96a2;
+        background: #fbfcfd;
+        font-size: 10px;
+        font-weight: 750;
+        cursor: pointer;
+        transition: 130ms ease;
+      }
+
+      .matrix-cell.is-eligible {
+        border-style: solid;
+        border-color: color-mix(in srgb, var(--cell-color) 45%, white);
+        color: var(--cell-color);
+        background: color-mix(in srgb, var(--cell-color) 9%, white);
+      }
+
+      .matrix-cell.is-allocated {
+        border-style: solid;
+        border-color: var(--cell-color);
+        color: #fff;
+        background: var(--cell-color);
+        box-shadow: 0 8px 18px color-mix(in srgb, var(--cell-color) 20%, transparent);
+      }
+
+      .matrix-cell.has-conflict {
+        outline: 3px solid rgba(178, 77, 72, 0.2);
+        outline-offset: 2px;
+      }
+
+      .matrix-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .matrix-legend span::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        margin-right: 6px;
+        border: 1px solid var(--line-strong);
+        border-radius: 3px;
+        vertical-align: -2px;
+        background: var(--legend-fill, #fff);
+      }
+
+      .coverage-visual {
+        display: grid;
+        grid-template-columns: 148px 1fr;
+        align-items: center;
+        gap: 18px;
+        margin: 22px 0;
+      }
+
+      .coverage-ring {
+        width: 148px;
+        height: 148px;
+        position: relative;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: conic-gradient(var(--green) 0 var(--grant-end), var(--violet) var(--grant-end) var(--loan-end), #e7ebef var(--loan-end) 100%);
+      }
+
+      .coverage-ring::after {
+        content: "";
+        width: 104px;
+        height: 104px;
+        position: absolute;
+        border-radius: 50%;
+        background: #fff;
+      }
+
+      .coverage-ring strong,
+      .coverage-ring span {
+        position: relative;
+        z-index: 2;
+        display: block;
+        text-align: center;
+      }
+
+      .coverage-ring strong {
+        color: var(--brand);
+        font-size: 25px;
+        line-height: 1;
+      }
+
+      .coverage-ring span {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .coverage-list {
+        display: grid;
+        gap: 11px;
+      }
+
+      .coverage-list div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .coverage-list div::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        flex: 0 0 auto;
+        border-radius: 2px;
+        background: var(--coverage-color);
+      }
+
+      .coverage-list span {
+        flex: 1;
+      }
+
+      .coverage-list strong {
+        color: var(--brand);
+        font-size: 12px;
+      }
+
+      .coverage-stack {
+        height: 16px;
+        display: flex;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #e7ebef;
+      }
+
+      .coverage-stack span {
+        height: 100%;
+        width: var(--segment-width);
+        background: var(--segment-color);
+        transition: width 180ms ease;
+      }
+
+      .conflict-box {
+        margin-top: 18px;
+        padding: 14px;
+        border: 1px solid color-mix(in srgb, var(--conflict-color) 32%, white);
+        border-radius: 8px;
+        color: #4e5964;
+        background: color-mix(in srgb, var(--conflict-color) 7%, white);
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .conflict-box strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--conflict-color);
+      }
+
+      .coverage-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .presentation-mode .view-tab[data-view-target="data"] {
+        display: none;
+      }
+
+      .presentation-mode .topbar {
+        min-height: 60px;
+        padding-block: 9px;
+      }
+
+      .presentation-mode .brand-text,
+      .presentation-mode .quiet-link {
+        display: none;
+      }
+
+      .presentation-mode .view-switcher {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .presentation-mode main {
+        padding-top: 24px;
+      }
+
+      .presentation-mode .page-head {
+        margin-bottom: 14px;
+      }
+
+      .presentation-mode h1 {
+        font-size: 36px;
+      }
+
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      select:focus-visible {
+        outline: 3px solid rgba(47, 120, 174, 0.28);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 1120px) {
+        .timeline-layout,
+        .matrix-layout,
+        .data-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .call-control-list {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .control-panel > .secondary-button {
+          width: auto;
+        }
+
+      }
+
+      @media (max-width: 760px) {
+        .topbar {
+          align-items: flex-start;
+          padding: 18px 20px;
+        }
+
+        .brand-text,
+        .quiet-link {
+          display: none;
+        }
+
+        main {
+          padding: 32px 16px 54px;
+        }
+
+        .page-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .project-badge {
+          width: 100%;
+          min-width: 0;
+        }
+
+        .view-switcher {
+          grid-template-columns: 1fr;
+        }
+
+        .scenario-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .call-control-list,
+        .kpi-grid,
+        .alert-strip,
+        .data-form-grid,
+        .data-summary {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .editable-row,
+        .editable-row.phase-data-row,
+        .editable-row.budget-row,
+        .editable-row.call-data-row,
+        .editable-row.scenario-data-row {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .matrix-toolbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .call-control-list,
+        .kpi-grid,
+        .alert-strip,
+        .scenario-metrics,
+        .coverage-actions,
+        .data-form-grid,
+        .data-summary,
+        .editable-row,
+        .editable-row.phase-data-row,
+        .editable-row.budget-row,
+        .editable-row.call-data-row,
+        .editable-row.scenario-data-row {
+          grid-template-columns: 1fr;
+        }
+
+        .coverage-visual {
+          grid-template-columns: 1fr;
+          justify-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="Volver a CONASOC Business Intelligence">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <p class="brand-text">Consultoría en financiación pública<br />Business intelligence</p>
+      </a>
+      <div class="top-actions">
+        <a class="quiet-link" href="./convocatorias.html">Volver a convocatorias</a>
+        <button class="presentation-button" id="presentation-button" type="button">Modo presentación</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-head" aria-labelledby="page-title">
+        <div>
+          <h1 id="page-title">Estrategia de financiación</h1>
+        </div>
+        <div class="project-badge" id="project-badge">
+          <span id="project-client-label">Proyecto de ejemplo</span>
+          <strong id="project-summary-label">Nueva planta de ingredientes funcionales · 3,2 M€</strong>
+        </div>
+      </section>
+
+      <nav class="view-switcher" aria-label="Seleccionar vista">
+        <button class="view-tab is-active" type="button" data-view-target="data" aria-selected="true">
+          <strong>Introducción de datos</strong>
+        </button>
+        <button class="view-tab" type="button" data-view-target="timeline" aria-selected="false">
+          <strong>Cronograma financiero</strong>
+        </button>
+        <button class="view-tab" type="button" data-view-target="scenarios" aria-selected="false">
+          <strong>Comparador de estrategias</strong>
+        </button>
+        <button class="view-tab" type="button" data-view-target="matrix" aria-selected="false">
+          <strong>Matriz de cobertura</strong>
+        </button>
+      </nav>
+
+      <span id="working-scenario-label" hidden>Estrategia seleccionada: Prioridad subvención</span>
+
+      <section class="demo-view" id="view-data" aria-label="Introducción de datos">
+        <div class="data-layout">
+          <div class="data-main">
+            <section class="panel data-panel">
+              <div class="panel-header">
+                <h2>Ficha del estudio</h2>
+                <span>Uso interno</span>
+              </div>
+              <div class="study-toolbar">
+                <select id="study-select" aria-label="Seleccionar estudio">
+                  <option value="">Ejemplo sin guardar</option>
+                </select>
+                <button class="secondary-button" id="new-study" type="button">Nuevo estudio</button>
+              </div>
+              <div class="data-form-grid">
+                <label class="data-field">
+                  Cliente
+                  <input id="data-client" type="text" value="Alimentos Horizonte, S.L." />
+                </label>
+                <label class="data-field">
+                  Nombre del proyecto
+                  <input id="data-project" type="text" value="Nueva planta de ingredientes funcionales" />
+                </label>
+                <label class="data-field">
+                  Presupuesto total
+                  <input id="data-budget" type="number" min="0" step="10000" value="3200000" />
+                </label>
+                <label class="data-field">
+                  Inicio del proyecto
+                  <input id="data-period-start" type="date" value="2027-01-01" />
+                </label>
+                <label class="data-field">
+                  Fin del proyecto
+                  <input id="data-period-end" type="date" value="2028-12-31" />
+                </label>
+              </div>
+            </section>
+
+            <section class="panel data-panel">
+              <div class="panel-header">
+                <h2>Fases del proyecto</h2>
+                <span>Entre 2 y 5 fases</span>
+              </div>
+              <div class="editable-list" id="phase-data-list"></div>
+              <button class="secondary-button add-row-button" id="add-phase" type="button">+ Añadir fase</button>
+            </section>
+
+            <section class="panel data-panel">
+              <div class="panel-header">
+                <h2>Partidas presupuestarias</h2>
+                <span>Base de la matriz</span>
+              </div>
+              <div class="editable-list" id="budget-data-list"></div>
+              <button class="secondary-button add-row-button" id="add-budget-line" type="button">+ Añadir partida</button>
+            </section>
+
+            <section class="panel data-panel">
+              <div class="panel-header">
+                <h2>Ayudas consideradas</h2>
+                <span>Entre 2 y 4 ayudas</span>
+              </div>
+              <div class="editable-list" id="call-data-list"></div>
+              <button class="secondary-button add-row-button" id="add-call" type="button">+ Añadir ayuda</button>
+            </section>
+
+            <section class="panel data-panel">
+              <div class="panel-header">
+                <h2>Estrategias comparadas</h2>
+                <span>Añade o elimina según el estudio</span>
+              </div>
+              <div class="editable-list" id="scenario-data-list"></div>
+              <button class="secondary-button add-row-button" id="add-scenario" type="button">+ Añadir estrategia</button>
+            </section>
+          </div>
+
+          <div class="data-side">
+            <section class="panel data-panel">
+              <div class="panel-header">
+                <h2>Resumen preparado</h2>
+                <span id="backend-status">Vista local</span>
+              </div>
+              <div class="data-summary" id="data-summary"></div>
+              <div class="data-actions">
+                <button class="presentation-button" id="apply-data" type="button">Aplicar a las vistas</button>
+                <button class="secondary-button" id="save-study" type="button">Guardar estudio</button>
+              </div>
+              <p class="save-status" id="save-status" aria-live="polite">Los datos todavía no se han guardado.</p>
+            </section>
+
+            <div class="data-tip">
+              Esta pestaña es la mesa de preparación de CONASOC. Al entrar en modo presentación desaparece por completo y la reunión comienza directamente en el cronograma.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-view" id="view-timeline" aria-label="Boceto de cronograma financiero" hidden>
+        <div class="timeline-layout">
+          <aside class="panel control-panel">
+            <div class="panel-header">
+              <h2>Preferencias de financiación</h2>
+              <span>Editable</span>
+            </div>
+            <label for="strategy-select" class="eyebrow">Estrategia seleccionada</label>
+            <select class="strategy-select" id="strategy-select"></select>
+            <div class="call-control-list" id="call-controls"></div>
+            <button class="secondary-button" id="timeline-reset" type="button">Restablecer ejemplo</button>
+          </aside>
+
+          <div class="timeline-main">
+            <section class="kpi-grid" id="timeline-kpis" aria-label="Indicadores de la estrategia"></section>
+
+            <section class="panel timeline-panel">
+              <div class="panel-header">
+                <h2>Hoja de ruta conjunta</h2>
+                <span>Solicitud · ejecución · cobro</span>
+              </div>
+              <div class="timeline-scroll">
+                <div class="gantt" id="gantt"></div>
+              </div>
+              <div class="alert-strip" id="timeline-alerts"></div>
+            </section>
+
+            <section class="panel payment-panel">
+              <div class="panel-header">
+                <h2>Calendario estimado de cobros</h2>
+                <div class="chart-legend">
+                  <span style="--legend-color: #73a958">Subvención</span>
+                  <span style="--legend-color: #7963aa">Préstamo</span>
+                </div>
+              </div>
+              <canvas id="payment-chart" role="img" aria-label="Cobros estimados de subvención y préstamo por trimestre"></canvas>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-view" id="view-scenarios" aria-label="Comparador de estrategias" hidden>
+        <div class="scenario-actions">
+          <button class="secondary-button" id="scenario-reset" type="button">Cargar ejemplos</button>
+        </div>
+        <div class="scenario-grid" id="scenario-grid"></div>
+      </section>
+
+      <section class="demo-view" id="view-matrix" aria-label="Boceto de matriz de cobertura" hidden>
+        <header class="panel matrix-toolbar">
+          <div class="toolbar-copy">
+            <h2>¿Qué gasto queremos llevar a cada ayuda?</h2>
+            <p>Pulsa cada celda para cambiar entre no aplicable, elegible e incluido. Los solapamientos se señalan inmediatamente.</p>
+          </div>
+          <button class="secondary-button" id="matrix-reset" type="button">Restablecer matriz</button>
+        </header>
+
+        <div class="matrix-layout">
+          <section class="panel matrix-panel">
+            <div class="panel-header">
+              <h2>Presupuesto × convocatorias</h2>
+              <span id="matrix-allocation-label">Asignación de trabajo</span>
+            </div>
+            <div class="matrix-scroll">
+              <table class="coverage-matrix">
+                <thead id="matrix-head"></thead>
+                <tbody id="matrix-body"></tbody>
+              </table>
+            </div>
+            <div class="matrix-legend">
+              <span>No aplicable</span>
+              <span style="--legend-fill:#eef6f8">Elegible</span>
+              <span style="--legend-fill:#2f78ae">Incluido</span>
+            </div>
+          </section>
+
+          <aside class="panel coverage-panel">
+            <div class="panel-header">
+              <h2>Cobertura resultante</h2>
+              <span>Sobre 3,2 M€</span>
+            </div>
+            <div id="coverage-summary"></div>
+            <div class="coverage-actions">
+              <button class="secondary-button" id="resolve-conflicts" type="button">Resolver solapes</button>
+              <button class="secondary-button" id="clear-allocation" type="button">Quitar partidas incluidas</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      let TOTAL_BUDGET = 3200000;
+      let quarters = ["Q1 2027", "Q2 2027", "Q3 2027", "Q4 2027", "Q1 2028", "Q2 2028", "Q3 2028", "Q4 2028"];
+      const phaseColors = ["#2f78ae", "#34b4c6", "#16899c", "#3c5f89", "#c38925"];
+      const callIds = ["A", "B", "C", "D"];
+      const callColors = ["#73a958", "#2f78ae", "#7963aa", "#c38925"];
+
+      const initialCalls = {
+        A: {
+          id: "A",
+          name: "Ayuda A · I+D",
+          type: "Subvención",
+          color: "#73a958",
+          start: 0,
+          span: 4,
+          base: 950000,
+          intensity: 40,
+          delay: 5,
+          grantShare: 1,
+          active: true,
+        },
+        B: {
+          id: "B",
+          name: "Ayuda B · Inversión",
+          type: "Subvención + préstamo",
+          color: "#2f78ae",
+          start: 2,
+          span: 5,
+          base: 1800000,
+          intensity: 65,
+          delay: 9,
+          grantShare: 0.35,
+          active: true,
+        },
+        C: {
+          id: "C",
+          name: "Ayuda C · Digital",
+          type: "Préstamo",
+          color: "#7963aa",
+          start: 4,
+          span: 4,
+          base: 650000,
+          intensity: 55,
+          delay: 3,
+          grantShare: 0,
+          active: false,
+        },
+      };
+
+      const initialPhases = [
+        { name: "Personal e I+D", start: 0, span: 3, budget: 620000, color: "#2f78ae" },
+        { name: "Creación de planta piloto", start: 1, span: 4, budget: 560000, color: "#34b4c6" },
+        { name: "Escalado industrial", start: 3, span: 4, budget: 1420000, color: "#16899c" },
+        { name: "Mejora de producto", start: 5, span: 3, budget: 600000, color: "#3c5f89" },
+      ];
+
+      const initialBudgetLines = [
+        { id: "personnel", name: "Personal técnico I+D", phase: "Investigación", amount: 620000 },
+        { id: "equipment", name: "Equipamiento y activos", phase: "Inversión", amount: 870000 },
+        { id: "pilot", name: "Planta piloto", phase: "Validación", amount: 560000 },
+        { id: "industrial", name: "Escalado industrial", phase: "Producción", amount: 850000 },
+        { id: "digital", name: "Digitalización y control", phase: "Mejora", amount: 300000 },
+      ];
+
+      const initialMatrix = {
+        personnel: { A: 2, B: 1, C: 0 },
+        equipment: { A: 1, B: 2, C: 0 },
+        pilot: { A: 2, B: 2, C: 0 },
+        industrial: { A: 0, B: 2, C: 1 },
+        digital: { A: 0, B: 1, C: 2 },
+      };
+
+      const initialScenarios = [
+        { id: "grant", name: "Prioridad subvención", preference: "Subvención", note: "Maximiza el componente no reembolsable aunque los cobros lleguen más tarde.", calls: ["A", "B"] },
+        { id: "loan", name: "Prioridad préstamo", preference: "Préstamo", note: "Amplía el volumen financiado incorporando instrumentos reembolsables.", calls: ["B", "C"] },
+        { id: "speed", name: "Cobro más temprano", preference: "Plazo", note: "Prioriza las ayudas con una previsión de pago más próxima.", calls: ["A", "C"] },
+        { id: "mixed", name: "Combinación mixta", preference: "Mixta", note: "Combina subvención y préstamo para cubrir distintas fases del proyecto.", calls: ["A", "B", "C"] },
+      ];
+
+      let calls = structuredClone(initialCalls);
+      let phases = structuredClone(initialPhases);
+      let budgetLines = structuredClone(initialBudgetLines);
+      let matrix = structuredClone(initialMatrix);
+      let scenarios = structuredClone(initialScenarios);
+      let workingScenario = "grant";
+      let studyMeta = {
+        clientName: "Alimentos Horizonte, S.L.",
+        projectName: "Nueva planta de ingredientes funcionales",
+        periodStart: "2027-01-01",
+        periodEnd: "2028-12-31",
+        period: "Q1 2027 - Q4 2028",
+      };
+      let backend = null;
+      let studies = [];
+      let currentStudyId = null;
+
+      const money = new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
+        maximumFractionDigits: 0,
+      });
+
+      function compactMoney(value) {
+        if (Math.abs(value) >= 1000000) return `${(value / 1000000).toLocaleString("es-ES", { maximumFractionDigits: 2 })} M€`;
+        return `${Math.round(value / 1000).toLocaleString("es-ES")} k€`;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function parseIsoDate(value) {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ""));
+        if (!match) return null;
+        const parts = { year: Number(match[1]), month: Number(match[2]), day: Number(match[3]) };
+        const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
+        if (date.getUTCFullYear() !== parts.year || date.getUTCMonth() !== parts.month - 1 || date.getUTCDate() !== parts.day) return null;
+        return parts;
+      }
+
+      function quarterIndexForDate(parts) {
+        return parts.year * 4 + Math.floor((parts.month - 1) / 3);
+      }
+
+      function quarterLabelFromIndex(index) {
+        const year = Math.floor(index / 4);
+        return `Q${index % 4 + 1} ${year}`;
+      }
+
+      function legacyPeriodDates(period) {
+        const match = /Q([1-4])\s+(\d{4})\s*[-–—]\s*Q([1-4])\s+(\d{4})/i.exec(String(period || ""));
+        if (!match) return null;
+        const startQuarter = Number(match[1]);
+        const startYear = Number(match[2]);
+        const endQuarter = Number(match[3]);
+        const endYear = Number(match[4]);
+        const startMonth = String((startQuarter - 1) * 3 + 1).padStart(2, "0");
+        const endMonthNumber = endQuarter * 3;
+        const endMonth = String(endMonthNumber).padStart(2, "0");
+        const endDay = String(new Date(Date.UTC(endYear, endMonthNumber, 0)).getUTCDate()).padStart(2, "0");
+        return {
+          periodStart: `${startYear}-${startMonth}-01`,
+          periodEnd: `${endYear}-${endMonth}-${endDay}`,
+        };
+      }
+
+      function normalizeStudyPeriod(meta = {}) {
+        const fallback = { periodStart: "2027-01-01", periodEnd: "2028-12-31" };
+        const legacy = legacyPeriodDates(meta.period);
+        let periodStart = parseIsoDate(meta.periodStart) ? meta.periodStart : legacy?.periodStart || fallback.periodStart;
+        let periodEnd = parseIsoDate(meta.periodEnd) ? meta.periodEnd : legacy?.periodEnd || fallback.periodEnd;
+        if (periodEnd < periodStart) periodEnd = periodStart;
+        const startQuarter = quarterIndexForDate(parseIsoDate(periodStart));
+        const endQuarter = quarterIndexForDate(parseIsoDate(periodEnd));
+        return {
+          ...meta,
+          periodStart,
+          periodEnd,
+          period: `${quarterLabelFromIndex(startQuarter)} - ${quarterLabelFromIndex(endQuarter)}`,
+        };
+      }
+
+      function refreshTimelineHorizon() {
+        studyMeta = normalizeStudyPeriod(studyMeta);
+        const startQuarter = quarterIndexForDate(parseIsoDate(studyMeta.periodStart));
+        const endQuarter = quarterIndexForDate(parseIsoDate(studyMeta.periodEnd));
+        quarters = Array.from({ length: endQuarter - startQuarter + 1 }, (_, index) => quarterLabelFromIndex(startQuarter + index));
+      }
+
+      function clampTimelineItems() {
+        const quarterCount = Math.max(1, quarters.length);
+        const clampItem = (item) => {
+          item.start = Math.min(quarterCount - 1, Math.max(0, Math.round(Number(item.start) || 0)));
+          item.span = Math.min(quarterCount - item.start, Math.max(1, Math.round(Number(item.span) || 1)));
+        };
+        phases.forEach(clampItem);
+        Object.values(calls).forEach(clampItem);
+      }
+
+      function updateProjectHeader() {
+        document.querySelector("#project-client-label").textContent = studyMeta.clientName || "Proyecto sin cliente";
+        document.querySelector("#project-summary-label").textContent = `${studyMeta.projectName || "Proyecto sin nombre"} · ${compactMoney(TOTAL_BUDGET)}`;
+        document.querySelector(".coverage-panel .panel-header span").textContent = `Sobre ${compactMoney(TOTAL_BUDGET)}`;
+      }
+
+      function renderStudyPicker() {
+        const picker = document.querySelector("#study-select");
+        picker.innerHTML = '<option value="">Ejemplo sin guardar</option>' + studies.map((study) =>
+          `<option value="${study.id}" ${study.id === currentStudyId ? "selected" : ""}>${escapeHtml(study.client_name)} · ${escapeHtml(study.project_name)}</option>`
+        ).join("");
+      }
+
+      function syncStudyUrl(studyId, isNew = false) {
+        if (!backend) return;
+        const url = new URL(window.location.href);
+        if (studyId) url.searchParams.set("study", studyId);
+        else url.searchParams.delete("study");
+        if (isNew) url.searchParams.set("new", "1");
+        else url.searchParams.delete("new");
+        window.history.replaceState({}, "", url);
+      }
+
+      function newBudgetLineId() {
+        if (globalThis.crypto?.randomUUID) return `line-${globalThis.crypto.randomUUID()}`;
+        return `line-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+
+      function createPhase(index) {
+        const quarterCount = Math.max(1, quarters.length);
+        const start = Math.min(quarterCount - 1, index * 2);
+        return {
+          name: `Fase ${index + 1}`,
+          start,
+          span: Math.min(3, quarterCount - start),
+          budget: 0,
+          color: phaseColors[index % phaseColors.length],
+        };
+      }
+
+      function nextCallId() {
+        return callIds.find((id) => !calls[id]) || null;
+      }
+
+      function newScenarioId() {
+        if (globalThis.crypto?.randomUUID) return `strategy-${globalThis.crypto.randomUUID()}`;
+        return `strategy-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+
+      function createScenario(index) {
+        return {
+          id: newScenarioId(),
+          name: `Estrategia ${index + 1}`,
+          preference: "Personalizada",
+          note: "",
+          calls: Object.keys(calls).slice(0, Math.min(2, Object.keys(calls).length)),
+        };
+      }
+
+      function createCall(id) {
+        const index = callIds.indexOf(id);
+        const quarterCount = Math.max(1, quarters.length);
+        const start = Math.min(quarterCount - 1, Math.max(0, index * 2));
+        return {
+          id,
+          name: `Ayuda ${id}`,
+          type: "Subvención",
+          color: callColors[index],
+          start,
+          span: Math.min(4, quarterCount - start),
+          base: 0,
+          intensity: 40,
+          delay: 6,
+          grantShare: 1,
+          active: true,
+        };
+      }
+
+      function paymentQuarterIndex(call) {
+        return call.start + call.span - 1 + Math.ceil(call.delay / 3);
+      }
+
+      function paymentQuarterLabel(index) {
+        const start = parseIsoDate(studyMeta.periodStart) || parseIsoDate("2027-01-01");
+        return quarterLabelFromIndex(quarterIndexForDate(start) + index);
+      }
+
+      function ensureScenarioCalls() {
+        const available = new Set(Object.keys(calls));
+        scenarios.forEach((scenario) => {
+          scenario.calls = scenario.calls.filter((callId) => available.has(callId));
+        });
+      }
+
+      function buildExampleScenarios() {
+        const available = Object.values(calls);
+        const byDelay = [...available].sort((a, b) => paymentQuarterIndex(a) - paymentQuarterIndex(b));
+        const grantCalls = available
+          .filter((call) => call.grantShare > 0)
+          .sort((a, b) => b.grantShare - a.grantShare || paymentQuarterIndex(a) - paymentQuarterIndex(b))
+          .map((call) => call.id);
+        const loanCalls = available
+          .filter((call) => call.grantShare < 1)
+          .sort((a, b) => a.grantShare - b.grantShare || paymentQuarterIndex(a) - paymentQuarterIndex(b))
+          .map((call) => call.id);
+        const fallback = byDelay[0] ? [byDelay[0].id] : [];
+        return [
+          { id: "grant", name: "Prioridad subvención", preference: "Subvención", note: "Maximiza el componente no reembolsable aunque los cobros lleguen más tarde.", calls: grantCalls.length ? grantCalls : fallback },
+          { id: "loan", name: "Prioridad préstamo", preference: "Préstamo", note: "Amplía el volumen financiado incorporando instrumentos reembolsables.", calls: loanCalls.length ? loanCalls : fallback },
+          { id: "speed", name: "Cobro más temprano", preference: "Plazo", note: "Prioriza las ayudas con una previsión de pago más próxima.", calls: byDelay.slice(0, 2).map((call) => call.id) },
+          { id: "mixed", name: "Combinación mixta", preference: "Mixta", note: "Combina subvención y préstamo para cubrir distintas fases del proyecto.", calls: available.map((call) => call.id) },
+        ];
+      }
+
+      function enforceEditableCounts() {
+        phases = (Array.isArray(phases) ? phases : []).slice(0, 5);
+        while (phases.length < 2) phases.push(createPhase(phases.length));
+
+        const currentCalls = calls && typeof calls === "object" ? calls : {};
+        calls = Object.fromEntries(callIds
+          .filter((id) => currentCalls[id])
+          .slice(0, 4)
+          .map((id) => [id, { ...createCall(id), ...currentCalls[id], id }]));
+        while (Object.keys(calls).length < 2) {
+          const id = nextCallId();
+          if (!id) break;
+          calls[id] = createCall(id);
+        }
+
+        const usedScenarioIds = new Set();
+        scenarios = (Array.isArray(scenarios) ? scenarios : []).map((scenario, index) => {
+          let id = String(scenario?.id || newScenarioId());
+          if (usedScenarioIds.has(id)) id = newScenarioId();
+          usedScenarioIds.add(id);
+          return {
+            id,
+            name: String(scenario?.name || `Estrategia ${index + 1}`),
+            preference: String(scenario?.preference || "Personalizada"),
+            note: String(scenario?.note || ""),
+            calls: Array.isArray(scenario?.calls) ? scenario.calls : [],
+          };
+        });
+        if (!scenarios.length) scenarios.push(createScenario(0));
+        if (!scenarios.some((scenario) => scenario.id === workingScenario)) workingScenario = scenarios[0].id;
+      }
+
+      function ensureMatrixRows() {
+        const lineIds = new Set(budgetLines.map((line) => line.id));
+        const callIds = Object.keys(calls);
+
+        Object.keys(matrix).forEach((lineId) => {
+          if (!lineIds.has(lineId)) delete matrix[lineId];
+        });
+
+        budgetLines.forEach((line) => {
+          if (!matrix[line.id] || typeof matrix[line.id] !== "object") matrix[line.id] = {};
+          Object.keys(matrix[line.id]).forEach((callId) => {
+            if (!callIds.includes(callId)) delete matrix[line.id][callId];
+          });
+          callIds.forEach((callId) => {
+            if (![0, 1, 2].includes(matrix[line.id][callId])) matrix[line.id][callId] = 0;
+          });
+        });
+      }
+
+      function renderDataForm() {
+        document.querySelector("#data-client").value = studyMeta.clientName;
+        document.querySelector("#data-project").value = studyMeta.projectName;
+        document.querySelector("#data-budget").value = TOTAL_BUDGET;
+        const periodStartInput = document.querySelector("#data-period-start");
+        const periodEndInput = document.querySelector("#data-period-end");
+        periodStartInput.value = studyMeta.periodStart;
+        periodStartInput.max = studyMeta.periodEnd;
+        periodEndInput.value = studyMeta.periodEnd;
+        periodEndInput.min = studyMeta.periodStart;
+        const lastQuarterIndex = Math.max(0, quarters.length - 1);
+
+        document.querySelector("#phase-data-list").innerHTML = phases.map((phase, index) => `
+          <div class="editable-row phase-data-row" data-phase-row="${index}">
+            <label>Fase<input type="text" data-phase-name value="${escapeHtml(phase.name)}" /></label>
+            <label>Presupuesto<input type="number" min="0" step="10000" data-phase-budget value="${phase.budget}" /></label>
+            <label>Inicio (0-${lastQuarterIndex})<input type="number" min="0" max="${lastQuarterIndex}" step="1" data-phase-start value="${phase.start}" /></label>
+            <label>Duración<input type="number" min="1" max="${quarters.length}" step="1" data-phase-span value="${phase.span}" /></label>
+            <button class="remove-row" type="button" data-remove-phase="${index}" ${phases.length <= 2 ? "disabled" : ""} aria-label="Eliminar ${escapeHtml(phase.name)}">Eliminar</button>
+          </div>
+        `).join("");
+
+        document.querySelector("#budget-data-list").innerHTML = budgetLines.map((line, index) => `
+          <div class="editable-row budget-row" data-budget-row="${index}" data-budget-id="${escapeHtml(line.id)}">
+            <label>Partida<input type="text" data-budget-name value="${escapeHtml(line.name)}" /></label>
+            <label>Bloque<input type="text" data-budget-phase value="${escapeHtml(line.phase)}" /></label>
+            <label>Importe<input type="number" min="0" step="10000" data-budget-amount value="${line.amount}" /></label>
+            <button class="remove-row" type="button" data-remove-budget="${escapeHtml(line.id)}" aria-label="Eliminar ${escapeHtml(line.name)}">Eliminar</button>
+          </div>
+        `).join("");
+
+        document.querySelector("#call-data-list").innerHTML = Object.values(calls).map((call) => `
+          <div class="editable-row call-data-row" data-call-row="${call.id}">
+            <label>Ayuda<input type="text" data-call-name value="${escapeHtml(call.name)}" /></label>
+            <label>Instrumento
+              <select data-call-type>
+                <option value="Subvención" ${call.type === "Subvención" ? "selected" : ""}>Subvención</option>
+                <option value="Préstamo" ${call.type === "Préstamo" ? "selected" : ""}>Préstamo</option>
+                <option value="Subvención + préstamo" ${call.type === "Subvención + préstamo" ? "selected" : ""}>Mixta</option>
+              </select>
+            </label>
+            <label>Base elegible<input type="number" min="0" step="10000" data-call-base value="${call.base}" /></label>
+            <label>Intensidad %<input type="number" min="0" max="100" step="5" data-call-intensity value="${call.intensity}" /></label>
+            <label>Inicio (0-${lastQuarterIndex})<input type="number" min="0" max="${lastQuarterIndex}" step="1" data-call-start value="${call.start}" /></label>
+            <label>Duración<input type="number" min="1" max="${quarters.length}" step="1" data-call-span value="${call.span}" /></label>
+            <label>Plazo de pago (meses)<input type="number" min="0" max="36" step="1" data-call-delay value="${call.delay}" /></label>
+            <button class="remove-row" type="button" data-remove-call="${call.id}" ${Object.keys(calls).length <= 2 ? "disabled" : ""} aria-label="Eliminar ${escapeHtml(call.name)}">Eliminar</button>
+          </div>
+        `).join("");
+
+        document.querySelector("#scenario-data-list").innerHTML = scenarios.map((scenario, index) => `
+          <div class="editable-row scenario-data-row" data-scenario-row="${escapeHtml(scenario.id)}">
+            <label>Nombre<input type="text" data-scenario-name value="${escapeHtml(scenario.name)}" /></label>
+            <label>Enfoque<input type="text" data-scenario-preference value="${escapeHtml(scenario.preference || "Personalizada")}" /></label>
+            <label>Mensaje para el cliente<input type="text" data-scenario-note value="${escapeHtml(scenario.note || "")}" placeholder="Qué queremos defender con esta combinación" /></label>
+            <fieldset class="scenario-aid-picker">
+              <legend>Ayudas incluidas</legend>
+              <div class="scenario-aid-options">
+                ${Object.values(calls).map((call) => `
+                  <label class="scenario-aid-option">
+                    <input type="checkbox" data-scenario-call-option value="${call.id}" ${scenario.calls.includes(call.id) ? "checked" : ""} />
+                    ${escapeHtml(call.name)}
+                  </label>
+                `).join("")}
+              </div>
+            </fieldset>
+            <button class="remove-row" type="button" data-remove-scenario="${escapeHtml(scenario.id)}" ${scenarios.length <= 1 ? "disabled" : ""} aria-label="Eliminar ${escapeHtml(scenario.name)}">Eliminar</button>
+          </div>
+        `).join("");
+
+        document.querySelector("#add-phase").disabled = phases.length >= 5;
+        document.querySelector("#add-call").disabled = Object.keys(calls).length >= 4;
+
+        const strategySelect = document.querySelector("#strategy-select");
+        strategySelect.innerHTML = scenarios.map((scenario) => `<option value="${escapeHtml(scenario.id)}">${escapeHtml(scenario.name)}</option>`).join("");
+        strategySelect.value = workingScenario;
+
+        const summary = summaryForCallIds(activeCallIds());
+        document.querySelector("#data-summary").innerHTML = `
+          <div class="data-summary-item"><span>Proyecto</span><strong>${escapeHtml(studyMeta.projectName)}</strong></div>
+          <div class="data-summary-item"><span>Presupuesto</span><strong>${compactMoney(TOTAL_BUDGET)}</strong></div>
+          <div class="data-summary-item"><span>Ayudas analizadas</span><strong>${Object.keys(calls).length}</strong></div>
+          <div class="data-summary-item"><span>Apoyo de la estrategia</span><strong>${compactMoney(summary.grant + summary.loan)}</strong></div>
+        `;
+        renderStudyPicker();
+        updateProjectHeader();
+      }
+
+      function applyDataForm(options = {}) {
+        const periodStartInput = document.querySelector("#data-period-start");
+        const periodEndInput = document.querySelector("#data-period-end");
+        studyMeta = normalizeStudyPeriod({
+          clientName: document.querySelector("#data-client").value.trim(),
+          projectName: document.querySelector("#data-project").value.trim(),
+          periodStart: periodStartInput.value,
+          periodEnd: periodEndInput.value,
+        });
+        periodStartInput.value = studyMeta.periodStart;
+        periodEndInput.value = studyMeta.periodEnd;
+        refreshTimelineHorizon();
+        TOTAL_BUDGET = Math.max(0, Number(document.querySelector("#data-budget").value) || 0);
+
+        phases = Array.from(document.querySelectorAll("[data-phase-row]")).map((row, index) => {
+          const start = Math.min(quarters.length - 1, Math.max(0, Number(row.querySelector("[data-phase-start]").value) || 0));
+          return {
+            name: row.querySelector("[data-phase-name]").value.trim() || `Fase ${index + 1}`,
+            budget: Math.max(0, Number(row.querySelector("[data-phase-budget]").value) || 0),
+            start,
+            span: Math.min(quarters.length - start, Math.max(1, Number(row.querySelector("[data-phase-span]").value) || 1)),
+            color: phaseColors[index % phaseColors.length],
+          };
+        });
+
+        budgetLines = Array.from(document.querySelectorAll("[data-budget-row]")).map((row, index) => ({
+          id: row.dataset.budgetId || newBudgetLineId(),
+          name: row.querySelector("[data-budget-name]").value.trim() || `Partida ${index + 1}`,
+          phase: row.querySelector("[data-budget-phase]").value.trim() || "Sin bloque",
+          amount: Math.max(0, Number(row.querySelector("[data-budget-amount]").value) || 0),
+        }));
+
+        document.querySelectorAll("[data-call-row]").forEach((row) => {
+          const call = calls[row.dataset.callRow];
+          if (!call) return;
+          call.name = row.querySelector("[data-call-name]").value.trim() || `Ayuda ${call.id}`;
+          call.type = row.querySelector("[data-call-type]").value;
+          call.base = Math.max(0, Number(row.querySelector("[data-call-base]").value) || 0);
+          call.intensity = Math.min(100, Math.max(0, Number(row.querySelector("[data-call-intensity]").value) || 0));
+          call.start = Math.min(quarters.length - 1, Math.max(0, Number(row.querySelector("[data-call-start]").value) || 0));
+          call.span = Math.min(quarters.length - call.start, Math.max(1, Number(row.querySelector("[data-call-span]").value) || 1));
+          call.delay = Math.min(36, Math.max(0, Number(row.querySelector("[data-call-delay]").value) || 0));
+          call.grantShare = call.type === "Subvención" ? 1 : call.type === "Préstamo" ? 0 : 0.35;
+        });
+
+        scenarios = Array.from(document.querySelectorAll("[data-scenario-row]")).map((row, index) => ({
+          id: row.dataset.scenarioRow || newScenarioId(),
+          name: row.querySelector("[data-scenario-name]").value.trim() || `Estrategia ${index + 1}`,
+          preference: row.querySelector("[data-scenario-preference]").value.trim() || "Personalizada",
+          note: row.querySelector("[data-scenario-note]").value.trim(),
+          calls: Array.from(row.querySelectorAll("[data-scenario-call-option]:checked")).map((input) => input.value),
+        }));
+        if (!scenarios.some((scenario) => scenario.id === workingScenario)) workingScenario = scenarios[0]?.id || null;
+        const selectedScenario = scenarios.find((scenario) => scenario.id === workingScenario);
+        if (selectedScenario) {
+          Object.values(calls).forEach((call) => { call.active = selectedScenario.calls.includes(call.id); });
+        }
+
+        document.querySelector("#save-status").textContent = "Cambios aplicados a las vistas. Pendiente de guardar.";
+        if (options.render !== false) renderAll();
+      }
+
+      function studyPayload() {
+        return {
+          totalBudget: TOTAL_BUDGET,
+          studyMeta,
+          phases,
+          budgetLines,
+          calls,
+          matrix,
+          scenarios,
+          workingScenario,
+        };
+      }
+
+      function loadStudyPayload(payload = {}) {
+        TOTAL_BUDGET = Math.max(0, Number(payload.totalBudget) || 0);
+        studyMeta = normalizeStudyPeriod(payload.studyMeta || studyMeta);
+        refreshTimelineHorizon();
+        phases = Array.isArray(payload.phases) ? payload.phases : structuredClone(initialPhases);
+        budgetLines = Array.isArray(payload.budgetLines) ? payload.budgetLines : structuredClone(initialBudgetLines);
+        calls = payload.calls && typeof payload.calls === "object" ? payload.calls : structuredClone(initialCalls);
+        matrix = payload.matrix && typeof payload.matrix === "object" ? payload.matrix : structuredClone(initialMatrix);
+        const loadedScenarios = Array.isArray(payload.scenarios) ? payload.scenarios : [];
+        scenarios = loadedScenarios.length ? loadedScenarios : buildExampleScenarios();
+        workingScenario = scenarios.some((scenario) => scenario.id === payload.workingScenario)
+          ? payload.workingScenario
+          : scenarios[0]?.id;
+        renderAll();
+      }
+
+      function resetStudyExample() {
+        TOTAL_BUDGET = 3200000;
+        studyMeta = {
+          clientName: "Alimentos Horizonte, S.L.",
+          projectName: "Nueva planta de ingredientes funcionales",
+          periodStart: "2027-01-01",
+          periodEnd: "2028-12-31",
+          period: "Q1 2027 - Q4 2028",
+        };
+        refreshTimelineHorizon();
+        calls = structuredClone(initialCalls);
+        phases = structuredClone(initialPhases);
+        budgetLines = structuredClone(initialBudgetLines);
+        matrix = structuredClone(initialMatrix);
+        scenarios = buildExampleScenarios();
+        workingScenario = "grant";
+        currentStudyId = null;
+        syncStudyUrl(null, true);
+        document.querySelector("#save-status").textContent = "Nuevo estudio preparado. Guárdalo cuando esté listo.";
+        renderAll();
+      }
+
+      async function saveStudy() {
+        applyDataForm({ render: false });
+        if (!backend) {
+          document.querySelector("#save-status").textContent = "Abre la call desde Convocatorias activas para guardar en la plataforma.";
+          renderAll();
+          return;
+        }
+
+        const values = {
+          call_id: backend.callId,
+          client_name: studyMeta.clientName || "Cliente sin nombre",
+          project_name: studyMeta.projectName || "Proyecto sin nombre",
+          status: "prepared",
+          schema_version: 1,
+          payload: studyPayload(),
+        };
+        document.querySelector("#save-status").textContent = "Guardando estudio...";
+        try {
+          const saved = currentStudyId
+            ? await backend.CBI.updateStrategyStudy(backend.auth.session, currentStudyId, values)
+            : await backend.CBI.createStrategyStudy(backend.auth.session, values);
+          if (!saved) throw new Error("El estudio no se ha devuelto tras guardar.");
+          currentStudyId = saved.id;
+          const position = studies.findIndex((item) => item.id === saved.id);
+          if (position >= 0) studies[position] = saved;
+          else studies.unshift(saved);
+          syncStudyUrl(saved.id);
+          renderStudyPicker();
+          document.querySelector("#save-status").textContent = `Guardado ${new Date(saved.updated_at).toLocaleString("es-ES")}`;
+        } catch (error) {
+          document.querySelector("#save-status").textContent = error instanceof Error ? error.message : "No se ha podido guardar el estudio.";
+        }
+        renderAll();
+      }
+
+      async function initializeBackend() {
+        const status = document.querySelector("#backend-status");
+        if (window.location.protocol === "file:") {
+          status.textContent = "Vista local";
+          return;
+        }
+
+        try {
+          const module = await import("../assets/cbi-supabase.js");
+          const auth = await module.CBI.requireSession();
+          if (!auth) return;
+          const url = new URL(window.location.href);
+          const callId = url.searchParams.get("call");
+          const requestedStudyId = url.searchParams.get("study");
+          const startNew = url.searchParams.get("new") === "1";
+          const availableCalls = await module.CBI.listCalls(auth.session);
+          const currentCall = availableCalls.find((call) => call.id === callId && call.kind === "strategy");
+          if (!currentCall) {
+            window.location.replace("./convocatorias.html");
+            return;
+          }
+
+          backend = { CBI: module.CBI, auth, callId };
+          studies = await module.CBI.listStrategyStudies(auth.session, callId);
+          status.textContent = "Conectado";
+          const selectedStudy = startNew
+            ? null
+            : studies.find((study) => study.id === requestedStudyId) || studies[0];
+          if (selectedStudy) {
+            currentStudyId = selectedStudy.id;
+            syncStudyUrl(selectedStudy.id);
+            loadStudyPayload(selectedStudy.payload);
+            document.querySelector("#save-status").textContent = `Último guardado ${new Date(selectedStudy.updated_at).toLocaleString("es-ES")}`;
+          } else {
+            if (startNew) resetStudyExample();
+            renderStudyPicker();
+            document.querySelector("#save-status").textContent = startNew
+              ? "Nueva estrategia preparada. Guárdala cuando esté lista."
+              : "Todavía no hay estrategias guardadas.";
+          }
+        } catch (error) {
+          status.textContent = "Sin conexión";
+          document.querySelector("#save-status").textContent = error instanceof Error ? error.message : "No se ha podido conectar con la plataforma.";
+        }
+      }
+
+      function callAmounts(call) {
+        const support = call.base * call.intensity / 100;
+        const grant = support * call.grantShare;
+        return { support, grant, loan: support - grant };
+      }
+
+      function summaryForCallIds(ids) {
+        const selected = ids.map((id) => calls[id]).filter(Boolean);
+        const amounts = selected.reduce(
+          (acc, call) => {
+            const current = callAmounts(call);
+            acc.grant += current.grant;
+            acc.loan += current.loan;
+            acc.delay += call.delay;
+            return acc;
+          },
+          { grant: 0, loan: 0, delay: 0 },
+        );
+        const averageDelay = selected.length ? amounts.delay / selected.length : 0;
+        const earliestDelay = selected.length ? Math.min(...selected.map((call) => call.delay)) : 0;
+        const latestDelay = selected.length ? Math.max(...selected.map((call) => call.delay)) : 0;
+        const paymentIndexes = selected.map(paymentQuarterIndex);
+        const firstPaymentIndex = paymentIndexes.length ? Math.min(...paymentIndexes) : null;
+        const lastPaymentIndex = paymentIndexes.length ? Math.max(...paymentIndexes) : null;
+        const coverage = TOTAL_BUDGET > 0 ? Math.min(100, (amounts.grant + amounts.loan) / TOTAL_BUDGET * 100) : 0;
+        const ownFunds = Math.max(0, TOTAL_BUDGET - amounts.grant - amounts.loan);
+        return { ...amounts, averageDelay, earliestDelay, latestDelay, firstPaymentIndex, lastPaymentIndex, coverage, ownFunds };
+      }
+
+      function activeCallIds() {
+        return Object.values(calls).filter((call) => call.active).map((call) => call.id);
+      }
+
+      function setView(view) {
+        if (view === "data" && document.body.classList.contains("presentation-mode")) view = "timeline";
+        document.querySelectorAll(".view-tab").forEach((tab) => {
+          const active = tab.dataset.viewTarget === view;
+          tab.classList.toggle("is-active", active);
+          tab.setAttribute("aria-selected", String(active));
+        });
+        document.querySelectorAll(".demo-view").forEach((panel) => {
+          panel.hidden = panel.id !== `view-${view}`;
+        });
+        const url = new URL(window.location.href);
+        url.searchParams.set("view", view);
+        window.history.replaceState({}, "", url);
+        if (view === "timeline") requestAnimationFrame(drawPaymentChart);
+      }
+
+      function applyScenarioToTimeline(id) {
+        const scenario = scenarios.find((item) => item.id === id);
+        if (!scenario) return;
+        Object.values(calls).forEach((call) => {
+          call.active = scenario.calls.includes(call.id);
+        });
+        workingScenario = id;
+        renderAll();
+      }
+
+      function renderCallControls() {
+        const container = document.querySelector("#call-controls");
+        container.innerHTML = Object.values(calls).map((call) => `
+          <article class="call-control" style="--call-color:${call.color}">
+            <div class="call-control-head">
+              <div>
+                <div class="call-name"><span class="call-dot"></span>${escapeHtml(call.name)}</div>
+                <p class="control-meta">${escapeHtml(call.type)} · Base ${compactMoney(call.base)}</p>
+              </div>
+              <label class="switch" aria-label="Activar ${call.name}">
+                <input type="checkbox" data-call-active="${call.id}" ${call.active ? "checked" : ""} />
+                <span class="switch-track"></span>
+              </label>
+            </div>
+            <div class="range-row" style="--call-color:${call.color}">
+              <label for="intensity-${call.id}">Intensidad</label>
+              <output id="intensity-output-${call.id}">${call.intensity}%</output>
+              <input id="intensity-${call.id}" type="range" min="10" max="90" step="5" value="${call.intensity}" data-intensity="${call.id}" />
+            </div>
+            <div class="range-row" style="--call-color:${call.color}">
+              <label for="delay-${call.id}">Plazo de pago</label>
+              <output id="delay-output-${call.id}">${call.delay} meses</output>
+              <input id="delay-${call.id}" type="range" min="0" max="36" step="1" value="${call.delay}" data-delay="${call.id}" />
+            </div>
+          </article>
+        `).join("");
+
+        container.querySelectorAll("[data-call-active]").forEach((input) => {
+          input.addEventListener("change", () => {
+            calls[input.dataset.callActive].active = input.checked;
+            renderTimelineOutput();
+            renderScenarios();
+            renderMatrix();
+          });
+        });
+
+        container.querySelectorAll("[data-intensity]").forEach((input) => {
+          input.addEventListener("input", () => {
+            const id = input.dataset.intensity;
+            calls[id].intensity = Number(input.value);
+            document.querySelector(`#intensity-output-${id}`).textContent = `${input.value}%`;
+            renderTimelineOutput();
+            renderScenarios();
+            renderMatrix();
+          });
+        });
+
+        container.querySelectorAll("[data-delay]").forEach((input) => {
+          input.addEventListener("input", () => {
+            const id = input.dataset.delay;
+            calls[id].delay = Number(input.value);
+            document.querySelector(`#delay-output-${id}`).textContent = `${input.value} meses`;
+            renderTimelineOutput();
+            renderScenarios();
+          });
+        });
+      }
+
+      function renderTimelineOutput() {
+        const ids = activeCallIds();
+        const summary = summaryForCallIds(ids);
+        const lastQuarterIndex = Math.max(0, quarters.length - 1);
+        const kpis = [
+          ["Presupuesto", compactMoney(TOTAL_BUDGET), "Plan operativo"],
+          ["Subvención estimada", compactMoney(summary.grant), `${TOTAL_BUDGET > 0 ? Math.round(summary.grant / TOTAL_BUDGET * 100) : 0}% del proyecto`],
+          ["Préstamo estimado", compactMoney(summary.loan), `${TOTAL_BUDGET > 0 ? Math.round(summary.loan / TOTAL_BUDGET * 100) : 0}% del proyecto`],
+          ["Plazo medio de pago", ids.length ? `${Math.round(summary.averageDelay)} meses` : "—", ids.length ? `Entre ${summary.earliestDelay} y ${summary.latestDelay} meses` : "Sin ayudas seleccionadas"],
+        ];
+        document.querySelector("#timeline-kpis").innerHTML = kpis.map(([label, value, note]) => `
+          <article class="kpi"><span>${label}</span><strong>${value}</strong><small>${note}</small></article>
+        `).join("");
+
+        const head = `<div class="gantt-row gantt-head"><span>Proyecto / ayuda</span>${quarters.map((quarter) => `<span>${quarter}</span>`).join("")}</div>`;
+        const phaseRows = phases.map((phase) => `
+          <div class="gantt-row">
+            <div class="row-label">${escapeHtml(phase.name)}<small>${compactMoney(phase.budget)}</small></div>
+            <div class="gantt-bar phase" style="grid-column:${phase.start + 2} / span ${phase.span};--bar-color:${phase.color}"><span>${compactMoney(phase.budget)}</span></div>
+          </div>
+        `).join("");
+        const callRows = Object.values(calls).map((call) => {
+          const paymentIndex = paymentQuarterIndex(call);
+          const paymentColumn = Math.min(lastQuarterIndex, paymentIndex) + 2;
+          return `
+            <div class="gantt-row" style="opacity:${call.active ? 1 : 0.32}">
+              <div class="row-label">${escapeHtml(call.name)}<small>${escapeHtml(call.type)} · ${call.intensity}%</small></div>
+              <div class="gantt-bar call" style="grid-column:${call.start + 2} / span ${call.span};--bar-color:${call.color}">
+                <span>Solicitud</span><span>${call.active ? compactMoney(callAmounts(call).support) : "Descartada"}</span>
+              </div>
+              <div class="gantt-payment" style="grid-column:${paymentColumn};--bar-color:${call.color}" aria-label="Pago estimado${paymentIndex > lastQuarterIndex ? " posterior al horizonte" : ""}">€${paymentIndex > lastQuarterIndex ? "+" : ""}</div>
+            </div>
+          `;
+        }).join("");
+        const gantt = document.querySelector("#gantt");
+        gantt.style.setProperty("--quarter-count", quarters.length);
+        gantt.style.minWidth = `${220 + quarters.length * 82}px`;
+        gantt.innerHTML = `${head}<div class="gantt-row group-row"><div class="row-label">Ejecución del proyecto</div></div>${phaseRows}<div class="gantt-row group-row"><div class="row-label">Financiación en paralelo</div></div>${callRows}`;
+
+        const alerts = [];
+        if (calls.A?.active && calls.B?.active) alerts.push(["#c38925", "Revisar el solape de planta piloto entre las ayudas A y B."]);
+        if (ids.length) alerts.push(["#2f78ae", `Plazo medio estimado de pago: ${Math.round(summary.averageDelay)} meses.`]);
+        if (summary.lastPaymentIndex > lastQuarterIndex) alerts.push(["#c38925", `Hay cobros previstos después de ${paymentQuarterLabel(lastQuarterIndex)}.`]);
+        if (summary.loan > 0) alerts.push(["#7963aa", `${compactMoney(summary.loan)} del apoyo se articula como préstamo.`]);
+        if (ids.length < 2) alerts.push(["#c38925", "Solo hay una ayuda seleccionada; revisa otras convocatorias compatibles."]);
+        alerts.push(["#73a958", `${Math.round(summary.coverage)}% del presupuesto tendría apoyo financiero.`]);
+        document.querySelector("#timeline-alerts").innerHTML = alerts.slice(0, 3).map(([color, copy]) => `<div class="alert-item" style="--alert-color:${color}">${copy}</div>`).join("");
+        requestAnimationFrame(drawPaymentChart);
+      }
+
+      function drawPaymentChart() {
+        const canvas = document.querySelector("#payment-chart");
+        if (!canvas || canvas.closest("[hidden]")) return;
+        const rect = canvas.getBoundingClientRect();
+        if (!rect.width) return;
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = Math.round(rect.width * ratio);
+        canvas.height = Math.round(rect.height * ratio);
+        const ctx = canvas.getContext("2d");
+        ctx.scale(ratio, ratio);
+        const width = rect.width;
+        const height = rect.height;
+        const pad = { top: 24, right: 14, bottom: 27, left: 16 };
+        const plotW = width - pad.left - pad.right;
+        const plotH = height - pad.top - pad.bottom;
+        const payments = quarters.map(() => ({ grant: 0, loan: 0 }));
+        const selectedCalls = activeCallIds().map((id) => calls[id]);
+        const lastQuarterIndex = Math.max(0, quarters.length - 1);
+        const hasLaterPayments = selectedCalls.some((call) => paymentQuarterIndex(call) > lastQuarterIndex);
+        selectedCalls.forEach((call) => {
+          const receiptQuarter = Math.min(lastQuarterIndex, paymentQuarterIndex(call));
+          const amounts = callAmounts(call);
+          payments[receiptQuarter].grant += amounts.grant / 1000;
+          payments[receiptQuarter].loan += amounts.loan / 1000;
+        });
+        const maxPayment = Math.max(...payments.map((payment) => payment.grant + payment.loan), 1);
+        const baseline = height - pad.bottom;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = "#e6ebef";
+        ctx.lineWidth = 1;
+        [0, 0.5, 1].forEach((step) => {
+          const y = pad.top + plotH * step;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+        });
+
+        ctx.strokeStyle = "#cbd5de";
+        ctx.beginPath();
+        ctx.moveTo(pad.left, baseline);
+        ctx.lineTo(width - pad.right, baseline);
+        ctx.stroke();
+
+        const slot = plotW / quarters.length;
+        const barW = Math.max(12, slot * 0.46);
+        payments.forEach((payment, index) => {
+          const x = pad.left + slot * index + slot / 2;
+          const grantH = payment.grant / maxPayment * plotH;
+          const loanH = payment.loan / maxPayment * plotH;
+          ctx.fillStyle = "#73a958";
+          ctx.fillRect(x - barW / 2, baseline - grantH, barW, grantH);
+          ctx.fillStyle = "#7963aa";
+          ctx.fillRect(x - barW / 2, baseline - grantH - loanH, barW, loanH);
+
+          const total = payment.grant + payment.loan;
+          if (total > 0) {
+            ctx.fillStyle = "#405064";
+            ctx.font = "9px Avenir Next, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(`${Math.round(total).toLocaleString("es-ES")} k€`, x, Math.max(10, baseline - grantH - loanH - 7));
+          }
+
+          ctx.fillStyle = "#788491";
+          ctx.font = "9px Avenir Next, sans-serif";
+          ctx.textAlign = "center";
+          const [quarterName, quarterYear] = quarters[index].split(" ");
+          const showYear = index === 0 || quarterName === "Q1";
+          const quarter = `${quarterName}${showYear ? ` ${quarterYear}` : ""}${index === lastQuarterIndex && hasLaterPayments ? "+" : ""}`;
+          ctx.fillText(quarter, x, height - 8);
+        });
+      }
+
+      function renderScenarios() {
+        const grid = document.querySelector("#scenario-grid");
+        const quarterCount = Math.max(1, quarters.length);
+        grid.innerHTML = scenarios.map((scenario, index) => {
+          const summary = summaryForCallIds(scenario.calls);
+          const totalSupport = summary.grant + summary.loan;
+          const grantShare = totalSupport > 0 ? Math.round(summary.grant / totalSupport * 100) : 0;
+          const loanShare = totalSupport > 0 ? 100 - grantShare : 0;
+          const callRows = Object.values(calls).map((call) => {
+            const selected = scenario.calls.includes(call.id);
+            const paymentPosition = Math.min(98, (paymentQuarterIndex(call) + 0.5) / quarterCount * 100);
+            return `
+              <div class="mini-row">
+                <span>${call.id}</span>
+                <div class="mini-track">
+                  <span class="mini-bar" style="--mini-start:${call.start / quarterCount * 100}%;--mini-width:${call.span / quarterCount * 100}%;--mini-color:${selected ? call.color : "#dfe5ea"}"></span>
+                  ${selected ? `<span class="mini-payment" style="--mini-payment:${paymentPosition}%;--mini-color:${call.color}">€</span>` : ""}
+                </div>
+              </div>
+            `;
+          }).join("");
+          return `
+            <article class="panel scenario-card ${scenario.id === workingScenario ? "is-working" : ""}">
+              <div class="scenario-head">
+                <div><span class="scenario-kicker">Estrategia ${index + 1}</span><h2>${escapeHtml(scenario.name)}</h2></div>
+                <span class="preference-pill">${escapeHtml(scenario.preference || "Personalizada")}</span>
+              </div>
+              ${scenario.note ? `<p class="scenario-description">${escapeHtml(scenario.note)}</p>` : ""}
+              <div class="scenario-call-picker">
+                ${Object.values(calls).map((call) => `<button type="button" class="scenario-call-chip ${scenario.calls.includes(call.id) ? "is-active" : ""}" style="--chip-color:${call.color}" data-scenario-call="${scenario.id}:${call.id}">${escapeHtml(call.name)}</button>`).join("")}
+              </div>
+              <div class="scenario-metrics">
+                <div class="scenario-metric"><span>Subvención</span><strong>${compactMoney(summary.grant)}</strong></div>
+                <div class="scenario-metric"><span>Préstamo</span><strong>${compactMoney(summary.loan)}</strong></div>
+                <div class="scenario-metric"><span>Primer pago</span><strong>${summary.firstPaymentIndex === null ? "—" : paymentQuarterLabel(summary.firstPaymentIndex)}</strong></div>
+                <div class="scenario-metric"><span>Último pago</span><strong>${summary.lastPaymentIndex === null ? "—" : paymentQuarterLabel(summary.lastPaymentIndex)}</strong></div>
+              </div>
+              <div class="mini-timeline">${callRows}</div>
+              <div class="scenario-alert" style="--alert-color:#2f78ae">${Math.round(summary.coverage)}% de cobertura · ${grantShare}% subvención · ${loanShare}% préstamo.</div>
+              <button class="choose-scenario" type="button" data-choose-scenario="${scenario.id}">${scenario.id === workingScenario ? "Estrategia seleccionada" : "Seleccionar estrategia"}</button>
+            </article>
+          `;
+        }).join("");
+
+        grid.querySelectorAll("[data-scenario-call]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const [scenarioId, callId] = button.dataset.scenarioCall.split(":");
+            const scenario = scenarios.find((item) => item.id === scenarioId);
+            if (scenario.calls.includes(callId)) scenario.calls = scenario.calls.filter((id) => id !== callId);
+            else scenario.calls.push(callId);
+            scenario.calls.sort();
+            document.querySelector("#save-status").textContent = "Combinación actualizada. Pendiente de guardar.";
+            if (scenario.id === workingScenario) applyScenarioToTimeline(workingScenario);
+            else renderAll();
+          });
+        });
+
+        grid.querySelectorAll("[data-choose-scenario]").forEach((button) => {
+          button.addEventListener("click", () => {
+            workingScenario = button.dataset.chooseScenario;
+            const current = scenarios.find((item) => item.id === workingScenario);
+            document.querySelector("#strategy-select").value = workingScenario;
+            document.querySelector("#working-scenario-label").textContent = `Estrategia seleccionada: ${current.name}`;
+            applyScenarioToTimeline(workingScenario);
+          });
+        });
+      }
+
+      function matrixConflicts() {
+        return budgetLines.filter((line) => Object.values(matrix[line.id]).filter((state) => state === 2).length > 1);
+      }
+
+      function matrixSummary() {
+        const totals = { grant: 0, loan: 0 };
+        Object.values(calls).forEach((call) => {
+          const allocated = budgetLines.reduce((sum, line) => sum + (matrix[line.id][call.id] === 2 ? line.amount : 0), 0);
+          const support = Math.min(call.base, allocated) * call.intensity / 100;
+          totals.grant += support * call.grantShare;
+          totals.loan += support * (1 - call.grantShare);
+        });
+        totals.coverage = Math.min(TOTAL_BUDGET, totals.grant + totals.loan);
+        totals.own = Math.max(0, TOTAL_BUDGET - totals.coverage);
+        return totals;
+      }
+
+      function renderMatrix() {
+        const conflicts = matrixConflicts();
+        document.querySelector("#matrix-head").innerHTML = `<tr><th>Partida presupuestaria</th>${Object.values(calls).map((call) => `<th style="color:${call.color}">Ayuda ${call.id}<br>${call.intensity}%</th>`).join("")}</tr>`;
+        document.querySelector("#matrix-body").innerHTML = budgetLines.map((line) => {
+          const isConflict = conflicts.some((item) => item.id === line.id);
+          const cells = Object.values(calls).map((call) => {
+            const state = matrix[line.id][call.id];
+            const stateLabel = state === 0 ? "No aplica" : state === 1 ? "Elegible" : "Incluido";
+            const stateClass = state === 1 ? "is-eligible" : state === 2 ? "is-allocated" : "";
+            return `<td><button type="button" class="matrix-cell ${stateClass} ${isConflict && state === 2 ? "has-conflict" : ""}" style="--cell-color:${call.color}" data-matrix-cell="${line.id}:${call.id}">${stateLabel}</button></td>`;
+          }).join("");
+          return `<tr><td class="budget-label"><strong>${escapeHtml(line.name)}</strong><span>${escapeHtml(line.phase)} · ${compactMoney(line.amount)}</span></td>${cells}</tr>`;
+        }).join("");
+
+        document.querySelector("#matrix-body").querySelectorAll("[data-matrix-cell]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const [lineId, callId] = button.dataset.matrixCell.split(":");
+            matrix[lineId][callId] = (matrix[lineId][callId] + 1) % 3;
+            renderMatrix();
+          });
+        });
+
+        const totals = matrixSummary();
+        const grantPct = TOTAL_BUDGET > 0 ? totals.grant / TOTAL_BUDGET * 100 : 0;
+        const loanPct = TOTAL_BUDGET > 0 ? totals.loan / TOTAL_BUDGET * 100 : 0;
+        const ownPct = Math.max(0, 100 - grantPct - loanPct);
+        document.querySelector("#matrix-allocation-label").textContent = conflicts.length ? `${conflicts.length} solape${conflicts.length > 1 ? "s" : ""} por revisar` : "Sin solapes";
+        document.querySelector("#coverage-summary").innerHTML = `
+          <div class="coverage-visual">
+            <div class="coverage-ring" style="--grant-end:${grantPct}%;--loan-end:${grantPct + loanPct}%">
+              <div><strong>${Math.round(grantPct + loanPct)}%</strong><span>con apoyo</span></div>
+            </div>
+            <div class="coverage-list">
+              <div style="--coverage-color:var(--green)"><span>Subvención</span><strong>${compactMoney(totals.grant)}</strong></div>
+              <div style="--coverage-color:var(--violet)"><span>Préstamo</span><strong>${compactMoney(totals.loan)}</strong></div>
+              <div style="--coverage-color:#e1e6ea"><span>Fondos propios</span><strong>${compactMoney(totals.own)}</strong></div>
+            </div>
+          </div>
+          <div class="coverage-stack" aria-label="Distribución de la financiación">
+            <span style="--segment-width:${grantPct}%;--segment-color:var(--green)"></span>
+            <span style="--segment-width:${loanPct}%;--segment-color:var(--violet)"></span>
+            <span style="--segment-width:${ownPct}%;--segment-color:#e1e6ea"></span>
+          </div>
+          <div class="conflict-box" style="--conflict-color:${conflicts.length ? "var(--red)" : "var(--green)"}">
+            <strong>${conflicts.length ? "Revisar compatibilidad" : "Asignación coherente"}</strong>
+            ${conflicts.length ? `${conflicts.map((item) => escapeHtml(item.name)).join(", ")} aparece incluida en más de una ayuda.` : "Cada partida se ha incluido como máximo en una convocatoria."}
+          </div>
+        `;
+      }
+
+      function renderAll() {
+        refreshTimelineHorizon();
+        enforceEditableCounts();
+        clampTimelineItems();
+        ensureScenarioCalls();
+        ensureMatrixRows();
+        const scenario = scenarios.find((item) => item.id === workingScenario);
+        document.querySelector("#working-scenario-label").textContent = `Estrategia seleccionada: ${scenario?.name || "Personalizada"}`;
+        renderDataForm();
+        renderCallControls();
+        renderTimelineOutput();
+        renderScenarios();
+        renderMatrix();
+      }
+
+      document.querySelectorAll("[data-view-target]").forEach((tab) => {
+        tab.addEventListener("click", () => setView(tab.dataset.viewTarget));
+      });
+
+      document.querySelector("#strategy-select").addEventListener("change", (event) => {
+        applyScenarioToTimeline(event.target.value);
+      });
+
+      document.querySelector("#data-period-start").addEventListener("change", (event) => {
+        const periodEndInput = document.querySelector("#data-period-end");
+        periodEndInput.min = event.target.value;
+        if (periodEndInput.value && periodEndInput.value < event.target.value) periodEndInput.value = event.target.value;
+      });
+
+      document.querySelector("#data-period-end").addEventListener("change", (event) => {
+        const periodStartInput = document.querySelector("#data-period-start");
+        periodStartInput.max = event.target.value;
+        if (periodStartInput.value && periodStartInput.value > event.target.value) periodStartInput.value = event.target.value;
+      });
+
+      document.querySelector("#apply-data").addEventListener("click", () => {
+        applyDataForm();
+        setView("timeline");
+      });
+
+      document.querySelector("#add-phase").addEventListener("click", () => {
+        applyDataForm({ render: false });
+        if (phases.length >= 5) return;
+        phases.push(createPhase(phases.length));
+        document.querySelector("#save-status").textContent = "Fase añadida. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#phase-data-list").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-phase]");
+        if (!button || phases.length <= 2) return;
+        applyDataForm({ render: false });
+        phases.splice(Number(button.dataset.removePhase), 1);
+        document.querySelector("#save-status").textContent = "Fase eliminada. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#add-call").addEventListener("click", () => {
+        applyDataForm({ render: false });
+        if (Object.keys(calls).length >= 4) return;
+        const id = nextCallId();
+        if (!id) return;
+        calls[id] = createCall(id);
+        const currentScenario = scenarios.find((scenario) => scenario.id === workingScenario);
+        calls[id].active = Boolean(currentScenario);
+        if (currentScenario && !currentScenario.calls.includes(id)) currentScenario.calls.push(id);
+        Object.values(matrix).forEach((row) => { row[id] = 0; });
+        document.querySelector("#save-status").textContent = "Ayuda añadida. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#call-data-list").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-call]");
+        if (!button || Object.keys(calls).length <= 2) return;
+        applyDataForm({ render: false });
+        const callId = button.dataset.removeCall;
+        delete calls[callId];
+        scenarios.forEach((scenario) => {
+          scenario.calls = scenario.calls.filter((id) => id !== callId);
+        });
+        Object.values(matrix).forEach((row) => { delete row[callId]; });
+        document.querySelector("#save-status").textContent = "Ayuda eliminada. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#add-scenario").addEventListener("click", () => {
+        applyDataForm({ render: false });
+        scenarios.push(createScenario(scenarios.length));
+        document.querySelector("#save-status").textContent = "Estrategia añadida. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#scenario-data-list").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-scenario]");
+        if (!button || scenarios.length <= 1) return;
+        applyDataForm({ render: false });
+        const scenarioId = button.dataset.removeScenario;
+        scenarios = scenarios.filter((scenario) => scenario.id !== scenarioId);
+        if (workingScenario === scenarioId) {
+          workingScenario = scenarios[0].id;
+          Object.values(calls).forEach((call) => { call.active = scenarios[0].calls.includes(call.id); });
+        }
+        document.querySelector("#save-status").textContent = "Estrategia eliminada. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#add-budget-line").addEventListener("click", () => {
+        applyDataForm({ render: false });
+        const id = newBudgetLineId();
+        budgetLines.push({ id, name: `Partida ${budgetLines.length + 1}`, phase: "Sin bloque", amount: 0 });
+        matrix[id] = Object.fromEntries(Object.keys(calls).map((callId) => [callId, 0]));
+        document.querySelector("#save-status").textContent = "Partida añadida. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#budget-data-list").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-budget]");
+        if (!button) return;
+        applyDataForm({ render: false });
+        const lineId = button.dataset.removeBudget;
+        budgetLines = budgetLines.filter((line) => line.id !== lineId);
+        delete matrix[lineId];
+        document.querySelector("#save-status").textContent = "Partida eliminada. Pendiente de guardar.";
+        renderAll();
+      });
+
+      document.querySelector("#save-study").addEventListener("click", saveStudy);
+      document.querySelector("#new-study").addEventListener("click", resetStudyExample);
+      document.querySelector("#study-select").addEventListener("change", (event) => {
+        if (!event.target.value) {
+          resetStudyExample();
+          return;
+        }
+        const selected = studies.find((study) => study.id === event.target.value);
+        if (!selected) return;
+        currentStudyId = selected.id;
+        syncStudyUrl(selected.id);
+        loadStudyPayload(selected.payload);
+        document.querySelector("#save-status").textContent = `Último guardado ${new Date(selected.updated_at).toLocaleString("es-ES")}`;
+      });
+
+      document.querySelector("#timeline-reset").addEventListener("click", () => {
+        calls = structuredClone(initialCalls);
+        scenarios = buildExampleScenarios();
+        workingScenario = "grant";
+        renderAll();
+      });
+
+      document.querySelector("#scenario-reset").addEventListener("click", () => {
+        applyDataForm({ render: false });
+        scenarios = buildExampleScenarios();
+        workingScenario = "grant";
+        applyScenarioToTimeline("grant");
+      });
+
+      document.querySelector("#matrix-reset").addEventListener("click", () => {
+        matrix = structuredClone(initialMatrix);
+        ensureMatrixRows();
+        renderMatrix();
+      });
+
+      document.querySelector("#resolve-conflicts").addEventListener("click", () => {
+        matrixConflicts().forEach((line) => {
+          const allocated = Object.keys(matrix[line.id]).filter((callId) => matrix[line.id][callId] === 2);
+          allocated.slice(1).forEach((callId) => { matrix[line.id][callId] = 1; });
+        });
+        renderMatrix();
+      });
+
+      document.querySelector("#clear-allocation").addEventListener("click", () => {
+        Object.values(matrix).forEach((row) => {
+          Object.keys(row).forEach((callId) => { if (row[callId] === 2) row[callId] = 1; });
+        });
+        renderMatrix();
+      });
+
+      document.querySelector("#presentation-button").addEventListener("click", (event) => {
+        document.body.classList.toggle("presentation-mode");
+        const presenting = document.body.classList.contains("presentation-mode");
+        event.currentTarget.textContent = presenting ? "Salir de presentación" : "Modo presentación";
+        if (presenting && !document.querySelector("#view-data").hidden) setView("timeline");
+        requestAnimationFrame(drawPaymentChart);
+      });
+
+      window.addEventListener("resize", drawPaymentChart);
+      const requestedView = new URL(window.location.href).searchParams.get("view");
+      renderAll();
+      setView(["data", "timeline", "scenarios", "matrix"].includes(requestedView) ? requestedView : "data");
+      initializeBackend();
+    </script>
+  </body>
+</html>
