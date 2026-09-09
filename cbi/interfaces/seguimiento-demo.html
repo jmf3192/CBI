@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Seguimiento | CONASOC</title>
+    <link rel="stylesheet" href="../assets/cbi-page-guard.css" />
+    <link rel="stylesheet" href="../assets/cbi-model-workspace.css" />
+  </head>
+  <body data-cbi-protected data-cbi-call-kind="tracking" data-cbi-require-call-id="true">
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="Volver al espacio de trabajo">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <p class="brand-text">Consultoría en financiación pública<br />Business intelligence</p>
+      </a>
+      <nav class="session" aria-label="Sesión">
+        <a href="./convocatorias.html">Espacio de trabajo</a>
+        <a href="./acceso.html" data-cbi-logout>Salir</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <header class="page-heading">
+        <div>
+          <p class="eyebrow" data-cbi-call-code>Seguimiento</p>
+          <h1 data-cbi-call-name>Seguimiento de proyecto</h1>
+        </div>
+        <span class="model-label">Modelo inicial</span>
+      </header>
+
+      <section class="metrics" aria-label="Resumen del seguimiento">
+        <article class="metric"><span class="metric-label">Avance global</span><strong class="metric-value" id="progress-metric">50 %</strong></article>
+        <article class="metric"><span class="metric-label">Hitos completados</span><strong class="metric-value" id="completed-metric">2 / 4</strong></article>
+        <article class="metric"><span class="metric-label">Próxima revisión</span><strong class="metric-value">18 sep.</strong></article>
+        <article class="metric"><span class="metric-label">Pendientes abiertos</span><strong class="metric-value" id="pending-metric">2</strong></article>
+      </section>
+
+      <section class="layout">
+        <article class="panel">
+          <header class="panel-header">
+            <div>
+              <h2>Hoja de seguimiento</h2>
+              <p>Activa o completa los hitos para visualizar el avance de la intervención.</p>
+            </div>
+            <span class="progress-value" id="progress-label">50 %</span>
+          </header>
+          <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+          <div class="timeline" id="milestones">
+            <article class="timeline-item is-complete">
+              <button class="milestone-toggle" type="button" aria-label="Cambiar estado del diagnóstico">✓</button>
+              <div><strong class="item-title">Diagnóstico y alcance</strong><span class="item-meta">Objetivos, calendario y responsables</span></div>
+              <span class="item-status">Completado</span>
+            </article>
+            <article class="timeline-item is-complete">
+              <button class="milestone-toggle" type="button" aria-label="Cambiar estado de la documentación">✓</button>
+              <div><strong class="item-title">Documentación de partida</strong><span class="item-meta">Evidencias y datos económicos recibidos</span></div>
+              <span class="item-status">Completado</span>
+            </article>
+            <article class="timeline-item">
+              <button class="milestone-toggle" type="button" aria-label="Cambiar estado del análisis">✓</button>
+              <div><strong class="item-title">Análisis técnico</strong><span class="item-meta">Contraste de requisitos y presupuesto</span></div>
+              <span class="item-status">En curso</span>
+            </article>
+            <article class="timeline-item">
+              <button class="milestone-toggle" type="button" aria-label="Cambiar estado del cierre">✓</button>
+              <div><strong class="item-title">Cierre y próximos pasos</strong><span class="item-meta">Conclusiones, entregables y decisiones</span></div>
+              <span class="item-status">Pendiente</span>
+            </article>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <header class="panel-header">
+            <div><h2>Próximas acciones</h2><p>Vista rápida para la reunión de seguimiento.</p></div>
+          </header>
+          <div class="checklist">
+            <div class="check-item"><div><strong class="item-title">Validar inversión</strong><span class="item-meta">Cliente · 12 sep.</span></div><span class="item-status">Prioridad alta</span></div>
+            <div class="check-item"><div><strong class="item-title">Completar memoria</strong><span class="item-meta">CONASOC · 16 sep.</span></div><span class="item-status">En curso</span></div>
+            <div class="check-item"><div><strong class="item-title">Revisión conjunta</strong><span class="item-meta">Reunión · 18 sep.</span></div><span class="item-status">Programada</span></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const milestones = document.querySelector("#milestones");
+      function updateProgress() {
+        const items = Array.from(milestones.querySelectorAll(".timeline-item"));
+        const completed = items.filter((item) => item.classList.contains("is-complete")).length;
+        const percent = Math.round((completed / items.length) * 100);
+        document.querySelector("#progress-metric").textContent = `${percent} %`;
+        document.querySelector("#completed-metric").textContent = `${completed} / ${items.length}`;
+        document.querySelector("#pending-metric").textContent = String(items.length - completed);
+        document.querySelector("#progress-label").textContent = `${percent} %`;
+        document.querySelector("#progress-bar").style.width = `${percent}%`;
+        items.forEach((item) => {
+          item.querySelector(".item-status").textContent = item.classList.contains("is-complete") ? "Completado" : "Pendiente";
+        });
+      }
+      milestones.addEventListener("click", (event) => {
+        const button = event.target.closest(".milestone-toggle");
+        if (!button) return;
+        button.closest(".timeline-item").classList.toggle("is-complete");
+        updateProgress();
+      });
+      document.addEventListener("cbi:access-granted", (event) => {
+        document.title = `${event.detail.call.name} | CONASOC`;
+        updateProgress();
+      }, { once: true });
+    </script>
+    <script type="module" src="../assets/cbi-page-guard.js"></script>
+  </body>
+</html>

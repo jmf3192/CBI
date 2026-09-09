@@ -9,7 +9,11 @@ const corsHeaders = {
 
 const callKinds = new Set(["normal", "strategy", "tracking", "sprint"]);
 const callStatuses = new Set(["draft", "active", "inactive", "archived"]);
-const strategyRoute = "./estrategia-financiacion-demo.html";
+const fixedRoutes: Record<string, string> = {
+  strategy: "./estrategia-financiacion-demo.html",
+  tracking: "./seguimiento-demo.html",
+  sprint: "./sprint-demo.html",
+};
 
 function json(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: corsHeaders });
@@ -53,8 +57,7 @@ function normalizeCode(value: unknown) {
 }
 
 function normalizeRoute(value: unknown, kind: string) {
-  if (kind === "strategy") return strategyRoute;
-  if (kind === "tracking" || kind === "sprint") return null;
+  if (fixedRoutes[kind]) return fixedRoutes[kind];
   if (value === null || value === undefined || value === "") return null;
   const route = requireString(value, "ruta");
   if (!/^\.\/[a-z0-9-]+\.html$/.test(route)) {

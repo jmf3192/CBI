@@ -374,7 +374,11 @@
           "CONV-2026-INNOVAE-FRIO": "./innovae-frio-dashboard.html",
           "CONV-2026-INCENTIVOS-REGIONALES": "./incentivos-regionales-dashboard.html",
         };
-        const route = call.route_path || legacyRoutes[call.code] || "";
+        const modelRoutes = {
+          tracking: "./seguimiento-demo.html",
+          sprint: "./sprint-demo.html",
+        };
+        const route = call.route_path || legacyRoutes[call.code] || modelRoutes[call.kind] || "";
         if (!route) return "";
         const separator = route.includes("?") ? "&" : "?";
         return `${route}${separator}call=${encodeURIComponent(call.id)}`;

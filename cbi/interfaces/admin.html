@@ -953,28 +953,28 @@
         return slug ? `./${slug}.html` : "";
       }
 
+      const fixedRoutes = {
+        strategy: "./estrategia-financiacion-demo.html",
+        tracking: "./seguimiento-demo.html",
+        sprint: "./sprint-demo.html",
+      };
+
       function updateCallRouteState() {
         const kind = callKindInput.value;
         const previousKind = callRouteInput.dataset.currentKind || "normal";
-        const strategy = kind === "strategy";
-        const placeholder = kind === "tracking" || kind === "sprint";
-        const strategyRoute = "./estrategia-financiacion-demo.html";
+        const fixedRoute = fixedRoutes[kind] || "";
         if (previousKind === "normal") callRouteInput.dataset.normalRoute = callRouteInput.value;
         callRouteInput.disabled = kind !== "normal";
-        if (strategy) {
-          callRouteInput.value = strategyRoute;
-        } else if (placeholder) {
-          callRouteInput.value = "";
+        if (fixedRoute) {
+          callRouteInput.value = fixedRoute;
         } else {
           callRouteInput.value = callRouteInput.dataset.normalRoute || routeFromName(callNameInput.value);
           callRouteInput.dataset.normalRoute = callRouteInput.value;
         }
         callRouteInput.dataset.currentKind = kind;
-        callRouteField.querySelector(".route-help").textContent = strategy
-          ? "La estrategia utiliza automáticamente el panel gráfico de planificación."
-          : placeholder
-            ? "El panel específico de este tipo se añadirá más adelante."
-            : "Se genera a partir del nombre y puedes editarla manualmente.";
+        callRouteField.querySelector(".route-help").textContent = fixedRoute
+          ? "Este tipo utiliza automáticamente su panel de trabajo."
+          : "Se genera a partir del nombre y puedes editarla manualmente.";
       }
 
       function selectCall(id) {
@@ -1146,11 +1146,7 @@
           name: callNameInput.value.trim(),
           code: callCodeInput.value.trim(),
           kind: callKindInput.value,
-          route_path: callKindInput.value === "strategy"
-            ? "./estrategia-financiacion-demo.html"
-            : callKindInput.value === "normal"
-              ? callRouteInput.value.trim()
-              : null,
+          route_path: fixedRoutes[callKindInput.value] || callRouteInput.value.trim(),
           status: callStatusInput.value,
         };
         if (!values.name || !values.code) return;

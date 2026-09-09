@@ -104,7 +104,27 @@ Cada convocatoria tendra una estructura configurable:
 - Campos necesarios para comparar el proyecto.
 - CSV o dataset competitivo asociado.
 
-El campo `Call.kind` organiza todos los accesos de la plataforma: `normal`, `strategy`, `tracking` y `sprint`. Seguimientos y sprints quedan inicialmente como categorias sin panel funcional propio.
+El campo `Call.kind` organiza todos los accesos de la plataforma: `normal`, `strategy`, `tracking` y `sprint`. Seguimientos y sprints comparten inicialmente una plantilla funcional por tipologia; cada acceso sigue correspondiendo a un registro individual de `calls`.
+
+### Patron obligatorio para nuevas paginas privadas
+
+Toda interfaz privada nueva debe aplicar el guard comun de pagina. La declaracion vive en el `body` y la autorizacion se contrasta con las convocatorias activas que Supabase devuelve al usuario mediante RLS:
+
+```html
+<link rel="stylesheet" href="../assets/cbi-page-guard.css" />
+<body data-cbi-protected data-cbi-call-code="CODIGO-DE-LA-CALL">
+  <!-- contenido -->
+  <script type="module" src="../assets/cbi-page-guard.js"></script>
+</body>
+```
+
+Las plantillas compartidas por varios contenidos declaran `data-cbi-call-kind` y exigen el identificador `?call=` mediante `data-cbi-require-call-id="true"`. Los enlaces de salida usan `data-cbi-logout`.
+
+La carga de datos o el render inicial de cada pagina debe esperar al evento `cbi:access-granted`. El guard mantiene la vista oculta hasta entonces. La seguridad de los datos no depende del HTML: todas las tablas expuestas mantienen RLS y permisos solo para el rol `authenticated`.
+
+```js
+document.addEventListener("cbi:access-granted", cargarPagina, { once: true });
+```
 
 ### Cuestionario de proyecto
 

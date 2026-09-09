@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sprint | CONASOC</title>
+    <link rel="stylesheet" href="../assets/cbi-page-guard.css" />
+    <link rel="stylesheet" href="../assets/cbi-model-workspace.css" />
+  </head>
+  <body data-cbi-protected data-cbi-call-kind="sprint" data-cbi-require-call-id="true">
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="Volver al espacio de trabajo">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <p class="brand-text">Consultoría en financiación pública<br />Business intelligence</p>
+      </a>
+      <nav class="session" aria-label="Sesión">
+        <a href="./convocatorias.html">Espacio de trabajo</a>
+        <a href="./acceso.html" data-cbi-logout>Salir</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <header class="page-heading">
+        <div>
+          <p class="eyebrow" data-cbi-call-code>Sprint</p>
+          <h1 data-cbi-call-name>Sprint de trabajo</h1>
+        </div>
+        <span class="model-label">Modelo inicial · 2 semanas</span>
+      </header>
+
+      <section class="metrics" aria-label="Resumen del sprint">
+        <article class="metric"><span class="metric-label">Progreso</span><strong class="metric-value" id="sprint-progress">33 %</strong></article>
+        <article class="metric"><span class="metric-label">Objetivo</span><strong class="metric-value">Decisión</strong></article>
+        <article class="metric"><span class="metric-label">Días restantes</span><strong class="metric-value">6</strong></article>
+        <article class="metric"><span class="metric-label">Tareas completadas</span><strong class="metric-value" id="done-count">2 / 6</strong></article>
+      </section>
+
+      <section class="board" id="sprint-board" aria-label="Tablero del sprint">
+        <article class="board-column" data-column="todo">
+          <header class="column-header"><h2>Pendiente</h2><span class="column-count">2 tareas</span></header>
+          <div class="task-list">
+            <article class="task-card" data-stage="todo"><span class="task-tag">Estrategia</span><h3>Comparar las alternativas de financiación</h3><div class="task-actions"><button class="advance-task" type="button">Empezar</button></div></article>
+            <article class="task-card" data-stage="todo"><span class="task-tag">Cliente</span><h3>Confirmar el calendario de inversión</h3><div class="task-actions"><button class="advance-task" type="button">Empezar</button></div></article>
+          </div>
+        </article>
+
+        <article class="board-column" data-column="doing">
+          <header class="column-header"><h2>En curso</h2><span class="column-count">2 tareas</span></header>
+          <div class="task-list">
+            <article class="task-card" data-stage="doing"><span class="task-tag">Análisis</span><h3>Revisar la elegibilidad del presupuesto</h3><div class="task-actions"><button class="advance-task" type="button">Completar</button></div></article>
+            <article class="task-card" data-stage="doing"><span class="task-tag">Documentación</span><h3>Preparar el índice de la memoria</h3><div class="task-actions"><button class="advance-task" type="button">Completar</button></div></article>
+          </div>
+        </article>
+
+        <article class="board-column" data-column="done">
+          <header class="column-header"><h2>Hecho</h2><span class="column-count">2 tareas</span></header>
+          <div class="task-list">
+            <article class="task-card" data-stage="done"><span class="task-tag">Arranque</span><h3>Definir el objetivo del sprint</h3><div class="task-actions"><button class="advance-task" type="button">Completada</button></div></article>
+            <article class="task-card" data-stage="done"><span class="task-tag">Equipo</span><h3>Asignar responsables y fechas</h3><div class="task-actions"><button class="advance-task" type="button">Completada</button></div></article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const board = document.querySelector("#sprint-board");
+      const stages = ["todo", "doing", "done"];
+      function updateBoard() {
+        const tasks = Array.from(board.querySelectorAll(".task-card"));
+        stages.forEach((stage) => {
+          const column = board.querySelector(`[data-column="${stage}"]`);
+          const count = column.querySelectorAll(".task-card").length;
+          column.querySelector(".column-count").textContent = `${count} ${count === 1 ? "tarea" : "tareas"}`;
+        });
+        const done = tasks.filter((task) => task.dataset.stage === "done").length;
+        document.querySelector("#done-count").textContent = `${done} / ${tasks.length}`;
+        document.querySelector("#sprint-progress").textContent = `${Math.round((done / tasks.length) * 100)} %`;
+      }
+      board.addEventListener("click", (event) => {
+        const button = event.target.closest(".advance-task");
+        if (!button) return;
+        const task = button.closest(".task-card");
+        const nextStage = stages[stages.indexOf(task.dataset.stage) + 1];
+        if (!nextStage) return;
+        task.dataset.stage = nextStage;
+        button.textContent = nextStage === "done" ? "Completada" : "Completar";
+        board.querySelector(`[data-column="${nextStage}"] .task-list`).appendChild(task);
+        updateBoard();
+      });
+      document.addEventListener("cbi:access-granted", (event) => {
+        document.title = `${event.detail.call.name} | CONASOC`;
+        updateBoard();
+      }, { once: true });
+    </script>
+    <script type="module" src="../assets/cbi-page-guard.js"></script>
+  </body>
+</html>

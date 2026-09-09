@@ -28,4 +28,5 @@ Las variables sensibles deberan vivir en el entorno de despliegue. En el reposit
 - Admin inicial: `jorgemoreno@con-asociados.com`, creado en Supabase Auth y enlazado a `public.profiles` con rol `admin`.
 - Funcion admin: `admin-users`, desplegada como Edge Function con verificacion interna de sesion y rol admin activo.
 - Los accesos se modelan en `calls` y se clasifican mediante `kind`: `normal`, `strategy`, `tracking` o `sprint`.
-- Seguimientos y sprints pueden asignarse desde administracion, pero inicialmente no tienen una ruta funcional asociada.
+- Seguimientos y sprints se asignan desde administracion y reutilizan las rutas `./seguimiento-demo.html` y `./sprint-demo.html` mientras se definen sus versiones definitivas.
+- Las paginas privadas usan `cbi-page-guard.js` para exigir sesion y acceso a la call. La autorizacion final de datos sigue residiendo en las politicas RLS de Supabase.

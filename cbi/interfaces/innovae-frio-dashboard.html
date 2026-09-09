@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>INNOVAE frío | CONASOC</title>
+    <link rel="stylesheet" href="../assets/cbi-page-guard.css" />
     <style>
       :root {
         color-scheme: light;
@@ -336,6 +337,7 @@
 
       input[type="number"],
       input[type="text"],
+      input.cbi-number-input,
       select {
         width: 100%;
         height: 40px;
@@ -1065,7 +1067,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-cbi-protected data-cbi-call-code="CONV-2026-INNOVAE-FRIO">
     <header class="topbar">
       <a class="brand" href="./convocatorias.html" aria-label="CONASOC">
         <img src="../assets/conasoc-logo.png" alt="CONASOC" />
@@ -1077,7 +1079,7 @@
 
       <nav class="session" aria-label="Navegación">
         <a href="./convocatorias.html">Convocatorias</a>
-        <a id="logout" href="./acceso.html">Salir</a>
+        <a id="logout" href="./acceso.html" data-cbi-logout>Salir</a>
       </nav>
     </header>
 
@@ -1116,11 +1118,11 @@
                 <div class="input-grid">
                   <label class="input-field">
                     Coste elegible
-                    <input id="cost-input" type="number" min="100000" max="5000000" step="25000" />
+                    <input id="cost-input" type="number" min="100000" max="5000000" step="25000" data-number-format />
                   </label>
                   <label class="input-field">
                     Ahorro anual MWh
-                    <input id="saving-input" type="number" min="120" max="12000" step="20" />
+                    <input id="saving-input" type="number" min="120" max="12000" step="20" data-number-format />
                   </label>
                 </div>
               </div>
@@ -1132,7 +1134,7 @@
                 </div>
                 <div class="range-line">
                   <input id="aid-range" type="range" min="10" max="30" step="0.5" />
-                  <input id="aid-input" type="number" min="0" max="2000000" step="10000" />
+                  <input id="aid-input" type="number" min="0" max="2000000" step="10000" data-number-format />
                 </div>
               </div>
 
@@ -1159,7 +1161,7 @@
                     Potencia eléctrica de compresores
                     <div class="range-line">
                       <input id="power-range" type="range" min="50" max="600" step="5" />
-                      <input id="power-input" type="number" min="50" max="600" step="5" />
+                      <input id="power-input" type="number" min="50" max="600" step="5" data-number-format />
                     </div>
                     <span class="control-value" id="power-label"></span>
                   </label>
@@ -1167,7 +1169,7 @@
                     Ahorro sobre instalación actual
                     <div class="range-line">
                       <input id="saving-pct-range" type="range" min="0" max="60" step="1" />
-                      <input id="saving-pct-input" type="number" min="0" max="60" step="1" />
+                      <input id="saving-pct-input" type="number" min="0" max="60" step="1" data-number-format />
                     </div>
                     <span class="control-value" id="saving-pct-label"></span>
                   </label>
@@ -1197,17 +1199,17 @@
                 <div class="input-grid">
                   <label class="input-field">
                     Coste elegible
-                    <input id="manual-cost" type="number" min="100000" max="5000000" step="25000" />
+                    <input id="manual-cost" type="number" min="100000" max="5000000" step="25000" data-number-format />
                   </label>
                   <label class="input-field">
                     Ahorro anual MWh
-                    <input id="manual-saving" type="number" min="120" max="12000" step="20" />
+                    <input id="manual-saving" type="number" min="120" max="12000" step="20" data-number-format />
                   </label>
                 </div>
                 <div class="input-grid">
                   <label class="input-field">
                     Ayuda solicitada
-                    <input id="manual-aid" type="number" min="0" max="2000000" step="10000" />
+                    <input id="manual-aid" type="number" min="0" max="2000000" step="10000" data-number-format />
                   </label>
                   <label class="input-field">
                     Innovación
@@ -1371,6 +1373,7 @@
       </section>
     </main>
 
+    <script src="../assets/cbi-number-format.js"></script>
     <script>
       const KWH_PER_KTEP = 11630000;
       const BUDGET = 25000000;
@@ -1586,7 +1589,7 @@
       }
 
       function clamp(value, min, max) {
-        return Math.min(max, Math.max(min, Number(value)));
+        return Math.min(max, Math.max(min, window.CBINumbers?.parse(value) ?? 0));
       }
 
       function formatEuro(value) {
@@ -1790,23 +1793,23 @@
           ? `${formatNumber(populationCount + state.manualRows.length)} competidoras`
           : "Cargando datos";
 
-        controls.costInput.value = state.cost;
-        controls.savingInput.value = state.savingMwh;
+        window.CBINumbers.setValue(controls.costInput, state.cost);
+        window.CBINumbers.setValue(controls.savingInput, state.savingMwh);
         controls.basicLabel.textContent = `${formatEuro(state.cost)} · ${formatNumber(state.savingMwh)} MWh/año`;
 
         const aidCap = Math.min(MAX_AID, state.cost * 0.3);
         const aidAmount = Math.min(aidCap, state.cost * (state.aidPct / 100));
         controls.aidRange.value = state.aidPct;
         controls.aidInput.max = Math.round(aidCap);
-        controls.aidInput.value = Math.round(aidAmount / 1000) * 1000;
+        window.CBINumbers.setValue(controls.aidInput, Math.round(aidAmount / 1000) * 1000);
         controls.aidLabel.textContent = `${formatNumber(state.aidPct, 1)} % · ${formatEuro(aidAmount)}`;
 
         controls.powerRange.value = state.powerKw;
-        controls.powerInput.value = state.powerKw;
+        window.CBINumbers.setValue(controls.powerInput, state.powerKw);
         controls.powerLabel.textContent = `${formatNumber(state.powerKw)} kW`;
 
         controls.savingPctRange.value = state.savingPct;
-        controls.savingPctInput.value = state.savingPct;
+        window.CBINumbers.setValue(controls.savingPctInput, state.savingPct);
         controls.savingPctLabel.textContent = `${formatNumber(state.savingPct)} %`;
         controls.requirementsLabel.textContent =
           state.powerKw >= 100 && state.savingPct > 20 ? "Cumple" : "Revisar";
@@ -2200,31 +2203,11 @@
         resizeTimer = window.setTimeout(render, 120);
       });
 
-      render();
-      loadPopulationCsv();
+      document.addEventListener("cbi:access-granted", () => {
+        render();
+        loadPopulationCsv();
+      }, { once: true });
     </script>
-
-    <script type="module">
-      import { CBI } from "../assets/cbi-supabase.js";
-
-      const auth = await CBI.requireSession();
-      if (auth) {
-        try {
-          const calls = await CBI.listCalls(auth.session);
-          const hasAccess = calls.some((call) => call.code === "CONV-2026-INNOVAE-FRIO");
-          if (!hasAccess) {
-            window.location.replace("./convocatorias.html");
-          }
-        } catch {
-          window.location.replace("./convocatorias.html");
-        }
-      }
-
-      document.querySelector("#logout").addEventListener("click", async (event) => {
-        event.preventDefault();
-        await CBI.signOut();
-        window.location.href = "./acceso.html";
-      });
-    </script>
+    <script type="module" src="../assets/cbi-page-guard.js"></script>
   </body>
 </html>

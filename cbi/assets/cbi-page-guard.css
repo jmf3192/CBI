@@ -1,0 +1,7 @@
+body[data-cbi-protected]:not([data-cbi-access="granted"]) {
+  visibility: hidden;
+}
+
+body[data-cbi-protected][data-cbi-access="granted"] {
+  visibility: visible;
+}

@@ -190,6 +190,42 @@ async function listCalls(session) {
   );
 }
 
+async function requireCallAccess(options = {}) {
+  const auth = await requireSession();
+  if (!auth) return null;
+
+  const code = String(options.code || "").trim();
+  const kind = String(options.kind || "").trim();
+  const requestedCallId = options.callId === undefined
+    ? new URLSearchParams(window.location.search).get("call")
+    : options.callId;
+
+  if (!code && !kind && !requestedCallId) {
+    throw new Error("La pagina protegida no tiene un criterio de acceso configurado.");
+  }
+
+  try {
+    const calls = await listCalls(auth.session);
+    const call = calls.find((item) => {
+      if (code && item.code !== code) return false;
+      if (kind && item.kind !== kind) return false;
+      if (requestedCallId && item.id !== requestedCallId) return false;
+      return true;
+    });
+
+    if (!call || (options.requireCallId && !requestedCallId)) {
+      window.location.replace(options.redirectTo || "./convocatorias.html");
+      return null;
+    }
+
+    return { ...auth, call, calls };
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("criterio de acceso")) throw error;
+    window.location.replace(options.redirectTo || "./convocatorias.html");
+    return null;
+  }
+}
+
 async function listStrategyStudies(session, callId) {
   const callFilter = callId ? `&call_id=eq.${encodeURIComponent(callId)}` : "";
   return supabaseFetch(
@@ -252,6 +288,7 @@ export const CBI = {
   isConfigured,
   listCalls,
   listStrategyStudies,
+  requireCallAccess,
   requireSession,
   signIn,
   signOut,
