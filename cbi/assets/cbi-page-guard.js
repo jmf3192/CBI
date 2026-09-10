@@ -12,7 +12,9 @@ document.querySelectorAll("[data-cbi-logout]").forEach((link) => {
   link.addEventListener("click", signOut);
 });
 
-const code = page.dataset.cbiCallCode || "";
+// Access configuration must not reuse data-cbi-call-code: that attribute is a
+// render target and replacing its text would destroy the page when used on body.
+const code = page.dataset.cbiAccessCode || "";
 const kind = page.dataset.cbiCallKind || "";
 const requireCallId = page.dataset.cbiRequireCallId === "true";
 
@@ -22,7 +24,7 @@ try {
     document.querySelectorAll("[data-cbi-call-name]").forEach((element) => {
       element.textContent = access.call.name;
     });
-    document.querySelectorAll("[data-cbi-call-code]").forEach((element) => {
+    document.querySelectorAll("[data-cbi-call-code]:not(body)").forEach((element) => {
       element.textContent = access.call.code;
     });
     page.dataset.cbiAccess = "granted";
