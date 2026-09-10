@@ -29,7 +29,9 @@
 
       html {
         min-height: 100%;
-        font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family:
+          "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+          sans-serif;
         background: var(--soft);
         color: var(--ink);
       }
@@ -2566,13 +2568,13 @@
           const total = payment.grant + payment.loan;
           if (total > 0) {
             ctx.fillStyle = "#405064";
-            ctx.font = "9px Avenir Next, sans-serif";
+            ctx.font = '9px "Avenir Next", "Segoe UI", Roboto, Arial, sans-serif';
             ctx.textAlign = "center";
             ctx.fillText(`${Math.round(total).toLocaleString("es-ES")} k€`, x, Math.max(10, baseline - grantH - loanH - 7));
           }
 
           ctx.fillStyle = "#788491";
-          ctx.font = "9px Avenir Next, sans-serif";
+          ctx.font = '9px "Avenir Next", "Segoe UI", Roboto, Arial, sans-serif';
           ctx.textAlign = "center";
           const [quarterName, quarterYear] = quarters[index].split(" ");
           const showYear = index === 0 || quarterName === "Q1";

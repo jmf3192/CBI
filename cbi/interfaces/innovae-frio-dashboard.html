@@ -34,7 +34,8 @@
       html {
         min-height: 100%;
         font-family:
-          "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+          "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+          sans-serif;
         background: var(--soft);
         color: var(--ink);
       }
@@ -1939,7 +1940,7 @@
           ctx.lineTo(x, yBase);
           ctx.stroke();
 
-          ctx.font = '700 11px "Avenir Next", "Helvetica Neue", Arial, sans-serif';
+          ctx.font = '700 11px "Avenir Next", "Segoe UI", Roboto, Arial, sans-serif';
           const labelWidth = ctx.measureText(label).width + 14;
           const labelX = clamp(x - labelWidth / 2, pad.left, width - pad.right - labelWidth);
           ctx.fillStyle = color;

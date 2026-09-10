@@ -16,7 +16,9 @@
 
 html {
   min-height: 100%;
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family:
+    "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   background: var(--soft);
   color: var(--ink);
 }

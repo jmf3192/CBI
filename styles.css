@@ -29,7 +29,8 @@ body {
   background: var(--background);
   color: var(--ink);
   font-family:
-    "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   letter-spacing: 0;
 }
 

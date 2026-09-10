@@ -16,7 +16,9 @@ body[data-cbi-protected]:not([data-cbi-access="granted"])::before {
   visibility: visible;
   color: #687483;
   background: #fbfcfd;
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family:
+    "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   font-size: 13px;
   font-weight: 600;
 }
