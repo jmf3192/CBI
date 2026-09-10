@@ -1467,10 +1467,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><label for="land-investment">Terrenos</label></td>
-                        <td><input id="land-investment" type="number" min="0" step="10000" value="100000" data-investment-cost data-number-format aria-label="Inversión en terrenos" /></td>
-                      </tr>
-                      <tr>
                         <td><label for="civil-investment">Obra civil</label></td>
                         <td><input id="civil-investment" type="number" min="0" step="10000" value="800000" data-investment-cost data-number-format aria-label="Inversión en obra civil" /></td>
                       </tr>
@@ -1494,7 +1490,7 @@
                     <tfoot>
                       <tr>
                         <td>Total inversión</td>
-                        <td><output id="declared-investment-total">1.400.000 €</output></td>
+                        <td><output id="declared-investment-total">1.300.000 €</output></td>
                       </tr>
                     </tfoot>
                   </table>
@@ -2924,7 +2920,6 @@
         controls.companySize.value = "mediana";
         controls.projectType.value = "ampliacion";
         const defaultInvestments = {
-          "land-investment": 100000,
           "civil-investment": 800000,
           "equipment-investment": 400000,
           "studies-investment": 30000,
