@@ -1,5 +1,24 @@
 body[data-cbi-protected]:not([data-cbi-access="granted"]) {
+  overflow: hidden;
+}
+
+body[data-cbi-protected]:not([data-cbi-access="granted"]) > * {
   visibility: hidden;
+}
+
+body[data-cbi-protected]:not([data-cbi-access="granted"])::before {
+  content: "Comprobando acceso…";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  visibility: visible;
+  color: #687483;
+  background: #fbfcfd;
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 body[data-cbi-protected][data-cbi-access="granted"] {
