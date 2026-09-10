@@ -13,13 +13,6 @@
   margin: 0 auto;
 }
 
-.bi-label {
-  color: var(--brand);
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
 .bi-hero {
   padding: 82px 0 78px;
   border-bottom: 1px solid var(--line);
@@ -28,15 +21,19 @@
 
 .bi-hero h1 {
   max-width: 950px;
-  margin: 20px 0 0;
+  margin: 0;
+  font-family: inherit;
   font-size: 54px;
-  font-weight: 560;
+  font-weight: 500;
+  letter-spacing: 0;
   line-height: 1.05;
 }
 
 .bi-hero p {
   max-width: 840px;
   margin: 27px 0 0;
+  padding: 22px 0 0 25px;
+  border-left: 4px solid var(--brand-indigo);
   color: var(--ink-soft);
   font-size: 20px;
   line-height: 1.6;

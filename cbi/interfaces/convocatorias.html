@@ -359,7 +359,6 @@
       const workspaceEmpty = document.querySelector("#workspace-empty");
       const adminLink = document.querySelector("#admin-link");
       const logout = document.querySelector("#logout");
-      const retiredTestCalls = new Set(["CONV-2026-001", "CONV-2026-002", "CONV-2026-003"]);
       function escapeHtml(value) {
         return String(value ?? "")
           .replaceAll("&", "&amp;")
@@ -454,8 +453,7 @@
 
           adminLink.hidden = auth.profile.role !== "admin";
 
-          const availableCalls = (await CBI.listCalls(auth.session))
-            .filter((call) => !retiredTestCalls.has(call.code));
+          const availableCalls = await CBI.listCalls(auth.session);
           const strategyCalls = availableCalls.filter((call) => call.kind === "strategy");
           const normalCalls = availableCalls.filter((call) => !call.kind || call.kind === "normal");
           const trackingCalls = availableCalls.filter((call) => call.kind === "tracking");
