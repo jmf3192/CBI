@@ -109,7 +109,15 @@ function renderScoreChart(rows) {
   const histogram = root.querySelector(".histogram"); const cursor = histogram.querySelector(".cursor-marker"); const tooltip = histogram.querySelector(".cursor-tooltip");
   histogram.addEventListener("mousemove", (event) => { const rect = histogram.getBoundingClientRect(); const value = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100)); cursor.hidden = false; tooltip.hidden = false; cursor.style.left = `${value}%`; tooltip.style.left = `${value}%`; tooltip.textContent = `${score.format(value)} ptos.`; histogram.querySelectorAll(".reference").forEach((reference) => reference.classList.toggle("active", Math.abs(Number.parseFloat(reference.style.left) - value) < 1.4)); });
   histogram.addEventListener("mouseleave", () => { cursor.hidden = true; tooltip.hidden = true; histogram.querySelectorAll(".reference").forEach((reference) => reference.classList.remove("active")); });
+  histogram.addEventListener("click", (event) => { const rect = histogram.getBoundingClientRect(); const value = Math.max(0, Math.min(99.99, ((event.clientX - rect.left) / rect.width) * 100)); const lower = Math.floor(value / 10) * 10; const members = rows.filter((row) => { const itemScore = numeric(row.puntuacion); return itemScore !== null && itemScore >= lower && itemScore < lower + 10; }).sort((a,b) => numeric(b.puntuacion) - numeric(a.puntuacion)); showScoreDetail(lower, members, cutoff, admittedAverage, overallAverage); });
   note.textContent = Number.isFinite(cutoff) ? `Referencias: corte ${score.format(cutoff)}, media de admitidas ${score.format(admittedAverage)} y media de la muestra ${score.format(overallAverage)}.` : "No hay resultados favorables con puntuación publicada en esta selección.";
+}
+
+function showScoreDetail(lower, members, cutoff, admittedAverage, overallAverage) {
+  document.querySelector("#score-detail")?.remove();
+  const dialog = document.createElement("dialog"); dialog.id = "score-detail"; dialog.className = "score-detail";
+  dialog.innerHTML = `<button type="button" class="dialog-close" aria-label="Cerrar">×</button><p class="eyebrow">Distribución de puntuaciones</p><h2>Tramo ${lower}–${lower + 9.9} puntos</h2><p class="dialog-note">${members.length} proyectos publicados. Corte: ${score.format(cutoff)} · media admitidas: ${score.format(admittedAverage)} · media muestra: ${score.format(overallAverage)}.</p><div class="dialog-list">${members.slice(0, 12).map((row) => `<div><strong>${title(row)}</strong><span>${row.razon_social || "Entidad no publicada"} · ${score.format(numeric(row.puntuacion))} puntos</span></div>`).join("") || "<p>No hay proyectos en este tramo.</p>"}</div>`;
+  document.body.append(dialog); dialog.querySelector(".dialog-close").addEventListener("click", () => dialog.close()); dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); }); dialog.showModal();
 }
 
 function renderEuroChart(rows) {
