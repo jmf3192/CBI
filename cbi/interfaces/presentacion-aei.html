@@ -377,12 +377,10 @@ td{padding:1.0cqh 1.1cqw;border:1px solid var(--border);vertical-align:middle}
   });
 
   try {
-    const access = await CBI.requireSession({ adminOnly: true });
-    if (access?.profile?.email?.toLowerCase() === "jorgemoreno@con-asociados.com") {
+    const access = await CBI.requireCallAccess({ code: "PRESENTACION-AEI" });
+    if (access) {
       document.body.classList.add("is-ready");
       launcher.hidden = false;
-    } else if (access) {
-      window.location.replace("./convocatorias.html");
     }
   } catch (error) {
     console.error(error);
