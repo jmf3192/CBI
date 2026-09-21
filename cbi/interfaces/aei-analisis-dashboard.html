@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ayudas AEI · análisis de convocatorias | CONASOC</title>
+    <link rel="stylesheet" href="../assets/cbi-page-guard.css" />
+    <link rel="stylesheet" href="../assets/aei-analisis-dashboard.css" />
+  </head>
+  <body data-cbi-protected data-cbi-access-code="ANALISIS-AEI-HISTORICO">
+    <header class="topbar">
+      <a class="brand" href="./convocatorias.html" aria-label="Volver al espacio de trabajo">
+        <img src="../assets/conasoc-logo.png" alt="CONASOC" />
+        <span class="brand-text">Business intelligence<br />financiación pública</span>
+      </a>
+      <nav class="session" aria-label="Sesión">
+        <a href="./convocatorias.html">Espacio de trabajo</a>
+        <a href="#" data-cbi-logout>Cerrar sesión</a>
+      </nav>
+    </header>
+
+    <main>
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Data room · Agrupaciones Empresariales Innovadoras</p>
+          <h1>Ayudas AEI</h1>
+          <p class="intro">Lectura competitiva y económica de las convocatorias disponibles. Los datos de 2026 son una propuesta provisional y se identifican como tal.</p>
+        </div>
+        <p class="updated" id="updated">Cargando datos…</p>
+      </header>
+
+      <div class="call-tabs-wrap" aria-label="Seleccionar vista">
+        <div class="call-tabs" id="call-tabs" role="tablist"></div>
+      </div>
+
+      <section class="sector-placeholder" id="sector-placeholder" hidden>
+        <p class="eyebrow">Pestaña preparada</p>
+        <h2>Explotaciones Frigoríficas, Logística y Distribución</h2>
+        <p>Esta vista queda reservada para el análisis sectorial. Se desarrollará cuando se definan el criterio de identificación y las variables específicas del sector.</p>
+      </section>
+
+      <section id="analysis" hidden>
+        <div class="context-row">
+          <div>
+            <p class="context-label" id="context-label"></p>
+            <p class="context-note" id="context-note"></p>
+          </div>
+          <div class="line-tabs" id="line-tabs" role="tablist" aria-label="Seleccionar línea"></div>
+        </div>
+
+        <section class="metrics" aria-label="Indicadores principales">
+          <article class="metric"><span>Proyectos analizados</span><strong id="m-projects">—</strong><small id="m-projects-note"></small></article>
+          <article class="metric"><span>AEI solicitantes / beneficiarias</span><strong id="m-aei">—</strong><small id="m-aei-note"></small></article>
+          <article class="metric"><span>Empresas participantes</span><strong id="m-companies">—</strong><small id="m-companies-note"></small></article>
+          <article class="metric"><span>Euros solicitados</span><strong id="m-requested">—</strong><small id="m-requested-note"></small></article>
+          <article class="metric"><span>Euros concedidos</span><strong id="m-awarded">—</strong><small id="m-awarded-note"></small></article>
+          <article class="metric"><span>Nota de corte</span><strong id="m-cutoff">—</strong><small id="m-cutoff-note"></small></article>
+          <article class="metric"><span>Nota media aprobada</span><strong id="m-average">—</strong><small id="m-average-note"></small></article>
+        </section>
+
+        <section class="charts">
+          <article class="panel score-panel">
+            <header><div><p class="eyebrow">Competencia</p><h2>Distribución de puntuaciones</h2></div><span id="score-sample" class="panel-tag"></span></header>
+            <div class="chart-shell" id="score-chart" aria-label="Histograma de puntuaciones"></div>
+            <p class="chart-note" id="score-note"></p>
+          </article>
+          <article class="panel euro-panel">
+            <header><div><p class="eyebrow">Importes</p><h2>Solicitado y concedido</h2></div><span id="euro-sample" class="panel-tag"></span></header>
+            <div class="euro-bars" id="euro-chart"></div>
+            <p class="chart-note" id="euro-note"></p>
+          </article>
+        </section>
+
+        <section class="tables-section">
+          <header class="section-title"><p class="eyebrow">Proyectos</p><h2>Lectura de resultados</h2><p>Se muestran cinco registros por bloque. La tabla completa llegará en la siguiente iteración del data room.</p></header>
+          <div class="tables-grid">
+            <article class="panel table-panel"><header><h3>Concedidos / propuestos</h3><span class="status good">Resultado favorable</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Importe</th></tr></thead><tbody id="table-awarded"></tbody></table></div></article>
+            <article class="panel table-panel"><header><h3>Justo por debajo del corte</h3><span class="status warn">En espera</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-near"></tbody></table></div></article>
+            <article class="panel table-panel"><header><h3>Por debajo del corte</h3><span class="status muted">No favorable</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-below"></tbody></table></div></article>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="../assets/cbi-page-guard.js"></script>
+    <script type="module" src="../assets/aei-analisis-dashboard.js"></script>
+  </body>
+</html>
