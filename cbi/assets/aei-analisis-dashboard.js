@@ -39,7 +39,7 @@ function funding(row) { return numeric(row.subvencion_eur ?? row.subvencion_colu
 function sourceRows() {
   if (state.view === "sector") return [];
   return state.rows.filter((row) => {
-    const selected = state.view === "all" || String(row.anio_convocatoria) === state.view;
+    const selected = state.view === "all" || (row.convocatoria || String(row.anio_convocatoria)) === state.view;
     const variant = state.line === "all" || (row.variante_convocatoria || "general") === state.line;
     return selected && variant;
   });
@@ -55,8 +55,11 @@ function createTab(label, value, selected, onClick, className) {
 function renderCallTabs() {
   const root = document.querySelector("#call-tabs"); root.textContent = "";
   root.append(createTab("Agregado", "all", state.view === "all", () => { state.view = "all"; state.line = "all"; render(); }, "call-tab"));
-  const years = [...new Set(state.rows.map((row) => String(row.anio_convocatoria)))].sort((a, b) => Number(b) - Number(a));
-  years.forEach((year) => root.append(createTab(year, year, state.view === year, () => { state.view = year; state.line = "all"; render(); }, "call-tab")));
+  const calls = [...new Set(state.rows.map((row) => row.convocatoria || String(row.anio_convocatoria)))].sort((a, b) => {
+    const yearA = Number.parseInt(a, 10); const yearB = Number.parseInt(b, 10);
+    return yearB - yearA || b.localeCompare(a, "es");
+  });
+  calls.forEach((call) => root.append(createTab(call, call, state.view === call, () => { state.view = call; state.line = "all"; render(); }, "call-tab")));
   root.append(createTab("Frío, logística y distribución", "sector", state.view === "sector", () => { state.view = "sector"; render(); }, "call-tab"));
 }
 
@@ -127,7 +130,7 @@ function render() {
   const sector = state.view === "sector";
   document.querySelector("#analysis").hidden = sector; document.querySelector("#sector-placeholder").hidden = !sector;
   if (sector) return;
-  const priorRows = state.view === "all" ? state.rows : state.rows.filter((row) => String(row.anio_convocatoria) === state.view);
+  const priorRows = state.view === "all" ? state.rows : state.rows.filter((row) => (row.convocatoria || String(row.anio_convocatoria)) === state.view);
   renderLineTabs(priorRows);
   const rows = sourceRows();
   const selection = state.view === "all" ? "Todas las convocatorias disponibles" : `Convocatoria ${state.view}`;
