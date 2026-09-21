@@ -1,5 +1,5 @@
 const DATA = {
-  grants: "../data/aei/aei_concesiones_base_v2.csv",
+  grants: "../data/aei/aei_concesiones_base_v3.csv",
   applications: "../data/aei/aei_solicitudes_2026.csv",
 };
 
