@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentación AEI | CONASOC</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap">
+<style>
+:root{
+  --paper:#ffffff; --navy:#02334D; --ink:#001426; --grey:#3D4A59; --muted:#72808F;
+  --accent:#315BBB; --panel:#F1F4F8; --panel2:#FAFBFD; --border:#C4CFDC; --line:#DFE5ED;
+  --l1:#02334D; --l2:#21447C; --l3:#315BBB; --l4:#514C9F;
+  --t1:#EAEFF6; --t2:#D8E1EE; --t3:#B9C8DF; --t4:#9CB1D0;
+  --ground:#E8ECF2; --chrome:#4A5666;
+  --font:"Avenir Next LT Pro","Avenir Next",Avenir,"Be Vietnam Pro","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --ground:#141A22; --chrome:#8A97A6; } }
+:root[data-theme="dark"]{ --ground:#141A22; --chrome:#8A97A6; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);font-family:var(--font);color:var(--grey);-webkit-font-smoothing:antialiased}
+.deck{display:flex;flex-direction:column;align-items:center;gap:18px;padding:18px 16px 64px}
+.slide{
+  position:relative;width:100%;max-width:1280px;aspect-ratio:16/9;background:var(--paper);
+  container-type:size;overflow:hidden;border:1px solid var(--border);
+}
+.sheet{position:absolute;inset:0}
+/* --- marca --- */
+.brand{position:absolute;left:6.75cqw;top:4.4cqh;width:11.25cqw;text-align:center}
+.brand img{display:block;width:100%}
+.brand span{display:block;margin-top:0.53cqw;font-size:0.74cqw;font-weight:700;letter-spacing:.01em;color:var(--ink)}
+.rule{position:absolute;left:6.75cqw;width:86.5cqw;height:1px;background:var(--line);border:0}
+.ttl{position:absolute;left:8.55cqw;top:16.5cqh;font-size:2.81cqw;font-weight:700;color:var(--navy);margin:0}
+.bar{position:absolute;left:6.75cqw;top:17.3cqh;width:0.52cqw;height:6.1cqh;background:var(--navy)}
+.sub{position:absolute;left:8.55cqw;top:25.3cqh;font-size:1.2cqw;color:var(--muted)}
+.foot{position:absolute;left:6.75cqw;bottom:5.2cqh;width:86.5cqw;border-top:1px solid var(--line);padding-top:1.1cqh;display:flex;justify-content:space-between;align-items:center}
+.foot small{font-size:0.94cqw;color:var(--muted)}
+.foot img{width:8.5cqw}
+.note{position:absolute;left:6.75cqw;width:86.5cqw;font-size:0.99cqw;color:var(--muted)}
+/* --- bloques --- */
+.box{position:absolute;border:1px solid var(--border);background:var(--panel2)}
+.box.p{background:var(--panel)}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.pad{padding:1.6cqw}
+h3{margin:0;font-size:1.4cqw;color:var(--navy);font-weight:700}
+p{margin:0}
+.lead{font-size:1.30cqw;font-weight:700;color:var(--navy);line-height:1.35}
+.body{font-size:1.25cqw;line-height:1.45}
+.small{font-size:1.09cqw;line-height:1.35}
+.tiny{font-size:1.02cqw;line-height:1.3;color:var(--muted)}
+.eyebrow{font-size:1.30cqw;font-weight:700;color:var(--navy)}
+b,strong{color:var(--navy)}
+/* portada */
+.cover{position:absolute;inset:0;background:linear-gradient(125deg,#ffffff 0%,#ffffff 42%,#E6ECF5 100%)}
+.cover .edge{position:absolute;left:0;top:0;bottom:0;width:1.35cqw;background:var(--navy)}
+.cover .wm{position:absolute;left:6.75cqw;width:86.5cqw;text-align:center;top:34cqh;font-size:8.5cqw;font-weight:700;letter-spacing:.18em;color:var(--navy);line-height:1}
+.cover .tag{position:absolute;left:6.75cqw;width:86.5cqw;text-align:center;top:57.5cqh;font-size:2.4cqw;font-weight:700;letter-spacing:.34em;color:var(--ink)}
+.cover .dash{position:absolute;left:50%;transform:translateX(-50%);top:52.5cqh;width:13.5cqw;height:0.5cqh;background:var(--accent)}
+.cover .foot2{position:absolute;left:6.75cqw;width:86.5cqw;text-align:center;bottom:9cqh;border-top:1px solid var(--line);padding-top:2.4cqh}
+.cover .foot2 .a{font-size:1.35cqw;font-weight:700;color:var(--grey)}
+.cover .foot2 .b{font-size:0.99cqw;color:var(--muted);margin-top:0.5cqh}
+/* portadilla */
+.divider .wm2{position:absolute;left:9.4cqw;top:42cqh;font-size:3.5cqw;font-weight:700;color:var(--navy);line-height:1.15;margin:0}
+/* cifras */
+.stats{position:absolute;display:grid;gap:2cqw}
+.stat .n{font-size:2.4cqw;font-weight:700;color:var(--navy)}
+.stat .l{font-size:1.04cqw;line-height:1.25;margin-top:0.6cqh}
+/* chevrons */
+.chev{position:absolute;display:flex;align-items:stretch}
+.chev div{position:relative;flex:1;clip-path:polygon(0 0, calc(100% - 1.6cqw) 0, 100% 50%, calc(100% - 1.6cqw) 100%, 0 100%, 1.6cqw 50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.2cqw 2.2cqw;margin-right:-1.6cqw}
+.chev div:last-child{margin-right:0}
+.chev h4{margin:0 0 0.8cqh;font-size:1.51cqw;color:var(--navy)}
+.chev p{font-size:1.04cqw;line-height:1.28;color:var(--grey)}
+/* cadena */
+.chain{position:absolute;left:6.75cqw;width:86.5cqw}
+.chain .spine{position:absolute;left:5.1cqw;top:1.6cqh;bottom:1.6cqh;width:0.26cqw;background:var(--border)}
+.chain .row{position:relative;display:flex;align-items:center;gap:1.2cqw;margin-bottom:0.9cqh}
+.chain .dot{width:1.95cqw;height:1.95cqw;border-radius:50%;background:var(--navy);flex:0 0 auto;margin-left:4.25cqw;z-index:1}
+.chain .row:last-child .dot{background:var(--accent)}
+.chain .card{flex:1;border:1px solid var(--border);background:var(--panel2);padding:1.1cqw 1.6cqw;font-size:1.25cqw}
+.chain .row:last-child .card{background:var(--panel)}
+.chain .row:last-child .card b{color:var(--navy)}
+/* tablas */
+table{border-collapse:collapse;width:100%;font-size:1.09cqw}
+th{font-size:0.9cqw;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:0 0 0.8cqh}
+td{padding:1.0cqh 1.1cqw;border:1px solid var(--border);vertical-align:middle}
+.tabwrap{position:absolute;left:6.75cqw;width:86.5cqw}
+/* gantt */
+.gantt{position:absolute;left:6.75cqw;width:86.5cqw;font-size:1.04cqw}
+.gantt .r{display:grid;grid-template-columns:24.8cqw 1fr;border:1px solid var(--border);border-top:0}
+.gantt .r:first-child{border-top:1px solid var(--border);background:var(--panel);font-weight:700;color:var(--navy)}
+.gantt .r.aid{background:var(--panel)}
+.gantt .lab{padding:0.9cqh 1.2cqw;color:var(--grey)}
+.gantt .r.aid .lab{color:var(--navy);font-weight:700}
+.gantt .track{position:relative;display:grid;grid-template-columns:repeat(7,1fr)}
+.gantt .track span{border-left:1px solid var(--line);font-size:0.94cqw;color:var(--navy);font-weight:700;display:flex;align-items:center;justify-content:center}
+.gantt .r:first-child .track span{border-left:1px solid var(--border)}
+.gantt .bar{position:absolute;top:50%;transform:translateY(-50%);height:0.85cqh;background:var(--navy)}
+.gantt .r.aid .bar{background:var(--accent)}
+/* líneas AEI */
+.lin{position:absolute;left:6.75cqw;width:86.5cqw}
+.lin .row{display:grid;grid-template-columns:14.5cqw 1fr 13cqw 11.4cqw;align-items:center;border:1.5px solid var(--navy);margin-bottom:0.85cqh;background:#fff}
+.lin .who{padding:1.0cqh 1.2cqw}
+.lin .who .n{font-size:1.09cqw;font-weight:700}
+.lin .who .d{font-size:1.09cqw;font-weight:700;color:var(--navy);margin-top:0.5cqh;line-height:1.15}
+.lin .what{padding:1.0cqh 1.2cqw;border-left:1px solid var(--line)}
+.lin .what .a{font-size:1.09cqw}
+.lin .what .b{font-size:1.04cqw;color:var(--muted);margin-top:0.4cqh}
+.lin .int{font-size:1.2cqw;font-weight:700;text-align:center}
+.lin .amt{margin:0 1.2cqw;padding:0.9cqh 0.4cqw;text-align:center;font-size:1.09cqw;font-weight:700;color:#fff;line-height:1.15}
+/* bullets */
+.blist{position:absolute;left:6.75cqw;width:86.5cqw}
+.blist li{list-style:none;display:flex;gap:1.2cqw;margin-bottom:1.5cqh}
+.blist ul{margin:0;padding:0}
+.blist .dot{width:1.0cqw;height:1.0cqw;border-radius:50%;background:var(--accent);flex:0 0 auto;margin-top:0.55cqw}
+/* criterios */
+.crit{position:absolute;left:6.75cqw;width:86.5cqw;display:grid;grid-template-columns:1fr 1fr;gap:0.9cqh 3.2cqw}
+.crit .c{display:flex;gap:1.3cqw;align-items:center}
+.crit .pts{width:5.1cqw;padding:0.8cqh 0;text-align:center;border:1px solid var(--border);font-size:1.2cqw;font-weight:700;color:var(--navy)}
+.crit .tx{font-size:1.09cqw;line-height:1.25}
+/* nav */
+.nav{position:fixed;right:14px;bottom:14px;display:flex;gap:8px;align-items:center;background:var(--paper);border:1px solid var(--border);border-radius:2px;padding:6px 10px;font-size:12px;color:var(--navy);box-shadow:0 1px 3px rgba(0,20,38,.12)}
+.nav button{font:inherit;color:inherit;background:none;border:1px solid var(--border);padding:2px 8px;cursor:pointer}
+.nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:700px){ .nav{display:none} }
+@media print{
+  body{background:#fff}
+  .deck{gap:0;padding:0}
+  .nav{display:none}
+  .slide{max-width:none;border:0;page-break-after:always;break-after:page}
+  @page{size:landscape;margin:0}
+}
+</style>
+<style>
+  body { min-height: 100vh; }
+  .deck { visibility: hidden; }
+  body.is-ready .deck { visibility: visible; }
+  .presentation-launcher {
+    position: fixed; inset: 0; z-index: 10; display: grid; place-items: center;
+    padding: 24px; background: #f1f4f8;
+  }
+  .presentation-launcher[hidden] { display: none; }
+  .launcher-card {
+    width: min(100%, 520px); padding: 48px; background: #fff;
+    border: 1px solid var(--border); text-align: center; box-shadow: 0 18px 52px rgba(0,20,38,.1);
+  }
+  .launcher-card img { width: 180px; height: auto; }
+  .launcher-card h1 { margin: 28px 0 12px; color: var(--navy); font-size: 28px; }
+  .launcher-card p { margin: 0 0 30px; line-height: 1.5; color: var(--muted); }
+  .launcher-card button, .nav button {
+    border: 0; background: var(--navy); color: #fff; padding: 12px 18px;
+    font: inherit; font-weight: 700; cursor: pointer;
+  }
+  .launcher-card button:hover, .nav button:hover { background: var(--accent); }
+  body.presentation { overflow: hidden; background: #101720; }
+  body.presentation .deck { display: block; height: 100vh; padding: 0; }
+  body.presentation .slide {
+    display: none; position: absolute; inset: 50% auto auto 50%; width: min(100vw, 177.78vh);
+    max-width: none; transform: translate(-50%, -50%); border: 0;
+  }
+  body.presentation .slide.is-active { display: block; }
+  body.presentation .nav { display: none; z-index: 2; right: 24px; bottom: 24px; }
+  body.presentation .nav.is-visible { display: flex; }
+  body.presentation .nav button { min-width: 42px; }
+  @media (max-width: 700px) { body.presentation .nav.is-visible { display: flex; } .launcher-card { padding: 34px 24px; } }
+</style>
+</head>
+<body>
+<section class="presentation-launcher" id="presentation-launcher" hidden aria-labelledby="presentation-title">
+  <div class="launcher-card">
+    <img src="../assets/conasoc-logo.png" alt="CONASOC">
+    <h1 id="presentation-title">Ayudas AEI</h1>
+    <p>Presentación corporativa y ayudas de apoyo a Agrupaciones Empresariales Innovadoras.</p>
+    <button type="button" id="start-presentation">Entrar en modo presentación</button>
+  </div>
+</section>
+<div class="deck">
+<section class="slide "><div class="sheet"><div class="cover">
+ <div class="edge"></div>
+ <div class="wm">CONASOC</div>
+ <div class="dash"></div>
+ <div class="tag">FINANCIACIÓN PÚBLICA</div>
+ <div class="foot2">
+   <div class="a">Presentación corporativa y ayudas de apoyo a Agrupaciones Empresariales Innovadoras</div>
+   <div class="b">Consultores Asociados de Andalucía, S.L.</div>
+ </div>
+</div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Quiénes somos</h2>
+<div class="blist" style="top:28.5cqh"><ul>
+ <li><span class="dot"></span><p class="body"><b>CONASOC</b> es una consultoría especializada en estrategias de financiación pública.</p></li>
+ <li><span class="dot"></span><p class="body"><b>En estos más de 30 años</b> hemos conseguido más de 400 millones de euros para nuestros clientes.</p></li>
+ <li><span class="dot"></span><p class="body"><b>Nuestro servicio es integral,</b> siendo el tiempo medio de servicio de 10 años.</p></li>
+</ul></div>
+<div class="stats" style="left:6.75cqw;width:86.5cqw;top:54cqh;grid-template-columns:repeat(4,1fr);height:23cqh"><div class="box p stat center pad"><div class="n">30+</div><div class="l">Años de experiencia especializada</div></div><div class="box p stat center pad"><div class="n">+400&nbsp;M€</div><div class="l">De financiación pública tramitada con éxito</div></div><div class="box p stat center pad"><div class="n">9,3&nbsp;M€</div><div class="l">En ayudas directas gestionadas en logística y transporte</div></div><div class="box p stat center pad"><div class="n">10 años</div><div class="l">Tiempo medio de servicio por cliente</div></div></div>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Nuestros servicios</h2><p class="sub">¿Qué es una estrategia de financiación pública?</p>
+<div class="chev" style="left:6.75cqw;width:86.5cqw;top:40.7cqh;height:28cqh"><div style="background:var(--t1)"><h4>Analizar</h4><p>Tu proyecto empresarial y tus planes a medio y largo plazo.</p></div><div style="background:var(--t2)"><h4>Estudiar</h4><p>Qué convocatorias y plazos maximizan las posibilidades del proyecto.</p></div><div style="background:var(--t3)"><h4>Crear</h4><p>Un plan de actuación adecuado a tu situación.</p></div><div style="background:var(--t4)"><h4>Ejecutar</h4><p>Seguimiento y actualización de los hitos planteados.</p></div></div>
+<p class="body" style="position:absolute;left:6.75cqw;width:86.5cqw;top:76cqh;font-size:1.2cqw">Cada fase alimenta a la siguiente y el plan se revisa y se actualiza a lo largo de la vida del proyecto, de manera que la estrategia acompañe a la empresa en cada convocatoria en lugar de agotarse en una sola solicitud.</p>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Qué ofrecemos</h2><p class="sub">Un servicio integral, desde la estrategia hasta el cierre del expediente.</p>
+<div class="chain" style="top:32cqh"><div class="spine"></div><div class="row"><span class="dot"></span><div class="card">Definición de estrategia de financiación para los proyectos de la empresa.</div></div><div class="row"><span class="dot"></span><div class="card">Preparación y elaboración de las memorias completas de los proyectos y de la solicitud de la ayuda.</div></div><div class="row"><span class="dot"></span><div class="card">Tramitamos toda la carga documental y administrativa del expediente, liberando a la empresa de toda gestión.</div></div><div class="row"><span class="dot"></span><div class="card">Seguimiento y verificación de ejecución en todos los plazos del proyecto.</div></div><div class="row"><span class="dot"></span><div class="card"><b>Asesoramiento y presentación de las justificaciones, hasta 10 años después de la contratación.</b></div></div></div>
+<p class="note" style="top:87cqh">El último hito marca que el acompañamiento llega hasta diez años después de la contratación.</p>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Estrategias de ayudas complementarias</h2>
+<div class="blist" style="top:28cqh"><ul>
+ <li><span class="dot"></span><p class="small">De acuerdo con los planes a corto y medio plazo del cliente, elaboramos <b>hojas de ruta específicas</b> para sus proyectos.</p></li>
+ <li><span class="dot"></span><p class="small">Nuestra filosofía se basa en que el cliente <b>ejecute sus proyectos como los haría sin apoyo público.</b></p></li>
+</ul></div>
+<div class="gantt" style="top:41.6cqh"><div class="r"><div class="lab">Proyecto ejemplo</div><div class="track"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q5</span><span>Q6</span><span>Q7</span></div></div><div class="r"><div class="lab">Gasto de personal en I+D</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:0%;width:27.1%"></div></div></div><div class="r"><div class="lab">Inversión en activos de I+D</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:28.6%;width:5.0%"></div></div></div><div class="r aid"><div class="lab">Ayuda 1</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:0%;width:31.4%"></div></div></div><div class="r"><div class="lab">Creación de planta piloto</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:22.9%;width:15.7%"></div></div></div><div class="r"><div class="lab">Escalado industrial</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:33.6%;width:30.7%"></div></div></div><div class="r aid"><div class="lab">Ayuda 2</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:21.4%;width:51.4%"></div></div></div><div class="r"><div class="lab">Mejora de producto en I+D</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:61.4%;width:38.6%"></div></div></div><div class="r aid"><div class="lab">Ayuda 3</div><div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="left:58.6%;width:41.4%"></div></div></div></div>
+<p class="note" style="top:88cqh">Es un ejemplo de cómo funcionaría una estrategia de financiación pública y no se corresponde con ninguna ayuda específica ni con un proyecto concreto.</p>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Estrategias de ayudas paralelas</h2>
+<div class="blist" style="top:28cqh"><ul>
+ <li><span class="dot"></span><p class="small">Antes y durante la ejecución de los proyectos se solicitarán ayudas en paralelo para <b>maximizar las posibilidades de éxito.</b></p></li>
+ <li><span class="dot"></span><p class="small">Una estrategia de ayudas se basa en solicitar <b>todas las ayudas posibles</b> en el marco temporal del proyecto, y en el caso de que las ayudas sean incompatibles se renunciará a las menos interesantes.</p></li>
+</ul></div>
+<div class="tabwrap" style="top:44cqh"><table><thead><tr>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy)">Proyecto de I+D+i, ejemplo</td>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy);text-align:center">Tipo de ayuda</td>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy);text-align:center">Intensidad</td>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy);text-align:center">Plazo de pago</td>
+    </tr></thead><tbody><tr><td>Ayuda A</td><td style="text-align:center">Préstamo y subvención</td><td style="text-align:center">85&nbsp;%</td><td style="text-align:center">6 meses</td></tr><tr><td>Ayuda B</td><td style="text-align:center">Subvención</td><td style="text-align:center">40&nbsp;%</td><td style="text-align:center">1 año</td></tr><tr><td>Ayuda C</td><td style="text-align:center">Préstamo</td><td style="text-align:center">75&nbsp;%</td><td style="text-align:center">9 meses</td></tr></tbody></table></div>
+<div class="tabwrap" style="top:66cqh"><table><thead><tr>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy)">Proyecto de maquinaria, ejemplo</td>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy);text-align:center">Tipo de ayuda</td>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy);text-align:center">Intensidad</td>
+      <td style="background:var(--panel);font-weight:700;color:var(--navy);text-align:center">Plazo de pago</td>
+    </tr></thead><tbody><tr><td>Ayuda A</td><td style="text-align:center">Subvención</td><td style="text-align:center">50&nbsp;%</td><td style="text-align:center">2 años</td></tr><tr><td>Ayuda B</td><td style="text-align:center">Préstamo</td><td style="text-align:center">75&nbsp;%</td><td style="text-align:center">1 año</td></tr><tr><td>Ayuda C</td><td style="text-align:center">Préstamo y subvención</td><td style="text-align:center">70&nbsp;%</td><td style="text-align:center">Previo a ejecución</td></tr></tbody></table></div>
+<p class="note" style="top:88.5cqh">Son ejemplos de cómo funcionaría una estrategia de financiación pública y no se corresponden con ninguna ayuda específica ni con ningún proyecto concreto.</p>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="cover">
+ <div class="edge"></div>
+ <div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div>
+ <div style="position:absolute;left:9.4cqw;top:38cqh;width:13.5cqw;height:0.8cqh;background:var(--accent)"></div>
+ <h2 class="wm2" style="position:absolute;left:9.4cqw;top:43cqh;font-size:3.5cqw;font-weight:700;color:var(--navy);line-height:1.15;margin:0">Ayudas de apoyo a Agrupaciones<br>Empresariales Innovadoras (AEI)</h2>
+ <p style="position:absolute;left:9.4cqw;top:67cqh;width:74cqw;font-size:1.45cqw;line-height:1.4;color:var(--grey)">Programa del <b>Ministerio de Industria y Turismo</b> para clústeres empresariales, regulado por la <b>Orden ITU/868/2025</b> y convocado anualmente en concurrencia competitiva.</p>
+</div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Objeto de la ayuda</h2>
+<div class="box p center pad" style="left:6.75cqw;top:26.4cqh;width:39cqw;height:30.7cqh">
+  <p class="lead" style="font-size:1.25cqw">Impulsar la innovación y la competitividad de las pymes integradas en clústeres, financiando el funcionamiento de las agrupaciones y la ejecución de proyectos de I+D+i que refuercen la autonomía estratégica, la transformación digital y la transición ecológica.</p>
+</div>
+<p class="body" style="position:absolute;left:6.75cqw;top:61cqh;width:39cqw;font-size:1.25cqw"><b>La agrupación es siempre la solicitante</b>, y el resto de participantes concurren a través de ella según la línea a la que se presente el proyecto.</p>
+<div style="position:absolute;left:49.1cqw;top:26.4cqh;width:44.1cqw">
+  <div class="eyebrow">Quién puede ser beneficiario</div>
+  <div style="height:1px;background:var(--line);margin:0.9cqh 0 1.4cqh"></div>
+  <div style="display:grid;gap:1.1cqh"><div style="border:1px solid var(--border);background:var(--panel2);padding:1.1cqw 1.4cqw"><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">La Agrupación Empresarial Innovadora</div><div class="tiny" style="margin-top:0.5cqh;color:var(--grey)">Inscrita y vigente en el Registro del Ministerio de Industria y Turismo en la fecha de la convocatoria.</div></div><div style="border:1px solid var(--border);background:var(--panel2);padding:1.1cqw 1.4cqw"><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Las pymes asociadas a la agrupación</div><div class="tiny" style="margin-top:0.5cqh;color:var(--grey)">Mínimo de dos pymes en la línea 3 y de cinco pymes en la línea 4.</div></div><div style="border:1px solid var(--border);background:var(--panel2);padding:1.1cqw 1.4cqw"><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Las entidades que no son pyme</div><div class="tiny" style="margin-top:0.5cqh;color:var(--grey)">Hasta el 50&nbsp;% del presupuesto en la línea 3 y el 70&nbsp;% en la línea 4.</div></div><div style="border:1px solid var(--border);background:var(--panel2);padding:1.1cqw 1.4cqw"><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Otras AEI inscritas</div><div class="tiny" style="margin-top:0.5cqh;color:var(--grey)">La línea 4 exige la concurrencia de un mínimo de tres agrupaciones.</div></div></div>
+</div>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Líneas de actuación</h2><p class="sub">Cada línea tiene sus propios requisitos de participación.</p>
+<div class="lin" style="top:31cqh">
+  <div style="display:grid;grid-template-columns:14.5cqw 1fr 13cqw 11.4cqw;margin-bottom:0.6cqh">
+    <div></div><div class="tiny" style="padding-left:1.2cqw;text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:0.9cqw">Qué financia y quién participa</div>
+    <div class="tiny" style="text-align:center;text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:0.9cqw">Intensidad</div>
+    <div class="tiny" style="text-align:center;text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:0.9cqw">Cuantía</div>
+  </div>
+  <div class="row" style="border-color:var(--l1)">
+  <div class="who"><div class="n" style="color:var(--l1)">Línea 1</div><div class="d">Funcionamiento de AEI</div></div>
+  <div class="what"><div class="a">Gastos de funcionamiento de agrupaciones incipientes.</div><div class="b">AEI con un máximo de cuatro años de antigüedad.</div></div>
+  <div class="int" style="color:var(--l1)">Hasta 50&nbsp;%</div>
+  <div class="amt" style="background:var(--l1)">70.000&nbsp;€</div>
+</div><div class="row" style="border-color:var(--l2)">
+  <div class="who"><div class="n" style="color:var(--l2)">Línea 2</div><div class="d">Estudios de viabilidad</div></div>
+  <div class="what"><div class="a">Trabajos que preparan y definen futuros proyectos de I+D+i.</div><div class="b">Una AEI o varias, con aportación mínima del 10&nbsp;% por participante.</div></div>
+  <div class="int" style="color:var(--l2)">Hasta 50&nbsp;%</div>
+  <div class="amt" style="background:var(--l2)">70.000&nbsp;€</div>
+</div><div class="row" style="border-color:var(--l3)">
+  <div class="who"><div class="n" style="color:var(--l3)">Línea 3</div><div class="d">Proyectos de I+D+i</div></div>
+  <div class="what"><div class="a">Autonomía estratégica, digitalización y transición ecológica.</div><div class="b">La AEI y un mínimo de dos pymes asociadas.</div></div>
+  <div class="int" style="color:var(--l3)">Del 25 al 80&nbsp;%</div>
+  <div class="amt" style="background:var(--l3)">250.000&nbsp;€</div>
+</div><div class="row" style="border-color:var(--l4)">
+  <div class="who"><div class="n" style="color:var(--l4)">Línea 4</div><div class="d">Proyectos en cooperación</div></div>
+  <div class="what"><div class="a">Retos estratégicos abordados de forma conjunta.</div><div class="b">Un mínimo de tres AEI y cinco pymes.</div></div>
+  <div class="int" style="color:var(--l4)">Del 25 al 80&nbsp;%</div>
+  <div class="amt" style="background:var(--l4)">Según convocatoria</div>
+</div>
+</div>
+<p class="note" style="top:87.7cqh">Las cuantías máximas son orientativas, las fija cada convocatoria.</p>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Costes subvencionables</h2>
+<div style="position:absolute;left:6.75cqw;top:27.7cqh;width:52.5cqw">
+  <div class="eyebrow">Conceptos elegibles</div>
+  <div style="height:1px;background:var(--line);margin:0.9cqh 0 1.6cqh"></div>
+  <ul style="margin:0;padding:0"><li><span class="dot"></span><div><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Personal técnico</div><div class="small" style="margin-top:0.3cqh">Investigadores y técnicos de la AEI y de las entidades participantes.</div></div></li><li><span class="dot"></span><div><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Personal administrativo y gastos generales</div><div class="small" style="margin-top:0.3cqh">Funcionamiento de la agrupación, elegible en la línea 1.</div></div></li><li><span class="dot"></span><div><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Colaboraciones externas</div><div class="small" style="margin-top:0.3cqh">Servicios de investigación y desarrollo contratados a terceros.</div></div></li><li><span class="dot"></span><div><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Asesoramiento en innovación</div><div class="small" style="margin-top:0.3cqh">Servicios de apoyo prestados a las pymes participantes.</div></div></li><li><span class="dot"></span><div><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Viajes interurbanos y alojamiento</div><div class="small" style="margin-top:0.3cqh">Desplazamientos vinculados a la ejecución del proyecto.</div></div></li><li><span class="dot"></span><div><div style="font-size:1.2cqw;font-weight:700;color:var(--navy)">Otros costes</div><div class="small" style="margin-top:0.3cqh">Los que determine expresamente cada convocatoria anual.</div></div></li></ul>
+</div>
+<div class="box p center pad" style="left:62.3cqw;top:27.7cqh;width:30.9cqw;height:57.6cqh">
+  <h3>Límites a tener en cuenta</h3>
+  <div style="font-size:3.0cqw;font-weight:700;color:var(--navy);margin:1.6cqh 0 1.2cqh">60&nbsp;%</div>
+  <p class="small">Es el techo de las colaboraciones externas y del asesoramiento sobre el coste de personal de cada beneficiario, de modo que conviene dimensionar la plantilla imputada antes de cerrar el presupuesto con terceros.</p>
+  <p class="small" style="margin-top:1.8cqh">Tampoco son subvencionables los impuestos indirectos recuperables ni los gastos que no estén directamente vinculados a la actuación.</p>
+</div>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Intensidad y cuantía de la ayuda</h2>
+<div class="tabwrap" style="top:28cqh">
+ <table style="border-collapse:separate;border-spacing:0">
+  <thead><tr><th style="width:40cqw">Concepto</th><th style="width:18cqw">Intensidad</th><th>Observaciones</th></tr></thead>
+  <tbody style="border-top:2px solid var(--navy)"><tr style="background:var(--panel2)"><td style="font-weight:700;color:var(--navy);width:40cqw;border:0">Líneas 1 y 2</td><td style="font-weight:700;color:var(--accent);width:18cqw;border:0">Hasta el 50&nbsp;%</td><td style="color:var(--grey);border:0;font-size:1.04cqw">Gastos de funcionamiento de la agrupación y estudios de viabilidad.</td></tr><tr style="background:#fff"><td style="font-weight:700;color:var(--navy);width:40cqw;border:0">Investigación industrial</td><td style="font-weight:700;color:var(--accent);width:18cqw;border:0">Del 50 al 80&nbsp;%</td><td style="color:var(--grey);border:0;font-size:1.04cqw">Base del 50&nbsp;%, ampliable con los incrementos por tamaño y difusión.</td></tr><tr style="background:var(--panel2)"><td style="font-weight:700;color:var(--navy);width:40cqw;border:0">Desarrollo experimental</td><td style="font-weight:700;color:var(--accent);width:18cqw;border:0">Del 25 al 60&nbsp;%</td><td style="color:var(--grey);border:0;font-size:1.04cqw">Base del 25&nbsp;%, ampliable con esos mismos incrementos.</td></tr><tr style="background:#fff"><td style="font-weight:700;color:var(--navy);width:40cqw;border:0">Innovación en favor de las pymes</td><td style="font-weight:700;color:var(--accent);width:18cqw;border:0">Hasta el 50&nbsp;%</td><td style="color:var(--grey);border:0;font-size:1.04cqw">Se aplica sobre los costes subvencionables del proyecto.</td></tr><tr style="background:var(--panel2)"><td style="font-weight:700;color:var(--navy);width:40cqw;border:0">Innovación en procesos y organización</td><td style="font-weight:700;color:var(--accent);width:18cqw;border:0">50&nbsp;% y 15&nbsp;%</td><td style="color:var(--grey);border:0;font-size:1.04cqw">El 50&nbsp;% para las pymes y el 15&nbsp;% para las grandes empresas.</td></tr></tbody>
+ </table>
+</div>
+<div style="position:absolute;left:6.75cqw;top:73cqh;width:42.2cqw;height:14.4cqh" class="box p center pad">
+  <div style="font-size:1.25cqw;font-weight:700;color:var(--navy)">Incrementos sobre la intensidad base</div>
+  <p class="small" style="margin-top:0.7cqh">+20&nbsp;% para la pequeña empresa, +10&nbsp;% para la mediana y +15&nbsp;% adicional por amplia difusión de resultados.</p>
+</div>
+<div style="position:absolute;left:51cqw;top:73cqh;width:42.2cqw;height:14.4cqh" class="box p center pad">
+  <div style="font-size:1.25cqw;font-weight:700;color:var(--navy)">Cuantías máximas orientativas</div>
+  <p class="small" style="margin-top:0.7cqh">70.000 euros en las líneas 1 y 2 y 250.000 euros por proyecto en la línea 3, según lo que fije cada convocatoria.</p>
+</div>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Dotación, plazos y criterios de valoración</h2>
+<div class="stats" style="left:6.75cqw;width:86.5cqw;top:27.3cqh;grid-template-columns:repeat(3,1fr);height:17.1cqh"><div class="box p stat center pad"><div class="n" style="font-size:2.4cqw">5 a 9 M€</div><div class="l">Dotación por convocatoria en los últimos ejercicios</div></div><div class="box p stat center pad"><div class="n" style="font-size:2.4cqw">100&nbsp;%</div><div class="l">Pago anticipado, sin exigencia de garantías</div></div><div class="box p stat center pad"><div class="n" style="font-size:2.4cqw">3 meses</div><div class="l">Plazo de justificación tras la ejecución</div></div></div>
+<div style="position:absolute;left:6.75cqw;top:47.7cqh;width:86.5cqw">
+  <div class="eyebrow">Criterios de valoración</div>
+  <div style="height:1px;background:var(--line);margin:0.9cqh 0 1.4cqh"></div>
+  <p class="body" style="font-size:1.2cqw">La evaluación se puntúa de 0 a 100 y exige un mínimo de <b>50 puntos</b> para poder obtener ayuda.</p>
+</div>
+<div class="crit" style="top:60.8cqh"><div class="c"><div class="pts">20</div><div class="tx">Calidad de las memorias técnica y económica</div></div><div class="c"><div class="pts">20</div><div class="tx">Interés para la competitividad y la autonomía estratégica</div></div><div class="c"><div class="pts">10</div><div class="tx">Coherencia con el plan estratégico y las estrategias europeas</div></div><div class="c"><div class="pts">10</div><div class="tx">Relación con las prioridades temáticas de la convocatoria</div></div><div class="c"><div class="pts">20</div><div class="tx">Transición digital y transición climática, 10 puntos cada una</div></div><div class="c"><div class="pts">20</div><div class="tx">Complejidad de la agrupación, propiedad industrial e impacto</div></div></div>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+<section class="slide "><div class="sheet"><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt="CONASOC"><span>FINANCIACIÓN PÚBLICA</span></div><div class="bar"></div><h2 class="ttl">Cómo contactarnos</h2>
+<p class="body" style="position:absolute;left:6.75cqw;top:29cqh;width:73.5cqw;font-size:1.35cqw">Si su agrupación o su empresa está valorando concurrir a esta línea, podemos revisar el encaje del proyecto, preparar la memoria y gestionar la justificación posterior.</p>
+<div style="position:absolute;left:6.75cqw;top:42.7cqh;width:86.5cqw;display:grid;grid-template-columns:1fr 1fr;gap:2.2cqw">
+  <div class="box center pad" style="position:relative;height:21.6cqh">
+    <div style="font-size:1.25cqw;font-weight:700;color:var(--navy)">Correo electrónico</div>
+    <div class="body" style="margin-top:1.2cqh;font-size:1.35cqw">jorgemoreno@con-asociados.com</div>
+  </div>
+  <div class="box center pad" style="position:relative;height:21.6cqh">
+    <div style="font-size:1.25cqw;font-weight:700;color:var(--navy)">Teléfonos</div>
+    <div class="body" style="margin-top:1.2cqh;font-size:1.35cqw">956 54 10 82<br>638 84 12 38</div>
+  </div>
+</div>
+<div style="position:absolute;left:6.75cqw;top:70.4cqh;width:86.5cqw;height:1px;background:var(--line)"></div>
+<div style="position:absolute;left:6.75cqw;top:73.6cqh;width:86.5cqw">
+  <div class="body" style="font-size:1.25cqw">C/ Santo Domingo nº 12, 1ºL, 11.500 El Puerto de Santa María (Cádiz)</div>
+  <div class="tiny" style="margin-top:0.6cqh">Consultores Asociados de Andalucía, S.L., especialistas en subvenciones y financiación pública desde 1996.</div>
+</div>
+<div class="foot"><small>conasoc.com</small><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAlCAMAAADlToK9AAAAMFBMVEVMaXEBDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4BDB4vYF0EAAAAD3RSTlMAd+67EcwzIplmRFWIqt3u49a5AAAACXBIWXMAAAsSAAALEgHS3X78AAACjUlEQVRYhe2X2bKYIAxAWaIgqPz/33YIARKUzi2d6fTBPGmE5GRhUX3yySefKOW0vVMyVjuRDDj8llLa/MG1KaVkoL7p/MrnmKxIIAyF06aUrD+ketfWvLidAynnUxPN9No0tWF6VNgZ6lEm8ODAvtrZuzpZgTQDUkcnyimEpwM01hIiTYyoG5lhpJuw717dGhbbBKilYfwkHfAp9B5eUV0dvjeVDNns7257HSZASu0YgslN4UrFT9RfOMxnoFDqcUlUatcB9cxfshkv4C+nFMRsJ5JbtHEf2e1x8+BmQBTzBX2YRWOBZ4CmB4FK7TqgImVGMlWDA8g+XMJtC8d3ezMgiq431u4DmxCaPrC0tsroJyoWL+y8oFq2A7Nn+7ttg2ZApWAPQ0qBCLrGDQ11a+0qUXPb3GVtVZCI9fFR2Ee3bNW7VugJEIWzPdUYNbcee5Yxob62q0BFj5qURAJ1PduzG3y4bcFNgKrfp3rcgvhAfCobhB1GVkTgq4GtaHPCxG0zMwH6C1RaaVqOzEsZO9qXRigS2T5JK/WfolKyAh+JXRLlUxbQbJN2q6irvVpXmjkZKi0qxfNbaaOmo8C/uv1Bry7uAFqeZ2wSFxiMYuqMWtwBFvdV3eYyVD2iUiF7dVoJVvbV4XDY3k+rMJ5WWrKVD/eIehNfXfdstYnTCuan1dZPq8U7AOXr4qhhJC3BRezo/OTOzrdyB3heZCjS396sCBVuhooBtWJHwgIz2Pnzm1Xvk9l9VbLK+2rdTvaOikymmzV0nO2SdUL0o/vq0l9Ae9UN9Uhy0/AVDJh5wzbAhb+A8ivz9pMz/7fqBq6KikVgJLEXD44L7Vx/8m81+fLJJ5988skn/6copX4B6ORVLXYKqYEAAAAASUVORK5CYII=" alt=""></div></div></section>
+</div>
+<div class="nav" role="group" aria-label="Navegación">
+  <button type="button" id="prev" aria-label="Anterior">←</button>
+  <span id="count">1 / 13</span>
+  <button type="button" id="next" aria-label="Siguiente">→</button>
+</div>
+<script type="module">
+  import { CBI } from "../assets/cbi-supabase.js";
+
+  const launcher = document.querySelector("#presentation-launcher");
+  const startButton = document.querySelector("#start-presentation");
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const previous = document.querySelector("#prev");
+  const next = document.querySelector("#next");
+  const navigation = document.querySelector(".nav");
+  const count = document.querySelector("#count");
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    currentSlide = Math.max(0, Math.min(slides.length - 1, index));
+    slides.forEach((slide, itemIndex) => slide.classList.toggle("is-active", itemIndex === currentSlide));
+    count.textContent = `${currentSlide + 1} / ${slides.length}`;
+    previous.disabled = currentSlide === 0;
+    next.disabled = currentSlide === slides.length - 1;
+  }
+
+  function startPresentation() {
+    document.body.classList.add("presentation");
+    launcher.hidden = true;
+    navigation.classList.add("is-visible");
+    showSlide(0);
+  }
+
+  previous.addEventListener("click", () => showSlide(currentSlide - 1));
+  next.addEventListener("click", () => showSlide(currentSlide + 1));
+  startButton.addEventListener("click", startPresentation);
+  document.addEventListener("keydown", (event) => {
+    if (!document.body.classList.contains("presentation")) return;
+    if (["ArrowRight", "PageDown", " "].includes(event.key)) { event.preventDefault(); showSlide(currentSlide + 1); }
+    if (["ArrowLeft", "PageUp"].includes(event.key)) { event.preventDefault(); showSlide(currentSlide - 1); }
+  });
+
+  try {
+    const access = await CBI.requireSession({ adminOnly: true });
+    if (access?.profile?.email?.toLowerCase() === "jorgemoreno@con-asociados.com") {
+      document.body.classList.add("is-ready");
+      launcher.hidden = false;
+    } else if (access) {
+      window.location.replace("./convocatorias.html");
+    }
+  } catch (error) {
+    console.error(error);
+    window.location.replace("./convocatorias.html");
+  }
+</script>
+</body>
+</html>
