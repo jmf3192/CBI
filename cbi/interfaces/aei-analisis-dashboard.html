@@ -71,12 +71,18 @@
           </article>
         </section>
 
+        <section class="aggregate-charts" id="aggregate-charts" hidden aria-label="Comparativa entre convocatorias">
+          <article class="panel aggregate-panel"><header><div><p class="eyebrow">Evolución</p><h2>Proyectos por convocatoria</h2></div></header><div class="call-comparison" id="projects-by-call"></div></article>
+          <article class="panel aggregate-panel"><header><div><p class="eyebrow">Volumen</p><h2>Importe favorable por convocatoria</h2></div></header><div class="call-comparison" id="funding-by-call"></div></article>
+          <article class="panel aggregate-panel"><header><div><p class="eyebrow">Competencia</p><h2>Corte y nota media</h2></div></header><div class="call-comparison" id="scores-by-call"></div></article>
+        </section>
+
         <section class="tables-section">
-          <header class="section-title"><p class="eyebrow">Proyectos</p><h2>Lectura de resultados</h2><p>Se muestran cinco registros por bloque. La tabla completa llegará en la siguiente iteración del data room.</p></header>
+          <header class="section-title"><p class="eyebrow">Proyectos</p><h2>Lectura de resultados</h2><p>Los bloques se ordenan por puntuación y se recalculan para la convocatoria y línea seleccionadas.</p></header>
           <div class="tables-grid">
-            <article class="panel table-panel"><header><h3>Concedidos / propuestos</h3><span class="status good">Resultado favorable</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Importe</th></tr></thead><tbody id="table-awarded"></tbody></table></div></article>
-            <article class="panel table-panel"><header><h3>Justo por debajo del corte</h3><span class="status warn">En espera</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-near"></tbody></table></div></article>
-            <article class="panel table-panel"><header><h3>Por debajo del corte</h3><span class="status muted">No favorable</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-below"></tbody></table></div></article>
+            <article class="panel table-panel"><header><h3>Top 5 puntuaciones</h3><span class="status good">Mejor valoración</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Importe</th></tr></thead><tbody id="table-awarded"></tbody></table></div></article>
+            <article class="panel table-panel"><header><h3>5 por encima del corte</h3><span class="status warn">Más próximas</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-near"></tbody></table></div></article>
+            <article class="panel table-panel"><header><h3>5 por debajo del corte</h3><span class="status muted">Más próximas</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-below"></tbody></table></div></article>
           </div>
         </section>
       </section>

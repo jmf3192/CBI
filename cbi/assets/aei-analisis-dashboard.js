@@ -100,9 +100,12 @@ function renderScoreChart(rows) {
   if (!values.length) { root.innerHTML = '<div class="chart-empty">Esta convocatoria no publica puntuaciones comparables.</div>'; note.textContent = "La ausencia de puntuación no implica ausencia de evaluación."; return; }
   const bins = Array.from({ length: 10 }, () => 0);
   values.forEach((value) => { bins[Math.min(9, Math.max(0, Math.floor(value / 10)))] += 1; });
-  const maximum = Math.max(...bins, 1); const cutoff = Math.min(...rows.filter(granted).map((row) => numeric(row.puntuacion)).filter((value) => value !== null));
-  root.innerHTML = `<div class="histogram">${bins.map((count, index) => `<span class="${cutoff >= index * 10 && cutoff < (index + 1) * 10 ? "cut" : ""}" style="height:${Math.max(4, (count / maximum) * 100)}%" title="${index * 10}–${index * 10 + 9,9}: ${count}"></span>`).join("")}</div><div class="axis"><span>0</span><span>50</span><span>100 puntos</span></div>`;
-  note.textContent = Number.isFinite(cutoff) ? `La barra oscura sitúa el tramo de la nota de corte (${score.format(cutoff)} puntos).` : "No hay resultados favorables con puntuación publicada en esta selección.";
+  const maximum = Math.max(...bins, 1); const favorableScores = rows.filter(granted).map((row) => numeric(row.puntuacion)).filter((value) => value !== null);
+  const cutoff = Math.min(...favorableScores); const admittedAverage = favorableScores.reduce((total, value) => total + value, 0) / favorableScores.length;
+  const overallAverage = values.reduce((total, value) => total + value, 0) / values.length;
+  const marker = (value, className, label) => Number.isFinite(value) ? `<i class="reference ${className}" style="left:${Math.max(1, Math.min(99, value))}%" data-label="${label}: ${score.format(value)}"></i>` : "";
+  root.innerHTML = `<div class="histogram">${bins.map((count, index) => `<span style="height:${Math.max(4, (count / maximum) * 100)}%" title="${index * 10}–${index * 10 + 9,9}: ${count}"></span>`).join("")}${marker(cutoff, "cutoff", "Corte")}${marker(admittedAverage, "admitted", "Media admitidas")}${marker(overallAverage, "average", "Media muestra")}</div><div class="axis"><span>0</span><span>50</span><span>100 puntos</span></div>`;
+  note.textContent = Number.isFinite(cutoff) ? `Referencias: corte ${score.format(cutoff)}, media de admitidas ${score.format(admittedAverage)} y media de la muestra ${score.format(overallAverage)}.` : "No hay resultados favorables con puntuación publicada en esta selección.";
 }
 
 function renderEuroChart(rows) {
@@ -119,10 +122,28 @@ function renderEuroChart(rows) {
 function rowHtml(row, requestedColumn = false) { const amount = requestedColumn ? requested(row) : funding(row); return `<tr><td><span class="project-name" title="${title(row)}">${title(row)}</span><span class="entity">${row.razon_social || "Entidad no publicada"}</span></td><td>${numeric(row.puntuacion) === null ? "—" : score.format(numeric(row.puntuacion))}</td><td>${amount === null ? "—" : eur.format(amount)}</td></tr>`; }
 function fillTable(id, rows, requestedColumn = false) { document.querySelector(`#${id}`).innerHTML = rows.length ? rows.slice(0, 5).map((row) => rowHtml(row, requestedColumn)).join("") : '<tr><td colspan="3" class="empty-cell">No hay registros comparables en esta selección.</td></tr>'; }
 function renderTables(rows) {
-  const awarded = rows.filter(granted).sort((a,b) => (numeric(b.puntuacion) || -1) - (numeric(a.puntuacion) || -1));
-  const wait = rows.filter((row) => row.estado_en_fuente === "lista_espera_sin_concesion").sort((a,b) => (numeric(b.puntuacion) || -1) - (numeric(a.puntuacion) || -1));
-  const below = rows.filter((row) => ["propuesta_desestimada_puntuacion", "propuesta_desestimada_motivos", "desistida"].includes(row.estado_en_fuente)).sort((a,b) => (numeric(b.puntuacion) || -1) - (numeric(a.puntuacion) || -1));
+  const scored = rows.filter((row) => numeric(row.puntuacion) !== null);
+  const favorableScores = rows.filter(granted).map((row) => numeric(row.puntuacion)).filter((value) => value !== null);
+  const cutoff = Math.min(...favorableScores);
+  const awarded = [...scored].sort((a,b) => numeric(b.puntuacion) - numeric(a.puntuacion));
+  const wait = scored.filter((row) => numeric(row.puntuacion) > cutoff).sort((a,b) => numeric(a.puntuacion) - numeric(b.puntuacion));
+  const below = scored.filter((row) => numeric(row.puntuacion) < cutoff).sort((a,b) => numeric(b.puntuacion) - numeric(a.puntuacion));
   fillTable("table-awarded", awarded); fillTable("table-near", wait, true); fillTable("table-below", below, true);
+}
+
+function renderCallComparison(id, items, formatter, className, legend) {
+  const root = document.querySelector(`#${id}`); const maximum = Math.max(...items.map((item) => item.value), 1);
+  root.innerHTML = items.length ? `${items.map((item) => `<div class="call-row"><span>${item.label}</span><div class="call-track"><div class="call-fill ${className}" style="width:${(item.value / maximum) * 100}%"></div></div><strong>${formatter(item.value)}</strong></div>`).join("")}<p class="call-legend">${legend}</p>` : '<div class="chart-empty">No hay datos comparables para esta selección.</div>';
+}
+
+function renderAggregateCharts(rows) {
+  const section = document.querySelector("#aggregate-charts"); section.hidden = state.view !== "all";
+  if (state.view !== "all") return;
+  const calls = [...new Set(rows.map((row) => row.convocatoria || row.anio_convocatoria))].sort((a,b) => Number.parseInt(b,10) - Number.parseInt(a,10));
+  const groups = calls.map((call) => ({ label: call, rows: rows.filter((row) => (row.convocatoria || row.anio_convocatoria) === call) }));
+  renderCallComparison("projects-by-call", groups.map((group) => ({ label: group.label, value: unique(group.rows, "id_registro") })), number.format, "", "Registros publicados por convocatoria.");
+  renderCallComparison("funding-by-call", groups.map((group) => ({ label: group.label, value: sum(group.rows.filter(granted), "subvencion_eur") })), (value) => eur.format(value), "good", "Importe concedido o propuesto según la fuente.");
+  renderCallComparison("scores-by-call", groups.map((group) => { const values=group.rows.map((row) => numeric(row.puntuacion)).filter((value) => value !== null); return { label: group.label, value: values.length ? values.reduce((total,value) => total+value,0)/values.length : 0 }; }).filter((item) => item.value), (value) => `${score.format(value)} ptos.`, "score", "Media de puntuaciones publicadas por convocatoria.");
 }
 
 function render() {
@@ -136,7 +157,7 @@ function render() {
   const selection = state.view === "all" ? "Todas las convocatorias disponibles" : `Convocatoria ${state.view}`;
   document.querySelector("#context-label").textContent = selection;
   document.querySelector("#context-note").textContent = `${number.format(rows.length)} registros tras aplicar la selección. Los campos no publicados se muestran como tales y no se estiman.`;
-  renderMetrics(rows); renderScoreChart(rows); renderEuroChart(rows); renderTables(rows);
+  renderMetrics(rows); renderScoreChart(rows); renderEuroChart(rows); renderAggregateCharts(rows); renderTables(rows);
 }
 
 async function load() {
