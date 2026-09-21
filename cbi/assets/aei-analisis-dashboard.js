@@ -30,6 +30,7 @@ function parseCsv(text) {
 function numeric(value) { const parsed = Number.parseFloat(value); return Number.isFinite(parsed) ? parsed : null; }
 function sum(rows, key) { return rows.reduce((total, row) => total + (numeric(row[key]) || 0), 0); }
 function unique(rows, key) { return new Set(rows.map((row) => row[key]).filter(Boolean)).size; }
+function lineOf(row) { return ["", "general", "sin_sufijo"].includes(row.variante_convocatoria) ? "general" : row.variante_convocatoria; }
 function is2026(row) { return String(row.anio_convocatoria) === "2026"; }
 function title(row) { return row.titulo_proyecto || row.razon_social || "Proyecto sin título publicado"; }
 function granted(row) { return ["concedida_segun_listado", "propuesta_provisional_aprobada"].includes(row.estado_en_fuente); }
@@ -40,7 +41,7 @@ function sourceRows() {
   if (state.view === "sector") return [];
   return state.rows.filter((row) => {
     const selected = state.view === "all" || (row.convocatoria || String(row.anio_convocatoria)) === state.view;
-    const variant = state.line === "all" || (row.variante_convocatoria || "general") === state.line;
+    const variant = state.line === "all" || lineOf(row) === state.line;
     return selected && variant;
   });
 }
@@ -65,7 +66,7 @@ function renderCallTabs() {
 
 function renderLineTabs(rows) {
   const root = document.querySelector("#line-tabs"); root.textContent = "";
-  const variants = [...new Set(rows.map((row) => row.variante_convocatoria || "general"))].sort();
+  const variants = [...new Set(rows.map(lineOf))].filter(Boolean).sort();
   root.append(createTab("Todas las líneas", "all", state.line === "all", () => { state.line = "all"; render(); }, "line-tab"));
   variants.forEach((variant) => {
     const label = ({ RETOS: "RETOS", b: "Línea b", sin_sufijo: "Línea general", general: "Línea general" })[variant] || variant;
@@ -104,7 +105,10 @@ function renderScoreChart(rows) {
   const cutoff = Math.min(...favorableScores); const admittedAverage = favorableScores.reduce((total, value) => total + value, 0) / favorableScores.length;
   const overallAverage = values.reduce((total, value) => total + value, 0) / values.length;
   const marker = (value, className, label) => Number.isFinite(value) ? `<i class="reference ${className}" style="left:${Math.max(1, Math.min(99, value))}%" data-label="${label}: ${score.format(value)}"></i>` : "";
-  root.innerHTML = `<div class="histogram">${bins.map((count, index) => `<span style="height:${Math.max(4, (count / maximum) * 100)}%" title="${index * 10}–${index * 10 + 9,9}: ${count}"></span>`).join("")}${marker(cutoff, "cutoff", "Corte")}${marker(admittedAverage, "admitted", "Media admitidas")}${marker(overallAverage, "average", "Media muestra")}</div><div class="axis"><span>0</span><span>50</span><span>100 puntos</span></div>`;
+  root.innerHTML = `<div class="histogram">${bins.map((count, index) => `<span style="height:${Math.max(4, (count / maximum) * 100)}%" title="${index * 10}–${index * 10 + 9,9}: ${count}"></span>`).join("")}<i class="cursor-marker" hidden></i><b class="cursor-tooltip" hidden></b>${marker(cutoff, "cutoff", "Corte")}${marker(admittedAverage, "admitted", "Media admitidas")}${marker(overallAverage, "average", "Media muestra")}</div><div class="axis"><span>0</span><span>50</span><span>100 puntos</span></div>`;
+  const histogram = root.querySelector(".histogram"); const cursor = histogram.querySelector(".cursor-marker"); const tooltip = histogram.querySelector(".cursor-tooltip");
+  histogram.addEventListener("mousemove", (event) => { const rect = histogram.getBoundingClientRect(); const value = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100)); cursor.hidden = false; tooltip.hidden = false; cursor.style.left = `${value}%`; tooltip.style.left = `${value}%`; tooltip.textContent = `${score.format(value)} ptos.`; histogram.querySelectorAll(".reference").forEach((reference) => reference.classList.toggle("active", Math.abs(Number.parseFloat(reference.style.left) - value) < 1.4)); });
+  histogram.addEventListener("mouseleave", () => { cursor.hidden = true; tooltip.hidden = true; histogram.querySelectorAll(".reference").forEach((reference) => reference.classList.remove("active")); });
   note.textContent = Number.isFinite(cutoff) ? `Referencias: corte ${score.format(cutoff)}, media de admitidas ${score.format(admittedAverage)} y media de la muestra ${score.format(overallAverage)}.` : "No hay resultados favorables con puntuación publicada en esta selección.";
 }
 
@@ -166,7 +170,6 @@ async function load() {
   const grants = parseCsv(await grantsResponse.text()).filter((row) => !is2026(row));
   const applications = parseCsv(await applicationsResponse.text()).map((row) => ({ ...row, variante_convocatoria: "general", subvencion_eur: row.subvencion_columna_fuente_eur }));
   state.rows = [...grants, ...applications];
-  document.querySelector("#updated").textContent = `Actualizado con fuentes consultadas el 21 sep. 2026 · ${number.format(state.rows.length)} registros`;
   render();
 }
 
