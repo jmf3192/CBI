@@ -1,5 +1,5 @@
 const DATA = {
-  grants: "../data/aei/aei_concesiones_base_v3.csv",
+  grants: "../data/aei/aei_concesiones_base_v4.csv",
   applications: "../data/aei/aei_solicitudes_2026.csv",
 };
 
@@ -175,7 +175,16 @@ function render() {
 async function load() {
   const [grantsResponse, applicationsResponse] = await Promise.all([fetch(DATA.grants), fetch(DATA.applications)]);
   if (!grantsResponse.ok || !applicationsResponse.ok) throw new Error("No se han podido cargar los datasets AEI.");
-  const grants = parseCsv(await grantsResponse.text()).filter((row) => !is2026(row));
+  const grants = parseCsv(await grantsResponse.text())
+    .filter((row) => !is2026(row))
+    .map((row) => {
+      // La propuesta de 2023 publica ordinales de lista de espera en esta columna,
+      // no notas sobre 100. Se ocultan hasta reconciliar la fuente completa.
+      if (String(row.anio_convocatoria) === "2023" && numeric(row.puntuacion) !== null && numeric(row.puntuacion) <= 10) {
+        return { ...row, puntuacion: "" };
+      }
+      return row;
+    });
   const applications = parseCsv(await applicationsResponse.text()).map((row) => ({ ...row, variante_convocatoria: "general", subvencion_eur: row.subvencion_columna_fuente_eur }));
   state.rows = [...grants, ...applications];
   render();
