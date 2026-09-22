@@ -138,6 +138,8 @@ function renderLinesFootnote(rows) {
 function setMetric(id, value, note = "") { document.querySelector(`#${id}`).textContent = value; document.querySelector(`#${id}-note`).textContent = note; }
 
 function renderMetrics(rows) {
+  document.querySelector("#metric-companies").hidden = state.view !== "all";
+  document.querySelector("#metric-cutoff").hidden = state.view === "all";
   const projects = unique(rows, "id_registro");
   const requestEstimates = rows.map((row) => estimatedRequested(row));
   const requestedValue = requestEstimates.reduce((total, item) => total + (item.value || 0), 0);
