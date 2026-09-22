@@ -43,7 +43,6 @@
             <p class="context-label" id="context-label"></p>
             <p class="context-note" id="context-note"></p>
           </div>
-          <div class="line-tabs" id="line-tabs" role="tablist" aria-label="Seleccionar línea"></div>
         </div>
 
         <section class="metrics" aria-label="Indicadores principales">
@@ -76,13 +75,14 @@
         </section>
 
         <section class="tables-section">
-          <header class="section-title"><p class="eyebrow">Proyectos</p><h2>Lectura de resultados</h2><p>Los bloques se ordenan por puntuación y se recalculan para la convocatoria y línea seleccionadas.</p></header>
+          <header class="section-title"><p class="eyebrow">Proyectos</p><h2>Lectura de resultados</h2><p>Los bloques se ordenan por puntuación y se recalculan para la convocatoria seleccionada.</p></header>
           <div class="tables-grid">
             <article class="panel table-panel"><header><h3>Top 5 puntuaciones</h3><span class="status good">Mejor valoración</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Importe</th></tr></thead><tbody id="table-awarded"></tbody></table></div></article>
-            <article class="panel table-panel"><header><h3>5 por encima del corte</h3><span class="status warn">Más próximas</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-near"></tbody></table></div></article>
+            <article class="panel table-panel"><header><h3>5 aprobados con menor nota</h3><span class="status warn">Más próximas al corte</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-near"></tbody></table></div></article>
             <article class="panel table-panel"><header><h3>5 por debajo del corte</h3><span class="status muted">Más próximas</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-below"></tbody></table></div></article>
           </div>
         </section>
+        <p class="lines-footnote" id="lines-footnote"></p>
       </section>
     </main>
     <script type="module" src="../assets/cbi-page-guard.js"></script>

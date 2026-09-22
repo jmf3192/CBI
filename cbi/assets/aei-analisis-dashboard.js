@@ -3,7 +3,7 @@ const DATA = {
   applications: "../data/aei/aei_solicitudes_2026.csv",
 };
 
-const state = { view: "all", line: "all", rows: [], estimateModel: { multiplier: 1, byCallLine: new Map(), byCall: new Map(), fallback: null } };
+const state = { view: "all", rows: [], estimateModel: { multiplier: 1, byCallLine: new Map(), byCall: new Map(), fallback: null } };
 const eur = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 const number = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0 });
 const score = new Intl.NumberFormat("es-ES", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -101,8 +101,7 @@ function sourceRows() {
   if (state.view === "sector") return [];
   return state.rows.filter((row) => {
     const selected = state.view === "all" || (row.convocatoria || String(row.anio_convocatoria)) === state.view;
-    const variant = state.line === "all" || lineOf(row) === state.line;
-    return selected && variant;
+    return selected;
   });
 }
 
@@ -115,23 +114,25 @@ function createTab(label, value, selected, onClick, className) {
 
 function renderCallTabs() {
   const root = document.querySelector("#call-tabs"); root.textContent = "";
-  root.append(createTab("Agregado", "all", state.view === "all", () => { state.view = "all"; state.line = "all"; render(); }, "call-tab"));
+  root.append(createTab("Agregado", "all", state.view === "all", () => { state.view = "all"; render(); }, "call-tab"));
   const calls = [...new Set(state.rows.map((row) => row.convocatoria || String(row.anio_convocatoria)))].sort((a, b) => {
     const yearA = Number.parseInt(a, 10); const yearB = Number.parseInt(b, 10);
     return yearB - yearA || b.localeCompare(a, "es");
   });
-  calls.forEach((call) => root.append(createTab(call, call, state.view === call, () => { state.view = call; state.line = "all"; render(); }, "call-tab")));
+  calls.forEach((call) => root.append(createTab(call, call, state.view === call, () => { state.view = call; render(); }, "call-tab")));
   root.append(createTab("Frío, logística y distribución", "sector", state.view === "sector", () => { state.view = "sector"; render(); }, "call-tab"));
 }
 
-function renderLineTabs(rows) {
-  const root = document.querySelector("#line-tabs"); root.textContent = "";
-  const variants = [...new Set(rows.map(lineOf))].filter(Boolean).sort();
-  root.append(createTab("Todas las líneas", "all", state.line === "all", () => { state.line = "all"; render(); }, "line-tab"));
-  variants.forEach((variant) => {
-    const label = ({ RETOS: "RETOS", b: "Línea b", sin_sufijo: "Línea general", general: "Línea general" })[variant] || variant;
-    root.append(createTab(label, variant, state.line === variant, () => { state.line = variant; render(); }, "line-tab"));
-  });
+function lineLabel(variant) { return ({ RETOS: "RETOS", b: "Línea b", sin_sufijo: "Línea general", general: "Línea general" })[variant] || variant; }
+function renderLinesFootnote(rows) {
+  const root = document.querySelector("#lines-footnote");
+  const linesFor = (subset) => [...new Set(subset.map(lineOf))].filter(Boolean).sort().map(lineLabel).join(", ");
+  if (state.view === "all") {
+    const calls = [...new Set(rows.map((row) => row.convocatoria || row.anio_convocatoria))].sort((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10));
+    root.textContent = `Líneas convocadas según los expedientes disponibles: ${calls.map((call) => `${call}: ${linesFor(rows.filter((row) => (row.convocatoria || row.anio_convocatoria) === call))}`).join(" · ")}.`;
+    return;
+  }
+  root.textContent = `Líneas convocadas: ${linesFor(rows) || "sin desglose publicado"}.`;
 }
 
 function setMetric(id, value, note = "") { document.querySelector(`#${id}`).textContent = value; document.querySelector(`#${id}-note`).textContent = note; }
@@ -162,7 +163,17 @@ function renderScoreChart(rows) {
   const values = rows.map((row) => numeric(row.puntuacion)).filter((value) => value !== null);
   const root = document.querySelector("#score-chart"); const note = document.querySelector("#score-note");
   document.querySelector("#score-sample").textContent = values.length ? `${number.format(values.length)} puntuaciones` : "Sin muestra";
-  if (!values.length) { root.innerHTML = '<div class="chart-empty">Esta convocatoria no publica puntuaciones comparables.</div>'; note.textContent = "La ausencia de puntuación no implica ausencia de evaluación."; return; }
+  if (!values.length) {
+    const calls = [...new Set(rows.map((row) => row.convocatoria || row.anio_convocatoria))];
+    const explanation = calls.length === 1 && calls[0] === "2023"
+      ? "La propuesta provisional de 2023 publica el estado de cada expediente, pero no la puntuación individual."
+      : `Los anexos disponibles de ${calls.join(", ")} no publican puntuaciones individuales comparables.`;
+    root.classList.add("score-unavailable");
+    root.innerHTML = `<p class="missing-score-note">${explanation}</p><div class="chart-empty">No se puede construir una distribución sin puntuaciones publicadas.</div>`;
+    note.textContent = "La ausencia de puntuación no implica ausencia de evaluación.";
+    return;
+  }
+  root.classList.remove("score-unavailable");
   const binSize = 1;
   const bins = Array.from({ length: 100 }, () => 0);
   values.forEach((value) => { bins[Math.min(bins.length - 1, Math.max(0, Math.floor(value / binSize)))] += 1; });
@@ -223,7 +234,7 @@ function renderTables(rows) {
   const favorableScores = rows.filter(granted).map((row) => numeric(row.puntuacion)).filter((value) => value !== null);
   const cutoff = Math.min(...favorableScores);
   const awarded = scored.filter(granted).sort((a,b) => numeric(b.puntuacion) - numeric(a.puntuacion));
-  const wait = scored.filter((row) => !granted(row) && numeric(row.puntuacion) >= cutoff).sort((a,b) => numeric(a.puntuacion) - numeric(b.puntuacion));
+  const wait = scored.filter(granted).sort((a,b) => numeric(a.puntuacion) - numeric(b.puntuacion));
   const below = scored.filter((row) => !granted(row) && numeric(row.puntuacion) < cutoff).sort((a,b) => numeric(b.puntuacion) - numeric(a.puntuacion));
   fillTable("table-awarded", awarded); fillTable("table-near", wait, true); fillTable("table-below", below, true);
 }
@@ -247,7 +258,9 @@ function renderResultComposition(groups) {
     ["other-fail", "Otros", (row) => row.estado_en_fuente === "propuesta_desestimada_motivos"],
     ["withdrawn", "Desistidos", (row) => row.estado_en_fuente === "desistida"],
   ];
-  root.innerHTML = `${groups.map((group) => { const counts = categories.map(([, , test]) => group.rows.filter(test).length); const total = counts.reduce((sumValue, value) => sumValue + value, 0); return `<div class="composition-row"><div><strong>${group.label}</strong><span>${number.format(total)} proyectos</span></div><div class="composition-bar">${counts.map((count, index) => count ? `<i class="${categories[index][0]}" style="width:${(count / total) * 100}%" title="${categories[index][1]}: ${count}"></i>` : "").join("")}</div></div>`; }).join("")}<div class="composition-legend">${categories.map(([className, label]) => `<span><i class="${className}"></i>${label}</span>`).join("")}</div>`;
+  const comparable = groups.filter((group) => group.rows.some((row) => !granted(row)));
+  if (!comparable.length) { root.innerHTML = '<div class="chart-empty">Todas las convocatorias de esta selección contienen únicamente proyectos aprobados.</div>'; return; }
+  root.innerHTML = `${comparable.map((group) => { const counts = categories.map(([, , test]) => group.rows.filter(test).length); const total = counts.reduce((sumValue, value) => sumValue + value, 0); return `<div class="composition-row"><div><strong>${group.label}</strong><span>${number.format(total)} proyectos</span></div><div class="composition-bar">${counts.map((count, index) => count ? `<i class="${categories[index][0]}" style="width:${(count / total) * 100}%" title="${categories[index][1]}: ${count}"></i>` : "").join("")}</div></div>`; }).join("")}<div class="composition-legend">${categories.map(([className, label]) => `<span><i class="${className}"></i>${label}</span>`).join("")}</div><p class="chart-note">Se omiten las convocatorias con solo proyectos aprobados.</p>`;
 }
 
 function renderAeiContinuity(rows, groups) {
@@ -277,13 +290,11 @@ function render() {
   const sector = state.view === "sector";
   document.querySelector("#analysis").hidden = sector; document.querySelector("#sector-placeholder").hidden = !sector;
   if (sector) return;
-  const priorRows = state.view === "all" ? state.rows : state.rows.filter((row) => (row.convocatoria || String(row.anio_convocatoria)) === state.view);
-  renderLineTabs(priorRows);
   const rows = sourceRows();
   const selection = state.view === "all" ? "Todas las convocatorias disponibles" : `Convocatoria ${state.view}`;
   document.querySelector("#context-label").textContent = selection;
   document.querySelector("#context-note").textContent = `${number.format(rows.length)} registros tras aplicar la selección. Los participantes y los importes solicitados se completan con estimaciones identificadas cuando la fuente no los publica.`;
-  renderMetrics(rows); renderScoreChart(rows); renderEuroChart(rows); renderAggregateCharts(rows); renderTables(rows);
+  renderLinesFootnote(rows); renderMetrics(rows); renderScoreChart(rows); renderEuroChart(rows); renderAggregateCharts(rows); renderTables(rows);
 }
 
 async function load() {
