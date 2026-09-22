@@ -121,12 +121,12 @@ function createTab(label, value, selected, onClick, className) {
 function renderCallTabs() {
   const root = document.querySelector("#call-tabs"); root.textContent = "";
   root.append(createTab("Agregado", "all", state.view === "all", () => { state.view = "all"; render(); }, "call-tab"));
+  root.append(createTab("Transporte, distribución y frío", "sector", state.view === "sector", () => { state.view = "sector"; render(); }, "call-tab"));
   const calls = [...new Set(state.rows.map((row) => row.convocatoria || String(row.anio_convocatoria)))].sort((a, b) => {
     const yearA = Number.parseInt(a, 10); const yearB = Number.parseInt(b, 10);
     return yearB - yearA || b.localeCompare(a, "es");
   });
   calls.forEach((call) => root.append(createTab(call, call, state.view === call, () => { state.view = call; render(); }, "call-tab")));
-  root.append(createTab("Transporte, distribución y frío", "sector", state.view === "sector", () => { state.view = "sector"; render(); }, "call-tab"));
 }
 
 function lineLabel(variant) { return ({ RETOS: "RETOS", b: "Línea b", sin_sufijo: "Línea general", general: "Línea general" })[variant] || variant; }
