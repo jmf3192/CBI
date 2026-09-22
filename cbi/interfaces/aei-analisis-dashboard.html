@@ -31,12 +31,6 @@
         <div class="call-tabs" id="call-tabs" role="tablist"></div>
       </div>
 
-      <section class="sector-placeholder" id="sector-placeholder" hidden>
-        <p class="eyebrow">Pestaña preparada</p>
-        <h2>Explotaciones Frigoríficas, Logística y Distribución</h2>
-        <p>Esta vista queda reservada para el análisis sectorial. Se desarrollará cuando se definan el criterio de identificación y las variables específicas del sector.</p>
-      </section>
-
       <section id="analysis" hidden>
         <div class="context-row">
           <div>
@@ -45,6 +39,16 @@
           </div>
         </div>
 
+        <section id="sector-overview" class="sector-overview" hidden>
+          <article class="panel score-panel"><header><div><p class="eyebrow">Distribución de puntuaciones</p><h2>Frío</h2></div><span id="cold-sample" class="panel-tag"></span></header><div class="chart-shell" id="cold-chart"></div><p class="chart-note" id="cold-note"></p></article>
+          <article class="panel score-panel"><header><div><p class="eyebrow">Distribución de puntuaciones</p><h2>Transporte y distribución</h2></div><span id="transport-sample" class="panel-tag"></span></header><div class="chart-shell" id="transport-chart"></div><p class="chart-note" id="transport-note"></p></article>
+          <article class="panel sector-stats"><header><h2>Resumen de la selección</h2><span id="sector-total" class="panel-tag"></span></header><div class="sector-stats-grid">
+            <div><span>Proyectos de frío</span><strong id="s-cold"></strong><small id="s-cold-note"></small></div>
+            <div><span>Transporte y distribución</span><strong id="s-transport"></strong><small id="s-transport-note"></small></div>
+            <div><span>Nota media total</span><strong id="s-average"></strong><small id="s-average-note"></small></div>
+            <div><span>Porcentaje de aprobación</span><strong id="s-approval"></strong><small id="s-approval-note"></small></div>
+          </div></article>
+        </section>
         <section class="metrics" aria-label="Indicadores principales">
           <article class="metric"><span>Proyectos analizados</span><strong id="m-projects">—</strong><small id="m-projects-note"></small></article>
           <article class="metric"><span>AEI solicitantes / beneficiarias</span><strong id="m-aei">—</strong><small id="m-aei-note"></small></article>
@@ -81,6 +85,23 @@
             <article class="panel table-panel"><header><h3>5 aprobados con menor nota</h3><span class="status warn">Más próximas al corte</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-near"></tbody></table></div></article>
             <article class="panel table-panel"><header><h3>5 por debajo del corte</h3><span class="status muted">Más próximas</span></header><div class="table-wrap"><table><thead><tr><th>Proyecto / entidad</th><th>Puntuación</th><th>Solicitado</th></tr></thead><tbody id="table-below"></tbody></table></div></article>
           </div>
+        </section>
+        <section id="sector-projects" class="panel" hidden>
+          <header><div><p class="eyebrow">Todos los proyectos de la selección</p><h2>Proyectos de transporte, distribución y frío</h2></div><span id="sector-count" class="panel-tag"></span></header>
+        <section id="sector-controls" class="panel sector-controls" hidden>
+          <p>Selección temática de todas las convocatorias: frío, transporte, logística, almacenaje y distribución general. Cada ficha explica su relación con el sector.</p>
+          <div class="sector-filters">
+            <label>Convocatoria<select id="sector-year"><option value="all">Todas</option></select></label>
+            <label>Ámbito<select id="sector-scope"><option value="all">Todos los ámbitos</option><option value="Frío">Frío</option><option value="Transporte y distribución">Transporte y distribución</option></select></label>
+            <label>Resultado<select id="sector-status"><option value="all">Todos</option><option value="approved">Favorable</option><option value="other">No favorable</option></select></label>
+            <label>Ordenar por<select id="sector-sort"><option value="convocatoria">Convocatoria</option><option value="puntuacion">Puntuación</option><option value="importe">Financiación</option><option value="proyecto">Proyecto</option><option value="entidad">Entidad</option><option value="ambito">Ámbito</option><option value="resultado">Resultado</option></select></label>
+            <label>Orden<select id="sector-direction"><option value="desc">Descendente</option><option value="asc">Ascendente</option></select></label>
+            <label class="sector-search">Buscar proyecto o entidad<input id="sector-search" type="search" placeholder="Título, AEI o expediente…"></label>
+          </div>
+          <details><summary>Cobertura de la revisión por convocatoria</summary><p>Sin coincidencias no significa que no existan proyectos del sector: algunos expedientes carecen de título en las fuentes disponibles. Las vinculaciones del catálogo por año, NIF e importe se identifican como pendientes de confirmación documental.</p><div id="sector-coverage" class="table-wrap"></div></details>
+        </section>
+          <div id="sector-summary" class="sector-summary"></div>
+          <div class="table-wrap"><table class="sector-table"><thead><tr><th>Proyecto / AEI</th><th>Ámbito</th><th>Convocatoria</th><th>Puntuación</th><th>Resultado</th><th>Financiación publicada</th><th>Ficha</th></tr></thead><tbody id="sector-project-rows"></tbody></table></div>
         </section>
         <p class="lines-footnote" id="lines-footnote"></p>
       </section>
