@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "seed": 20261106,
+  "runs": 1000,
+  "budget": 25000000,
+  "defaults": {"demand": 110, "admission": 0.7, "scope": "equipo", "tail": 1, "scale": 1, "innovationProfile": "central", "bonusRate": 0.2},
+  "innovationProfiles": {"baja": [0.65, 0.25, 0.09, 0.01], "central": [0.45, 0.35, 0.17, 0.03], "alta": [0.25, 0.4, 0.28, 0.07]},
+  "sizeWeights": [0.4, 0.35, 0.25],
+  "zoneWeights": [0.7, 0.15, 0.15],
+  "counterfactualShareRange": [0.2, 0.4],
+  "requestShareRange": [0.65, 1],
+  "pairedScaleRange": [0.8, 1.25],
+  "savingPerturbationRange": [0.9, 1.1],
+  "assumptions": "Demanda, admisión, perfiles, tamaño, zona, contraste, fracción solicitada y perturbaciones son hipótesis editables, no frecuencias estimadas de las DECA. Elegibilidad técnica de las competidoras admitidas supuesta; las fuentes no publican potencia ni ahorro relativo."
+}

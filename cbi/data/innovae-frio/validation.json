@@ -1,0 +1,232 @@
+{
+  "version": "2.0.0",
+  "seed": 20261106,
+  "own": {
+    "id": "PROYECTO",
+    "own": true,
+    "cost": 720000,
+    "savingKwh": 940000,
+    "aid": 158400,
+    "innovation": "incremental",
+    "bonus": false,
+    "powerKw": 165,
+    "savingPct": 24,
+    "size": "large",
+    "zone": "general",
+    "aidMode": "reference",
+    "referenceCost": 144000,
+    "arrival": 0.5
+  },
+  "oldPopulation": {
+    "count": 220,
+    "cost": {
+      "p5": 255000,
+      "p50": 830000,
+      "p95": 2395000
+    },
+    "savingKwh": {
+      "p5": 368000,
+      "p50": 1074000,
+      "p95": 2600000
+    },
+    "rpa": {
+      "p5": 3.8881022615535894,
+      "p50": 9.061411042944787,
+      "p95": 16.766174402250353
+    },
+    "totalAid": 53548000,
+    "aidAbove30Percent": 23
+  },
+  "newPopulation": {
+    "count": 77,
+    "cost": {
+      "p5": 132681.24,
+      "p50": 351992.57,
+      "p95": 834784.13
+    },
+    "savingKwh": {
+      "p5": 169185.39,
+      "p50": 466678.24,
+      "p95": 948003.01
+    },
+    "rpa": {
+      "p5": 4.75315810588552,
+      "p50": 7.770367618954614,
+      "p95": 11.952893298051489
+    },
+    "totalAid": 6682613.939999997,
+    "aidAbove30Percent": 12
+  },
+  "scenarios": [
+    {
+      "name": "central",
+      "options": {
+        "demand": 110,
+        "admission": 0.7,
+        "scope": "equipo",
+        "tail": 1,
+        "scale": 1,
+        "innovationProfile": "central",
+        "bonusRate": 0.2
+      },
+      "runs": 1000,
+      "funded": 917,
+      "reserve": 0,
+      "excluded": 83,
+      "constrained": 0,
+      "frequency": 91.7,
+      "scores": {
+        "p5": 46.5,
+        "p50": 51.5,
+        "p95": 51.5
+      },
+      "ranks": {
+        "p5": 33,
+        "p50": 40,
+        "p95": 47
+      },
+      "rankedRuns": 917,
+      "budgets": {
+        "p5": 2236582.7800000003,
+        "p50": 2923277.55,
+        "p95": 3688494.9799999995
+      }
+    },
+    {
+      "name": "ampliada",
+      "options": {
+        "demand": 110,
+        "admission": 0.7,
+        "scope": "ampliada",
+        "tail": 1,
+        "scale": 1,
+        "innovationProfile": "central",
+        "bonusRate": 0.2
+      },
+      "runs": 1000,
+      "funded": 983,
+      "reserve": 0,
+      "excluded": 17,
+      "constrained": 0,
+      "frequency": 98.3,
+      "scores": {
+        "p5": 51.5,
+        "p50": 51.5,
+        "p95": 59.5
+      },
+      "ranks": {
+        "p5": 26,
+        "p50": 36,
+        "p95": 43
+      },
+      "rankedRuns": 983,
+      "budgets": {
+        "p5": 1988485.9200000002,
+        "p50": 2514243.7,
+        "p95": 3130659.95
+      }
+    },
+    {
+      "name": "cola_ampliada",
+      "options": {
+        "demand": 110,
+        "admission": 0.7,
+        "scope": "equipo",
+        "tail": 1.35,
+        "scale": 1,
+        "innovationProfile": "central",
+        "bonusRate": 0.2
+      },
+      "runs": 1000,
+      "funded": 1000,
+      "reserve": 0,
+      "excluded": 0,
+      "constrained": 0,
+      "frequency": 100,
+      "scores": {
+        "p5": 59.5,
+        "p50": 59.5,
+        "p95": 64.5
+      },
+      "ranks": {
+        "p5": 30,
+        "p50": 39,
+        "p95": 45
+      },
+      "rankedRuns": 1000,
+      "budgets": {
+        "p5": 3092797.09,
+        "p50": 3839109.2700000005,
+        "p95": 4787471.959999999
+      }
+    },
+    {
+      "name": "demanda_alta",
+      "options": {
+        "demand": 260,
+        "admission": 0.85,
+        "scope": "equipo",
+        "tail": 1,
+        "scale": 1,
+        "innovationProfile": "central",
+        "bonusRate": 0.2
+      },
+      "runs": 1000,
+      "funded": 989,
+      "reserve": 0,
+      "excluded": 11,
+      "constrained": 0,
+      "frequency": 98.9,
+      "scores": {
+        "p5": 51.5,
+        "p50": 51.5,
+        "p95": 51.5
+      },
+      "ranks": {
+        "p5": 101,
+        "p50": 111,
+        "p95": 122
+      },
+      "rankedRuns": 989,
+      "budgets": {
+        "p5": 6980517.879999999,
+        "p50": 8001251.83,
+        "p95": 9264735.069999998
+      }
+    },
+    {
+      "name": "tension_presupuesto",
+      "options": {
+        "demand": 260,
+        "admission": 0.85,
+        "scope": "equipo",
+        "tail": 1,
+        "scale": 4,
+        "innovationProfile": "central",
+        "bonusRate": 0.2
+      },
+      "runs": 1000,
+      "funded": 114,
+      "reserve": 875,
+      "excluded": 11,
+      "constrained": 996,
+      "frequency": 11.4,
+      "scores": {
+        "p5": 51.5,
+        "p50": 51.5,
+        "p95": 51.5
+      },
+      "ranks": {
+        "p5": 101,
+        "p50": 111,
+        "p95": 122
+      },
+      "rankedRuns": 989,
+      "budgets": {
+        "p5": 24858689.480000015,
+        "p50": 24948511.330000017,
+        "p95": 24996432.35999999
+      }
+    }
+  ]
+}

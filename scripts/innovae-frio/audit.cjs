@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'../..'),dir=root+'/cbi/data/innovae-frio/';
+const M=require(root+'/cbi/assets/innovae-frio-model.js'),config=JSON.parse(fs.readFileSync(dir+'calibration.json')),{records}=JSON.parse(fs.readFileSync(dir+'references.json'));
+const own={id:'PROYECTO',own:true,cost:720000,savingKwh:940000,aid:158400,innovation:'incremental',bonus:false,powerKw:165,savingPct:24,size:'large',zone:'general',aidMode:'reference',referenceCost:144000,arrival:.5};
+const cases=[['central',{}],['ampliada',{scope:'ampliada'}],['cola_ampliada',{tail:1.35}],['demanda_alta',{demand:260,admission:.85}],['tension_presupuesto',{demand:260,admission:.85,scale:4}]];
+const stats=rows=>({count:rows.length,cost:M.quantiles(rows.map(r=>r.cost)),savingKwh:M.quantiles(rows.map(r=>r.savingKwh)),rpa:M.quantiles(rows.map(r=>r.cost/r.savingKwh*11.63)),totalAid:rows.reduce((a,r)=>a+r.aid,0),aidAbove30Percent:rows.filter(r=>r.aid>r.cost*.3+.01).length});
+const old=fs.readFileSync(dir+'archive/simulacion_preliminar_220.csv','utf8').replace(/^\uFEFF/,'').trim().split(/\r?\n/).slice(1).map(l=>{const a=l.split(';');return {cost:Number(a[5]),aid:Number(a[6]),savingKwh:Number(a[7])};});
+const result={version:M.VERSION,seed:config.seed,own,oldPopulation:stats(old),newPopulation:stats(M.generate(records,config)),scenarios:cases.map(([name,options])=>({name,options:{...config.defaults,...options},...M.monteCarlo(records,config,options,own)}))};
+fs.writeFileSync(dir+'validation.json',JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify(result,null,2));

@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "seed": 20261106,
+  "iteration": 0,
+  "options": {
+    "demand": 110,
+    "admission": 0.7,
+    "scope": "equipo",
+    "tail": 1,
+    "scale": 1,
+    "innovationProfile": "central",
+    "bonusRate": 0.2
+  },
+  "rows": 77,
+  "assumptions": "Demanda, admisión, perfiles, tamaño, zona, contraste, fracción solicitada y perturbaciones son hipótesis editables, no frecuencias estimadas de las DECA. Elegibilidad técnica de las competidoras admitidas supuesta; las fuentes no publican potencia ni ahorro relativo."
+}

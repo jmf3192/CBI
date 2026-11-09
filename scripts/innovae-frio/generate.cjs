@@ -1,0 +1,11 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'../..');
+const M=require(root+'/cbi/assets/innovae-frio-model.js');
+const dir=root+'/cbi/data/innovae-frio/';
+const config=JSON.parse(fs.readFileSync(dir+'calibration.json'));
+const {records}=JSON.parse(fs.readFileSync(dir+'references.json'));
+const rows=M.generate(records,config);
+fs.writeFileSync(dir+'simulacion_solicitudes.csv',M.csv(rows));
+fs.writeFileSync(dir+'simulacion_solicitudes.meta.json',JSON.stringify({version:M.VERSION,seed:config.seed,iteration:0,options:config.defaults,rows:rows.length,assumptions:config.assumptions},null,2)+'\n');
+console.log(`${rows.length} synthetic rows; ${M.eligiblePool(records,config.defaults.scope).length} reference pairs`);
