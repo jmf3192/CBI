@@ -100,3 +100,14 @@ node --test scripts/innovae-frio/model.test.cjs
 No requiere servicio de generación ni librerías JavaScript externas. `sources.json` registra checksum, URL y páginas de todos los PDF. El script genera `references.json` y su CSV a partir de los originales y de la clasificación versionada. La generación y la auditoría usan el mismo motor que la web; el worker evita bloquear los controles y se cancela cuando cambian las entradas. No se guardan los proyectos introducidos ni se envían al servidor: las descargas CSV/JSON se construyen en el navegador.
 
 Los scripts antiguos de `Dats proyecto B` se conservan como investigación histórica; no son el motor desplegado v2.
+
+
+## Página de datos de la ayuda · primera integración
+
+La gestión se encuentra en [Datos de INNOVAE frío](https://conasoc.com/cbi/interfaces/datos-ayuda.html?ayuda=CONV-2026-INNOVAE-FRIO), accesible desde Convocatorias, Administración y el simulador. Comparte el requisito de acceso de la ayuda. El simulador muestra la base aplicada y permite editar el proyecto; el catálogo, los CSV y los supuestos de competencia se gestionan en la página adicional.
+
+El catálogo inicial reúne las referencias observadas, la población sintética y el preliminar histórico. Las referencias y las sintéticas admiten copias editables mediante CSV separado por punto y coma, importación, validación completa y vista previa. El histórico se consulta y descarga. Los códigos, unidades, clasificación y trazabilidad se explican en cada archivo. Al cambiar valores, la huella SHA-256 sigue identificando el PDF de origen; la copia editada representa una revisión de trabajo, no una modificación del documento oficial.
+
+Las copias y la instantánea aplicada se guardan en `sessionStorage`, dentro de esta pestaña y con clave de ayuda. No se publican en GitHub ni se guardan para otros usuarios. Al aplicar, el simulador utiliza las referencias guardadas y el escenario como una instantánea; guardar cambios posteriores requiere volver a aplicar. Las variantes manuales del CSV sintético se pueden exportar, pero no sustituyen las 1.000 poblaciones del motor. El botón de regeneración produce un nuevo CSV desde las referencias guardadas y los supuestos seleccionados. Se puede recuperar la base publicada conservando las copias.
+
+Exporta CSV y configuración JSON antes de cerrar la pestaña. El guardado compartido, el historial de versiones y la incorporación de otras ayudas quedan para las siguientes fases. Pruebas de esta integración: `node --test scripts/innovae-frio/model.test.cjs scripts/innovae-frio/workspace.test.cjs`.

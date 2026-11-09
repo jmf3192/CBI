@@ -1068,15 +1068,8 @@
       }
       .scenario-panel { margin-bottom:24px; }
       .scenario-body { padding:20px; }
-      .scenario-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
-      .scenario-note,.scenario-body details { font-size:13px;line-height:1.6;color:var(--muted,#526176); }
+      .scenario-note { font-size:13px;line-height:1.6;color:var(--muted,#526176); }
       .scenario-body a { text-decoration:underline; }
-      .scenario-body summary { cursor:pointer;font-weight:700; }
-      .scenario-actions { display:flex;gap:12px;flex-wrap:wrap;margin-top:14px; }
-      .scenario-actions button { padding:10px 14px;border:1px solid #c9dbe8;border-radius:8px;background:#f6f9fc;cursor:pointer; }
-      .scenario-actions button:disabled { opacity:.5;cursor:wait; }
-      @media(max-width:1000px) { .scenario-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-      @media(max-width:540px) { .scenario-grid { grid-template-columns:1fr; } .scenario-panel .panel-header {flex-wrap:wrap;gap:8px;} }
     </style>
   </head>
   <body data-cbi-protected data-cbi-access-code="CONV-2026-INNOVAE-FRIO">
@@ -1109,28 +1102,14 @@
       </section>
 
       <section class="panel scenario-panel" aria-labelledby="scenario-title">
-        <div class="panel-header"><h2 id="scenario-title">Escenario de competencia · v2</h2><span>1.000 simulaciones · semilla 20261106</span></div>
+        <div class="panel-header"><h2 id="scenario-title">Base de competencia</h2><span>1.000 simulaciones · semilla 20261106</span></div>
         <div class="scenario-body">
-          <div class="scenario-grid">
-            <label class="input-field">Solicitudes candidatas<select data-scenario="demand" disabled><option value="40">40 · baja demanda</option><option value="110" selected>110 · central</option><option value="260">260 · alta demanda</option></select></label>
-            <label class="input-field">Admisión supuesta<select data-scenario="admission" disabled><option value="0.55">55 %</option><option value="0.7" selected>70 %</option><option value="0.85">85 %</option></select></label>
-            <label class="input-field">Muestra de referencia<select data-scenario="scope" disabled><option value="equipo">Equipos · 8 referencias</option><option value="ampliada">Equipos + optimización · 22</option></select></label>
-            <label class="input-field">Cola de coste por ahorro<select data-scenario="tail" disabled><option value="1">Observada</option><option value="1.35">Ampliada ×1,35 · sensibilidad</option></select></label>
-            <label class="input-field">Escala de proyectos<select data-scenario="scale" disabled><option value="1">×1 · tamaño observado</option><option value="2">×2 · tensión de presupuesto</option><option value="4">×4 · tensión alta</option></select></label>
-            <label class="input-field">Innovación de competidoras<select data-scenario="innovationProfile" disabled><option value="baja">Menor</option><option value="central" selected>Central</option><option value="alta">Mayor</option></select></label>
-            <label class="input-field">Proporción con bonus<select data-scenario="bonusRate" disabled><option value="0.1">10 %</option><option value="0.2" selected>20 %</option><option value="0.4">40 %</option></select></label>
-          </div>
+          <p>La base de competencia y sus supuestos se gestionan en la página de datos de esta ayuda.</p>
+          <p><a class="data-workspace-link" href="./datos-ayuda.html?ayuda=CONV-2026-INNOVAE-FRIO">Gestionar datos y configuración →</a></p>
+          <p id="workspace-status" class="scenario-note">Versión publicada</p>
           <p id="scenario-note" class="scenario-note">Cargando referencias documentales…</p>
           <p id="simulation-note" class="scenario-note" aria-live="polite"></p>
-          <details><summary>Fuentes, supuestos y cómo leer el resultado</summary>
-            <p>320 operaciones de cinco DECA de Andalucía, Cataluña y Murcia. Se conservan 25 PDF oficiales. Las 8 referencias de equipos y las 14 de optimización con inversión ≥100.000 € son analogías de coste y ahorro: no acreditan elegibilidad en INNOVAE.</p>
-            <p>Se remuestrean juntas inversión y ahorro. Se aplica un factor común de 0,8 a 1,25 y una perturbación del ahorro de ±10 %. La sensibilidad de cola aumenta un 35 % la ratio del cuartil superior; la escala ×2/×4 amplía inversión y ahorro juntos. Son hipótesis de sensibilidad.</p>
-            <p>Las solicitudes, admisión, innovación y bonus son hipótesis. Tamaño de empresa grande/mediana/pequeña: 40/35/25 %; zona general/c/a: 70/15/15 %. Contraste: 20–40 % del coste. Solicitud: 65–100 % del máximo calculado. El perfil central de innovación usa 45/35/17/3 % y puntos medios de categoría. No se reutiliza la ayuda histórica concedida como ayuda solicitada.</p>
-            <p>La frecuencia cuenta en cuántas poblaciones obtiene financiación el proyecto. Las gráficas y el desglose muestran la primera población reproducible; los percentiles resumen las 1.000. *La menor puntuación financiada no es un corte universal: influyen desempates e importes. El orden final de llegada se simula; el proyecto ocupa la posición temporal media.</p>
-            <p>La potencia y el ahorro relativo de las competidoras no están publicados: se suponen admitidas. El modelo comprueba algunos requisitos numéricos; el encaje de la actuación, RSIF, refrigerante, documentación y demás requisitos requieren revisión. Las fuentes son concesiones seleccionadas de otro programa y predominan proyectos industriales de Cataluña.</p>
-            <p><a href="../data/innovae-frio/referencias_observadas.csv" download>Referencias observadas CSV</a> · <a href="https://github.com/jmf3192/CBI/blob/main/cbi/data/innovae-frio/README.md" target="_blank" rel="noopener">Metodología y reproducción</a> · <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2026-12282" target="_blank" rel="noopener">Bases INNOVAE</a></p>
-          </details>
-          <div class="scenario-actions"><button type="button" id="export-population" disabled>Descargar competidoras CSV</button><button type="button" id="export-settings" disabled>Descargar escenario y resultado JSON</button></div>
+
         </div>
       </section>
 
@@ -1425,6 +1404,7 @@
 
     <script src="../assets/cbi-number-format.js"></script>
     <script src="../assets/innovae-frio-model.js?v=2.0.0"></script>
+    <script src="../assets/cbi-data-workspace.js?v=1"></script>
     <script>
       const KWH_PER_KTEP = 11630000;
       const BUDGET = 25000000;
@@ -1522,16 +1502,23 @@
           const references = await referencesResponse.json();
           if (state.config.version !== M.VERSION || references.version !== M.VERSION) throw new Error("Versiones incompatibles");
           state.records = references.records;
-          const scopeSelect=document.querySelector('[data-scenario="scope"]');
-          scopeSelect.options[0].textContent=`Equipos · ${M.eligiblePool(state.records,"equipo").length} referencias`;
-          scopeSelect.options[1].textContent=`Equipos + optimización · ${M.eligiblePool(state.records,"ampliada").length}`;
           state.options = {...state.config.defaults};
+          const draft=window.CBIData.load(sessionStorage);
+          if(draft?.applied) {
+            const applied=draft.applied;
+            if(applied.version!==M.VERSION) throw new Error("Borrador de datos incompatible; revísalo en Gestionar datos");
+            window.CBIData.validateOptions(applied.options);
+            const data={headers:Object.keys(applied.records[0]??{}),records:applied.records};
+            const errors=window.CBIData.validate(data,"references");
+            if(errors.length) throw new Error("Borrador inválido: " + errors[0]);
+            state.records=applied.records;
+            state.options={...applied.options};
+            document.querySelector("#workspace-status").textContent="Copia de trabajo aplicada en esta pestaña · " + new Date(applied.savedAt).toLocaleString("es-ES");
+          }
           state.populationRows = M.generate(state.records,state.config,state.options);
           state.dataScenario = "CALIBRADO_V2";
           state.dataError = "";
-          document.querySelectorAll("[data-scenario]").forEach(el=>{el.value=String(state.options[el.dataset.scenario]);el.disabled=false;});
-          document.querySelector("#export-population").disabled=false;
-          document.querySelector("#export-settings").disabled=false;
+
         } catch(error) {
           state.populationRows=[];
           state.dataError="No se pudieron cargar las referencias: " + error.message;
@@ -1565,19 +1552,6 @@
         },180);
       }
 
-      function downloadFile(name,content,type) {
-        const url=URL.createObjectURL(new Blob([content],{type}));
-        const a=document.createElement("a");a.href=url;a.download=name;a.click();
-        setTimeout(()=>URL.revokeObjectURL(url),1000);
-      }
-      document.querySelectorAll("[data-scenario]").forEach(el=>el.addEventListener("change",()=>{
-        const key=el.dataset.scenario;
-        state.options[key]=["scope","innovationProfile"].includes(key)?el.value:Number(el.value);
-        state.populationRows=M.generate(state.records,state.config,state.options);
-        render();
-      }));
-      document.querySelector("#export-population").addEventListener("click",()=>downloadFile("innovae-frio-competidoras.csv",M.csv(state.populationRows),"text/csv;charset=utf-8"));
-      document.querySelector("#export-settings").addEventListener("click",()=>downloadFile("innovae-frio-escenario.json",JSON.stringify({version:M.VERSION,config:state.config,options:state.options,own:currentOwnRow(),manual:manualRowsForScoring(),results:state.monte,representativeIteration:0},null,2),"application/json"));
       document.querySelectorAll("[data-aid-setting]").forEach(el=>el.addEventListener("change",()=>{
         state[el.dataset.aidSetting]=el.dataset.aidSetting==="referencePct"?clamp(el.value,0,100):el.value;
         render();
@@ -1939,7 +1913,7 @@
           : state.monteError || "Calculando con semilla fija. Los resultados dependen de los supuestos de competencia.";
         outputs.rankValue.textContent = own.rank ? `#${own.rank}` : "—";
         outputs.rankCopy.textContent = `Población ilustrativa 1 de 1.000: ${result.rows.length} solicitudes. ` + (own.exclusionReasons.length ? own.exclusionReasons.join("; ")+". " : "") + (mc && mc.rankedRuns ? `Posición P5–P95: ${mc.ranks.p5}–${mc.ranks.p95}, solo en ${mc.rankedRuns} simulaciones que alcanzan 50 puntos.` : "");
-        document.querySelector("#scenario-note").textContent = `${state.options.demand} candidatas × ${formatNumber(state.options.admission*100)} % de admisión = ${admittedCount()} competidoras, más nuestro proyecto y las manuales. ${M.eligiblePool(state.records,state.options.scope).length} referencias comparables. Elegibilidad técnica de competidoras supuesta.`;
+        document.querySelector("#scenario-note").textContent = `${state.options.demand} candidatas × ${formatNumber(state.options.admission*100)} % de admisión = ${admittedCount()} competidoras, más nuestro proyecto y las manuales. ${M.eligiblePool(state.records,state.options.scope).length} referencias comparables · muestra ${state.options.scope} · escala ×${state.options.scale} · cola ×${state.options.tail} · innovación ${state.options.innovationProfile} · bonus ${formatNumber(state.options.bonusRate*100)} %. Elegibilidad técnica de competidoras supuesta.`;
         document.querySelector("#simulation-note").textContent = mc ? `Presupuesto utilizado P5 / mediana / P95: ${formatEuro(mc.budgets.p5)} / ${formatEuro(mc.budgets.p50)} / ${formatEuro(mc.budgets.p95)}. Hay reserva por presupuesto en ${mc.constrained} de ${mc.runs} simulaciones.` : "";
 
         outputs.rpaValue.textContent = `${formatNumber(own.rpa, 2)}`;

@@ -223,6 +223,7 @@
       }
 
       .call-actions {
+        flex-wrap:wrap;gap:14px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -395,9 +396,10 @@
 
       function createCallCard(call) {
         const href = callHref(call);
-        const element = document.createElement(href ? "a" : "article");
+        const hasData = call.code === "CONV-2026-INNOVAE-FRIO";
+        const element = document.createElement(href && !hasData ? "a" : "article");
         element.className = href ? "call" : "call is-muted";
-        if (href) {
+        if (href && !hasData) {
           element.href = href;
           element.setAttribute("aria-label", `Abrir ${call.name}`);
         }
@@ -408,7 +410,7 @@
             <p>${escapeHtml(call.description || `Código oficial: ${call.code}`)}</p>
           </div>
           <div class="call-actions">
-            <span class="${href ? "call-cta" : "call-status"}">${href ? ({ tracking: "Abrir seguimiento", sprint: "Abrir sprint" }[call.kind] || "Abrir dashboard") : "Próximamente"}</span>
+            ${hasData ? `<a class="call-cta" href="${escapeHtml(href)}">Abrir simulador</a><a class="call-cta" href="./datos-ayuda.html?ayuda=${encodeURIComponent(call.code)}">Datos de la ayuda</a>` : `<span class="${href ? "call-cta" : "call-status"}">${href ? ({ tracking: "Abrir seguimiento", sprint: "Abrir sprint" }[call.kind] || "Abrir dashboard") : "Próximamente"}</span>`}
           </div>
         `;
 
