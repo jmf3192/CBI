@@ -111,3 +111,7 @@ El catálogo inicial reúne las referencias observadas, la población sintética
 Las copias y la instantánea aplicada se guardan en `sessionStorage`, dentro de esta pestaña y con clave de ayuda. No se publican en GitHub ni se guardan para otros usuarios. Al aplicar, el simulador utiliza las referencias guardadas y el escenario como una instantánea; guardar cambios posteriores requiere volver a aplicar. Las variantes manuales del CSV sintético se pueden exportar, pero no sustituyen las 1.000 poblaciones del motor. El botón de regeneración produce un nuevo CSV desde las referencias guardadas y los supuestos seleccionados. Se puede recuperar la base publicada conservando las copias.
 
 Exporta CSV y configuración JSON antes de cerrar la pestaña. El guardado compartido, el historial de versiones y la incorporación de otras ayudas quedan para las siguientes fases. Pruebas de esta integración: `node --test scripts/innovae-frio/model.test.cjs scripts/innovae-frio/workspace.test.cjs`.
+
+## Gestión actual dentro del Panel de control
+
+La primera página por ayuda se ha sustituido por la sección [Datos y muestras CSV del Panel de control](https://conasoc.com/cbi/interfaces/admin.html?view=datos&ayuda=CONV-2026-INNOVAE-FRIO). El catálogo es general para toda la plataforma, con edición, visores de distribución, versiones compartidas y publicación explícita en Supabase. [Funcionamiento y límites](../catalog/README.md). Los apartados de la primera integración por pestaña describen la fase inicial.

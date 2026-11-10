@@ -1,0 +1,760 @@
+[
+  {
+    "id": "aei-aei-sector-frio",
+    "name": "AEI · selección sectorial",
+    "call_id": "ee1b5985-6070-4ec5-9b25-39d06248ecf5",
+    "metadata": {
+      "role": "derivado",
+      "group": "aei",
+      "pages": [
+        "aei-analisis-dashboard.html"
+      ],
+      "readme": "/cbi/data/aei/README.md",
+      "sha256": "0bf2c2a862c44e067e10ab75f0d2e7b017689c482598e969d2e97de8d2a31f95",
+      "headers": [
+        "id_registro",
+        "convocatoria",
+        "expediente",
+        "ambito",
+        "razon_social",
+        "nif",
+        "titulo_proyecto",
+        "puntuacion",
+        "estado_en_fuente",
+        "subvencion_eur",
+        "solicitado_eur",
+        "relacion",
+        "motivo_sector",
+        "nota_revision",
+        "fuentes"
+      ],
+      "numeric": [
+        "puntuacion",
+        "subvencion_eur",
+        "solicitado_eur"
+      ],
+      "rowCount": 320,
+      "delimiter": ",",
+      "categories": [
+        "convocatoria",
+        "estado_en_fuente",
+        "relacion",
+        "ambito"
+      ],
+      "connection": "exportacion",
+      "validation": "generic",
+      "description": "320 filas publicadas. Exportación derivada; la vista utiliza su generador o un JSON asociado.",
+      "sourceFields": [
+        "fuentes"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/aei/aei_sector_frio.csv",
+    "active_version": null
+  },
+  {
+    "id": "aei-aei-solicitudes-2026",
+    "name": "AEI · solicitudes 2026",
+    "call_id": "ee1b5985-6070-4ec5-9b25-39d06248ecf5",
+    "metadata": {
+      "role": "activo",
+      "group": "aei",
+      "pages": [
+        "aei-analisis-dashboard.html"
+      ],
+      "readme": "/cbi/data/aei/README.md",
+      "sha256": "0f67322c00331addc0dbe4c670500d24c714b0bc9f205f752241f72baab8c429",
+      "headers": [
+        "expediente",
+        "nif",
+        "razon_social",
+        "titulo_proyecto",
+        "coste_total_original",
+        "solicitado_original",
+        "subvencionable_original",
+        "subvencion_original",
+        "comunidad_autonoma",
+        "puntuacion_o_motivo",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur",
+        "subvencion_columna_fuente_eur",
+        "id_registro",
+        "anio_convocatoria",
+        "estado_en_fuente",
+        "puntuacion",
+        "motivo",
+        "moneda",
+        "fuente_url",
+        "pagina_fuente",
+        "fila_pagina",
+        "fuente_sha256",
+        "fecha_consulta",
+        "observaciones"
+      ],
+      "numeric": [
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur",
+        "subvencion_columna_fuente_eur",
+        "puntuacion"
+      ],
+      "rowCount": 194,
+      "delimiter": ",",
+      "categories": [
+        "anio_convocatoria",
+        "estado_en_fuente",
+        "comunidad_autonoma"
+      ],
+      "connection": "csv",
+      "validation": "generic",
+      "description": "194 filas publicadas. Alimenta directamente una vista de la plataforma.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/aei/aei_solicitudes_2026.csv",
+    "active_version": null
+  },
+  {
+    "id": "aei-aei-solicitudes-historicas-v5",
+    "name": "AEI · solicitudes históricas v5",
+    "call_id": "ee1b5985-6070-4ec5-9b25-39d06248ecf5",
+    "metadata": {
+      "role": "activo",
+      "group": "aei",
+      "pages": [
+        "aei-analisis-dashboard.html"
+      ],
+      "readme": "/cbi/data/aei/README.md",
+      "sha256": "19c70d6a75c5a636c6306540a0de2575cc3f0d02d4456ff0d6759529c2620873",
+      "headers": [
+        "id_registro",
+        "programa",
+        "anio_convocatoria",
+        "convocatoria",
+        "variante_convocatoria",
+        "expediente",
+        "codigo_expediente",
+        "numero_expediente",
+        "nif",
+        "razon_social",
+        "titulo_proyecto",
+        "puntuacion",
+        "subvencion_eur",
+        "moneda",
+        "importe_original",
+        "decimales_importe_fuente",
+        "nivel_importe",
+        "rol_entidad_en_fuente",
+        "estado_en_fuente",
+        "aplicacion_presupuestaria",
+        "financiacion_mencionada",
+        "fecha_resolucion_publicacion_ayudas",
+        "fecha_publicacion_boe",
+        "referencia_boe",
+        "fuente_tipo",
+        "fuente_url",
+        "fuente_indice_url",
+        "pagina_fuente",
+        "tabla_fuente",
+        "fila_fuente",
+        "orden_fuente",
+        "fuente_sha256",
+        "fecha_consulta",
+        "metodo_extraccion",
+        "estado_conciliacion_convocatoria",
+        "observaciones",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur",
+        "comunidad_autonoma"
+      ],
+      "numeric": [
+        "puntuacion",
+        "subvencion_eur",
+        "decimales_importe_fuente",
+        "tabla_fuente",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur"
+      ],
+      "rowCount": 5037,
+      "delimiter": ",",
+      "categories": [
+        "convocatoria",
+        "anio_convocatoria",
+        "estado_en_fuente",
+        "comunidad_autonoma"
+      ],
+      "connection": "csv",
+      "validation": "generic",
+      "description": "5037 filas publicadas. Alimenta directamente una vista de la plataforma.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/aei/aei_solicitudes_historicas_v5.csv",
+    "active_version": null
+  },
+  {
+    "id": "aei-aei-concesiones-base-v2",
+    "name": "aei concesiones base v2",
+    "call_id": "ee1b5985-6070-4ec5-9b25-39d06248ecf5",
+    "metadata": {
+      "role": "historico",
+      "group": "aei",
+      "pages": [
+        "aei-analisis-dashboard.html"
+      ],
+      "readme": "/cbi/data/aei/README.md",
+      "sha256": "4242233a2b56bfb6a2afe9c9e4ecff64ec301e931c0f84da12ef8920839a2a86",
+      "headers": [
+        "id_registro",
+        "programa",
+        "anio_convocatoria",
+        "convocatoria",
+        "variante_convocatoria",
+        "expediente",
+        "codigo_expediente",
+        "numero_expediente",
+        "nif",
+        "razon_social",
+        "titulo_proyecto",
+        "puntuacion",
+        "subvencion_eur",
+        "moneda",
+        "importe_original",
+        "decimales_importe_fuente",
+        "nivel_importe",
+        "rol_entidad_en_fuente",
+        "estado_en_fuente",
+        "aplicacion_presupuestaria",
+        "financiacion_mencionada",
+        "fecha_resolucion_publicacion_ayudas",
+        "fecha_publicacion_boe",
+        "referencia_boe",
+        "fuente_tipo",
+        "fuente_url",
+        "fuente_indice_url",
+        "pagina_fuente",
+        "tabla_fuente",
+        "fila_fuente",
+        "orden_fuente",
+        "fuente_sha256",
+        "fecha_consulta",
+        "metodo_extraccion",
+        "estado_conciliacion_convocatoria",
+        "observaciones",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur",
+        "comunidad_autonoma"
+      ],
+      "numeric": [
+        "puntuacion",
+        "subvencion_eur",
+        "decimales_importe_fuente",
+        "tabla_fuente",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur"
+      ],
+      "rowCount": 2617,
+      "delimiter": ",",
+      "categories": [
+        "convocatoria",
+        "anio_convocatoria",
+        "estado_en_fuente",
+        "comunidad_autonoma"
+      ],
+      "connection": "consulta",
+      "validation": "generic",
+      "description": "2617 filas publicadas. Versión histórica para comparación; no alimenta la vista actual.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/aei/aei_concesiones_base_v2.csv",
+    "active_version": null
+  },
+  {
+    "id": "aei-aei-concesiones-base-v3",
+    "name": "aei concesiones base v3",
+    "call_id": "ee1b5985-6070-4ec5-9b25-39d06248ecf5",
+    "metadata": {
+      "role": "historico",
+      "group": "aei",
+      "pages": [
+        "aei-analisis-dashboard.html"
+      ],
+      "readme": "/cbi/data/aei/README.md",
+      "sha256": "6bfbaa2d56221d5e8e3c06030cd9e721486c728618f364594c22faf9581144a6",
+      "headers": [
+        "id_registro",
+        "programa",
+        "anio_convocatoria",
+        "convocatoria",
+        "variante_convocatoria",
+        "expediente",
+        "codigo_expediente",
+        "numero_expediente",
+        "nif",
+        "razon_social",
+        "titulo_proyecto",
+        "puntuacion",
+        "subvencion_eur",
+        "moneda",
+        "importe_original",
+        "decimales_importe_fuente",
+        "nivel_importe",
+        "rol_entidad_en_fuente",
+        "estado_en_fuente",
+        "aplicacion_presupuestaria",
+        "financiacion_mencionada",
+        "fecha_resolucion_publicacion_ayudas",
+        "fecha_publicacion_boe",
+        "referencia_boe",
+        "fuente_tipo",
+        "fuente_url",
+        "fuente_indice_url",
+        "pagina_fuente",
+        "tabla_fuente",
+        "fila_fuente",
+        "orden_fuente",
+        "fuente_sha256",
+        "fecha_consulta",
+        "metodo_extraccion",
+        "estado_conciliacion_convocatoria",
+        "observaciones",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur",
+        "comunidad_autonoma"
+      ],
+      "numeric": [
+        "puntuacion",
+        "subvencion_eur",
+        "decimales_importe_fuente",
+        "tabla_fuente",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur"
+      ],
+      "rowCount": 3035,
+      "delimiter": ",",
+      "categories": [
+        "convocatoria",
+        "anio_convocatoria",
+        "estado_en_fuente",
+        "comunidad_autonoma"
+      ],
+      "connection": "consulta",
+      "validation": "generic",
+      "description": "3035 filas publicadas. Versión histórica para comparación; no alimenta la vista actual.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/aei/aei_concesiones_base_v3.csv",
+    "active_version": null
+  },
+  {
+    "id": "aei-aei-concesiones-base-v4",
+    "name": "aei concesiones base v4",
+    "call_id": "ee1b5985-6070-4ec5-9b25-39d06248ecf5",
+    "metadata": {
+      "role": "historico",
+      "group": "aei",
+      "pages": [
+        "aei-analisis-dashboard.html"
+      ],
+      "readme": "/cbi/data/aei/README.md",
+      "sha256": "45ec6e42d046bec948f4dad6fec7f0f0ad7126104e0765ca43939463d80c91a6",
+      "headers": [
+        "id_registro",
+        "programa",
+        "anio_convocatoria",
+        "convocatoria",
+        "variante_convocatoria",
+        "expediente",
+        "codigo_expediente",
+        "numero_expediente",
+        "nif",
+        "razon_social",
+        "titulo_proyecto",
+        "puntuacion",
+        "subvencion_eur",
+        "moneda",
+        "importe_original",
+        "decimales_importe_fuente",
+        "nivel_importe",
+        "rol_entidad_en_fuente",
+        "estado_en_fuente",
+        "aplicacion_presupuestaria",
+        "financiacion_mencionada",
+        "fecha_resolucion_publicacion_ayudas",
+        "fecha_publicacion_boe",
+        "referencia_boe",
+        "fuente_tipo",
+        "fuente_url",
+        "fuente_indice_url",
+        "pagina_fuente",
+        "tabla_fuente",
+        "fila_fuente",
+        "orden_fuente",
+        "fuente_sha256",
+        "fecha_consulta",
+        "metodo_extraccion",
+        "estado_conciliacion_convocatoria",
+        "observaciones",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur",
+        "comunidad_autonoma"
+      ],
+      "numeric": [
+        "puntuacion",
+        "subvencion_eur",
+        "decimales_importe_fuente",
+        "tabla_fuente",
+        "coste_total_eur",
+        "solicitado_eur",
+        "subvencionable_eur"
+      ],
+      "rowCount": 3035,
+      "delimiter": ",",
+      "categories": [
+        "convocatoria",
+        "anio_convocatoria",
+        "estado_en_fuente",
+        "comunidad_autonoma"
+      ],
+      "connection": "consulta",
+      "validation": "generic",
+      "description": "3035 filas publicadas. Versión histórica para comparación; no alimenta la vista actual.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/aei/aei_concesiones_base_v4.csv",
+    "active_version": null
+  },
+  {
+    "id": "innovae-frio-simulacion-solicitudes",
+    "name": "Competidoras sintéticas",
+    "call_id": "f8251bda-11f8-4b21-8297-79038003d191",
+    "metadata": {
+      "role": "derivado",
+      "group": "innovae-frio",
+      "pages": [
+        "innovae-frio-dashboard.html"
+      ],
+      "readme": "/cbi/data/innovae-frio/README.md",
+      "sha256": "073b1dc1f239d113544acea9779a18cc75b27541976a05fc0ec180ab53d2c9f6",
+      "headers": [
+        "id",
+        "origen_dato",
+        "arquetipo",
+        "sector",
+        "coste_elegible_eur",
+        "ayuda_solicitada_eur",
+        "ahorro_kwh_ano",
+        "categoria_innovacion",
+        "bonus_socioeconomico",
+        "tamano_empresa",
+        "zona",
+        "modo_ayuda",
+        "inversion_referencia_eur",
+        "fraccion_maximo_solicitada",
+        "elegibilidad_tecnica",
+        "potencia_kw",
+        "ahorro_pct",
+        "expediente_fuente",
+        "pdf_fuente",
+        "pagina_fuente",
+        "url_fuente",
+        "factor_escala",
+        "perturbacion_ahorro",
+        "factor_cola",
+        "orden_simulado",
+        "semilla",
+        "iteracion",
+        "version"
+      ],
+      "numeric": [
+        "coste_elegible_eur",
+        "ayuda_solicitada_eur",
+        "ahorro_kwh_ano",
+        "inversion_referencia_eur",
+        "fraccion_maximo_solicitada",
+        "factor_escala",
+        "perturbacion_ahorro",
+        "factor_cola",
+        "semilla",
+        "iteracion"
+      ],
+      "rowCount": 77,
+      "delimiter": ";",
+      "categories": [
+        "sector",
+        "categoria_innovacion",
+        "arquetipo"
+      ],
+      "connection": "exportacion",
+      "validation": "generated",
+      "description": "77 filas publicadas. Exportación derivada; la vista utiliza su generador o un JSON asociado.",
+      "sourceFields": [
+        "url_fuente"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/innovae-frio/simulacion_solicitudes.csv",
+    "active_version": null
+  },
+  {
+    "id": "incentivos-regionales-modulos-inversion",
+    "name": "Módulos de inversión",
+    "call_id": "6d59dd8f-fed9-44f9-acb7-94ddd008d83e",
+    "metadata": {
+      "role": "activo",
+      "group": "incentivos-regionales",
+      "pages": [
+        "incentivos-regionales-dashboard.html"
+      ],
+      "readme": "/cbi/data/incentivos-regionales/README.md",
+      "sha256": "dd7620d164ddc3dd674ccd21c9b16409e5735c1f5496752698f00c4d4264764e",
+      "headers": [
+        "codigo",
+        "sector",
+        "concepto",
+        "unidad",
+        "modulo_eur",
+        "factor_reforma_pct",
+        "superficie_max_regla",
+        "incluye_en_ui",
+        "notas",
+        "fuente"
+      ],
+      "numeric": [
+        "modulo_eur",
+        "factor_reforma_pct"
+      ],
+      "rowCount": 10,
+      "delimiter": ";",
+      "categories": [
+        "sector"
+      ],
+      "connection": "csv",
+      "validation": "generic",
+      "description": "10 filas publicadas. Alimenta directamente una vista de la plataforma.",
+      "sourceFields": [
+        "fuente"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/incentivos-regionales/modulos_inversion.csv",
+    "active_version": null
+  },
+  {
+    "id": "incentivos-regionales-municipios-prioritarios",
+    "name": "Municipios prioritarios",
+    "call_id": "6d59dd8f-fed9-44f9-acb7-94ddd008d83e",
+    "metadata": {
+      "role": "activo",
+      "group": "incentivos-regionales",
+      "pages": [
+        "incentivos-regionales-dashboard.html"
+      ],
+      "readme": "/cbi/data/incentivos-regionales/README.md",
+      "sha256": "7af7e59d72302a30ba7240b2d55f02c7ec18cc0cbed344c39c6c17c0ce851fe8",
+      "headers": [
+        "id",
+        "comunidad",
+        "provincia",
+        "territorio",
+        "municipio",
+        "ambito",
+        "prioritario",
+        "aplica_auto",
+        "requiere_revision",
+        "exclusiones",
+        "notas",
+        "fuente_url"
+      ],
+      "numeric": [],
+      "rowCount": 1849,
+      "delimiter": ";",
+      "categories": [
+        "comunidad",
+        "ambito"
+      ],
+      "connection": "csv",
+      "validation": "generic",
+      "description": "1849 filas publicadas. Alimenta directamente una vista de la plataforma.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/incentivos-regionales/municipios_prioritarios.csv",
+    "active_version": null
+  },
+  {
+    "id": "innovae-frio-simulacion-preliminar-220",
+    "name": "Preliminar · 220 solicitudes",
+    "call_id": "f8251bda-11f8-4b21-8297-79038003d191",
+    "metadata": {
+      "role": "historico",
+      "group": "innovae-frio",
+      "pages": [
+        "innovae-frio-dashboard.html"
+      ],
+      "readme": "/cbi/data/innovae-frio/README.md",
+      "sha256": "9ad6e913c1048099d7cde9dd16db1d29be97499afbc87d0306386bfb1aad4745",
+      "headers": [
+        "id",
+        "escenario",
+        "origen_dato",
+        "arquetipo",
+        "sector",
+        "coste_elegible_eur",
+        "ayuda_solicitada_eur",
+        "ahorro_kwh_ano",
+        "categoria_innovacion",
+        "bonus_socioeconomico"
+      ],
+      "numeric": [
+        "coste_elegible_eur",
+        "ayuda_solicitada_eur",
+        "ahorro_kwh_ano"
+      ],
+      "rowCount": 220,
+      "delimiter": ";",
+      "categories": [
+        "sector",
+        "categoria_innovacion",
+        "arquetipo"
+      ],
+      "connection": "consulta",
+      "validation": "generated",
+      "description": "220 filas publicadas. Versión histórica para comparación; no alimenta la vista actual.",
+      "sourceFields": []
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/innovae-frio/archive/simulacion_preliminar_220.csv",
+    "active_version": null
+  },
+  {
+    "id": "innovae-frio-referencias-observadas",
+    "name": "Referencias observadas · DECA",
+    "call_id": "f8251bda-11f8-4b21-8297-79038003d191",
+    "metadata": {
+      "role": "referencia",
+      "group": "innovae-frio",
+      "pages": [
+        "innovae-frio-dashboard.html"
+      ],
+      "readme": "/cbi/data/innovae-frio/README.md",
+      "sha256": "c8288b8824f3ee6e47bc86f4d06ffd58a754a718f37501d75a6e0de2fe7321fa",
+      "headers": [
+        "id",
+        "regional",
+        "beneficiary",
+        "title",
+        "cost",
+        "grantedAid",
+        "savingTep",
+        "savingKwh",
+        "co2Avoided",
+        "group",
+        "classificationReason",
+        "powerKw",
+        "savingPct",
+        "technicalEligibility",
+        "pdf",
+        "page",
+        "sourceUrl",
+        "sourceSha256"
+      ],
+      "numeric": [
+        "cost",
+        "savingTep",
+        "savingKwh",
+        "page"
+      ],
+      "rowCount": 320,
+      "delimiter": ";",
+      "categories": [
+        "group"
+      ],
+      "connection": "generador",
+      "validation": "references",
+      "description": "320 filas publicadas. Pares documentados de inversión y ahorro utilizados por el generador.",
+      "sourceFields": [
+        "sourceUrl"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/innovae-frio/referencias_observadas.csv",
+    "active_version": null
+  },
+  {
+    "id": "incentivos-regionales-zonas-intensidades",
+    "name": "Zonas e intensidades",
+    "call_id": "6d59dd8f-fed9-44f9-acb7-94ddd008d83e",
+    "metadata": {
+      "role": "activo",
+      "group": "incentivos-regionales",
+      "pages": [
+        "incentivos-regionales-dashboard.html"
+      ],
+      "readme": "/cbi/data/incentivos-regionales/README.md",
+      "sha256": "938c2beefbd930999a6baa2e4c74df1bb1d9deb6e9d96778765e8e25f3fea314",
+      "headers": [
+        "comunidad",
+        "territorio",
+        "provincia",
+        "municipio_regla",
+        "nuts_ids",
+        "marker_lon",
+        "marker_lat",
+        "zona_elegible",
+        "prioridad_alcance",
+        "prioridad_factor",
+        "prioridad_notas",
+        "intensidad_gran_pct",
+        "intensidad_mediana_pct",
+        "intensidad_pequena_pct",
+        "paro_tramo",
+        "paro_max_pts",
+        "turismo_equilibrio_pts",
+        "bonificacion_especial_pp",
+        "notas",
+        "fuente_url"
+      ],
+      "numeric": [
+        "paro_max_pts"
+      ],
+      "rowCount": 50,
+      "delimiter": ";",
+      "categories": [
+        "comunidad"
+      ],
+      "connection": "csv",
+      "validation": "generic",
+      "description": "50 filas publicadas. Alimenta directamente una vista de la plataforma.",
+      "sourceFields": [
+        "fuente_url"
+      ]
+    },
+    "created_at": "2026-11-09T13:34:08.044179+00:00",
+    "source_path": "/cbi/data/incentivos-regionales/zonas_intensidades.csv",
+    "active_version": null
+  }
+]

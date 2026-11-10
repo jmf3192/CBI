@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin | CONASOC</title>
+    <link rel="stylesheet" href="../assets/admin-data-panel.css" />
     <style>
       :root {
         color-scheme: light;
@@ -621,12 +622,16 @@
       <section class="heading" aria-labelledby="page-title">
         <h1 id="page-title">Panel de control</h1>
         <div class="heading-actions">
-          <a class="secondary-action" href="./datos-ayuda.html?ayuda=CONV-2026-INNOVAE-FRIO">Datos de INNOVAE frío</a>
           <button class="secondary-action" id="new-call" type="button">Nuevo contenido</button>
           <button class="primary-action" id="new-user" type="button">Nuevo usuario</button>
         </div>
       </section>
 
+      <nav class="admin-data-tabs" role="tablist" aria-label="Secciones del panel">
+        <button id="admin-people-tab" type="button" role="tab" aria-controls="admin-people" aria-selected="true">Usuarios y contenidos</button>
+        <button id="admin-data-tab" type="button" role="tab" aria-controls="admin-data" aria-selected="false">Datos y muestras CSV</button>
+      </nav>
+      <div id="admin-people" role="tabpanel" aria-labelledby="admin-people-tab">
       <section class="layout">
         <div class="panel">
           <div class="panel-header">
@@ -791,8 +796,15 @@
           </aside>
         </div>
       </section>
+      </div>
+      <section id="admin-data" role="tabpanel" aria-labelledby="admin-data-tab" hidden></section>
     </main>
 
+    <script src="../assets/innovae-frio-model.js?v=2.0.0"></script>
+    <script src="../assets/cbi-data-workspace.js?v=3"></script>
+    <script src="../assets/cbi-data-analytics.js?v=1"></script>
+    <script src="../assets/cbi-data-charts.js?v=1"></script>
+    <script type="module" src="../assets/admin-data-panel.js?v=1"></script>
     <script type="module">
       import { CBI } from "../assets/cbi-supabase.js";
 
@@ -1216,6 +1228,7 @@
           if (!auth) return;
 
           authSession = auth.session;
+          document.dispatchEvent(new CustomEvent("cbi:admin-ready",{detail:auth}));
           const [userPayload, callPayload] = await Promise.all([
             CBI.invokeAdminUsers(authSession),
             CBI.invokeAdminCalls(authSession),

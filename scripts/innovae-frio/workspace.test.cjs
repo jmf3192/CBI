@@ -29,32 +29,11 @@ test('draft is isolated by aid and version; scenario values checked before use',
  assert.throws(()=>D.validateOptions({...config.defaults,admission:2}));
 });
 test('editor scripts and inline scripts parse; simulator delegates data configuration',()=>{
- for(const f of ['cbi-data-workspace.js','cbi-data-workspace-page.js'])new vm.Script(fs.readFileSync(root+'/cbi/assets/'+f,'utf8'));
+ for(const f of ['cbi-data-workspace.js','admin-data-panel.js'])new vm.Script(fs.readFileSync(root+'/cbi/assets/'+f,'utf8').replace(/^import .*?;$/gm,''));
  for(const f of ['convocatorias.html','admin.html','innovae-frio-dashboard.html']){
   const html=fs.readFileSync(root+'/cbi/interfaces/'+f,'utf8');
   for(const [,script] of html.matchAll(/<script(?: type="module")?>([\s\S]*?)<\/script>/g))new vm.Script(script.replace(/^\s*import .*?;$/gm,''));
-  assert.ok(html.includes('datos-ayuda.html'));
+  assert.ok(html.includes('admin.html')||html.includes('admin-data-panel.js'));
  }
  const html=fs.readFileSync(root+'/cbi/interfaces/innovae-frio-dashboard.html','utf8');assert.ok(!html.includes('data-scenario='));assert.ok(!html.includes('export-population'));assert.ok(html.includes('CBIData.load(sessionStorage)'));
-});
-test('workspace loads after access, saves an edited reference and applies a reproducible snapshot',async()=>{
- const html=fs.readFileSync(root+'/cbi/interfaces/datos-ayuda.html','utf8'),nodes=new Map(),events={};
- for(const [,id]of html.matchAll(/\bid="([^"]+)"/g))nodes.set('#'+id,{value:'',textContent:'',innerHTML:'',disabled:true,listeners:{},addEventListener(type,fn){this.listeners[type]=fn;},replaceChildren(){this.innerHTML='';}});
- const form=nodes.get('#scenario-form');form.elements=Object.fromEntries(Object.entries(config.defaults).map(([k,v])=>[k,{value:String(v)}]));
- const storage=new Map(),sessionStorage={getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v)};
- const doc={querySelector:s=>nodes.get(s),querySelectorAll:()=>[],addEventListener:(e,fn)=>events[e]=fn};
- let fetches=0;
- const context={window:{CBIData:D,FrioModel:M,addEventListener(){}},document:doc,sessionStorage,location:{search:''},URLSearchParams,FormData:class{constructor(f){this.form=f;}*[Symbol.iterator](){for(const [k,v]of Object.entries(this.form.elements))yield [k,v.value];}},fetch:async url=>{fetches++;return {ok:true,text:async()=>fs.readFileSync(path.resolve(root+'/cbi/interfaces',url),'utf8'),json:async()=>JSON.parse(fs.readFileSync(path.resolve(root+'/cbi/interfaces',url),'utf8'))};},console};
- vm.runInNewContext(fs.readFileSync(root+'/cbi/assets/cbi-data-workspace-page.js','utf8'),context);
- assert.equal(fetches,0);await events['cbi:access-granted']();assert.equal(fetches,4);
- assert.ok(nodes.get('#validation').textContent.includes('Validación correcta'));
- const editor=nodes.get('#csv-editor'),data=D.parse(editor.value),r=data.records.find(r=>r.group==='equipo'&&D.number(r.cost)>100000);
- r.cost=String(D.number(r.cost)*1.2);editor.value=D.csv(data.headers,data.records);editor.listeners.input();
- await nodes.get('#save-copy').listeners.click();
- await form.listeners.submit({preventDefault(){}});
- const draft=D.load(sessionStorage);assert.ok(draft.applied);assert.equal(draft.applied.records.find(x=>x.id===r.id).cost,D.number(r.cost));
- const snapshot=JSON.stringify(draft.applied);
- editor.value='bad';editor.listeners.input();await form.listeners.submit({preventDefault(){}});
- assert.equal(JSON.stringify(D.load(sessionStorage).applied),snapshot);
- await nodes.get('#restore').listeners.click();assert.equal(D.load(sessionStorage).applied,null);assert.ok(D.load(sessionStorage).copies.references);
 });

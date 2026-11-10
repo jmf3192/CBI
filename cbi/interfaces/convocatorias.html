@@ -350,6 +350,7 @@
     <script type="module">
       import { CBI } from "../assets/cbi-supabase.js";
 
+      let dataCallIds = new Set();
       const callsContainer = document.querySelector("#calls");
       const strategiesContainer = document.querySelector("#strategies");
       const trackingsContainer = document.querySelector("#trackings");
@@ -396,7 +397,7 @@
 
       function createCallCard(call) {
         const href = callHref(call);
-        const hasData = call.code === "CONV-2026-INNOVAE-FRIO";
+        const hasData = dataCallIds.has(call.id);
         const element = document.createElement(href && !hasData ? "a" : "article");
         element.className = href ? "call" : "call is-muted";
         if (href && !hasData) {
@@ -410,7 +411,7 @@
             <p>${escapeHtml(call.description || `Código oficial: ${call.code}`)}</p>
           </div>
           <div class="call-actions">
-            ${hasData ? `<a class="call-cta" href="${escapeHtml(href)}">Abrir simulador</a><a class="call-cta" href="./datos-ayuda.html?ayuda=${encodeURIComponent(call.code)}">Datos de la ayuda</a>` : `<span class="${href ? "call-cta" : "call-status"}">${href ? ({ tracking: "Abrir seguimiento", sprint: "Abrir sprint" }[call.kind] || "Abrir dashboard") : "Próximamente"}</span>`}
+            ${hasData ? `<a class="call-cta" href="${escapeHtml(href)}">Abrir contenido</a><a class="call-cta" href="./admin.html?view=datos&ayuda=${encodeURIComponent(call.code)}">Datos de la ayuda</a>` : `<span class="${href ? "call-cta" : "call-status"}">${href ? ({ tracking: "Abrir seguimiento", sprint: "Abrir sprint" }[call.kind] || "Abrir dashboard") : "Próximamente"}</span>`}
           </div>
         `;
 
@@ -457,6 +458,7 @@
           adminLink.hidden = auth.profile.role !== "admin";
 
           const availableCalls = await CBI.listCalls(auth.session);
+          if(auth.profile.role === "admin") dataCallIds = new Set((await CBI.dataCatalog(auth.session).catch(()=>[])).map(d=>d.call_id));
           const strategyCalls = availableCalls.filter((call) => call.kind === "strategy");
           const normalCalls = availableCalls.filter((call) => !call.kind || call.kind === "normal");
           const trackingCalls = availableCalls.filter((call) => call.kind === "tracking");

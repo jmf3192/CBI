@@ -1,5 +1,7 @@
 import { CBI } from "./cbi-supabase.js";
 
+import { installDataConsumer } from "./cbi-data-consumer.js";
+
 const page = document.body;
 
 async function signOut(event) {
@@ -27,6 +29,9 @@ try {
     document.querySelectorAll("[data-cbi-call-code]:not(body)").forEach((element) => {
       element.textContent = access.call.code;
     });
+    try { await installDataConsumer(access); }
+    catch(error) { console.error(error);const notice=document.createElement('p');notice.setAttribute('role','status');notice.textContent='No se pudo consultar la base compartida; esta carga usa los archivos originales.';page.prepend(notice); }
+    document.querySelectorAll("[data-cbi-admin]").forEach(el=>el.hidden=access.profile.role!=="admin");
     page.dataset.cbiAccess = "granted";
     document.dispatchEvent(new CustomEvent("cbi:access-granted", { detail: access }));
   }

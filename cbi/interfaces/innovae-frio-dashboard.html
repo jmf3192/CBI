@@ -1105,7 +1105,7 @@
         <div class="panel-header"><h2 id="scenario-title">Base de competencia</h2><span>1.000 simulaciones · semilla 20261106</span></div>
         <div class="scenario-body">
           <p>La base de competencia y sus supuestos se gestionan en la página de datos de esta ayuda.</p>
-          <p><a class="data-workspace-link" href="./datos-ayuda.html?ayuda=CONV-2026-INNOVAE-FRIO">Gestionar datos y configuración →</a></p>
+          <p data-cbi-admin hidden><a class="data-workspace-link" href="./admin.html?view=datos&ayuda=CONV-2026-INNOVAE-FRIO">Gestionar datos y configuración →</a></p>
           <p id="workspace-status" class="scenario-note">Versión publicada</p>
           <p id="scenario-note" class="scenario-note">Cargando referencias documentales…</p>
           <p id="simulation-note" class="scenario-note" aria-live="polite"></p>
@@ -1493,16 +1493,20 @@
 
       async function loadPopulationCsv() {
         try {
-          const [configResponse, referencesResponse] = await Promise.all([
+          const [configResponse, referencesResponse, csvResponse] = await Promise.all([
             fetch(DATA_DIR + "calibration.json?v=2.0.0", {cache:"no-store"}),
-            fetch(DATA_DIR + "references.json?v=2.0.0", {cache:"no-store"})
+            fetch(DATA_DIR + "references.json?v=2.0.0", {cache:"no-store"}),
+            fetch(DATA_DIR + "referencias_observadas.csv",{cache:"no-store"})
           ]);
           if (!configResponse.ok || !referencesResponse.ok) throw new Error("Fuentes no disponibles");
           state.config = await configResponse.json();
           const references = await referencesResponse.json();
           if (state.config.version !== M.VERSION || references.version !== M.VERSION) throw new Error("Versiones incompatibles");
           state.records = references.records;
-          state.options = {...state.config.defaults};
+          const shared=window.CBIActiveDatasets?.["innovae-frio-referencias-observadas"];
+          if(shared){const parsed=window.CBIData.parse(await csvResponse.text());const errors=window.CBIData.validate(parsed,"references");if(errors.length)throw Error(errors[0]);state.records=window.CBIData.references(parsed);}
+          state.options = {...state.config.defaults,...(shared?.settings?.options??{})};window.CBIData.validateOptions(state.options);
+          if(shared)document.querySelector('#workspace-status').textContent='Versión compartida · '+new Date(shared.created_at).toLocaleString('es-ES');
           const draft=window.CBIData.load(sessionStorage);
           if(draft?.applied) {
             const applied=draft.applied;

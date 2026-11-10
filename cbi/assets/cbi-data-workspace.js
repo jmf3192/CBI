@@ -6,12 +6,12 @@
     {id:'generated',name:'Competidoras sintéticas',file:'simulacion_solicitudes.csv',editable:true,role:'Resultado del generador',description:'Población ilustrativa producida con los supuestos. Puedes editar y exportar una variante CSV. La edición manual de este resultado se conserva aparte; el simulador de 1.000 poblaciones utiliza las referencias y la configuración aplicadas.',fields:'coste_elegible_eur y ayuda_solicitada_eur: euros · ahorro_kwh_ano: kWh/año · categoria_innovacion: baja/incremental/intermedia/disruptiva · expediente_fuente: par observado de origen · factor_escala, perturbacion_ahorro y factor_cola: transformaciones. La ayuda solicitada es sintética; no es la ayuda histórica concedida.'},
     {id:'archive',name:'Preliminar de 220 solicitudes',file:'archive/simulacion_preliminar_220.csv',editable:false,role:'Archivo de comparación',description:'Versión preliminar conservada para comparar. No alimenta el simulador actual.',fields:'Costes y ayudas en euros, ahorro en kWh/año. Este archivo no tiene la trazabilidad por expediente de las nuevas filas.'}
   ];
-  function parse(text){
+  function parse(text,delimiter=";"){
     const rows=[];let row=[],cell='',quoted=false;
     const s=text.replace(/^\uFEFF/,'');
     for(let i=0;i<s.length;i++){const c=s[i];
       if(c==='"'){if(quoted&&s[i+1]==='"'){cell+='"';i++;}else if(!quoted&&cell.length)throw Error('Comillas dentro de un campo sin delimitar');else quoted=!quoted;}
-      else if(c===';'&&!quoted){row.push(cell);cell='';}
+      else if(c===delimiter&&!quoted){row.push(cell);cell='';}
       else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&s[i+1]==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell='';}
       else cell+=c;
     }
@@ -23,7 +23,7 @@
     return {headers,records:rows.map((r,i)=>{if(r.length!==headers.length)throw Error(`Fila ${i+2}: ${r.length} campos; se esperan ${headers.length}`);return Object.fromEntries(headers.map((h,j)=>[h,r[j]]));})};
   }
   const number=x=>{const s=String(x??'').trim();return !s?NaN:Number(s.includes(',')?s.replaceAll('.','').replace(',','.'):s);};
-  const csv=(headers,records)=>'\uFEFF'+[headers,...records.map(r=>headers.map(h=>r[h]))].map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(';')).join('\n')+'\n';
+  const csv=(headers,records,delimiter=";")=>'\uFEFF'+[headers,...records.map(r=>headers.map(h=>r[h]))].map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(delimiter)).join('\n')+'\n';
   function validate(data,id){
     const errors=[],seen=new Set();
     const req=id==='references'?['id','cost','grantedAid','savingTep','savingKwh','group','classificationReason','pdf','page','sourceUrl','sourceSha256']:['id','coste_elegible_eur','ayuda_solicitada_eur','ahorro_kwh_ano','categoria_innovacion','bonus_socioeconomico'];

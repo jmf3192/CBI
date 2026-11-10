@@ -278,7 +278,15 @@ async function invokeAdminCalls(session, options = {}) {
   });
 }
 
+async function dataCatalog(session) { return supabaseFetch('/rest/v1/data_catalog?select=*&order=name.asc',{session}); }
+async function dataVersions(session,id) { return supabaseFetch(`/rest/v1/data_versions?select=id,dataset_id,note,content_hash,created_at&dataset_id=eq.${encodeURIComponent(id)}&order=created_at.desc&limit=50`,{session}); }
+async function dataVersion(session,id) { const rows=await supabaseFetch(`/rest/v1/data_versions?select=*&id=eq.${encodeURIComponent(id)}`,{session});return rows[0]??null; }
+async function saveDataVersion(session,body) { const rows=await supabaseFetch('/rest/v1/data_versions?select=*',{session,method:'POST',headers:{Prefer:'return=representation'},body});return rows[0]; }
+async function publishDataVersion(session,id,version,expected) { const match=expected?'eq.'+encodeURIComponent(expected):'is.null';const rows=await supabaseFetch(`/rest/v1/data_catalog?id=eq.${encodeURIComponent(id)}&active_version=${match}&select=*`,{session,method:'PATCH',headers:{Prefer:'return=representation'},body:{active_version:version}});if(!rows.length)throw Error('La versión activa cambió en otra sesión. Recarga antes de publicar.');return rows[0]; }
+async function registerDataset(session,body) {const rows=await supabaseFetch('/rest/v1/data_catalog?select=*',{session,method:'POST',headers:{Prefer:'return=representation'},body});return rows[0];}
+
 export const CBI = {
+  dataCatalog,dataVersions,dataVersion,saveDataVersion,publishDataVersion,registerDataset,
   clearSession,
   createStrategyStudy,
   getProfile,
