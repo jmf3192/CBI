@@ -1,6 +1,6 @@
-import { CBI } from "./cbi-supabase.js";
+import { CBI } from "./cbi-supabase.js?v=20261110";
 
-import { installDataConsumer } from "./cbi-data-consumer.js";
+import { installDataConsumer } from "./cbi-data-consumer.js?v=20261110";
 
 const page = document.body;
 

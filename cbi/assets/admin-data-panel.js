@@ -1,4 +1,4 @@
-import {CBI} from './cbi-supabase.js';
+import {CBI} from './cbi-supabase.js?v=20261110';
 const root=document.querySelector('#admin-data'),$=id=>root.querySelector('#d-'+id),D=window.CBIData,A=window.DataAnalytics,C=window.DataCharts,M=window.FrioModel,esc=C.esc,fmt=C.fmt;
 let auth,started=false,catalog=[],calls=[],selected,original,data,loadedVersion=null,savedVersion=null,dirty=false,textDirty=false,undo=[],proposal=null,page=0,rowIndex=null,operations=[],definitions={},config=null,busy=false;
 const say=s=>{$('feedback').textContent=s;},safe=fn=>async e=>{try{await fn(e);}catch(error){if($('feedback'))say(error.message);else root.textContent=error.message;}};
