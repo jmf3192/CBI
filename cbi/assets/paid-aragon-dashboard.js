@@ -1,6 +1,7 @@
 import { CBI } from './cbi-supabase.js?v=20261120';
-import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-2';
-import { initHistory, csvText, download } from './paid-aragon-history.js?v=20261120-2';
+import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-3';
+import { initHistory, csvText, download } from './paid-aragon-history.js?v=20261120-3';
+import { initForecast } from './paid-aragon-forecast.js?v=20261120-3';
 const $=selector=>document.querySelector(selector);
 const form=$('#application-form');
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
@@ -13,6 +14,7 @@ async function request(path,options={}){
  return CBI.request(`/rest/v1/${path}`,{...options,session});
 }
 function selectTab(name,focus=false){
+ document.body.dataset.view=name;$('#page-title').textContent=name==='history'?'PAIP Aragón · Data room':'Simulador de solicitud PAIP Aragón';
  $('#status').hidden=name==='history';
  document.querySelectorAll('[data-tab]').forEach(button=>{
   const selected=button.dataset.tab===name;button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1;
@@ -29,6 +31,11 @@ function select(options,dataAttribute,id){
  const s=document.createElement('select');s.dataset[dataAttribute]=id;
  options.forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;s.append(option);});return s;
 }
+const steps=[...document.querySelectorAll('#application-fields > section.card')];
+function selectStep(index){steps.forEach((section,i)=>{section.id='request-step-'+i;section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby','request-step-tab-'+i);section.hidden=i!==index;section.setAttribute('aria-label',['Proyecto','Presupuesto','Elegibilidad','Criterios'][i]);});document.querySelectorAll('[data-step]').forEach((button,i)=>{button.id='request-step-tab-'+i;button.setAttribute('aria-controls','request-step-'+i);button.setAttribute('aria-selected',String(i===index));button.tabIndex=i===index?0:-1;});}
+document.querySelectorAll('[data-step]').forEach(button=>{button.addEventListener('click',()=>selectStep(Number(button.dataset.step)));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?3:(Number(button.dataset.step)+(event.key==='ArrowRight'?1:3))%4;selectStep(next);document.querySelector(`[data-step="${next}"]`).focus();});});
+selectStep(0);
+form.addEventListener('invalid',event=>{const index=steps.findIndex(section=>section.contains(event.target));if(index>=0)selectStep(index);},true);
 const gateOptions=[['unknown','Pendiente de revisar'],['yes','Cumple / contrastado'],['no','No cumple']];
 function buildForm(){
  rules.categories.forEach(category=>{
@@ -132,5 +139,6 @@ document.addEventListener('cbi:access-granted',async event=>{
   renderDrafts();$('#application-fields').disabled=!canWrite;$('#new-request').disabled=!canWrite;
   message(canWrite?'Solicitud 2027 preparada. Completa los requisitos y las evidencias.':'Acceso de consulta. Los borradores requieren permiso de edición.');
  }catch(error){message(`No se ha podido cargar el configurador: ${error.message}`);$('#application-fields').disabled=true;$('#new-request').disabled=true;}
+ await initForecast();
  try{await initHistory(request);}catch(error){$('#history-status').textContent=`No se han podido cargar los históricos: ${error.message}`;}
 },{once:true});

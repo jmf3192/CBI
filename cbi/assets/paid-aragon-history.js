@@ -40,6 +40,8 @@ export async function initHistory(request) {
   const fallback=await response.json();projects=fallback.projects;summary=fallback.summary;source='Copia CSV versionada (Supabase no disponible o pendiente de sincronizar)';
  }
  [...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).forEach(year=>{const option=document.createElement('option');option.value=year;option.textContent=year;$('#history-year').append(option);});
+ const years=$('#history-years');
+ [['','Todas las convocatorias'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;filter();});years.append(button);});
  const coverage=$('#coverage-content');
  summary.coverage.forEach(row=>{const p=document.createElement('p');p.textContent=`${row.year} · ${integer.format(row.projects)} expedientes · ${row.downloaded_sources} documentos descargados. ${row.note}`;coverage.append(p);});
  const issues=summary.source_reconciliations||[];
@@ -52,6 +54,9 @@ export async function initHistory(request) {
   page=0;render();
  }
  function render(){
+  document.querySelectorAll('[data-year]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.year===$('#history-year').value)));
+  const histogram=$('#history-histogram');histogram.replaceChildren();const scores=filtered.filter(r=>r.score!==null&&r.score!==''&&Number.isFinite(Number(r.score))).map(r=>Number(r.score));
+  if(scores.length){const width=25,max=Math.max(25,Math.ceil(Math.max(...scores)/width)*width),bins=Array.from({length:max/width+1},(_,i)=>({from:i*width,count:0}));scores.forEach(v=>bins[Math.min(bins.length-1,Math.floor(v/width))].count++);const peak=Math.max(1,...bins.map(b=>b.count));bins.forEach(b=>{const bar=document.createElement('div');bar.className='bin';bar.style.height=Math.max(1,b.count/peak*210)+'px';bar.title=`${b.from}–${b.from+24} puntos: ${b.count} expedientes`;const label=document.createElement('small');label.textContent=b.from;bar.append(label);histogram.append(bar);});}else histogram.textContent='Sin puntuaciones publicadas para esta selección.';
   const granted=filtered.filter(r=>r.status==='concedida');
   const waiting=filtered.filter(r=>r.status==='lista_espera');
   $('#history-status').textContent=`${integer.format(filtered.length)} expedientes · ${source} · Fuentes revisadas a ${summary.as_of}.${filtered.some(r=>r.year===2021||r.year===2022)?' Consulta las pequeñas diferencias con los totales impresos en «Cobertura y fuentes».':''}`;

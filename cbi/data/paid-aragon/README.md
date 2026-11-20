@@ -71,3 +71,11 @@ Los controles y los registros de 2021 necesitan revisión adicional si se usan p
 7. Las migraciones SQL versionadas cargan los datos en Supabase; no volver a generar nuevas migraciones para repetir una carga sin revisar la historia aplicada.
 
 No se incluyen solicitudes privadas, contraseñas ni claves secretas.
+
+## Previsión 2027 y CSV editables
+
+`demanda_historica.csv` y `escenario_2027.csv` están registrados como entradas activas en el catálogo de CBI. Administración → Datos y muestras → PAIP permite editar, guardar versiones y publicarlas. La página carga la versión publicada después de validar acceso; sin versión publicada usa el original del repositorio. Se conserva el historial de cambios y se puede volver al original. Los borradores privados de solicitud siguen guardándose aparte en Supabase.
+
+La previsión considera expedientes únicos de TDI-FEDER, excluyendo anulaciones, pero incluyendo desistimientos, no elegibles y renuncias como demanda presentada: 445 en 2023, 494 en 2024, 351 en 2025 y 290 en 2026. Pesos 1, 2, 3, 4 (10 %, 20 %, 30 %, 40 %). Media = 364,6; incremento del 5 % = 382,83; resultado redondeado final = **383 solicitudes**. El crecimiento se aplica a la media ponderada, no al dato de 2026. IDIS-REACT no calibra la previsión.
+
+Es una proyección puntual con supuestos editables, no un intervalo estadístico, ni demanda monetaria, ni una población de solicitudes reales o una nota de corte. El crédito del escenario es independiente de la demanda prevista. Los importes concedidos no representan por sí solos todos los importes solicitados. Si un CSV publicado tiene años duplicados, pesos inválidos o supuestos incompatibles, la página muestra un error y no presenta una previsión engañosa.
