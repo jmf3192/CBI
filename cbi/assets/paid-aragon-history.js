@@ -1,3 +1,4 @@
+import { historicalStats, renderHistoricalDistribution, renderHistoricalComparisons } from './paid-aragon-history-analytics.js?v=20261120-5';
 const $=selector=>document.querySelector(selector);
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 const integer=new Intl.NumberFormat('es-ES');
@@ -60,13 +61,13 @@ export async function initHistory(request) {
  }
  function render(){
   document.querySelectorAll('[data-year]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.year===$('#history-year').value)));
-  const histogram=$('#history-histogram');histogram.replaceChildren();const scores=filtered.filter(r=>r.score!==null&&r.score!==''&&Number.isFinite(Number(r.score))).map(r=>Number(r.score));
-  if(scores.length){const width=25,max=Math.max(25,Math.ceil(Math.max(...scores)/width)*width),bins=Array.from({length:max/width+1},(_,i)=>({from:i*width,count:0}));scores.forEach(v=>bins[Math.min(bins.length-1,Math.floor(v/width))].count++);const peak=Math.max(1,...bins.map(b=>b.count));bins.forEach(b=>{const bar=document.createElement('div');bar.className='bin';bar.style.height=Math.max(1,b.count/peak*210)+'px';bar.title=`${b.from}–${b.from+24} puntos: ${b.count} expedientes`;const label=document.createElement('small');label.textContent=b.from;bar.append(label);histogram.append(bar);});}else histogram.textContent='Sin puntuaciones publicadas para esta selección.';
+  renderHistoricalDistribution(filtered,showProject);renderHistoricalComparisons(filtered,showProject,year=>{$('#history-year').value=year;filter();});
   const granted=filtered.filter(r=>r.status==='concedida');
   const waiting=filtered.filter(r=>r.status==='lista_espera');
   $('#history-status').textContent=`${integer.format(filtered.length)} expedientes · ${source} · Fuentes revisadas a ${summary.as_of}.${filtered.some(r=>r.year===2021||r.year===2022)?' Consulta las pequeñas diferencias con los totales impresos en «Cobertura y fuentes».':''}`;
   const kpis=$('#history-kpis');kpis.replaceChildren();
-  [[integer.format(filtered.length),'Expedientes','Una fila por expediente y convocatoria'],[integer.format(granted.length),'Concesiones',`${integer.format(waiting.length)} en lista de espera`],[eur.format(sum(granted,'granted_amount')),'Ayuda concedida','Sin sumar importes posibles de espera'],[integer.format(new Set(filtered.map(r=>r.beneficiary.toUpperCase().replaceAll(/[.,]/g,''))).size),'Empresas publicadas','Según denominación; sin unificación por NIF']].forEach(([value,label,note])=>{const div=document.createElement('div');div.className='kpi';const small=document.createElement('small');small.textContent=label;const strong=document.createElement('strong');strong.textContent=value;const p=document.createElement('p');p.textContent=note;div.append(small,strong,p);kpis.append(div);});
+  const stats=historicalStats(filtered);
+  [[integer.format(filtered.length),'Expedientes','Una fila por expediente y convocatoria'],[integer.format(granted.length),'Concesiones',`${integer.format(waiting.length)} en lista de espera`],[eur.format(sum(granted,'granted_amount')),'Ayuda concedida','Sin sumar importes posibles de espera'],[integer.format(new Set(filtered.map(r=>r.beneficiary.toUpperCase().replaceAll(/[.,]/g,''))).size),'Empresas publicadas','Según denominación; sin unificación por NIF'],[stats.rate===null?'—':stats.rate.toLocaleString('es-ES',{maximumFractionDigits:1})+' %','Porcentaje de concesión','Concedidas / expedientes no anulados'],[stats.comparable?(stats.fundedMean!==null?stats.fundedMean.toLocaleString('es-ES',{maximumFractionDigits:1}):'No publicada'):'Por convocatoria','Media financiada','Puntuaciones publicadas de concesiones'],[stats.cutoff===null?(stats.comparable?'No publicada':'Por convocatoria'):stats.cutoff.toLocaleString('es-ES',{maximumFractionDigits:1}),'Menor puntuación financiada','Histórica; no es un umbral de 2027']].forEach(([value,label,note])=>{const div=document.createElement('div');div.className='kpi';const small=document.createElement('small');small.textContent=label;const strong=document.createElement('strong');strong.textContent=value;const p=document.createElement('p');p.textContent=note;div.append(small,strong,p);kpis.append(div);});
   renderBars($('#year-chart'),[...new Set(filtered.map(r=>r.year))].sort().map(year=>({label:String(year),value:sum(granted.filter(r=>r.year===year),'granted_amount')})),true);
   renderBars($('#outcome-chart'),Object.keys(labels).map(status=>({label:labels[status],value:filtered.filter(r=>r.status===status).length,color:status==='concedida'?'#39846a':status==='lista_espera'?'#b98b50':'#91a4b3'})),false);
   renderScatter(granted.filter(r=>r.score!==null&&r.granted_amount!==null));renderTable();
@@ -118,7 +119,7 @@ export async function initHistory(request) {
  ['#history-year','#history-line','#history-outcome','#history-sort'].forEach(selector=>$(selector).addEventListener('change',filter));$('#history-search').addEventListener('input',filter);
  $('#history-prev').addEventListener('click',()=>{page--;renderTable();});$('#history-next').addEventListener('click',()=>{page++;renderTable();});
 
- const redraw=()=>{if(!$('#panel-history').hidden)renderScatter(filtered.filter(r=>r.status==='concedida'&&r.score!==null&&r.granted_amount!==null));};
+ const redraw=()=>{if(!$('#panel-history').hidden){renderScatter(filtered.filter(r=>r.status==='concedida'&&r.score!==null&&r.granted_amount!==null));renderHistoricalDistribution(filtered,showProject);}};
  window.addEventListener('resize',redraw);document.addEventListener('paid:history-visible',redraw);
  filter();
  return projects;

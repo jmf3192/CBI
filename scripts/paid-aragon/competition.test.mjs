@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createCompetition,simulateCompetition} from '../../cbi/assets/paid-aragon-competition.js';
+import {createCompetition,simulateCompetition,withManualCompetitors} from '../../cbi/assets/paid-aragon-competition.js';
 import {forecast} from '../../cbi/assets/paid-aragon-forecast.js';
 import {evaluate} from '../../cbi/assets/paid-aragon-model.js';
 const history=JSON.parse(await readFile(new URL('../../cbi/data/paid-aragon/history.json',import.meta.url))).projects;
@@ -13,3 +13,5 @@ test('Unknown aid does not produce a probability; failed eligibility is never fu
 test('A top scoring low amount project funds in all runs; larger amount and lower score never improve results',()=>{const top=simulateCompetition(model,{score:425,aid:40000});assert.equal(top.frequency,100);assert.equal(top.rank,1);const low=simulateCompetition(model,{score:100,aid:40000});assert.ok(low.frequency<top.frequency);assert.ok(simulateCompetition(model,{score:200,aid:500000}).frequency<=simulateCompetition(model,{score:200,aid:40000}).frequency);});
 test('Meeting declarations score immediately while archival assessments still require evidence',()=>{const a={application_year:2027,assessment:{mode:'meeting',size:'small',criteria:{a:{value:'yes'}}}};assert.equal(evaluate(a,rules).score,55);delete a.assessment.mode;assert.equal(evaluate(a,rules).score,0);});
 test('Invalid or extreme populations fail explicitly',()=>{assert.throws(()=>createCompetition(history,{...demand,demand:100000000}));});
+
+test('Known competitors replace sample slots, preserve demand, and alter funding',()=>{const manual=[{id:1,name:'Known',score:425,aid:500000}];const adjusted=withManualCompetitors(model,manual);assert.equal(adjusted.demand,383);assert.ok(adjusted.populations.every(p=>p.rows.length<=382&&p.rows.filter(r=>r.manual).length===1));assert.deepEqual(withManualCompetitors(model,[]),model);const tight={...adjusted,budget:40000};assert.equal(simulateCompetition(tight,{score:300,aid:40000}).frequency,0);assert.throws(()=>withManualCompetitors(model,[{id:1,score:426,aid:100000}]));assert.throws(()=>withManualCompetitors(model,[{id:1,score:200,aid:999999}]));});

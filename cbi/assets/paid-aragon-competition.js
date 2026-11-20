@@ -18,11 +18,17 @@ export function createCompetition(projects,forecast,{runs=1000,seed=20261120}={}
   const rows=[];
   for(let i=0;i<forecast.demand-1;i++){
    const u=rng();let cumulative=0,pool=pools.at(-1);for(const p of pools){cumulative+=p.share;if(u<cumulative){pool=p;break;}}
-   const source=pool.rows[Math.floor(rng()*pool.rows.length)];if(source.eligible&&source.aid>0)rows.push({...source,arrival:rng()});
+   const source=pool.rows[Math.floor(rng()*pool.rows.length)];if(source.eligible&&source.aid>0)rows.push({...source,sampleIndex:i,arrival:rng()});
   }
   rows.sort((a,b)=>b.score-a.score||a.arrival-b.arrival);populations.push({rows,ownArrival:rng()});
  }
  return {populations,budget:forecast.budget,demand:forecast.demand,missing,runs};
+}
+export function withManualCompetitors(base,manual){
+ if(manual.length>Math.min(50,base.demand-1))throw Error('No caben más competidoras dentro de la demanda prevista.');
+ if(manual.some(r=>!Number.isFinite(r.score)||r.score<0||r.score>425||!Number.isFinite(r.aid)||r.aid<4000||r.aid>500000))throw Error('Puntuación entre 0 y 425; ayuda entre 4.000 y 500.000 €.');
+ const unit=seed=>{let x=Math.imul(seed^seed>>>16,0x45d9f3b);x=Math.imul(x^x>>>16,0x45d9f3b);return((x^x>>>16)>>>0)/4294967296;};
+ return {...base,populations:base.populations.map((population,k)=>({...population,rows:[...population.rows.filter(r=>r.sampleIndex<base.demand-1-manual.length),...manual.map((r,j)=>({...r,manual:true,source:r.name,arrival:unit((k+1)*1299709+(r.id||j+1)*104729)}))].sort((a,b)=>b.score-a.score||a.arrival-b.arrival)}))};
 }
 export function simulateCompetition(model,own){
  if(!Number.isFinite(own.aid)||own.aid<=0||!Number.isFinite(own.score))return null;
@@ -38,10 +44,10 @@ export function simulateCompetition(model,own){
  }
  return {frequency:funded/model.runs*100,funded,runs:model.runs,rank:median(ranks),rankP5:[...ranks].sort((a,b)=>a-b)[Math.floor((ranks.length-1)*.05)],rankP95:[...ranks].sort((a,b)=>a-b)[Math.floor((ranks.length-1)*.95)],cutoff:median(cutoffs)};
 }
-let model,latest,timer;
+let model,baseModel,latest,timer,forecastData,manual=[],manualId=0;
 const $=s=>document.querySelector(s),n=new Intl.NumberFormat('es-ES',{maximumFractionDigits:1});
 export function initCompetition(projects,forecast){
- try{model=createCompetition(projects,forecast);$('#competition-population').textContent=forecast.demand+' solicitudes previstas';$('#simulation-method').textContent=`Demanda: ${n.format(forecast.average)} × (1 + ${n.format(forecast.growth)} %) = ${forecast.demand} solicitudes, incluido nuestro proyecto. Pesos: ${forecast.basis.map(r=>r.year+' '+n.format(r.share*100)+' %').join(' · ')}. Muestreo con reposición de expedientes TDI-FEDER; conserva la proporción histórica de no elegibles, desistidas y renuncias. Ayuda de referencia: concedida más pendiente de lista de espera, limitada a 500.000 €. ${model.missing} importes ausentes se sustituyen por la mediana del año. Máximos de baremo: 415 (2023), 425 (2024–2027). Semilla 20261120.`;}catch(error){$('#simulation-status').textContent=error.message;}
+ try{forecastData=forecast;baseModel=createCompetition(projects,forecast);model=withManualCompetitors(baseModel,manual);$('#competition-population').textContent=forecast.demand+' solicitudes previstas';$('#simulation-method').textContent=`Demanda: ${n.format(forecast.average)} × (1 + ${n.format(forecast.growth)} %) = ${forecast.demand} solicitudes, incluido nuestro proyecto. Pesos: ${forecast.basis.map(r=>r.year+' '+n.format(r.share*100)+' %').join(' · ')}. Muestreo con reposición de expedientes TDI-FEDER; conserva la proporción histórica de no elegibles, desistidas y renuncias. Ayuda de referencia: concedida más pendiente de lista de espera, limitada a 500.000 €. ${model.missing} importes ausentes se sustituyen por la mediana del año. Máximos de baremo: 415 (2023), 425 (2024–2027). Semilla 20261120.`;}catch(error){$('#simulation-status').textContent=error.message;}
 }
 export function updateCompetition(result){latest=result;clearTimeout(timer);timer=setTimeout(render,120);}
 function svgFor(container,label,height=290){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');const width=Math.max(280,container.clientWidth||750);svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('role','img');svg.setAttribute('aria-label',label);container.replaceChildren(svg);return{width,svg,el:(tag,attrs,text)=>{const e=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;svg.append(e);return e;}};}
@@ -61,8 +67,17 @@ function render(){
  const scatter=svgFor($('#competition-scatter'),'Puntuación y ayuda de las competidoras simuladas y nuestro proyecto');const l=66,r=scatter.width-20,top=18,bottom=246,maxAid=Math.max(1,own.aid||0,...rows.map(row=>row.aid)),sx=v=>l+v/425*(r-l),sy=v=>bottom-v/maxAid*(bottom-top);
  for(let i=0;i<=4;i++){const y=sy(maxAid*i/4);scatter.el('line',{x1:l,x2:r,y1:y,y2:y,stroke:'#e5eaf0'});scatter.el('text',{x:l-7,y:y+4,'text-anchor':'end',fill:'#687483','font-size':10},n.format(maxAid*i/4/1000)+' k€');}
  for(const tick of [0,100,200,300,425])scatter.el('text',{x:sx(tick),y:268,'text-anchor':'middle',fill:'#687483','font-size':10},String(tick));
- rows.forEach(row=>{const dot=scatter.el('circle',{cx:sx(row.score),cy:sy(row.aid),r:4.5,fill:'#8eb6dc',opacity:.62,stroke:'#fff','stroke-width':1});const title=document.createElementNS(scatter.svg.namespaceURI,'title');title.textContent=`Simulada desde ${row.source} · ${n.format(row.score)} puntos · ${n.format(row.aid)} €`;dot.append(title);});
+ rows.forEach(row=>{const dot=scatter.el('circle',{cx:sx(row.score),cy:sy(row.aid),r:row.manual?6:4.5,fill:row.manual?'#735b9b':'#8eb6dc',opacity:row.manual?.95:.62,stroke:'#fff','stroke-width':1});const title=document.createElementNS(scatter.svg.namespaceURI,'title');title.textContent=`${row.manual?'Competidora conocida':'Simulada desde'} ${row.source} · ${n.format(row.score)} puntos · ${n.format(row.aid)} €`;dot.append(title);});
  if(own.aid!==null){scatter.el('circle',{cx:sx(own.score),cy:sy(own.aid),r:9,fill:'#001426',stroke:'#fff','stroke-width':3});}
 }
 if(typeof window!=='undefined')window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(render,100);});
 if(typeof document!=='undefined')document.addEventListener('paid:request-visible',()=>{clearTimeout(timer);timer=setTimeout(render,0);});
+
+function refreshManual(){
+ if(!baseModel)return;model=withManualCompetitors(baseModel,manual);$('#competition-population').textContent=forecastData.demand+' solicitudes · '+manual.length+' conocidas';
+ const list=$('#manual-competitor-list');list.replaceChildren();manual.forEach(row=>{const item=document.createElement('div');item.className='manual-competitor';const caption=document.createElement('div'),strong=document.createElement('strong'),detail=document.createElement('small');strong.textContent=row.name;detail.textContent=n.format(row.score)+' puntos · '+n.format(row.aid)+' €';caption.append(strong,detail);const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label','Quitar '+row.name);remove.onclick=()=>{manual=manual.filter(r=>r.id!==row.id);refreshManual();};item.append(caption,remove);list.append(item);});render();
+}
+if(typeof document!=='undefined')$('#manual-competitor-form').addEventListener('submit',event=>{
+ event.preventDefault();const status=$('#manual-error');status.textContent='';
+ try{if(!baseModel)throw Error('Espera a que se cargue la simulación.');const score=Number($('#manual-score').value),aid=window.CBINumbers.parse($('#manual-aid').value);if($('#manual-score').value.trim()===''||$('#manual-aid').value.trim()==='')throw Error('Completa puntuación y ayuda.');const candidate={id:manualId+1,name:$('#manual-name').value.trim()||'Competidora '+(manualId+1),score,aid};withManualCompetitors(baseModel,[...manual,candidate]);manualId++;manual.push(candidate);$('#manual-name').value='';refreshManual();}catch(error){status.textContent=error.message;}
+});

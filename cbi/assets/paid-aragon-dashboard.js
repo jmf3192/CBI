@@ -1,12 +1,12 @@
 import { CBI } from './cbi-supabase.js?v=20261120';
-import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-4';
-import { initHistory } from './paid-aragon-history.js?v=20261120-4';
-import { initForecast } from './paid-aragon-forecast.js?v=20261120-4';
+import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-5';
+import { initHistory } from './paid-aragon-history.js?v=20261120-5';
+import { initForecast } from './paid-aragon-forecast.js?v=20261120-5';
 const $=selector=>document.querySelector(selector);
 const form=$('#application-form');
-import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-4';
+import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-5';
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
-let rules;
+let rules,requestedAid=null;
 const message=text=>{$('#status').textContent=text;$('#status').hidden=!text;};
 async function request(path,options={}){
  const session=await CBI.getSession();
@@ -31,65 +31,82 @@ function select(options,dataAttribute,id){
  const s=document.createElement('select');s.dataset[dataAttribute]=id;
  options.forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;s.append(option);});return s;
 }
-const steps=[...document.querySelectorAll('#application-fields > section.card')];
-function selectStep(index){steps.forEach((section,i)=>{section.id='request-step-'+i;section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby','request-step-tab-'+i);section.hidden=i!==index;section.setAttribute('aria-label',['Proyecto','Presupuesto','Elegibilidad','Criterios'][i]);});document.querySelectorAll('[data-step]').forEach((button,i)=>{button.id='request-step-tab-'+i;button.setAttribute('aria-controls','request-step-'+i);button.setAttribute('aria-selected',String(i===index));button.tabIndex=i===index?0:-1;});}
-document.querySelectorAll('[data-step]').forEach(button=>{button.addEventListener('click',()=>selectStep(Number(button.dataset.step)));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?3:(Number(button.dataset.step)+(event.key==='ArrowRight'?1:3))%4;selectStep(next);document.querySelector(`[data-step="${next}"]`).focus();});});
+const steps=[...document.querySelectorAll('#application-fields > section.card, #manual-competitors-panel')];
+function selectStep(index){steps.forEach((section,i)=>{section.id='request-step-'+i;section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby','request-step-tab-'+i);section.hidden=i!==index;section.setAttribute('aria-label',['Proyecto','Presupuesto','Elegibilidad','Criterios','Competidoras'][i]);});document.querySelectorAll('[data-step]').forEach((button,i)=>{button.id='request-step-tab-'+i;button.setAttribute('aria-controls','request-step-'+i);button.setAttribute('aria-selected',String(i===index));button.tabIndex=i===index?0:-1;});}
+document.querySelectorAll('[data-step]').forEach(button=>{button.addEventListener('click',()=>selectStep(Number(button.dataset.step)));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?4:(Number(button.dataset.step)+(event.key==='ArrowRight'?1:4))%5;selectStep(next);document.querySelector(`[data-step="${next}"]`).focus();});});
 selectStep(0);
 form.addEventListener('invalid',event=>{const index=steps.findIndex(section=>section.contains(event.target));if(index>=0)selectStep(index);},true);
 const gateOptions=[['unknown','Pendiente de revisar'],['yes','Cumple / contrastado'],['no','No cumple']];
+function segmented(select,labels){
+ const group=document.createElement('div');group.className='segmented-choice';group.setAttribute('role','group');group.setAttribute('aria-labelledby',select.getAttribute('aria-labelledby')||'');
+ for(const[value,label]of labels){const button=document.createElement('button');button.type='button';button.dataset.answer=value;button.textContent=label;button.setAttribute('aria-pressed',String(select.value===value));button.onclick=()=>{select.value=value;sync();select.dispatchEvent(new Event('change',{bubbles:true}));};group.append(button);}
+ function sync(){group.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.answer===select.value)));}
+ select.addEventListener('change',sync);select.hidden=true;select.after(group);
+}
+const numeric=input=>input.value.trim()===''||/^[-,.]$/.test(input.value.trim())?'':input.hasAttribute('data-number-format')?window.CBINumbers.parse(input.value):input.value;
 function buildForm(){
  rules.categories.forEach(category=>{
   const tr=document.createElement('tr');const title=document.createElement('td');title.textContent=category.title;tr.append(title);
   ['minimis','rgec'].forEach(regime=>{
-   const cell=document.createElement('td');const input=document.createElement('input');input.type='number';input.min='0';input.max='999999999999.99';input.step='.01';input.value='0';input.dataset.cost=category.id;input.dataset.regime=regime;input.setAttribute('aria-label',`${category.title}: coste ${regime}`);cell.append(input);tr.append(cell);
+   const cell=document.createElement('td');const input=document.createElement('input');input.type='number';input.min='0';input.max='999999999999.99';input.step='.01';input.value='0';input.dataset.numberFormat='';input.dataset.numberDecimals='2';input.dataset.cost=category.id;input.dataset.regime=regime;input.setAttribute('aria-label',`${category.title}: coste ${regime}`);const range=document.createElement('input');range.type='range';range.min='0';range.max='1000000';range.step='1000';range.value='0';range.dataset.costRange=category.id;range.dataset.regime=regime;range.setAttribute('aria-label',`Ajustar ${category.title}: ${regime}`);range.addEventListener('input',()=>{window.CBINumbers.setValue(input,Number(range.value));input.dispatchEvent(new Event('input',{bubbles:true}));});cell.append(input,range);tr.append(cell);
    const rate=document.createElement('td');rate.className='rate';rate.dataset.rate=`${category.id}_${regime}`;rate.textContent='—';tr.append(rate);
   });$('#cost-rows').append(tr);
  });
  rules.eligibility.forEach(rule=>{
   const div=document.createElement('div');div.className='check-row';const info=document.createElement('div');const title=document.createElement('h3');title.id=`gate-label-${rule.id}`;title.textContent=rule.title;
   const p=document.createElement('p');p.textContent=rule.detail;const link=document.createElement('a');link.href=rule.source_url;link.target='_blank';link.rel='noopener';link.textContent=`Orden · ${rule.section} · p. ${rule.page} ↗`;info.append(title,p,link);
-  const control=select(gateOptions,'gate',rule.id);control.setAttribute('aria-labelledby',title.id);div.append(info,control);$('#eligibility-rows').append(div);
+  const control=select(gateOptions,'gate',rule.id);control.setAttribute('aria-labelledby',title.id);div.append(info,control);$('#eligibility-rows').append(div);segmented(control,[['yes','Cumple'],['no','No cumple'],['unknown','Pendiente']]);
  });
  rules.criteria.forEach(rule=>{
   const div=document.createElement('div');div.className='criterion';const head=document.createElement('div');head.className='criterion-head';const id=document.createElement('span');id.className='criterion-id';id.textContent=rule.id;
   const title=document.createElement('h3');title.id=`criterion-label-${rule.id}`;title.textContent=rule.title;const points=document.createElement('span');points.className='points';points.textContent=`${rule.points} puntos`;head.append(id,title,points);
   const controls=document.createElement('div');controls.className='criterion-controls';const choice=select([['unknown','Por revisar'],['yes','Cumple'],['no','No cumple']],'criterion',rule.id);choice.setAttribute('aria-labelledby',title.id);controls.append(choice);
-  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Condiciones';const condition=document.createElement('p');condition.textContent=rule.condition;const source=document.createElement('a');source.href=rule.source_url;source.target='_blank';source.rel='noopener';source.textContent='Orden · p. '+rule.page+' ↗';details.append(summary,condition,source);div.append(head,controls,details);$('#criteria-rows').append(div);
+  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Condiciones';const condition=document.createElement('p');condition.textContent=rule.condition;const source=document.createElement('a');source.href=rule.source_url;source.target='_blank';source.rel='noopener';source.textContent='Orden · p. '+rule.page+' ↗';details.append(summary,condition,source);div.append(head,controls,details);$('#criteria-rows').append(div);segmented(choice,[['yes','Cumple'],['no','No cumple'],['unknown','Pendiente']]);
  });
 }
 function readApplication(){
  const assessment={version:rules.version,mode:'meeting',eligibility:{},criteria:{},costs:{}};
- document.querySelectorAll('[data-input]').forEach(input=>{assessment[input.dataset.input]=input.value;});
+ document.querySelectorAll('[data-input]').forEach(input=>{assessment[input.dataset.input]=numeric(input);});
  document.querySelectorAll('[data-gate]').forEach(input=>{assessment.eligibility[input.dataset.gate]=input.value;});
  document.querySelectorAll('[data-criterion]').forEach(input=>{const id=input.dataset.criterion;assessment.criteria[id]={value:input.value,evidence:''};});
- document.querySelectorAll('[data-cost]').forEach(input=>{const id=input.dataset.cost;assessment.costs[id]??={};assessment.costs[id][input.dataset.regime]=input.value;});
+ document.querySelectorAll('[data-cost]').forEach(input=>{const id=input.dataset.cost;assessment.costs[id]??={};assessment.costs[id][input.dataset.regime]=numeric(input);});
  return {application_year:2027,assessment};
 }
 function updateEvaluation(){
  if(!rules)return;
- const application=readApplication(),result=evaluate(application,rules);updateCompetition(result);
- $('#eligibility-result').textContent=result.status==='no_elegible'?'Revisar incumplimientos':result.status==='pendiente'?'Elegibilidad pendiente':'Compatible según tus datos';
- $('#eligibility-count').textContent=`${result.checks.filter(c=>c.status==='pass').length} comprobaciones confirmadas · ${result.pending.length} pendientes · ${result.failed.length} incumplimientos`;
+ const application=readApplication(),result=evaluate(application,rules);
+ const maximum=result.aid,aid=maximum===null?null:requestedAid===null?maximum:Math.max(0,Math.min(maximum,requestedAid));
+ const computed={...result,aid,failed:[...result.failed]};if(aid!==null&&aid<rules.min_aid)computed.failed.push({title:'La ayuda solicitada debe alcanzar 4.000 €.'});
+ computed.status=computed.failed.length?'no_elegible':result.status;updateCompetition(computed);
+ if(requestedAid!==null&&aid!==null&&requestedAid!==aid)requestedAid=aid;
+ const aidInput=$('#own-aid-input'),aidRange=$('#own-aid-range');aidInput.disabled=aidRange.disabled=maximum===null;aidRange.max=String(maximum??0);aidRange.value=String(aid??0);if(document.activeElement!==aidInput)window.CBINumbers.setValue(aidInput,aid??0);$('#own-aid-cap').textContent=maximum===null?'Completa tamaño, zona y presupuesto.':'Máximo calculado: '+eur.format(maximum);
+ document.querySelectorAll('[data-cost-range]').forEach(range=>{const input=document.querySelector(`[data-cost="${range.dataset.costRange}"][data-regime="${range.dataset.regime}"]`),value=Number(numeric(input))||0;range.max=String(Math.max(1000000,Math.ceil(value/100000)*100000));range.value=String(Math.max(0,value));});
+ $('#eligibility-result').textContent=computed.status==='no_elegible'?'Revisar incumplimientos':computed.status==='pendiente'?'Elegibilidad pendiente':'Compatible según tus datos';
+ $('#eligibility-count').textContent=`${result.checks.filter(c=>c.status==='pass').length} comprobaciones confirmadas · ${result.pending.length} pendientes · ${computed.failed.length} incumplimientos`;
  $('#score-result').replaceChildren(document.createTextNode(String(result.score)+' '));const em=document.createElement('em');em.textContent=`/ ${result.maxScore}`;$('#score-result').append(em);
  $('#score-potential').textContent=`Hasta ${result.potential} puntos si se acreditan los criterios pendientes.`;$('#score-meter').style.width=`${result.score/result.maxScore*100}%`;
- $('#aid-result').textContent=result.aid===null?'Pendiente de datos':eur.format(result.aid);
+ $('#aid-result').textContent=aid===null?'Pendiente de datos':eur.format(aid);
  $('#budget-result').textContent=`Coste declarado elegible: ${eur.format(result.totalCost)}`;
  const issues=$('#assessment-issues');issues.replaceChildren();
- result.failed.slice(0,4).forEach(issue=>{const p=document.createElement('p');p.className='issue fail';p.textContent=issue.title;issues.append(p);});
+ computed.failed.slice(0,4).forEach(issue=>{const p=document.createElement('p');p.className='issue fail';p.textContent=issue.title;issues.append(p);});
  result.warnings.filter(warning=>!warning.startsWith('Estimación sobre costes')).forEach(warning=>{const p=document.createElement('p');p.className='issue';p.textContent=warning;issues.append(p);});
  document.querySelectorAll('[data-rate]').forEach(cell=>{
   const [category,regime]=cell.dataset.rate.split('_');const rate=intensity(category,regime,application.assessment.size,application.assessment.zone);
   cell.textContent=rate===null?(application.assessment.size&&application.assessment.zone?'No aplica':'—'):`${Math.round(rate*100)} %`;
  });
+ const weight=$('#score-weight-track');if(!weight.children.length)rules.criteria.forEach((c,i)=>{const button=document.createElement('button');button.type='button';button.style.flex=String(c.points);button.style.setProperty('--segment-color',['#18775b','#286aa6','#a26207','#735b9b'][i%4]);const value=document.createElement('strong'),letter=document.createElement('small');value.textContent=c.points;letter.textContent=c.id.toUpperCase();button.append(value,letter);button.title=`${c.title}: ${c.points} puntos (${(c.points/425*100).toFixed(1)} %)`;button.setAttribute('aria-label',button.title);button.onclick=()=>{$('#score-weight-detail').textContent=c.title+' · '+c.points+' puntos de 425';};weight.append(button);});
  const breakdown=$('#criteria-breakdown');breakdown.replaceChildren();result.scoring.forEach(c=>{const row=document.createElement('div');row.className='criterion-summary';const label=document.createElement('span');label.textContent=c.title;const points=document.createElement('strong');points.textContent=c.score+' / '+c.points;const track=document.createElement('div');track.className='criterion-track';const bar=document.createElement('i');bar.style.width=(c.score/c.points*100)+'%';track.append(bar);row.append(label,points,track);breakdown.append(row);});
 }
+$('#own-aid-input').addEventListener('input',event=>{requestedAid=numeric(event.target)===''?null:Number(numeric(event.target));});
+$('#own-aid-input').addEventListener('blur',updateEvaluation);
+$('#own-aid-range').addEventListener('input',event=>{requestedAid=Number(event.target.value);window.CBINumbers.setValue($('#own-aid-input'),requestedAid);});
 form.addEventListener('input',updateEvaluation);
 form.addEventListener('change',updateEvaluation);
 form.addEventListener('submit',event=>event.preventDefault());
 document.addEventListener('cbi:access-granted',async()=>{
  try{
   const response=await fetch('../data/paid-aragon/rules-2027.json');if(!response.ok)throw Error('No se pudo cargar la convocatoria.');rules=await response.json();
-  buildForm();$('#application-fields').disabled=false;updateEvaluation();
+  document.querySelectorAll('[data-input=previousMinimis],[data-input=otherAid]').forEach(input=>{input.dataset.numberFormat='';input.dataset.numberDecimals='2';});buildForm();window.CBINumbers.init(form);$('#application-fields').disabled=false;updateEvaluation();
  }catch(error){message(error.message);}
  const demand=await initForecast();
  try{const projects=await initHistory(request);if(demand){initCompetition(projects,demand);if(rules)updateEvaluation();}}catch(error){$('#history-status').textContent='No se han podido cargar los históricos: '+error.message;}
