@@ -1,0 +1,2 @@
+# Normalize data diffs while preserving RFC4180 line endings in checked-out CSVs.
+*.csv text eol=crlf

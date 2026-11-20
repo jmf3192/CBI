@@ -1,0 +1,300 @@
+{
+  "version": "2027.1",
+  "year": 2027,
+  "official_name": "PAIP · TDI-FEDER Aragón",
+  "order": "ECE/1624/2026",
+  "publication_date": "2026-11-10",
+  "application_start": "2026-11-11",
+  "application_end": "2027-01-15",
+  "execution_start": "2026-07-01",
+  "execution_end": "2027-06-30",
+  "budget": 10025158.5,
+  "possible_additional_budget": 6000000,
+  "min_aid": 4000,
+  "max_aid": 500000,
+  "minimis_cap": 300000,
+  "max_score": 425,
+  "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf",
+  "source_file": "sources/2027_call_4099cb2caa.pdf",
+  "criteria": [
+    {
+      "id": "a",
+      "points": 55,
+      "title": "Transformación industrial, digital, logística, sostenible o diseño",
+      "condition": "Proyecto dirigido al sector industrial con transformación digital/Industria 4.0, tecnologías facilitadoras, logística, sostenibilidad/economía circular, diseño o desarrollo de proveedores industriales. La mera compra o renovación de equipos no basta.",
+      "evidence": "Memoria técnica, situación de partida, objetivos, indicadores y mejora demostrable.",
+      "page": 72,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=72"
+    },
+    {
+      "id": "b",
+      "points": 50,
+      "title": "Impacto inducido y cadenas de valor aragonesas",
+      "condition": "Impacto nuevo, significativo, externo a la propia actividad y cuantificado sobre empresas aragonesas, cadenas de valor o autonomía estratégica. Las relaciones comerciales habituales no bastan.",
+      "evidence": "Acuerdos, datos cuantificados, necesidades cubiertas, impacto externo y efecto tractor.",
+      "page": 72,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=72"
+    },
+    {
+      "id": "c",
+      "points": 50,
+      "title": "Innovación, diferenciación, crecimiento o nuevos mercados",
+      "condition": "Nuevo producto/servicio o mejora sustancial, nuevas tecnologías, modelo de negocio innovador o expansión significativa. No mera renovación de equipos tradicionales.",
+      "evidence": "Memoria comparativa, indicadores de ventas/mercados y evidencias de novedad.",
+      "page": 73,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=73"
+    },
+    {
+      "id": "d",
+      "points": 30,
+      "title": "Declaración de interés autonómico",
+      "condition": "Declaración concedida al proyecto antes de la solicitud.",
+      "evidence": "Declaración publicada en BOA vinculada al proyecto.",
+      "page": 74,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=74"
+    },
+    {
+      "id": "e",
+      "points": 25,
+      "title": "Colaboración activa ARIES en 2026",
+      "condition": "Acciones efectivas ARIES en 2026 y antes de la publicación de la convocatoria (10/11/2026). Inscripción, jornadas y autodiagnósticos no bastan.",
+      "evidence": "Certificado de la Cámara con acciones, fechas y mejora efectiva.",
+      "page": 74,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=74"
+    },
+    {
+      "id": "f",
+      "points": 25,
+      "title": "Colaboración CADI o Laboratorio en 2026",
+      "condition": "Ayuda de diseño, proyecto seleccionado en el Laboratorio o asesoramiento básico CADI en 2026. El Pacto por el Diseño por sí solo no puntúa.",
+      "evidence": "Certificado CADI u orden de concesión. Los diagnósticos ARIES se valoran en e).",
+      "page": 74,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=74"
+    },
+    {
+      "id": "g",
+      "points": 30,
+      "title": "Transferencia tecnológica ≥ 10.000 €",
+      "condition": "Transferencia efectiva del proyecto en categorías I+D o innovación de procesos/organización, con agentes reconocidos del Sistema Aragonés de I+D+i y contrato ≥10.000 €. No servicios habituales puntuales.",
+      "evidence": "Contrato/acuerdo, agente reconocido, contenido de transferencia e importe elegible.",
+      "page": 75,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=75"
+    },
+    {
+      "id": "h",
+      "points": 30,
+      "title": "Municipio afectado por cierres o causas sobrevenidas",
+      "condition": "Cierre industrial significativo de empresa mediana/grande en 2025 o 2026, excluido el municipio de Zaragoza; o zona con grave afectación industrial por incendios, inundaciones u otros sucesos.",
+      "evidence": "Localización y evidencia del cierre o de la afectación industrial significativa.",
+      "page": 75,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=75"
+    },
+    {
+      "id": "i",
+      "points": 25,
+      "title": "Empleo: crecimiento ≥10 % o incorporaciones específicas",
+      "condition": "Plantilla media 2026 al menos 10 % superior a 2025 en el área industrial/municipio del proyecto, o incorporación en 2026 de desempleados mayores de 50 años/colectivos indicados.",
+      "evidence": "Informes TGSS de todo 2025 y 2026; o contrato y prueba de las condiciones del nuevo trabajador.",
+      "page": 76,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=76"
+    },
+    {
+      "id": "j",
+      "points": 25,
+      "title": "Plan de sostenibilidad o transformación digital previo",
+      "condition": "Plan formulado antes del 10/11/2026 y vigente en el periodo subvencionable, con diagnóstico, acciones, calendario, presupuesto, responsables e indicadores. No declaración de intenciones.",
+      "evidence": "Plan aprobado por los órganos de gobierno, fechado y con todos los contenidos.",
+      "page": 76,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=76"
+    },
+    {
+      "id": "k",
+      "points": 20,
+      "title": "Parques tecnológicos o colaboración activa con organismos",
+      "condition": "Proyecto físicamente en CEEI Aragón, Walqa o Parque Tecnológico del Motor; o colaboración activa en 2026 y anterior al 10/11/2026 con Fundación del Hidrógeno, IAF o ITA. Jornadas, servicios puntuales e inscripciones no bastan.",
+      "evidence": "Ubicación/contrato o certificado detallado de colaboración activa. RSA se valora solo en n).",
+      "page": 77,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=77"
+    },
+    {
+      "id": "l",
+      "points": 15,
+      "title": "Microempresa o pequeña empresa",
+      "condition": "Tamaño conforme al anexo I del Reglamento 651/2014, considerando vinculaciones y empresas asociadas.",
+      "evidence": "Cálculo de efectivos y magnitudes financieras del grupo, cuentas y vinculaciones.",
+      "page": 78,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=78"
+    },
+    {
+      "id": "m",
+      "points": 15,
+      "title": "Empresa joven",
+      "condition": "Empresa individual o pequeña empresa con menos de tres años desde su constitución a la fecha de solicitud.",
+      "evidence": "Escritura o alta de autónomo; comprobar tamaño y fecha de solicitud.",
+      "page": 78,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=78"
+    },
+    {
+      "id": "n",
+      "points": 15,
+      "title": "Igualdad, accesibilidad o mejora ambiental adicional",
+      "condition": "Medidas concretas que excedan obligaciones legales; RSA, distintivos o plan de igualdad voluntario registrado; o mejora ambiental sustancial y cuantificada del proyecto. El ahorro energético inherente a renovar equipos no basta.",
+      "evidence": "Certificados/planes y fechas; o indicadores ambientales y memoria comparativa.",
+      "page": 78,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=78"
+    },
+    {
+      "id": "o",
+      "points": 15,
+      "title": "Calidad, claridad y documentación completa",
+      "condition": "Solicitud completa, clara, concreta, ordenada y coherente; evidencia de cada criterio alegado y datos de tamaño, vinculaciones y otras ayudas. Documentos faltantes, ambigüedad o contradicciones impiden puntuar.",
+      "evidence": "Lista de revisión de todos los documentos, nomenclatura y trazabilidad de importes.",
+      "page": 79,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=79"
+    }
+  ],
+  "eligibility": [
+    {
+      "id": "aragon",
+      "title": "Implantación efectiva y centro de trabajo en Aragón",
+      "detail": "Centro abierto y en funcionamiento o nuevo establecimiento en Aragón.",
+      "section": "III.1-2",
+      "page": 17,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=17"
+    },
+    {
+      "id": "industrial",
+      "title": "Actividad industrial, conexa o complementaria admisible",
+      "detail": "Justificar el vínculo con el desarrollo industrial de Aragón.",
+      "section": "III.2",
+      "page": 17,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=17"
+    },
+    {
+      "id": "incorporated",
+      "title": "Constitución válida antes del 28/02/2027",
+      "detail": "Como máximo, fin del mes natural posterior al cierre del plazo de solicitudes.",
+      "section": "III.2",
+      "page": 17,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=17"
+    },
+    {
+      "id": "solvency",
+      "title": "Solvencia técnica y económica suficiente",
+      "detail": "Disponer de medios y financiación para ejecutar el proyecto.",
+      "section": "III.3",
+      "page": 18,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=18"
+    },
+    {
+      "id": "no_prohibition",
+      "title": "Sin prohibiciones para ser beneficiario",
+      "detail": "Sin orden de recuperación ni situación de crisis no amparada por la excepción 2020-2021; restantes prohibiciones legales revisadas.",
+      "section": "III.4",
+      "page": 18,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=18"
+    },
+    {
+      "id": "tax_clear",
+      "title": "Hacienda, Seguridad Social y DGA al corriente",
+      "detail": "No tener deudas pendientes con Aragón; certificados o autorización.",
+      "section": "III.5",
+      "page": 18,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=18"
+    },
+    {
+      "id": "sector_allowed",
+      "title": "Actividad fuera de exclusiones sectoriales",
+      "detail": "Revisar art.1 Reglamento 2023/2831 y art.13 RGEC. La producción primaria agrícola está excluida; fabricar fertilizantes o piensos no equivale automáticamente a producción primaria. Revisar actividad y producto concreto.",
+      "section": "III.7-8",
+      "page": 19,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=19"
+    },
+    {
+      "id": "not_completed",
+      "title": "Proyecto no concluido materialmente antes de solicitar",
+      "detail": "Aunque haya gastos o pagos previos, la actuación no puede estar íntegramente ejecutada al solicitar.",
+      "section": "II.3",
+      "page": 14,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=14"
+    },
+    {
+      "id": "no_duplicate_paip",
+      "title": "Sin duplicidad de los mismos gastos PAIP 2025/2026",
+      "detail": "Gastos ya justificados y subvencionados en PAIP 2025/2026 no son elegibles, incluso con renuncia posterior.",
+      "section": "II.8 y VIII.4",
+      "page": 17,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=17"
+    },
+    {
+      "id": "energy_route",
+      "title": "Revisada la existencia de convocatoria energética específica",
+      "detail": "Si la actuación es fundamentalmente energética, comprobar convocatoria específica abierta y su posible exclusión/derivación.",
+      "section": "II.7",
+      "page": 17,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=17"
+    },
+    {
+      "id": "eligible_costs",
+      "title": "Costes depurados conforme al apartado VI",
+      "detail": "Activos nuevos; sin terrenos, vehículos externos, alquiler de software ni gasto no admisible. Edificación ≤30 % del resto de activos; factura/pago individual ≥250 € y componentes repetitivos ≥100 €. Personal técnico elegible ≤45 €/h, reglas 35 % I+D y 25 % procesos; límite conjunto 50 % consultoría/personal para actividad no industrial principal; proveedores vinculados requieren autorización.",
+      "section": "VI",
+      "page": 26,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=26"
+    },
+    {
+      "id": "employment",
+      "title": "Compromiso de mantenimiento del empleo en Aragón",
+      "detail": "Requisito para obtener y cobrar la ayuda, sujeto a verificación.",
+      "section": "XVI.4",
+      "page": 44,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=44"
+    },
+    {
+      "id": "documents",
+      "title": "Documentación y representación revisadas",
+      "detail": "Memoria, presupuesto, financiación, calendario, ofertas, declaraciones, vinculaciones, otras ayudas y firma/representación.",
+      "section": "VIII-IX",
+      "page": 30,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=30"
+    },
+    {
+      "id": "payment_terms",
+      "title": "Plazos de pago comercial acreditables si ayuda >30.000 €",
+      "detail": "Art.13.3 bis LGS para personas/entidades sujetas a Ley 3/2004. Marcar cumple si no resulta aplicable y documentar el motivo.",
+      "section": "III.6 y XVI.5",
+      "page": 19,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=19"
+    },
+    {
+      "id": "rgec_conditions",
+      "title": "Condiciones RGEC verificadas, si se usa ese tramo",
+      "detail": "Inversión inicial, zona, tamaño, exclusiones, financiación y demás condiciones europeas; grandes empresas requieren efecto incentivador adicional documentado. No basta elegir una intensidad en la calculadora.",
+      "section": "I-II y V",
+      "page": 8,
+      "source_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&type=pdf#page=8"
+    }
+  ],
+  "categories": [
+    {
+      "id": "investment",
+      "title": "Inversión en activos nuevos"
+    },
+    {
+      "id": "research",
+      "title": "Investigación industrial y desarrollo experimental"
+    },
+    {
+      "id": "process",
+      "title": "Innovación en procesos y organización"
+    },
+    {
+      "id": "ip",
+      "title": "Propiedad industrial"
+    },
+    {
+      "id": "consulting",
+      "title": "Consultoría técnica"
+    }
+  ]
+}

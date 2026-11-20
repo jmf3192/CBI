@@ -1,0 +1,75 @@
+{
+  "0675/2021/IDIS": {
+    "rgec_amount": 89140,
+    "eligible_budget": 211164.39
+  },
+  "0765/2021/IDIS": {
+    "amount": 9048,
+    "minimis_amount": 9048
+  },
+  "0754/2021/IDIS": {
+    "eligible_budget": 398742.9,
+    "amount": 99686,
+    "rgec_amount": 99686
+  },
+  "0903/2021/IDIS": {
+    "amount": 69199
+  },
+  "0881/2021/IDIS": {
+    "minimis_amount": 29250
+  },
+  "0907/2021/IDIS": {
+    "minimis_amount": 97649
+  },
+  "0784/2021/IDIS": {
+    "amount": 9056,
+    "minimis_amount": 9056
+  },
+  "0929/2021/IDIS": {
+    "amount": 56190,
+    "investment_reference": 603257.7
+  },
+  "0778/2021/IDIS": {
+    "rgec_amount": 8612
+  },
+  "0850/2021/IDIS": {
+    "rgec_amount": 0
+  },
+  "0702/2021/IDIS": {
+    "amount": 9360
+  },
+  "0695/2021/IDIS": {
+    "minimis_amount": 14805
+  },
+  "0719/2021/IDIS": {
+    "investment_reference": 312108.61,
+    "rgec_amount": 93633
+  },
+  "0906/2021/IDIS": {
+    "amount": 98089
+  },
+  "0746/2021/IDIS": {
+    "rgec_amount": 0
+  },
+  "0733/2021/IDIS": {
+    "amount": 23851,
+    "green_amount": 21441
+  },
+  "0774/2021/IDIS": {
+    "minimis_amount": 82745,
+    "green_amount": 80963
+  },
+  "0834/2021/IDIS": {
+    "rgec_amount": 144545
+  },
+  "0747/2021/IDIS": {
+    "amount": 9070,
+    "minimis_amount": 9070
+  },
+  "0724/2021/IDIS": {
+    "score": 105
+  },
+  "0797/2021/IDIS": {
+    "score": 95
+  }
+}

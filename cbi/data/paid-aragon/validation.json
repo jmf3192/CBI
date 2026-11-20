@@ -1,0 +1,122 @@
+{
+  "as_of": "2026-11-20",
+  "records": 2384,
+  "projects": 2323,
+  "granted_projects": 893,
+  "granted_amount": 76309941.0,
+  "coverage": [
+    {
+      "year": 2017,
+      "projects": 0,
+      "downloaded_sources": 0,
+      "unavailable_sources": 0,
+      "scope": "Antecedentes PAIP",
+      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+    },
+    {
+      "year": 2018,
+      "projects": 0,
+      "downloaded_sources": 0,
+      "unavailable_sources": 0,
+      "scope": "Antecedentes PAIP",
+      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+    },
+    {
+      "year": 2019,
+      "projects": 0,
+      "downloaded_sources": 0,
+      "unavailable_sources": 3,
+      "scope": "Antecedentes PAIP",
+      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+    },
+    {
+      "year": 2020,
+      "projects": 0,
+      "downloaded_sources": 1,
+      "unavailable_sources": 2,
+      "scope": "Antecedentes PAIP",
+      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+    },
+    {
+      "year": 2021,
+      "projects": 275,
+      "downloaded_sources": 3,
+      "unavailable_sources": 1,
+      "scope": "IDIS-REACT",
+      "note": "IDIS-REACT. Resolución TDI 2021 adicional localizada, pero enlace oficial 404."
+    },
+    {
+      "year": 2022,
+      "projects": 446,
+      "downloaded_sources": 2,
+      "unavailable_sources": 0,
+      "scope": "IDIS-REACT",
+      "note": "IDIS-REACT: no equivale a TDI-FEDER."
+    },
+    {
+      "year": 2023,
+      "projects": 453,
+      "downloaded_sources": 3,
+      "unavailable_sources": 0,
+      "scope": "TDI-FEDER",
+      "note": "Resoluciones del portal actual: iniciales y ampliaciones publicadas."
+    },
+    {
+      "year": 2024,
+      "projects": 505,
+      "downloaded_sources": 4,
+      "unavailable_sources": 0,
+      "scope": "TDI-FEDER",
+      "note": "Resoluciones del portal actual: iniciales y ampliaciones publicadas."
+    },
+    {
+      "year": 2025,
+      "projects": 352,
+      "downloaded_sources": 7,
+      "unavailable_sources": 0,
+      "scope": "TDI-FEDER",
+      "note": "Resoluciones del portal actual: iniciales y ampliaciones publicadas."
+    },
+    {
+      "year": 2026,
+      "projects": 292,
+      "downloaded_sources": 6,
+      "unavailable_sources": 0,
+      "scope": "TDI-FEDER",
+      "note": "Resoluciones del portal actual: iniciales y ampliaciones publicadas."
+    }
+  ],
+  "notes": [
+    "Los importes son concesiones publicadas, no pagos ni ejecución final.",
+    "Las listas de espera no se suman a las concesiones.",
+    "Los títulos y las provincias no publicados quedan vacíos.",
+    "La clasificación sectorial es por actividad de la empresa, no acredita el objeto de cada proyecto.",
+    "Cobertura completa de documentos TDI-FEDER 2023–2026 enlazados en el portal revisado; no es un censo completo de todo PAIP desde su creación."
+  ],
+  "source_reconciliations": [
+    {
+      "year": 2022,
+      "line": "IDIS-REACT total",
+      "published_total": 16729097,
+      "extracted_total": 16729197,
+      "difference": 100,
+      "status": "Suma textual por filas 100 € superior a la suma de los tres pies de tabla. No se fuerzan ajustes sin una fila fuente."
+    },
+    {
+      "year": 2021,
+      "line": "IDIS-REACT verde",
+      "published_total": 2580601,
+      "extracted_total": 2580595,
+      "difference": -6,
+      "status": "Discrepancia de 6 euros entre suma de filas y pie de tabla; no se ajustan filas para forzar el total."
+    },
+    {
+      "year": 2021,
+      "line": "IDIS-REACT digital",
+      "published_total": 5381900,
+      "extracted_total": 5381900,
+      "difference": 0,
+      "status": "Conciliado tras contraste visual de todos los importes digitales y corrección de ERGOMAQ-97 (9.070 €)."
+    }
+  ]
+}

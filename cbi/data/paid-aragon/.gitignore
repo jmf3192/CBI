@@ -1,0 +1,7 @@
+# Reproducible parsing intermediates; original PDFs and final datasets are versioned.
+sources/*.pages.json
+sources/*.txt
+alternate-*.json
+extracted-records.json
+ocr-records.json
+sources/portal.html
