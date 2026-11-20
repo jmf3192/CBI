@@ -355,5 +355,53 @@
     "file": "2019_decision_1d42734c18.pdf",
     "status": "error",
     "error": "404 Client Error:  for url: https://www.aragon.es/documents/20127/6842252/orden%2Bde%2Bsegunda%2Bmodificaci%C3%B3n%2Bde%2Bla%2Bconcesi%C3%B3n%2Bde%2Bla%2Bconvocatoria%2BPAIP%2B2019.pdf/7f917b54-be0c-386a-8f9a-9ba9d6656c6c?t=1574930823364"
+  },
+  {
+    "year": 2026,
+    "line": "FEDER · información complementaria",
+    "title": "Indicadores publicados FEDER Aragón; actualización 01/10/2026",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9",
+    "kind": "enrichment",
+    "file": "feder-aragon-indicadores-20261001.json",
+    "sha256": "0cf496a7f4c1002b4573d27468c1c0e4f65486a9250ed0103a85e4ebf9fb2b5b",
+    "bytes": 259593,
+    "status": "downloaded",
+    "original_response_sha256": "58e45abf2252f9624c0a26764d00c325de0403749f1d1c597da9f8d8cb8537b4",
+    "processing": "Identificadores fiscales de personas físicas omitidos; se conservan posiciones de diccionarios y NIF de entidades."
+  },
+  {
+    "year": 2026,
+    "line": "FEDER · información complementaria",
+    "title": "Operaciones TDI FEDER 2021–2027, actualización 01/10/2026",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9",
+    "kind": "enrichment",
+    "file": "feder-aragon-2021-2027-20261001.json",
+    "sha256": "9d0a231c82ce96ce1f0a97cd20c06abb359e67ac515b47bcb9a011a500a0df17",
+    "bytes": 248296,
+    "status": "downloaded",
+    "original_response_sha256": "387b46e13192957f4314b9c3cef58990e3fdfacde535979e488da853c828b70e",
+    "processing": "Identificadores fiscales de personas físicas omitidos; se conservan posiciones de diccionarios y NIF de entidades."
+  },
+  {
+    "year": 2020,
+    "line": "FEDER · información complementaria",
+    "title": "Operaciones FEDER Aragón 2014–2020, actualización 29/05/2025",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf",
+    "kind": "enrichment",
+    "file": "feder-aragon-2014-2020-20250529.pdf",
+    "sha256": "9b79c56600f892c7fbf8df3d9f1fd0be8c0ba8b11b0a5efec31f84162d445e18",
+    "bytes": 2719533,
+    "status": "downloaded"
+  },
+  {
+    "year": 2020,
+    "line": "FEDER · información complementaria",
+    "title": "Operaciones FEDER Aragón en Excel, actualización 07/03/2024",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.xlsx",
+    "kind": "enrichment",
+    "file": "feder-aragon-2014-2020.xlsx",
+    "sha256": "103cab0458f5fb0f757ca48db71b74f862d3f789411ae95cf595b1124def510a",
+    "bytes": 583435,
+    "status": "downloaded"
   }
 ]

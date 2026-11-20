@@ -67,3 +67,7 @@ summary=dict(as_of='2026-11-20',records=len(records),projects=len(projects),gran
 (D/'history.json').write_text(json.dumps(dict(summary=summary,projects=projects),ensure_ascii=False,separators=(',',':')))
 (D/'validation.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
 print('PROJECTS',len(projects),'EVENTS',len(records),'TOTAL',summary['granted_amount']);print(collections.Counter((p['year'],p['status']) for p in projects));print(collections.Counter(p['sector'] for p in projects))
+
+# Reapply the source-backed enrichment on every canonical rebuild.
+from enrich_history import run as enrich_history
+enrich_history()

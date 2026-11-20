@@ -1,10 +1,11 @@
+import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261120-7';
 import { CBI } from './cbi-supabase.js?v=20261120';
-import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-5';
-import { initHistory } from './paid-aragon-history.js?v=20261120-5';
-import { initForecast } from './paid-aragon-forecast.js?v=20261120-5';
+import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-7';
+import { initHistory } from './paid-aragon-history.js?v=20261120-7';
+import { initForecast } from './paid-aragon-forecast.js?v=20261120-7';
 const $=selector=>document.querySelector(selector);
 const form=$('#application-form');
-import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-5';
+import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-7';
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 let rules,requestedAid=null;
 const message=text=>{$('#status').textContent=text;$('#status').hidden=!text;};
@@ -52,9 +53,10 @@ function buildForm(){
    const rate=document.createElement('td');rate.className='rate';rate.dataset.rate=`${category.id}_${regime}`;rate.textContent='—';tr.append(rate);
   });$('#cost-rows').append(tr);
  });
- rules.eligibility.forEach(rule=>{
+ const timing=[{id:'application_window',title:'Solicitud dentro del plazo de la convocatoria',detail:'Presentación entre el 11 de noviembre de 2026 y el 15 de enero de 2027.'},{id:'execution_window',title:'Actuaciones dentro del periodo subvencionable',detail:'Actuaciones elegibles entre el 1 de julio de 2026 y el 30 de junio de 2027.'},{id:'incentive_order',title:'Solicitud o pre-solicitud válida anterior al inicio (RGEC)',detail:'Requerido si se utiliza RGEC; una pre-solicitud válida debe cumplir la orden aplicable.'}].map(rule=>({...rule,source_url:rules.source_url}));
+ [...timing,...rules.eligibility].forEach(rule=>{
   const div=document.createElement('div');div.className='check-row';const info=document.createElement('div');const title=document.createElement('h3');title.id=`gate-label-${rule.id}`;title.textContent=rule.title;
-  const p=document.createElement('p');p.textContent=rule.detail;const link=document.createElement('a');link.href=rule.source_url;link.target='_blank';link.rel='noopener';link.textContent=`Orden · ${rule.section} · p. ${rule.page} ↗`;info.append(title,p,link);
+  const p=document.createElement('p');p.textContent=rule.detail;const link=document.createElement('a');link.href=rule.source_url;link.target='_blank';link.rel='noopener';link.textContent=rule.page?`Orden · ${rule.section} · p. ${rule.page} ↗`:'Consultar orden ↗';info.append(title,p,link);
   const control=select(gateOptions,'gate',rule.id);control.setAttribute('aria-labelledby',title.id);div.append(info,control);$('#eligibility-rows').append(div);segmented(control,[['yes','Cumple'],['no','No cumple'],['unknown','Pendiente']]);
  });
  rules.criteria.forEach(rule=>{
@@ -65,7 +67,7 @@ function buildForm(){
  });
 }
 function readApplication(){
- const assessment={version:rules.version,mode:'meeting',eligibility:{},criteria:{},costs:{}};
+ const assessment={version:rules.version,mode:'meeting',dateChecks:'declarations',eligibility:{},criteria:{},costs:{}};
  document.querySelectorAll('[data-input]').forEach(input=>{assessment[input.dataset.input]=numeric(input);});
  document.querySelectorAll('[data-gate]').forEach(input=>{assessment.eligibility[input.dataset.gate]=input.value;});
  document.querySelectorAll('[data-criterion]').forEach(input=>{const id=input.dataset.criterion;assessment.criteria[id]={value:input.value,evidence:''};});
@@ -94,7 +96,7 @@ function updateEvaluation(){
   const [category,regime]=cell.dataset.rate.split('_');const rate=intensity(category,regime,application.assessment.size,application.assessment.zone);
   cell.textContent=rate===null?(application.assessment.size&&application.assessment.zone?'No aplica':'—'):`${Math.round(rate*100)} %`;
  });
- const weight=$('#score-weight-track');if(!weight.children.length)rules.criteria.forEach((c,i)=>{const button=document.createElement('button');button.type='button';button.style.flex=String(c.points);button.style.setProperty('--segment-color',['#18775b','#286aa6','#a26207','#735b9b'][i%4]);const value=document.createElement('strong'),letter=document.createElement('small');value.textContent=c.points;letter.textContent=c.id.toUpperCase();button.append(value,letter);button.title=`${c.title}: ${c.points} puntos (${(c.points/425*100).toFixed(1)} %)`;button.setAttribute('aria-label',button.title);button.onclick=()=>{$('#score-weight-detail').textContent=c.title+' · '+c.points+' puntos de 425';};weight.append(button);});
+ renderScoreCircle(rules,result.score);
  const breakdown=$('#criteria-breakdown');breakdown.replaceChildren();result.scoring.forEach(c=>{const row=document.createElement('div');row.className='criterion-summary';const label=document.createElement('span');label.textContent=c.title;const points=document.createElement('strong');points.textContent=c.score+' / '+c.points;const track=document.createElement('div');track.className='criterion-track';const bar=document.createElement('i');bar.style.width=(c.score/c.points*100)+'%';track.append(bar);row.append(label,points,track);breakdown.append(row);});
 }
 $('#own-aid-input').addEventListener('input',event=>{requestedAid=numeric(event.target)===''?null:Number(numeric(event.target));});

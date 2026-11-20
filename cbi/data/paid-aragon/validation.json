@@ -11,7 +11,7 @@
       "downloaded_sources": 0,
       "unavailable_sources": 0,
       "scope": "Antecedentes PAIP",
-      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+      "note": "22 operaciones FEDER complementarias recuperadas; no equivalen a expedientes ni concesiones PAIP."
     },
     {
       "year": 2018,
@@ -19,7 +19,7 @@
       "downloaded_sources": 0,
       "unavailable_sources": 0,
       "scope": "Antecedentes PAIP",
-      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+      "note": "94 operaciones FEDER complementarias recuperadas; no equivalen a expedientes ni concesiones PAIP."
     },
     {
       "year": 2019,
@@ -27,7 +27,7 @@
       "downloaded_sources": 0,
       "unavailable_sources": 3,
       "scope": "Antecedentes PAIP",
-      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+      "note": "90 operaciones FEDER complementarias recuperadas; no equivalen a expedientes ni concesiones PAIP."
     },
     {
       "year": 2020,
@@ -35,7 +35,7 @@
       "downloaded_sources": 1,
       "unavailable_sources": 2,
       "scope": "Antecedentes PAIP",
-      "note": "Sin microdatos incorporados: fuentes antiguas no recuperadas. No interpretar como ausencia de ayudas."
+      "note": "104 operaciones FEDER complementarias recuperadas; no equivalen a expedientes ni concesiones PAIP."
     },
     {
       "year": 2021,
@@ -118,5 +118,91 @@
       "difference": 0,
       "status": "Conciliado tras contraste visual de todos los importes digitales y corrección de ERGOMAQ-97 (9.070 €)."
     }
-  ]
+  ],
+  "enrichment": {
+    "as_of": "2026-11-20",
+    "operation_records": 1489,
+    "coverage": [
+      {
+        "year": 2021,
+        "projects": 275,
+        "with_project_description": 132,
+        "with_project_location": 132,
+        "with_nif": 39,
+        "with_company_antecedents": 104,
+        "note": "Antecedentes de empresa separados del proyecto; datos no encontrados permanecen vacíos."
+      },
+      {
+        "year": 2022,
+        "projects": 446,
+        "with_project_description": 169,
+        "with_project_location": 169,
+        "with_nif": 65,
+        "with_company_antecedents": 193,
+        "note": "Antecedentes de empresa separados del proyecto; datos no encontrados permanecen vacíos."
+      },
+      {
+        "year": 2023,
+        "projects": 453,
+        "with_project_description": 158,
+        "with_project_location": 158,
+        "with_nif": 166,
+        "with_company_antecedents": 219,
+        "note": "Antecedentes de empresa separados del proyecto; datos no encontrados permanecen vacíos."
+      },
+      {
+        "year": 2024,
+        "projects": 505,
+        "with_project_description": 103,
+        "with_project_location": 103,
+        "with_nif": 111,
+        "with_company_antecedents": 216,
+        "note": "Antecedentes de empresa separados del proyecto; datos no encontrados permanecen vacíos."
+      },
+      {
+        "year": 2025,
+        "projects": 352,
+        "with_project_description": 71,
+        "with_project_location": 71,
+        "with_nif": 111,
+        "with_company_antecedents": 169,
+        "note": "Antecedentes de empresa separados del proyecto; datos no encontrados permanecen vacíos."
+      },
+      {
+        "year": 2026,
+        "projects": 292,
+        "with_project_description": 0,
+        "with_project_location": 0,
+        "with_nif": 71,
+        "with_company_antecedents": 146,
+        "note": "Antecedentes de empresa separados del proyecto; datos no encontrados permanecen vacíos."
+      }
+    ],
+    "legacy_coverage": [
+      {
+        "year": 2017,
+        "operations": 22
+      },
+      {
+        "year": 2018,
+        "operations": 94
+      },
+      {
+        "year": 2019,
+        "operations": 90
+      },
+      {
+        "year": 2020,
+        "operations": 104
+      },
+      {
+        "year": 2021,
+        "operations": 346
+      },
+      {
+        "year": 2022,
+        "operations": 389
+      }
+    ]
+  }
 }

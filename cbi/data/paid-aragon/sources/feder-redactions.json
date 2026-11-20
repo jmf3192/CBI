@@ -1,0 +1,12 @@
+[
+  {
+    "file": "feder-aragon-2021-2027-20261001.json",
+    "original_response_sha256": "387b46e13192957f4314b9c3cef58990e3fdfacde535979e488da853c828b70e",
+    "processing": "Identificadores fiscales de personas físicas omitidos; se conservan posiciones de diccionarios y NIF de entidades."
+  },
+  {
+    "file": "feder-aragon-indicadores-20261001.json",
+    "original_response_sha256": "58e45abf2252f9624c0a26764d00c325de0403749f1d1c597da9f8d8cb8537b4",
+    "processing": "Identificadores fiscales de personas físicas omitidos; se conservan posiciones de diccionarios y NIF de entidades."
+  }
+]

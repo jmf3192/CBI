@@ -17,7 +17,7 @@ const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value||'') && !Number.isNa
 
 export function evaluate(application, rules) {
   const input=application.assessment || {};
-  const meeting=input.mode==='meeting';
+  const meeting=input.mode==='meeting',declaredDates=meeting&&input.dateChecks==='declarations';
   const answers=input.eligibility || {}, criteria=input.criteria || {}, checks=[], warnings=[];
   const check=(id,title,value,detail='')=>checks.push({id,title,status:value===true?'pass':value===false?'fail':'pending',detail});
   const rows=rules.categories.map(category=>{
@@ -32,14 +32,15 @@ export function evaluate(application, rules) {
   check('year','Ejercicio de solicitud 2027',Number(application.application_year)===2027);
   check('size','Tamaño de empresa y zona seleccionados',SIZE.includes(input.size)&&ZONES.includes(input.zone)?true:null);
   check('costs','Presupuesto elegible desglosado',costsValid&&totalCost>0?true:totalCost===0?null:false);
+  const declared=id=>answers[id]==='yes'?true:answers[id]==='no'?false:null;
   const applicationDate=validDate(input.applicationDate)?input.applicationDate:null;
-  check('application_date','Fecha de presentación entre 11/11/2026 y 15/01/2027',applicationDate?applicationDate>=rules.application_start&&applicationDate<=rules.application_end:null);
+  check('application_date','Fecha de presentación entre 11/11/2026 y 15/01/2027',declaredDates?declared('application_window'):applicationDate?applicationDate>=rules.application_start&&applicationDate<=rules.application_end:null);
   const start=validDate(input.startDate)?input.startDate:null,end=validDate(input.endDate)?input.endDate:null;
-  check('execution_dates','Actuaciones elegibles entre 01/07/2026 y 30/06/2027',start&&end?start>=rules.execution_start&&end<=rules.execution_end&&end>=start:null,'Fechas de las actuaciones cuyos gastos se incluyen; revisar compromisos firmes y facturas.');
+  check('execution_dates','Actuaciones elegibles entre 01/07/2026 y 30/06/2027',declaredDates?declared('execution_window'):start&&end?start>=rules.execution_start&&end<=rules.execution_end&&end>=start:null,'Fechas de las actuaciones cuyos gastos se incluyen; revisar compromisos firmes y facturas.');
   let incentive=true;
   if(usesRgec){
     const pre=validDate(input.preApplicationDate)?input.preApplicationDate:null;
-    incentive=start&&applicationDate?(start>applicationDate||(answers.valid_preapplication==='yes'&&pre&&pre<start))?true:false:null;
+    incentive=declaredDates?declared('incentive_order'):start&&applicationDate?(start>applicationDate||(answers.valid_preapplication==='yes'&&pre&&pre<start))?true:false:null;
     check('incentive','Efecto incentivador del tramo RGEC',incentive,'Solicitud o pre-solicitud válida anterior al inicio; si solo consta el mismo día, comprobar la hora y orden documental.');
   }
   rows.forEach(row=>{
@@ -74,7 +75,7 @@ export function evaluate(application, rules) {
       if(['medium','large'].includes(input.size))applicable=false;
       if(validDate(input.foundationDate)&&applicationDate){const cutoff=new Date(applicationDate);cutoff.setUTCFullYear(cutoff.getUTCFullYear()-3);if(input.foundationDate<=cutoff.toISOString().slice(0,10)||input.foundationDate>applicationDate)applicable=false;}
     }
-    const prerequisites=rule.id==='m'?validDate(input.foundationDate)&&applicationDate&&['micro','small'].includes(input.size):rule.id==='l'?['micro','small'].includes(input.size):rule.id==='o'?answers.documents==='yes'&&!rules.criteria.some(c=>criteria[c.id]?.value==='yes'&&!meeting&&!String(criteria[c.id]?.evidence||'').trim()):true;
+    const prerequisites=rule.id==='m'?(declaredDates?['micro','small'].includes(input.size):validDate(input.foundationDate)&&applicationDate&&['micro','small'].includes(input.size)):rule.id==='l'?['micro','small'].includes(input.size):rule.id==='o'?answers.documents==='yes'&&!rules.criteria.some(c=>criteria[c.id]?.value==='yes'&&!meeting&&!String(criteria[c.id]?.evidence||'').trim()):true;
     const satisfied=applicable&&prerequisites&&answer.value==='yes'&&(meeting||String(answer.evidence||'').trim().length>0);
     return {...rule,answer:answer.value||'unknown',evidenceNote:answer.evidence||'',supported:satisfied,score:satisfied?rule.points:0,potential:answer.value==='no'||!applicable?0:rule.points};
   });

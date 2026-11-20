@@ -67,3 +67,12 @@ Simulador (INNOVAE 1–6): criterios y elegibilidad con botones Cumple / No cump
 Competidoras conocidas: hasta 50, siempre por debajo del total de solicitudes previsto; puntuación 0–425 y ayuda 4.000–500.000 €. Cada competidora sustituye una posición del muestreo original (también puede sustituir una solicitud no admitida), por lo que no aumenta la demanda. Mantiene la misma puntuación e importe en las 1.000 poblaciones; se supone admisibilidad y se sortea su orden en empate con una semilla estable. Se recalculan frecuencia, posición, corte y gráficos; las conocidas se identifican en morado. Añadir y quitar no guarda datos.
 
 Verificación adicional: estadísticos con ausencias y distintas convocatorias, límites de intervalos, sustitución de competidoras y conservación de la demanda, efecto de una competidora de mayor puntuación con crédito limitado, controles directos, ajuste de ayuda, formato de miles, consulta de tramos, composición, mapa y adaptación móvil.
+
+
+## Ampliación de los históricos
+
+Los 2.323 expedientes conservan sus estados, puntuaciones e importes originales. La nueva columna `paid_aragon_awards.enrichment` contiene las actuaciones FEDER vinculadas y los antecedentes de empresa por separado, con fuentes. Sus campos simples se fusionan en el panel después de cargar Supabase; así se mantienen disponibles también si falla la copia JSON. No cambia RLS ni la autorización de escritura.
+
+Las fichas incorporan descripción, provincia/municipio publicados, fechas, NIF contrastado e indicadores oficiales de las operaciones disponibles. Las referencias de empresa están identificadas como otras actuaciones y no se suman al proyecto ni a las concesiones. Las incidencias de identidad del listado reciente se muestran en la ficha y se excluyen del cruce de NIF. El detalle de cobertura y el método figuran en el README de los datos.
+
+Se retira el bloque superior de fechas/importes del configurador. El esquema de puntuación se muestra en círculo junto a la distribución de la muestra; las fechas se comprueban por declaraciones en Elegibilidad, sin campos de fecha en Proyecto. Se mantiene el presupuesto por regímenes pendiente de decidir su simplificación.
