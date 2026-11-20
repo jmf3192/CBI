@@ -11,7 +11,7 @@ https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&typ
 - Actuaciones elegibles: 01/07/2026–30/06/2027.
 - Crédito inicial: 10.025.158,50 €. La ampliación prevista de hasta 6.000.000 € es eventual, no crédito garantizado.
 - Ayuda ordinaria por solicitud: mínimo 4.000 €; máximo 500.000 €, sin perjuicio de los supuestos del apartado XI.6.
-- **15 criterios binarios a–o, máximo 425 puntos**. Cada criterio puntúa completo o cero. No se ha inventado una nota de corte ni una probabilidad de concesión. Desempate por fecha y hora de presentación.
+- **15 criterios binarios a–o, máximo 425 puntos**. Cada criterio puntúa completo o cero. No existe una nota de corte oficial de 2027; la simulación muestra cortes y frecuencias de financiación bajo supuestos explícitos. Desempate por fecha y hora de presentación.
 - La guía está incorporada como anexo III de la propia orden (páginas 71–80); no se utiliza la guía 2026 para puntuar 2027.
 
 ### Modelo de elegibilidad y ayuda
@@ -24,24 +24,35 @@ La calculadora toma **costes ya depurados por el usuario** por cinco categorías
 
 Para RGEC exige inicio posterior a la solicitud o pre-solicitud válida anterior al inicio y confirmación de las condiciones específicas de ese régimen. La comprobación por fecha es conservadora si ambos eventos ocurren el mismo día: se debe acreditar su orden y hora documental. Grandes empresas deben acreditar además el efecto incentivador adicional y las condiciones de inversión inicial/diversificación que procedan.
 
-Los criterios son autoevaluados: solo suman si se declara cumplimiento y se incluye una referencia de evidencia. El motor impide puntuar tamaño pequeño para empresas medianas/grandes y antigüedad joven cuando no procede; calidad documental requiere documentación confirmada y evidencias de los méritos alegados. No comprueba la autenticidad de archivos ni sustituye la evaluación administrativa.
+En modo reunión, los criterios suman por declaración de cumplimiento, sin exigir redacción de evidencias. El modo previo del motor para evaluaciones documentadas conserva la exigencia de evidencia. El motor impide puntuar tamaño pequeño para empresas medianas/grandes y antigüedad joven cuando no procede; calidad documental requiere documentación confirmada; en el modo documentado exige además evidencias de los méritos alegados. No comprueba la autenticidad de archivos ni sustituye la evaluación administrativa.
 
-Se guardan los datos, costes, respuestas y referencias de evidencias en `paid_aragon_applications.assessment`, con versión de reglas y `schema_version=2`. Solo el propietario puede leerlos y guardar requiere permiso `evaluate` o `admin`, perfil activo y asignación a la convocatoria activa. Los borradores existentes no se borran.
+La interfaz es una calculadora efímera para reunión: no pide empresa, título, descripción, ejercicio o provincia redundante, no lee ni guarda borradores y no escribe datos de simulación en Supabase ni en almacenamiento local. Se conservan los borradores existentes en la base sin modificarlos.
 
 ## Históricos
 
-Ver `cbi/data/paid-aragon/README.md` para estructura, alcance y conciliación. Los CSV de origen y consolidados se generan antes de la carga a Supabase. El panel carga todos los registros por páginas de 500; no usa el límite de 200 filas de la maqueta inicial. Los filtros, gráficos, tabla paginada y exportación trabajan sobre el mismo conjunto de datos.
+Ver `cbi/data/paid-aragon/README.md` para estructura, alcance y conciliación. Los CSV de origen y consolidados se generan antes de la carga a Supabase. El panel carga todos los registros por páginas de 500; no usa el límite de 200 filas de la maqueta inicial. Los filtros, gráficos y tabla paginada trabajan sobre el mismo conjunto de datos. Los CSV se gestionan desde su página de datos.
 
 El origen principal es Supabase. Si la consulta falla o la carga está incompleta respecto al inventario, usa la copia JSON de los CSV versionados y lo anuncia expresamente en pantalla. Los datos históricos son públicos; los borradores privados no se guardan en archivos versionados.
 
-Se muestran KPIs, importes por año, resultados y dispersión puntuación/ayuda. Filtros por año, línea, estado, búsqueda, sector y ordenación. Los baremos cambian entre convocatorias; la dispersión identifica esa limitación y no sirve de corte predictivo de 2027.
+Se muestran KPIs, importes por año, resultados y dispersión puntuación/ayuda. Filtros por año, línea, estado, búsqueda y ordenación. Fertilizantes y nutrición animal forman una pestaña independiente que reúne los 29 expedientes de todos los años. Los baremos cambian entre convocatorias; la dispersión identifica esa limitación y no sirve de corte predictivo de 2027.
 
 ## Verificación
 
 - Pruebas deterministas: fechas y límites incluidos/excluidos, mínimo antes del redondeo, margen de minimis, tope de 500.000 €, acumulación del 80 %, zonas/tamaños RGEC, pre-solicitud, evidencias y empresa joven/pequeña.
 - Verificación de lectura histórica y guardado JSON bajo rol `authenticated` en Supabase, con transacción revertida para no conservar pruebas.
 - Asesor de seguridad: sin avisos de las tablas nuevas. Persiste el aviso global previo sobre protección frente a contraseñas filtradas desactivada; no se cambió la configuración de autenticación.
-- Prueba de navegador superada: autenticación simulada, 15 criterios, cálculo de ayuda, guardar/recuperar evaluación, paginación, filtros, descarga CSV y ausencia de desbordamiento de página en móvil. Revisión visual de escritorio y móvil completada.
+- Prueba de navegador superada: autenticación simulada, 15 criterios, cálculo de ayuda, modo reunión sin persistencia, puntuación por declaración, simulación de 1.000 escenarios, fichas con detalle por resolución, pestaña sectorial agregada, paginación, filtros y CSV publicados y ausencia de desbordamiento de página en móvil. Revisión visual de escritorio y móvil completada.
 - El navegador de prueba utiliza sesión y respuestas simuladas; la base real se comprueba por separado mediante consultas con RLS.
 
 Las migraciones se generaron con el flujo alternativo de archivos SQL y MCP porque no existe un ejecutable Supabase CLI instalado en este equipo. Las migraciones aplicadas se conservan en Git.
+
+
+## Simulación competitiva en reuniones
+
+El modelo usa 1.000 poblaciones bootstrap con semilla 20261120. La demanda prevista (383 por defecto) incluye el proyecto propio; se sortean las otras 382 solicitudes según los pesos publicados del CSV 2023–2026, conservando la proporción histórica de no elegibles, desistidas y renuncias. Las solicitudes anuladas se excluyen. Las distribuciones utilizan la primera población ilustrativa; la frecuencia, la posición y el corte mediano proceden de las 1.000 simulaciones.
+
+Se verificaron en las órdenes archivadas los máximos teóricos de 415 puntos en 2023 y 425 en 2024, 2025 y 2026. La puntuación se escala por la razón 425/máximo anual. Es una hipótesis de comparabilidad, no una reevaluación de los criterios de 2027. Los importes son ayuda concedida más importe pendiente, limitados a 500.000 €. En 139 expedientes de lista de espera de 2023 sin importe disponible se usa la mediana positiva del año. Las renuncias forman parte de la demanda presentada, pero no compiten por financiación en las poblaciones simuladas. Esta imputación se anuncia en la metodología desplegable y solo afecta la simulación; las fichas conservan los valores publicados.
+
+Se supone concesión íntegra por puntuación hasta agotar el crédito inicial, sin ampliaciones ni financiación parcial. Los empates se sortean al desconocer las horas de registro históricas. Con elegibilidad pendiente, el porcentaje queda expresamente condicionado a confirmarla; con incumplimientos se fija en cero. Sin importe calculable no se muestra porcentaje. No es una probabilidad oficial ni una predicción validada contra resultados futuros.
+
+Las fichas históricas son accesibles desde el nombre, «Ver ficha» y los puntos del gráfico. Incluyen resultados, motivos, inversión solicitada/preevaluada/subvencionable, concesión, espera, regímenes, clasificación sectorial y detalle de cada resolución con fuente y página. Los datos suplementarios se leen del JSON archivado y del CSV de eventos; los estados y los importes consolidados de Supabase siguen siendo prioritarios. Los anexos revisados no publican de forma homogénea NIF, título ni provincia del proyecto; no se inventan esos campos.

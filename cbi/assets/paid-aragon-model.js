@@ -17,6 +17,7 @@ const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value||'') && !Number.isNa
 
 export function evaluate(application, rules) {
   const input=application.assessment || {};
+  const meeting=input.mode==='meeting';
   const answers=input.eligibility || {}, criteria=input.criteria || {}, checks=[], warnings=[];
   const check=(id,title,value,detail='')=>checks.push({id,title,status:value===true?'pass':value===false?'fail':'pending',detail});
   const rows=rules.categories.map(category=>{
@@ -73,8 +74,8 @@ export function evaluate(application, rules) {
       if(['medium','large'].includes(input.size))applicable=false;
       if(validDate(input.foundationDate)&&applicationDate){const cutoff=new Date(applicationDate);cutoff.setUTCFullYear(cutoff.getUTCFullYear()-3);if(input.foundationDate<=cutoff.toISOString().slice(0,10)||input.foundationDate>applicationDate)applicable=false;}
     }
-    const prerequisites=rule.id==='m'?validDate(input.foundationDate)&&applicationDate&&['micro','small'].includes(input.size):rule.id==='l'?['micro','small'].includes(input.size):rule.id==='o'?answers.documents==='yes'&&!rules.criteria.some(c=>criteria[c.id]?.value==='yes'&&!String(criteria[c.id]?.evidence||'').trim()):true;
-    const satisfied=applicable&&prerequisites&&answer.value==='yes'&&String(answer.evidence||'').trim().length>0;
+    const prerequisites=rule.id==='m'?validDate(input.foundationDate)&&applicationDate&&['micro','small'].includes(input.size):rule.id==='l'?['micro','small'].includes(input.size):rule.id==='o'?answers.documents==='yes'&&!rules.criteria.some(c=>criteria[c.id]?.value==='yes'&&!meeting&&!String(criteria[c.id]?.evidence||'').trim()):true;
+    const satisfied=applicable&&prerequisites&&answer.value==='yes'&&(meeting||String(answer.evidence||'').trim().length>0);
     return {...rule,answer:answer.value||'unknown',evidenceNote:answer.evidence||'',supported:satisfied,score:satisfied?rule.points:0,potential:answer.value==='no'||!applicable?0:rule.points};
   });
   const score=scoring.reduce((s,c)=>s+c.score,0),potential=scoring.reduce((s,c)=>s+c.potential,0);

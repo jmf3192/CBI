@@ -24,7 +24,8 @@ function link(url,label) {
  a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;return a;
 }
 export async function initHistory(request) {
- let projects=[],summary,source='Supabase',sector='all',filtered=[],page=0;
+ let projects=[],summary,source='Supabase',filtered=[],page=0,archive;
+ try{const response=await fetch('../data/paid-aragon/history.json');if(response.ok)archive=await response.json();}catch{}
  try{
   const editions=await request('paid_aragon_editions?select=id,year,title&order=year.desc');
   for(let offset=0;;offset+=500){
@@ -36,19 +37,23 @@ export async function initHistory(request) {
   const response=await fetch('../data/paid-aragon/validation.json');if(!response.ok)throw Error('No se pudo cargar la cobertura.');summary=await response.json();
   if(projects.length!==summary.projects)throw Error(`La base contiene ${projects.length} expedientes y el inventario ${summary.projects}.`);
  }catch(error){
-  const response=await fetch('../data/paid-aragon/history.json');if(!response.ok)throw error;
-  const fallback=await response.json();projects=fallback.projects;summary=fallback.summary;source='Copia CSV versionada (Supabase no disponible o pendiente de sincronizar)';
+  if(!archive)throw error;
+  projects=archive.projects;summary=archive.summary;source='Copia CSV versionada (Supabase no disponible o pendiente de sincronizar)';
  }
+ if(archive){const index=new Map(archive.projects.map(r=>[r.year+'|'+r.case_id,r]));projects=projects.map(r=>({...index.get(r.year+'|'+r.case_id),...r}));}
+ const eventIndex=new Map();
+ try{const response=await fetch('../data/paid-aragon/historico_eventos.csv');if(response.ok){for(const event of window.CBIData.parse(await response.text(),',').records){const key=event.year+'|'+event.case_id;if(!eventIndex.has(key))eventIndex.set(key,[]);eventIndex.get(key).push(event);}}}catch{}
+ projects=projects.map(row=>({...row,events:eventIndex.get(row.year+'|'+row.case_id)||[]}));
  [...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).forEach(year=>{const option=document.createElement('option');option.value=year;option.textContent=year;$('#history-year').append(option);});
  const years=$('#history-years');
- [['','Todas las convocatorias'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;filter();});years.append(button);});
+ [['','Todas las convocatorias'],['sector','Fertilizantes y nutrición animal'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;if(value==='sector')$('#history-line').value='';filter();});years.append(button);});
  const coverage=$('#coverage-content');
  summary.coverage.forEach(row=>{const p=document.createElement('p');p.textContent=`${row.year} · ${integer.format(row.projects)} expedientes · ${row.downloaded_sources} documentos descargados. ${row.note}`;coverage.append(p);});
  const issues=summary.source_reconciliations||[];
  issues.forEach(issue=>{const p=document.createElement('p');p.textContent=`Conciliación ${issue.year}, ${issue.line}: suma de filas ${eur.format(issue.extracted_total)}; total impreso ${eur.format(issue.published_total)}. ${issue.status}`;coverage.append(p);});
  function filter(){
   const year=$('#history-year').value,line=$('#history-line').value,status=$('#history-outcome').value,query=$('#history-search').value.trim().toLocaleLowerCase('es');
-  filtered=projects.filter(row=>(!year||String(row.year)===year)&&(!line||row.line===line)&&(!status||row.status===status)&&(sector==='all'||row.sector===sector)&&(!query||`${row.beneficiary} ${row.case_id}`.toLocaleLowerCase('es').includes(query)));
+  filtered=projects.filter(row=>(!year||(year==='sector'?['fertilizantes','nutricion_animal'].includes(row.sector):String(row.year)===year))&&(!line||row.line===line)&&(!status||row.status===status)&&(!query||`${row.beneficiary} ${row.case_id}`.toLocaleLowerCase('es').includes(query)));
   const mode=$('#history-sort').value;
   filtered.sort((a,b)=>mode==='aid'?(b.granted_amount??-1)-(a.granted_amount??-1):mode==='score'?(b.score??-1)-(a.score??-1):mode==='beneficiary'?a.beneficiary.localeCompare(b.beneficiary,'es'):b.year-a.year||a.case_id.localeCompare(b.case_id));
   page=0;render();
@@ -64,7 +69,7 @@ export async function initHistory(request) {
   [[integer.format(filtered.length),'Expedientes','Una fila por expediente y convocatoria'],[integer.format(granted.length),'Concesiones',`${integer.format(waiting.length)} en lista de espera`],[eur.format(sum(granted,'granted_amount')),'Ayuda concedida','Sin sumar importes posibles de espera'],[integer.format(new Set(filtered.map(r=>r.beneficiary.toUpperCase().replaceAll(/[.,]/g,''))).size),'Empresas publicadas','Según denominación; sin unificación por NIF']].forEach(([value,label,note])=>{const div=document.createElement('div');div.className='kpi';const small=document.createElement('small');small.textContent=label;const strong=document.createElement('strong');strong.textContent=value;const p=document.createElement('p');p.textContent=note;div.append(small,strong,p);kpis.append(div);});
   renderBars($('#year-chart'),[...new Set(filtered.map(r=>r.year))].sort().map(year=>({label:String(year),value:sum(granted.filter(r=>r.year===year),'granted_amount')})),true);
   renderBars($('#outcome-chart'),Object.keys(labels).map(status=>({label:labels[status],value:filtered.filter(r=>r.status===status).length,color:status==='concedida'?'#39846a':status==='lista_espera'?'#b98b50':'#91a4b3'})),false);
-  renderScatter(granted.filter(r=>r.score!==null&&r.granted_amount!==null));renderTable();$('#export-history').disabled=!filtered.length;
+  renderScatter(granted.filter(r=>r.score!==null&&r.granted_amount!==null));renderTable();
  }
  function renderBars(container,rows,currency){
   container.replaceChildren();const max=Math.max(1,...rows.map(r=>r.value));
@@ -82,8 +87,8 @@ export async function initHistory(request) {
   for(let i=0;i<=5;i++){const x=left+i*plot/5;element('text',{x,y:268,'text-anchor':'middle'},String(Math.round(maxX*i/5)));}
   element('text',{x:left+plot/2,y:292,'text-anchor':'middle'},'Puntuación publicada');
   [...rows].sort((a,b)=>(a.sector==='otros'?0:1)-(b.sector==='otros'?0:1)).forEach(row=>{
-   const dot=element('circle',{cx:left+Number(row.score)/maxX*plot,cy:245-Number(row.granted_amount)/maxY*208,r:row.sector==='otros'?3:5,fill:colors[row.sector]||colors.otros,opacity:row.sector==='otros'?.45:.9});
-   const title=document.createElementNS(ns,'title');title.textContent=`${row.year} · ${row.beneficiary} · ${row.score} puntos · ${eur.format(row.granted_amount)}`;dot.append(title);
+   const dot=element('circle',{cx:left+Number(row.score)/maxX*plot,cy:245-Number(row.granted_amount)/maxY*208,r:row.sector==='otros'?4.5:6,fill:colors[row.sector]||'#8eb6dc',opacity:row.sector==='otros'?.6:.9,stroke:'#fff','stroke-width':1});
+   const title=document.createElementNS(ns,'title');title.textContent=`${row.year} · ${row.beneficiary} · ${row.score} puntos · ${eur.format(row.granted_amount)}`;dot.append(title);dot.setAttribute('tabindex','0');dot.setAttribute('role','button');dot.setAttribute('aria-label',title.textContent+' · Ver ficha');dot.style.cursor='pointer';dot.addEventListener('click',()=>showProject(row));dot.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();showProject(row);}});
   });container.append(svg);
  }
  function renderTable(){
@@ -92,7 +97,7 @@ export async function initHistory(request) {
    const tr=document.createElement('tr');tr.className=`sector-${row.sector}`;
    const td=()=>{const c=document.createElement('td');tr.append(c);return c;};
    let c=td();c.textContent=row.year;const line=document.createElement('small');line.textContent=row.line;c.append(line);
-   c=td();const title=document.createElement('strong');title.textContent=row.beneficiary;const code=document.createElement('small');code.textContent=row.case_id;c.append(title,code);
+   c=td();const title=document.createElement('button');title.className='project-link';title.type='button';title.textContent=row.project_title||row.beneficiary;title.addEventListener('click',()=>showProject(row));const code=document.createElement('small');code.textContent=row.case_id;c.append(title,code);
    if(row.notes){const note=document.createElement('small');note.textContent=row.notes;c.append(note);}
    c=td();const badge=document.createElement('span');badge.className=`pill ${row.sector}`;badge.textContent=sectorLabels[row.sector]||'Otros';badge.title=row.sector_basis||'';c.append(badge);
    if(row.sector_confidence==='indicio_denominacion'){const note=document.createElement('small');note.textContent='Indicio por denominación';c.append(note);}
@@ -102,7 +107,7 @@ export async function initHistory(request) {
    td().textContent=row.score===null?'—':Number(row.score).toLocaleString('es-ES');
    c=td();c.textContent=row.status==='concedida'?(row.granted_amount===null?'Pendiente de validar':eur.format(row.granted_amount)):'—';
    if(row.extraction==='ocr_vision'){const note=document.createElement('small');note.textContent='Fuente escaneada / OCR';c.append(note);}
-   c=td();c.append(link(row.source_url,`PDF · p. ${row.source_page} ↗`));
+   c=td();const open=document.createElement('button');open.type='button';open.className='open-project';open.textContent='Ver ficha';open.addEventListener('click',()=>showProject(row));c.append(open,document.createElement('br'));c.append(link(row.source_url,`PDF · p. ${row.source_page} ↗`));
    if(row.source_refs?.length>1){const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent=`${row.source_refs.length} eventos`;details.append(summary);row.source_refs.forEach(ref=>{const p=document.createElement('p');p.append(link(ref.url,`${labels[ref.status]||ref.status} · p. ${ref.page}`));details.append(p);});c.append(details);}
    body.append(tr);
   });
@@ -110,11 +115,32 @@ export async function initHistory(request) {
   $('#history-page').textContent=filtered.length?`${page*50+1}–${Math.min((page+1)*50,filtered.length)} de ${integer.format(filtered.length)}`:'Sin resultados';
   $('#history-prev').disabled=page===0;$('#history-next').disabled=(page+1)*50>=filtered.length;
  }
- document.querySelectorAll('[data-sector]').forEach(button=>button.addEventListener('click',()=>{sector=button.dataset.sector;document.querySelectorAll('[data-sector]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));filter();}));
  ['#history-year','#history-line','#history-outcome','#history-sort'].forEach(selector=>$(selector).addEventListener('change',filter));$('#history-search').addEventListener('input',filter);
  $('#history-prev').addEventListener('click',()=>{page--;renderTable();});$('#history-next').addEventListener('click',()=>{page++;renderTable();});
- $('#export-history').addEventListener('click',()=>download('paip-historico-seleccion.csv',csvText(filtered.map(({edition_id,created_at,...row})=>row))));
+
  const redraw=()=>{if(!$('#panel-history').hidden)renderScatter(filtered.filter(r=>r.status==='concedida'&&r.score!==null&&r.granted_amount!==null));};
  window.addEventListener('resize',redraw);document.addEventListener('paid:history-visible',redraw);
  filter();
+ return projects;
+}
+
+function showProject(row){
+ document.querySelector('#project-detail')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='project-detail';dialog.className='project-detail';dialog.setAttribute('aria-labelledby','project-detail-title');
+ const close=document.createElement('button');close.type='button';close.className='dialog-close';close.textContent='×';close.setAttribute('aria-label','Cerrar ficha');close.addEventListener('click',()=>dialog.close());
+ const tag=document.createElement('p');tag.className='eyebrow';tag.textContent='Ficha de proyecto · '+row.year+' · '+row.line;
+ const title=document.createElement('h2');title.id='project-detail-title';title.textContent=row.project_title||row.beneficiary;
+ const company=document.createElement('p');company.className='project-company';company.textContent=row.project_title?row.beneficiary:row.case_id;
+ const money=value=>value===null||value===undefined||value===''?'No publicado':eur.format(Number(value));
+ const published=value=>value===null||value===undefined||value===''?'No publicado':String(value);
+ const fields=[['Convocatoria',row.year+' · '+row.line],['Expediente',row.case_id],['Entidad solicitante',row.beneficiary],['NIF',published(row.nif)],['Título del proyecto',published(row.project_title)],['Provincia del proyecto',published(row.province)],['Resultado',labels[row.status]||row.status],['Motivo publicado',published(row.reason)],['Puntuación publicada',published(row.score)],['Inversión '+(row.reference_basis==='solicitada'?'solicitada':row.reference_basis==='evaluada_preevaluacion'?'evaluada en preevaluación':'de referencia'),money(row.investment_reference)],['Inversión subvencionable',money(row.eligible_budget)],['Ayuda concedida consolidada',row.status==='concedida'?money(row.granted_amount):'Sin concesión'],['Ayuda pendiente en lista de espera',Number(row.waiting_amount)>0?money(row.waiting_amount):'Sin importe pendiente publicado'],['Ayuda concedida · minimis',row.status==='concedida'?money(row.minimis_amount):'Sin concesión'],['Ayuda concedida · RGEC',row.status==='concedida'?money(row.rgec_amount):'Sin concesión'],['Sector',sectorLabels[row.sector]||'Otros'],['Motivo de inclusión sectorial',row.sector==='otros'?'Sin clasificación sectorial específica':published(row.sector_basis)],['Confirmación del sector',row.sector_confidence==='indicio_denominacion'?'Indicio por denominación; pendiente de contraste':row.sector_source_url?'Actividad de la empresa contrastada en fuente pública':'Sin evidencia sectorial adicional'],['Observaciones',published(row.notes)]];
+ const facts=document.createElement('dl');facts.className='project-facts';fields.forEach(([label,value])=>{const block=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;block.append(dt,dd);facts.append(block);});
+ dialog.append(close,tag,title,company,facts);
+ if(row.events?.length){const h=document.createElement('h3');h.textContent='Detalle por resolución';dialog.append(h);const scroll=document.createElement('div');scroll.className='table-scroll';const table=document.createElement('table');table.className='project-events';const thead=document.createElement('thead'),header=document.createElement('tr');['Resultado','Puntos','Inversión subvencionable','Minimis','RGEC','Ayuda / posible ayuda','Documento'].forEach(text=>{const th=document.createElement('th');th.textContent=text;header.append(th);});thead.append(header);table.append(thead);const body=document.createElement('tbody');row.events.forEach(event=>{const tr=document.createElement('tr');[labels[event.status]||event.status,published(event.score),money(event.eligible_budget),money(event.minimis_amount),money(event.rgec_amount),money(event.amount)].forEach(text=>{const td=document.createElement('td');td.textContent=text;tr.append(td);});const td=document.createElement('td');td.append(link(event.source_url,'PDF · p. '+event.source_page));tr.append(td);body.append(tr);});table.append(body);scroll.append(table);dialog.append(scroll);}
+ const h=document.createElement('h3');h.textContent='Resoluciones y fuentes';dialog.append(h);
+ const list=document.createElement('ul');const refs=row.source_refs?.length?row.source_refs:[{url:row.source_url,page:row.source_page,status:row.status}];
+ refs.forEach(ref=>{const li=document.createElement('li');li.append(link(ref.url,`${labels[ref.status]||ref.status||'Resolución'} · página ${ref.page||'—'}`));if(ref.amount!==null&&ref.amount!==undefined)li.append(document.createTextNode(' · '+money(ref.amount)));list.append(li);});
+ if(row.sector_source_url){const li=document.createElement('li');li.append(link(row.sector_source_url,'Evidencia de la actividad de la empresa'));list.append(li);}dialog.append(list);
+ const note=document.createElement('p');note.className='small muted';note.textContent='El estado y la ayuda concedida consolidan las resoluciones disponibles. El desglose por resolución distingue ayudas concedidas y posibles ayudas en espera; los importes de distintas fases no se suman automáticamente. Los campos no publicados no se deducen del domicilio ni de la actividad de la empresa.';dialog.append(note);
+ document.body.append(dialog);dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});dialog.showModal();
 }
