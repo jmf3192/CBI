@@ -1,0 +1,14 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import vm from 'node:vm';
+import {forecast} from '../../cbi/assets/paid-aragon-forecast.js';
+import {generateApplications,applicationRecords,simulationHeaders,allocateApplications} from '../../cbi/assets/paid-aragon-population.js';
+const root=new URL('../../cbi/data/paid-aragon/',import.meta.url);
+const scope={};vm.runInNewContext(await readFile(new URL('../../cbi/assets/cbi-data-workspace.js',import.meta.url),'utf8'),scope);
+const readInputs=async name=>scope.CBIData.parse(await readFile(new URL(name,root),'utf8'),',').records;
+const settings=forecast(await readInputs('demanda_historica.csv'),await readInputs('escenario_2027.csv'));
+const projects=JSON.parse(await readFile(new URL('history.json',root),'utf8')).projects;
+const {rows}=generateApplications(projects,settings),records=applicationRecords(rows);
+const cell=value=>'"'+String(value??'').replaceAll('"','""')+'"';
+await writeFile(new URL('solicitudes_simuladas_2027.csv',root),'\uFEFF'+[simulationHeaders.map(cell).join(','),...records.map(r=>simulationHeaders.map(h=>cell(r[h])).join(','))].join('\r\n')+'\r\n');
+const allocation=allocateApplications(rows,settings.budget);
+console.log(JSON.stringify({applications:rows.length,admissible:allocation.rows.length,funded:allocation.funded,cutoff:allocation.cutoff,spent:allocation.spent,remaining:allocation.remaining}));

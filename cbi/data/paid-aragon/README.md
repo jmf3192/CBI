@@ -73,7 +73,7 @@ No se incluyen solicitudes privadas, contraseñas ni claves secretas.
 
 ## Previsión 2027 y CSV editables
 
-`demanda_historica.csv` y `escenario_2027.csv` están registrados como entradas activas en el catálogo de CBI. Administración → Datos y muestras → PAIP permite editar, guardar versiones y publicarlas. La página carga la versión publicada después de validar acceso; sin versión publicada usa el original del repositorio. Se conserva el historial de cambios y se puede volver al original. El simulador de reunión no guarda solicitudes; los borradores previos de Supabase permanecen intactos.
+`demanda_historica.csv`, `escenario_2027.csv` y `solicitudes_simuladas_2027.csv` están registrados como entradas activas en el catálogo de CBI. Administración → Datos y muestras → PAIP permite editar, guardar versiones y publicarlas. La página carga la versión publicada después de validar acceso; sin versión publicada usa el original del repositorio. Se conserva el historial de cambios y se puede volver al original. El simulador de reunión no guarda solicitudes; los borradores previos de Supabase permanecen intactos.
 
 La previsión considera expedientes únicos de TDI-FEDER, excluyendo anulaciones, pero incluyendo desistimientos, no elegibles y renuncias como demanda presentada: 445 en 2023, 494 en 2024, 351 en 2025 y 290 en 2026. Pesos 1, 2, 3, 4 (10 %, 20 %, 30 %, 40 %). Media = 364,6; incremento del 5 % = 382,83; resultado redondeado final = **383 solicitudes**. El crecimiento se aplica a la media ponderada, no al dato de 2026. IDIS-REACT no calibra la previsión.
 
@@ -111,3 +111,26 @@ Las columnas cuentan expedientes y pueden solaparse. No son números de empresas
 Los históricos y las referencias se registran en **Datos y muestras** como archivos de consulta y edición de copias. Guardar una versión de estos archivos no reconstruye automáticamente el JSON ni los registros históricos de Supabase. Los dos CSV activos de previsión 2027 mantienen su funcionamiento publicado.
 
 Los NIF incorporados son de entidades. Se omiten identificadores fiscales de personas físicas de las respuestas archivadas, manteniendo las posiciones de los diccionarios. `sources/feder-redactions.json` y el inventario conservan el hash original y describen el tratamiento; el hash principal verifica el archivo disponible.
+
+
+## CSV completo y corte simulado 2027
+
+`solicitudes_simuladas_2027.csv` contiene **383 solicitudes sintéticas**, con las no admisibles incluidas. Cada fila publica su identificador, ejercicio, tipo simulado, nombre ficticio, admisibilidad, puntuación, ayuda solicitada, orden de desempate y referencia histórica (año, expediente, estado, imputación y fuente). No son empresas que hayan presentado solicitud en 2027.
+
+`demanda_historica.csv` mantiene la previsión ponderada (pesos 1–4) e incremento del 5 %; `escenario_2027.csv` conserva los parámetros, incluido el crédito. El CSV completo se construye con esos supuestos y semilla 20261120 mediante `node scripts/paid-aragon/build_simulation.mjs`, que reutiliza el parser CSV de la aplicación. Ese comando sustituye el original del repositorio, no las versiones compartidas por usuarios.
+
+Para generar las filas se muestrean expedientes no anulados de TDI-FEDER 2023–2026 según los pesos. Se conserva la proporción muestreada de no admisibles, desistidas y renuncias; estas filas tienen un importe solicitado hipotético, pero no reciben ayuda en el reparto. Las puntuaciones de admitidas se normalizan a 425 con máximos de origen 415 (2023) y 425 (2024–2026), redondeando a dos decimales. La ayuda solicitada sintética parte de concesión más parte pendiente, con mediana anual para importes desconocidos y límites 4.000–500.000 €. `importe_imputado` identifica el uso de mediana. Estas transformaciones no alteran los históricos.
+
+**Reparto y corte:** la página toma las filas del CSV publicado, o el original si no existe versión publicada. Ordena las admisibles por puntuación descendente y después por `orden_desempate` ascendente. Concede el importe íntegro de cada una mientras quepa en el crédito; la primera que no cabe detiene el reparto, sin saltar a solicitudes de menor puntuación. El corte es la puntuación de la última financiada de **esa misma población visible**, nunca una mediana de poblaciones distintas. Si no se financia ninguna, no se inventa un corte. Este reparto es un supuesto sin ampliaciones ni financiación parcial, no un resultado administrativo.
+
+En el original, antes de añadir el proyecto de la reunión: **383 filas, 316 admisibles, 77 financiadas, 220 puntos de corte, 10.024.017 € asignados y 1.141,50 € de crédito restante**. La comprobación independiente vuelve a repartir todos los importes y verifica estos totales.
+
+Al introducir una ayuda propia calculable, el proyecto sustituye la última fila sintética; las competidoras conocidas sustituyen otras filas. El total de solicitudes se conserva. Nada de la reunión se guarda en el CSV ni en Supabase. Los cambios de puntuación, importe, competidoras o crédito recalculan el corte. Los empates también dependen del orden simulado; compartir la puntuación de corte no garantiza financiación.
+
+La frecuencia de aprobación usa 1.000 escenarios: el primero es el CSV visible, y los otros 999 remuestrean su distribución de admisibilidad, puntuaciones e importes. Si cambia el número previsto de solicitudes y deja de coincidir con las filas del CSV, se remuestrea la base hasta el nuevo volumen; no se mezclan poblaciones de tamaños distintos. Los pesos históricos ya están incorporados en la generación original: para cambiar también esa composición se regenera el CSV con los nuevos pesos. Una edición publicada de sus puntuaciones/importes alimenta directamente los gráficos en la siguiente carga. Los resultados de financiación se calculan; no se leen de columnas editables que puedan quedar obsoletas.
+
+## Presupuesto con un único régimen
+
+La interfaz solicita un coste por categoría y elige `Minimis` o `RGEC · renunciar a minimis` para todo el presupuesto. Al cambiar de régimen conserva las cantidades y recalcula intensidades y ayuda. En RGEC no exige declarar minimis previo; sí exige sus condiciones y efecto incentivador. En minimis se aplica el margen de la empresa única y no se añade automáticamente un tramo RGEC.
+
+El apartado I.3 de la orden (página 9) permite dos tramos sobre conceptos distintos, sin aplicar dos regímenes al mismo gasto, y permite renunciar a minimis para tramitar todo por RGEC. Por tanto, el selector es una comparación de escenarios con un único régimen, no una afirmación de que esté prohibido combinarlos. La explicación se ofrece en un desplegable del presupuesto. El motor conserva compatibilidad con los evaluadores anteriores de costes por régimen, pero la interfaz ya no pide esa división.

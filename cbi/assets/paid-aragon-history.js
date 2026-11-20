@@ -1,4 +1,4 @@
-import { historicalStats, renderHistoricalDistribution, renderHistoricalComparisons } from './paid-aragon-history-analytics.js?v=20261120-7';
+import { historicalStats, renderHistoricalDistribution, renderHistoricalComparisons } from './paid-aragon-history-analytics.js?v=20261120-8';
 const $=selector=>document.querySelector(selector);
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 const integer=new Intl.NumberFormat('es-ES');

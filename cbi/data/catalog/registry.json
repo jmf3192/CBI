@@ -1481,5 +1481,56 @@
       "description": "Datos oficiales ampliados con trazabilidad. Archivo de consulta y edición de copias; las versiones guardadas no reconstruyen automáticamente el histórico del panel."
     },
     "active_version": null
+  },
+  {
+    "id": "paip-solicitudes-simuladas-2027",
+    "name": "PAIP · Solicitudes simuladas 2027 · CSV completo",
+    "call_id": "eaeab14e-c3eb-46e5-9b35-bf2bcd31df9c",
+    "source_path": "/cbi/data/paid-aragon/solicitudes_simuladas_2027.csv",
+    "metadata": {
+      "group": "paip-aragon",
+      "role": "activo",
+      "connection": "csv",
+      "delimiter": ",",
+      "headers": [
+        "id",
+        "ejercicio",
+        "tipo",
+        "nombre",
+        "admisible",
+        "puntuacion",
+        "ayuda_solicitada_eur",
+        "orden_desempate",
+        "convocatoria_origen",
+        "expediente_origen",
+        "estado_origen",
+        "importe_imputado",
+        "fuente_url"
+      ],
+      "numeric": [
+        "ejercicio",
+        "puntuacion",
+        "ayuda_solicitada_eur",
+        "orden_desempate",
+        "convocatoria_origen"
+      ],
+      "categories": [
+        "admisible",
+        "convocatoria_origen",
+        "estado_origen",
+        "importe_imputado"
+      ],
+      "sourceFields": [
+        "fuente_url"
+      ],
+      "rowCount": 383,
+      "validation": "generic",
+      "pages": [
+        "paid-aragon-dashboard.html"
+      ],
+      "readme": "/cbi/data/paid-aragon/README.md",
+      "description": "Población completa y sintética de 2027. Puntuación, ayuda, admisibilidad y orden de desempate son entradas editables; la página reparte el crédito y recalcula el corte. La solicitud de la reunión sustituye una fila sin guardarse. Si cambia el volumen previsto, se remuestrea esta base hasta ese volumen."
+    },
+    "active_version": null
   }
 ]

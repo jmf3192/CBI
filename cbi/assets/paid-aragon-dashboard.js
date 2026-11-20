@@ -1,11 +1,11 @@
-import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261120-7';
+import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261120-8';
 import { CBI } from './cbi-supabase.js?v=20261120';
-import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-7';
-import { initHistory } from './paid-aragon-history.js?v=20261120-7';
-import { initForecast } from './paid-aragon-forecast.js?v=20261120-7';
+import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-8';
+import { initHistory } from './paid-aragon-history.js?v=20261120-8';
+import { initForecast } from './paid-aragon-forecast.js?v=20261120-8';
 const $=selector=>document.querySelector(selector);
 const form=$('#application-form');
-import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-7';
+import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-8';
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 let rules,requestedAid=null;
 const message=text=>{$('#status').textContent=text;$('#status').hidden=!text;};
@@ -33,7 +33,7 @@ function select(options,dataAttribute,id){
  options.forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;s.append(option);});return s;
 }
 const steps=[...document.querySelectorAll('#application-fields > section.card, #manual-competitors-panel')];
-function selectStep(index){steps.forEach((section,i)=>{section.id='request-step-'+i;section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby','request-step-tab-'+i);section.hidden=i!==index;section.setAttribute('aria-label',['Proyecto','Presupuesto','Elegibilidad','Criterios','Competidoras'][i]);});document.querySelectorAll('[data-step]').forEach((button,i)=>{button.id='request-step-tab-'+i;button.setAttribute('aria-controls','request-step-'+i);button.setAttribute('aria-selected',String(i===index));button.tabIndex=i===index?0:-1;});}
+function selectStep(index){$('.request-main').scrollTop=0;steps.forEach((section,i)=>{section.id='request-step-'+i;section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby','request-step-tab-'+i);section.hidden=i!==index;section.setAttribute('aria-label',['Proyecto','Presupuesto','Elegibilidad','Criterios','Competidoras'][i]);});document.querySelectorAll('[data-step]').forEach((button,i)=>{button.id='request-step-tab-'+i;button.setAttribute('aria-controls','request-step-'+i);button.setAttribute('aria-selected',String(i===index));button.tabIndex=i===index?0:-1;});}
 document.querySelectorAll('[data-step]').forEach(button=>{button.addEventListener('click',()=>selectStep(Number(button.dataset.step)));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?4:(Number(button.dataset.step)+(event.key==='ArrowRight'?1:4))%5;selectStep(next);document.querySelector(`[data-step="${next}"]`).focus();});});
 selectStep(0);
 form.addEventListener('invalid',event=>{const index=steps.findIndex(section=>section.contains(event.target));if(index>=0)selectStep(index);},true);
@@ -48,14 +48,13 @@ const numeric=input=>input.value.trim()===''||/^[-,.]$/.test(input.value.trim())
 function buildForm(){
  rules.categories.forEach(category=>{
   const tr=document.createElement('tr');const title=document.createElement('td');title.textContent=category.title;tr.append(title);
-  ['minimis','rgec'].forEach(regime=>{
-   const cell=document.createElement('td');const input=document.createElement('input');input.type='number';input.min='0';input.max='999999999999.99';input.step='.01';input.value='0';input.dataset.numberFormat='';input.dataset.numberDecimals='2';input.dataset.cost=category.id;input.dataset.regime=regime;input.setAttribute('aria-label',`${category.title}: coste ${regime}`);const range=document.createElement('input');range.type='range';range.min='0';range.max='1000000';range.step='1000';range.value='0';range.dataset.costRange=category.id;range.dataset.regime=regime;range.setAttribute('aria-label',`Ajustar ${category.title}: ${regime}`);range.addEventListener('input',()=>{window.CBINumbers.setValue(input,Number(range.value));input.dispatchEvent(new Event('input',{bubbles:true}));});cell.append(input,range);tr.append(cell);
-   const rate=document.createElement('td');rate.className='rate';rate.dataset.rate=`${category.id}_${regime}`;rate.textContent='—';tr.append(rate);
-  });$('#cost-rows').append(tr);
+  const cell=document.createElement('td'),input=document.createElement('input');input.type='number';input.min='0';input.max='999999999999.99';input.step='.01';input.value='0';input.dataset.numberFormat='';input.dataset.numberDecimals='2';input.dataset.cost=category.id;input.setAttribute('aria-label',category.title+': coste elegible');
+  const range=document.createElement('input');range.type='range';range.min='0';range.max='1000000';range.step='1000';range.value='0';range.dataset.costRange=category.id;range.setAttribute('aria-label','Ajustar '+category.title);range.addEventListener('input',()=>{window.CBINumbers.setValue(input,Number(range.value));input.dispatchEvent(new Event('input',{bubbles:true}));});cell.append(input,range);tr.append(cell);
+  const rate=document.createElement('td');rate.className='rate';rate.dataset.rate=category.id;rate.textContent='—';tr.append(rate);$('#cost-rows').append(tr);
  });
  const timing=[{id:'application_window',title:'Solicitud dentro del plazo de la convocatoria',detail:'Presentación entre el 11 de noviembre de 2026 y el 15 de enero de 2027.'},{id:'execution_window',title:'Actuaciones dentro del periodo subvencionable',detail:'Actuaciones elegibles entre el 1 de julio de 2026 y el 30 de junio de 2027.'},{id:'incentive_order',title:'Solicitud o pre-solicitud válida anterior al inicio (RGEC)',detail:'Requerido si se utiliza RGEC; una pre-solicitud válida debe cumplir la orden aplicable.'}].map(rule=>({...rule,source_url:rules.source_url}));
  [...timing,...rules.eligibility].forEach(rule=>{
-  const div=document.createElement('div');div.className='check-row';const info=document.createElement('div');const title=document.createElement('h3');title.id=`gate-label-${rule.id}`;title.textContent=rule.title;
+  const div=document.createElement('div');div.className='check-row';if(['incentive_order','rgec_conditions'].includes(rule.id))div.dataset.rgecGate='';const info=document.createElement('div');const title=document.createElement('h3');title.id=`gate-label-${rule.id}`;title.textContent=rule.title;
   const p=document.createElement('p');p.textContent=rule.detail;const link=document.createElement('a');link.href=rule.source_url;link.target='_blank';link.rel='noopener';link.textContent=rule.page?`Orden · ${rule.section} · p. ${rule.page} ↗`:'Consultar orden ↗';info.append(title,p,link);
   const control=select(gateOptions,'gate',rule.id);control.setAttribute('aria-labelledby',title.id);div.append(info,control);$('#eligibility-rows').append(div);segmented(control,[['yes','Cumple'],['no','No cumple'],['unknown','Pendiente']]);
  });
@@ -71,18 +70,19 @@ function readApplication(){
  document.querySelectorAll('[data-input]').forEach(input=>{assessment[input.dataset.input]=numeric(input);});
  document.querySelectorAll('[data-gate]').forEach(input=>{assessment.eligibility[input.dataset.gate]=input.value;});
  document.querySelectorAll('[data-criterion]').forEach(input=>{const id=input.dataset.criterion;assessment.criteria[id]={value:input.value,evidence:''};});
- document.querySelectorAll('[data-cost]').forEach(input=>{const id=input.dataset.cost;assessment.costs[id]??={};assessment.costs[id][input.dataset.regime]=numeric(input);});
+ document.querySelectorAll('[data-cost]').forEach(input=>{const id=input.dataset.cost;assessment.costs[id]??={};assessment.costs[id].amount=numeric(input);});
  return {application_year:2027,assessment};
 }
 function updateEvaluation(){
  if(!rules)return;
+ const rgec=$('[data-input=regime]').value==='rgec';$('#minimis-history-field').hidden=rgec;document.querySelectorAll('[data-rgec-gate]').forEach(row=>row.hidden=!rgec);
  const application=readApplication(),result=evaluate(application,rules);
  const maximum=result.aid,aid=maximum===null?null:requestedAid===null?maximum:Math.max(0,Math.min(maximum,requestedAid));
  const computed={...result,aid,failed:[...result.failed]};if(aid!==null&&aid<rules.min_aid)computed.failed.push({title:'La ayuda solicitada debe alcanzar 4.000 €.'});
  computed.status=computed.failed.length?'no_elegible':result.status;updateCompetition(computed);
  if(requestedAid!==null&&aid!==null&&requestedAid!==aid)requestedAid=aid;
  const aidInput=$('#own-aid-input'),aidRange=$('#own-aid-range');aidInput.disabled=aidRange.disabled=maximum===null;aidRange.max=String(maximum??0);aidRange.value=String(aid??0);if(document.activeElement!==aidInput)window.CBINumbers.setValue(aidInput,aid??0);$('#own-aid-cap').textContent=maximum===null?'Completa tamaño, zona y presupuesto.':'Máximo calculado: '+eur.format(maximum);
- document.querySelectorAll('[data-cost-range]').forEach(range=>{const input=document.querySelector(`[data-cost="${range.dataset.costRange}"][data-regime="${range.dataset.regime}"]`),value=Number(numeric(input))||0;range.max=String(Math.max(1000000,Math.ceil(value/100000)*100000));range.value=String(Math.max(0,value));});
+ document.querySelectorAll('[data-cost-range]').forEach(range=>{const input=document.querySelector(`[data-cost="${range.dataset.costRange}"]`),value=Number(numeric(input))||0;range.max=String(Math.max(1000000,Math.ceil(value/100000)*100000));range.value=String(Math.max(0,value));});
  $('#eligibility-result').textContent=computed.status==='no_elegible'?'Revisar incumplimientos':computed.status==='pendiente'?'Elegibilidad pendiente':'Compatible según tus datos';
  $('#eligibility-count').textContent=`${result.checks.filter(c=>c.status==='pass').length} comprobaciones confirmadas · ${result.pending.length} pendientes · ${computed.failed.length} incumplimientos`;
  $('#score-result').replaceChildren(document.createTextNode(String(result.score)+' '));const em=document.createElement('em');em.textContent=`/ ${result.maxScore}`;$('#score-result').append(em);
@@ -93,7 +93,7 @@ function updateEvaluation(){
  computed.failed.slice(0,4).forEach(issue=>{const p=document.createElement('p');p.className='issue fail';p.textContent=issue.title;issues.append(p);});
  result.warnings.filter(warning=>!warning.startsWith('Estimación sobre costes')).forEach(warning=>{const p=document.createElement('p');p.className='issue';p.textContent=warning;issues.append(p);});
  document.querySelectorAll('[data-rate]').forEach(cell=>{
-  const [category,regime]=cell.dataset.rate.split('_');const rate=intensity(category,regime,application.assessment.size,application.assessment.zone);
+  const rate=intensity(cell.dataset.rate,application.assessment.regime,application.assessment.size,application.assessment.zone);
   cell.textContent=rate===null?(application.assessment.size&&application.assessment.zone?'No aplica':'—'):`${Math.round(rate*100)} %`;
  });
  renderScoreCircle(rules,result.score);
@@ -111,5 +111,5 @@ document.addEventListener('cbi:access-granted',async()=>{
   document.querySelectorAll('[data-input=previousMinimis],[data-input=otherAid]').forEach(input=>{input.dataset.numberFormat='';input.dataset.numberDecimals='2';});buildForm();window.CBINumbers.init(form);$('#application-fields').disabled=false;updateEvaluation();
  }catch(error){message(error.message);}
  const demand=await initForecast();
- try{const projects=await initHistory(request);if(demand){initCompetition(projects,demand);if(rules)updateEvaluation();}}catch(error){$('#history-status').textContent='No se han podido cargar los históricos: '+error.message;}
+ try{const projects=await initHistory(request);if(demand){await initCompetition(projects,demand);if(rules)updateEvaluation();}}catch(error){$('#history-status').textContent='No se han podido cargar los históricos: '+error.message;}
 },{once:true});
