@@ -286,6 +286,7 @@ async function publishDataVersion(session,id,version,expected) { const match=exp
 async function registerDataset(session,body) {const rows=await supabaseFetch('/rest/v1/data_catalog?select=*',{session,method:'POST',headers:{Prefer:'return=representation'},body});return rows[0];}
 
 export const CBI = {
+  request: supabaseFetch,
   dataCatalog,dataVersions,dataVersion,saveDataVersion,publishDataVersion,registerDataset,
   clearSession,
   createStrategyStudy,

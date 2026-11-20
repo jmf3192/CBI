@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PAID Aragón | CBI</title>
+<link rel="icon" href="../assets/conasoc-logo.png">
+<link rel="stylesheet" href="../assets/cbi-page-guard.css">
+<link rel="stylesheet" href="../assets/paid-aragon-dashboard.css">
+</head>
+<body data-cbi-protected data-cbi-access-code="PAID-ARAGON">
+<header><a href="./convocatorias.html"><img src="../assets/conasoc-logo.png" alt="CONASOC"></a><nav aria-label="Cuenta"><a href="./convocatorias.html">Espacio de trabajo</a><a href="./acceso.html" data-cbi-logout>Salir</a></nav></header>
+<main>
+<div class="heading"><div><p class="eyebrow">CBI / ARAGÓN</p><h1>PAID Aragón</h1><p class="muted">Prepara tu solicitud y consulta las convocatorias anteriores.</p></div><span class="badge">Estructura inicial</span></div>
+<div class="tabs" role="tablist" aria-label="Panel PAID">
+<button id="tab-request" role="tab" aria-selected="true" aria-controls="panel-request" data-tab="request">Configurar solicitud</button>
+<button id="tab-history" role="tab" aria-selected="false" aria-controls="panel-history" tabindex="-1" data-tab="history">Históricos</button>
+</div>
+<p id="status" role="status" aria-live="polite">Cargando panel…</p>
+<section id="panel-request" role="tabpanel" aria-labelledby="tab-request">
+<div class="layout"><aside class="card"><p class="eyebrow">MIS SOLICITUDES</p><h2>Borradores</h2><button id="new-request" type="button">Nueva solicitud</button><div id="drafts"></div></aside>
+<div class="card"><h2>Configura tu proyecto</h2><p class="muted">Guarda los datos iniciales. Los criterios, gastos elegibles y cálculos se incorporarán en la siguiente fase.</p>
+<form id="application-form"><fieldset id="application-fields" disabled><div class="form-grid">
+<label>Empresa<input name="company_name" required maxlength="200" autocomplete="organization"></label>
+<label>Proyecto<input name="project_name" required maxlength="300"></label>
+<label>Año de solicitud<input name="application_year" type="number" min="2000" max="2100" required></label>
+<label>Provincia<select name="province" required><option value="">Selecciona una provincia</option><option>Huesca</option><option>Teruel</option><option>Zaragoza</option></select></label>
+<label>Presupuesto previsto (€)<input name="requested_budget" type="number" min="0" max="999999999999.99" step="0.01" value="0" required></label>
+<label class="wide">Descripción y notas<textarea name="notes" rows="5" maxlength="20000"></textarea></label>
+</div><button class="primary" type="submit">Guardar borrador</button></fieldset></form>
+<p class="muted small">El presupuesto es orientativo. Todavía no se calcula la ayuda ni se comprueba la elegibilidad.</p></div></div>
+</section>
+<section id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
+<div class="card"><div class="history-heading"><div><h2>Históricos de PAID Aragón</h2><p class="muted">Convocatorias y concesiones de los años disponibles.</p></div><label>Año<select id="history-year"><option value="">Todos los años</option></select></label></div>
+<div class="table-scroll"><table><thead><tr><th>Año</th><th>Beneficiario</th><th>Proyecto</th><th>Provincia</th><th>Ayuda concedida</th><th>Fuente</th></tr></thead><tbody id="history-rows"></tbody></table></div><p id="history-status" role="status">Pendiente de carga de datos históricos.</p></div>
+</section>
+</main>
+<script type="module" src="../assets/paid-aragon-dashboard.js?v=20261120"></script>
+<script type="module" src="../assets/cbi-page-guard.js?v=20261120"></script>
+</body></html>
