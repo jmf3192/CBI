@@ -1,7 +1,9 @@
+import {isLegacyRecord} from './paid-aragon-history-records.js?v=20261121-2';
 const $=s=>document.querySelector(s),ns='http://www.w3.org/2000/svg';
 const n=new Intl.NumberFormat('es-ES',{maximumFractionDigits:1});
 export const hasScore=r=>r.score!==null&&r.score!==undefined&&r.score!==''&&Number.isFinite(Number(r.score));
 export function historicalStats(rows){
+ rows=rows.filter(r=>!isLegacyRecord(r));
  const active=rows.filter(r=>r.status!=='anulada'),granted=rows.filter(r=>r.status==='concedida'),scored=rows.filter(hasScore),funded=granted.filter(hasScore);
  const comparable=new Set(rows.map(r=>r.year+'|'+r.line)).size===1;
  const mean=group=>group.length?group.reduce((s,r)=>s+Number(r.score),0)/group.length:null;
@@ -15,6 +17,7 @@ function showMembers(label,rows,open){
  const list=document.createElement('div');list.className='score-members';[...rows].sort((a,b)=>Number(b.score)-Number(a.score)).forEach(r=>{const button=document.createElement('button');button.type='button';const strong=document.createElement('strong');strong.textContent=r.project_title||r.beneficiary;const small=document.createElement('span');small.textContent=`${r.year} · ${r.case_id} · ${n.format(Number(r.score))} puntos`;button.append(strong,small);button.addEventListener('click',()=>{dialog.close();open(r);});list.append(button);});dialog.append(list);document.body.append(dialog);dialog.showModal();
 }
 export function renderHistoricalDistribution(rows,open){
+ rows=rows.filter(r=>!isLegacyRecord(r));$('#history-score-legend').replaceChildren();
  const host=$('#history-histogram');host.replaceChildren();const scored=rows.filter(hasScore);if(!scored.length){host.textContent='Sin puntuaciones publicadas para esta selección.';return;}
  const stats=historicalStats(rows),{bins,max}=scoreBins(rows),width=Math.max(300,host.clientWidth||800),left=24,right=width-18,plot=right-left,x=v=>left+v/max*plot,peak=Math.max(1,...bins.map(b=>b.rows.length));
  const svg=node('svg',{viewBox:`0 0 ${width} 300`,role:'group','aria-label':'Distribución interactiva de puntuaciones'});host.append(svg);
@@ -26,6 +29,7 @@ export function renderHistoricalDistribution(rows,open){
 }
 const statuses=[['concedida','Concedida','#18775b'],['lista_espera','Espera','#a98748'],['no_elegible','No elegible','#a8b9cb'],['desistida','Desistida','#cbd5df'],['renuncia_lista_espera','Renuncia','#8a789c'],['anulada','Anulada','#e4e9ee']];
 export function renderHistoricalComparisons(rows,open,selectYear){
+ rows=rows.filter(r=>!isLegacyRecord(r));
  const root=$('#history-comparisons');root.hidden=!['','sector'].includes($('#history-year').value);if(root.hidden)return;
  const heat=$('#history-heatmap'),composition=$('#history-composition');heat.replaceChildren();composition.replaceChildren();
  const groups=[...new Set(rows.map(r=>r.year+'|'+r.line))].sort((a,b)=>Number(a.split('|')[0])-Number(b.split('|')[0])).map(key=>({key,rows:rows.filter(r=>r.year+'|'+r.line===key)}));

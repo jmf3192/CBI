@@ -34,7 +34,7 @@ Ver `cbi/data/paid-aragon/README.md` para estructura, alcance y conciliación. L
 
 El origen principal es Supabase. Si la consulta falla o la carga está incompleta respecto al inventario, usa la copia JSON de los CSV versionados y lo anuncia expresamente en pantalla. Los datos históricos son públicos; los borradores privados no se guardan en archivos versionados.
 
-Se muestran KPIs, importes por año, resultados y dispersión puntuación/ayuda. Filtros por año, línea, estado, búsqueda y ordenación. Fertilizantes y nutrición animal forman una pestaña independiente que reúne los 29 expedientes de todos los años. Los baremos cambian entre convocatorias; la dispersión identifica esa limitación y no sirve de corte predictivo de 2027.
+Se muestran KPIs, importes por año, resultados y dispersión puntuación/ayuda. Filtros por año, línea, estado, búsqueda y ordenación. Fertilizantes y nutrición animal forman una pestaña independiente que reúne 39 registros desde 2017: 29 expedientes PAIP y 10 operaciones FEDER antiguas. Los baremos cambian entre convocatorias; la dispersión identifica esa limitación y no sirve de corte predictivo de 2027.
 
 ## Verificación
 
@@ -83,3 +83,10 @@ Se retira el bloque superior de fechas/importes del configurador. El esquema de 
 ## Disposición de los gráficos y presupuesto · revisión 2027
 
 La distribución ocupa todo el ancho del panel de resultados y no lleva el borde superior oscuro. Debajo, Esquema de puntuación (circular) y Ayuda y puntuación tienen dos columnas de igual ancho y alineación vertical en escritorio. En móvil se apilan. El presupuesto muestra cinco campos de coste, un selector general de régimen y una única intensidad por categoría. El desplegable explica minimis, RGEC y la posibilidad legal de tramos sobre conceptos distintos. Se mantienen las comprobaciones de margen, localización/tamaño, acumulación y efecto incentivador.
+
+
+## Navegación histórica desde 2017
+
+Se integran los antecedentes 2017–2020 en las pestañas anuales y en Todos desde 2017, sin duplicar la antigua sección desplegable. La pestaña sectorial reúne también sus diez registros confirmados. La tabla y las fichas mantienen un tipo de registro explícito: las 310 operaciones no aportan puntuación ni importes de ayuda PAIP. Los indicadores financieros y de resultados se calculan únicamente con los 2.323 expedientes consolidados. Para anualidades solo con operaciones se muestran recuentos y datos de ficha, sin interpretar una ayuda desconocida como cero.
+
+La tabla adicional `paid_aragon_legacy_operations` almacena el identificador de operación, año y ficha pública como JSON. Se habilita RLS con el mismo acceso por convocatoria activa que el histórico existente y se revocan escrituras de los roles de cliente. La carga y los CSV están versionados; las escrituras de solicitudes privadas siguen desactivadas en la interfaz.

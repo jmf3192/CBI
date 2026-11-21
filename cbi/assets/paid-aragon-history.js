@@ -1,8 +1,9 @@
-import { historicalStats, renderHistoricalDistribution, renderHistoricalComparisons } from './paid-aragon-history-analytics.js?v=20261120-8';
+import { historicalStats, renderHistoricalDistribution, renderHistoricalComparisons } from './paid-aragon-history-analytics.js?v=20261121-2';
+import {isLegacyRecord,mergeHistoryRecords} from './paid-aragon-history-records.js?v=20261121-2';
 const $=selector=>document.querySelector(selector);
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 const integer=new Intl.NumberFormat('es-ES');
-const labels={concedida:'Concedida',lista_espera:'Lista de espera',no_elegible:'No elegible',desistida:'Desistida',anulada:'Anulada',renuncia_lista_espera:'Renuncia de espera'};
+const labels={concedida:'Concedida',lista_espera:'Lista de espera',no_elegible:'No elegible',desistida:'Desistida',anulada:'Anulada',renuncia_lista_espera:'Renuncia de espera',operacion_feder:'Operación FEDER'};
 const sectorLabels={fertilizantes:'Fertilizantes',nutricion_animal:'Nutrición animal',revision_sectorial:'Por revisar',otros:'Otros'};
 const colors={fertilizantes:'#39846a',nutricion_animal:'#637fbe',otros:'#bac5cf',revision_sectorial:'#c8813c'};
 const sum=(rows,key)=>rows.reduce((s,r)=>s+(r[key]===null?0:Number(r[key])||0),0);
@@ -46,10 +47,14 @@ export async function initHistory(request) {
  const eventIndex=new Map();
  try{const response=await fetch('../data/paid-aragon/historico_eventos.csv');if(response.ok){for(const event of window.CBIData.parse(await response.text(),',').records){const key=event.year+'|'+event.case_id;if(!eventIndex.has(key))eventIndex.set(key,[]);eventIndex.get(key).push(event);}}}catch{}
  projects=projects.map(row=>({...row,events:eventIndex.get(row.year+'|'+row.case_id)||[]}));
+ let legacyArchive;
+ try{const response=await fetch('../data/paid-aragon/legacy-history.json');if(response.ok)legacyArchive=await response.json();}catch{}
+ let operations=[];
+ try{for(let offset=0;;offset+=500){const batch=await request(`paid_aragon_legacy_operations?select=record&order=operation_code.asc&limit=500&offset=${offset}`);if(!Array.isArray(batch))throw Error('Respuesta de antecedentes no válida.');operations.push(...batch.map(r=>r.record));if(batch.length<500)break;}if(operations.length!==(legacyArchive?.summary.records??310))throw Error('Antecedentes pendientes de sincronizar.');mergeHistoryRecords([],operations);}catch(error){if(!legacyArchive)throw Error('No se han podido cargar las anualidades 2017–2020.');operations=legacyArchive.records;source+=' · antecedentes CSV';}
+ projects=mergeHistoryRecords(projects,operations);
  [...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).forEach(year=>{const option=document.createElement('option');option.value=year;option.textContent=year;$('#history-year').append(option);});
  const years=$('#history-years');
- [['','Todas las convocatorias'],['sector','Fertilizantes y nutrición animal'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;if(value==='sector')$('#history-line').value='';filter();});years.append(button);});
- initLegacy();
+ [['','Todos desde 2017'],['sector','Fertilizantes y nutrición animal'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;if(value==='sector')$('#history-line').value='';if(value&&value!=='sector'){const legacy=Number(value)<2021;if(legacy&&$('#history-line').value!=='FEDER · antecedente'||!legacy&&$('#history-line').value==='FEDER · antecedente')$('#history-line').value='';if(legacy&&$('#history-outcome').value!=='operacion_feder'||!legacy&&$('#history-outcome').value==='operacion_feder')$('#history-outcome').value='';}filter();});years.append(button);});
  const coverage=$('#coverage-content');
  summary.coverage.forEach(row=>{const p=document.createElement('p');p.textContent=`${row.year} · ${integer.format(row.projects)} expedientes · ${row.downloaded_sources} documentos descargados. ${row.note}`;coverage.append(p);});
  const enriched=summary.enrichment;
@@ -68,12 +73,15 @@ export async function initHistory(request) {
   renderHistoricalDistribution(filtered,showProject);renderHistoricalComparisons(filtered,showProject,year=>{$('#history-year').value=year;filter();});
   const granted=filtered.filter(r=>r.status==='concedida');
   const waiting=filtered.filter(r=>r.status==='lista_espera');
-  $('#history-status').textContent=`${integer.format(filtered.length)} expedientes · ${source} · Fuentes revisadas a ${summary.as_of}.${filtered.some(r=>r.year===2021||r.year===2022)?' Consulta las pequeñas diferencias con los totales impresos en «Cobertura y fuentes».':''}`;
+  const awards=filtered.filter(r=>!isLegacyRecord(r)),legacyCount=filtered.length-awards.length;
+  $('#history-status').textContent=`${integer.format(awards.length)} expedientes${legacyCount?' · '+integer.format(legacyCount)+' operaciones FEDER':''} · ${source} · Fuentes revisadas a ${legacyArchive?.summary.as_of||summary.as_of}.${legacyCount?' Cobertura parcial de 2017–2020; los costes FEDER se muestran separados de las concesiones.':''}${filtered.some(r=>r.year===2021||r.year===2022)?' Consulta las diferencias con los totales impresos en «Cobertura y fuentes».':''}`;
   const kpis=$('#history-kpis');kpis.replaceChildren();
   const stats=historicalStats(filtered);
-  [[integer.format(filtered.length),'Expedientes','Una fila por expediente y convocatoria'],[integer.format(granted.length),'Concesiones',`${integer.format(waiting.length)} en lista de espera`],[eur.format(sum(granted,'granted_amount')),'Ayuda concedida','Sin sumar importes posibles de espera'],[integer.format(new Set(filtered.map(r=>r.beneficiary.toUpperCase().replaceAll(/[.,]/g,''))).size),'Empresas publicadas','Según denominación; sin unificación por NIF'],[stats.rate===null?'—':stats.rate.toLocaleString('es-ES',{maximumFractionDigits:1})+' %','Porcentaje de concesión','Concedidas / expedientes no anulados'],[stats.comparable?(stats.fundedMean!==null?stats.fundedMean.toLocaleString('es-ES',{maximumFractionDigits:1}):'No publicada'):'Por convocatoria','Media financiada','Puntuaciones publicadas de concesiones'],[stats.cutoff===null?(stats.comparable?'No publicada':'Por convocatoria'):stats.cutoff.toLocaleString('es-ES',{maximumFractionDigits:1}),'Menor puntuación financiada','Histórica; no es un umbral de 2027']].forEach(([value,label,note])=>{const div=document.createElement('div');div.className='kpi';const small=document.createElement('small');small.textContent=label;const strong=document.createElement('strong');strong.textContent=value;const p=document.createElement('p');p.textContent=note;div.append(small,strong,p);kpis.append(div);});
-  renderBars($('#year-chart'),[...new Set(filtered.map(r=>r.year))].sort().map(year=>({label:String(year),value:sum(granted.filter(r=>r.year===year),'granted_amount')})),true);
-  renderBars($('#outcome-chart'),Object.keys(labels).map(status=>({label:labels[status],value:filtered.filter(r=>r.status===status).length,color:status==='concedida'?'#39846a':status==='lista_espera'?'#b98b50':'#91a4b3'})),false);
+  [[integer.format(filtered.length),legacyCount?'Registros disponibles':'Expedientes',legacyCount?`${awards.length} expedientes y ${legacyCount} operaciones FEDER`:'Una fila por expediente y convocatoria'],[awards.length?integer.format(granted.length):'—','Concesiones',awards.length?`${integer.format(waiting.length)} en lista de espera`:'No publicadas en el listado de operaciones'],[awards.length?eur.format(sum(granted,'granted_amount')):'—','Ayuda concedida','Solo concesiones PAIP; sin sumar costes FEDER'],[integer.format(new Set(filtered.map(r=>r.beneficiary.toUpperCase().replaceAll(/[.,]/g,''))).size),'Empresas publicadas','Según denominación; sin unificación por NIF'],[stats.rate===null?'—':stats.rate.toLocaleString('es-ES',{maximumFractionDigits:1})+' %','Porcentaje de concesión','Solo expedientes PAIP no anulados'],[stats.comparable?(stats.fundedMean!==null?stats.fundedMean.toLocaleString('es-ES',{maximumFractionDigits:1}):'No publicada'):awards.length?'Por convocatoria':'—','Media financiada','Puntuaciones publicadas de concesiones'],[stats.cutoff===null?(stats.comparable?'No publicada':awards.length?'Por convocatoria':'—'):stats.cutoff.toLocaleString('es-ES',{maximumFractionDigits:1}),'Menor puntuación financiada','Histórica; no es un umbral de 2027']].forEach(([value,label,note])=>{const div=document.createElement('div');div.className='kpi';const small=document.createElement('small');small.textContent=label;const strong=document.createElement('strong');strong.textContent=value;const p=document.createElement('p');p.textContent=note;div.append(small,strong,p);kpis.append(div);});
+  $('#year-chart').parentElement.querySelector('h3').textContent=awards.length?'Ayuda concedida por año':'Operaciones FEDER por año';
+  renderBars($('#year-chart'),[...new Set((awards.length?awards:filtered).map(r=>r.year))].sort().map(year=>({label:String(year),value:awards.length?sum(granted.filter(r=>r.year===year),'granted_amount'):filtered.filter(r=>r.year===year).length})),Boolean(awards.length));
+  $('#outcome-chart').parentElement.querySelector('h3').textContent=awards.length?'Resultados de los expedientes':'Tipo de registro';
+  renderBars($('#outcome-chart'),(awards.length?Object.keys(labels):['operacion_feder']).map(status=>({label:labels[status],value:filtered.filter(r=>r.status===status).length,color:status==='concedida'?'#39846a':status==='lista_espera'?'#b98b50':'#91a4b3'})),false);
   renderScatter(granted.filter(r=>r.score!==null&&r.granted_amount!==null));renderTable();
  }
  function renderBars(container,rows,currency){
@@ -110,7 +118,8 @@ export async function initHistory(request) {
    c=td();const status=document.createElement('span');status.className=`pill ${row.status}`;status.textContent=labels[row.status]||row.status;c.append(status);
    if(row.waiting_amount>0){const note=document.createElement('small');note.textContent=`Parte pendiente: ${eur.format(row.waiting_amount)}`;c.append(note);}
    td().textContent=row.score===null?'—':Number(row.score).toLocaleString('es-ES');
-   c=td();c.textContent=row.status==='concedida'?(row.granted_amount===null?'Pendiente de validar':eur.format(row.granted_amount)):'—';
+   c=td();c.textContent=isLegacyRecord(row)?'No publicada':row.status==='concedida'?(row.granted_amount===null?'Pendiente de validar':eur.format(row.granted_amount)):'—';
+   if(isLegacyRecord(row)){const note=document.createElement('small');note.textContent='Coste FEDER: '+eur.format(row.feder_operation_cost);c.append(note);}
    if(row.extraction==='ocr_vision'){const note=document.createElement('small');note.textContent='Fuente escaneada / OCR';c.append(note);}
    c=td();const open=document.createElement('button');open.type='button';open.className='open-project';open.textContent='Ver ficha';open.addEventListener('click',()=>showProject(row));c.append(open,document.createElement('br'));c.append(link(row.source_url,`PDF · p. ${row.source_page} ↗`));
    if(row.source_refs?.length>1){const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent=`${row.source_refs.length} eventos`;details.append(summary);row.source_refs.forEach(ref=>{const p=document.createElement('p');p.append(link(ref.url,`${labels[ref.status]||ref.status} · p. ${ref.page}`));details.append(p);});c.append(details);}
@@ -130,6 +139,7 @@ export async function initHistory(request) {
 }
 
 function showProject(row){
+ if(isLegacyRecord(row))return showLegacyProject(row);
  document.querySelector('#project-detail')?.remove();
  const dialog=document.createElement('dialog');dialog.id='project-detail';dialog.className='project-detail';dialog.setAttribute('aria-labelledby','project-detail-title');
  const close=document.createElement('button');close.type='button';close.className='dialog-close';close.textContent='×';close.setAttribute('aria-label','Cerrar ficha');close.addEventListener('click',()=>dialog.close());
@@ -162,9 +172,17 @@ function renderEnrichment(dialog,enrichment,legacy=false){
 }
 
 
-function initLegacy(){
- const panel=$('#legacy-history');let rows=null,loading=false;
- const render=()=>{const year=$('#legacy-year').value,query=$('#legacy-search').value.trim().toLocaleLowerCase('es');const selected=rows.filter(r=>String(r.year)===year&&(!query||`${r.beneficiary} ${r.description} ${r.municipality}`.toLocaleLowerCase('es').includes(query)));$('#legacy-status').textContent=selected.length+' operaciones FEDER · '+year;const container=$('#legacy-operations');container.replaceChildren();renderEnrichment(container,{related_company_operations:selected.map(op=>({...op,feder_operation_cost:op.feder_operation_cost===''?null:Number(op.feder_operation_cost),eu_cofinancing_percent:Number(op.eu_cofinancing_percent)}))},true);};
- panel.addEventListener('toggle',async()=>{if(!panel.open||rows||loading)return;loading=true;$('#legacy-status').textContent='Cargando antecedentes…';try{const response=await fetch('../data/paid-aragon/operaciones_feder_2017_2022.csv');if(!response.ok)throw Error('No se han podido cargar los antecedentes.');rows=window.CBIData.parse(await response.text(),',').records.filter(r=>Number(r.year)>=2017&&Number(r.year)<=2020);render();}catch(error){$('#legacy-status').textContent=error.message;}finally{loading=false;}});
- ['#legacy-year','#legacy-search'].forEach(selector=>$(selector).addEventListener('input',()=>{if(rows)render();}));
+function showLegacyProject(row){
+ document.querySelector('#project-detail')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='project-detail';dialog.className='project-detail';dialog.setAttribute('aria-labelledby','project-detail-title');
+ const close=document.createElement('button');close.type='button';close.className='dialog-close';close.textContent='×';close.setAttribute('aria-label','Cerrar ficha');close.onclick=()=>dialog.close();
+ const tag=document.createElement('p');tag.className='eyebrow';tag.textContent='Operación FEDER · '+row.year;
+ const title=document.createElement('h2');title.id='project-detail-title';title.textContent=row.beneficiary;
+ const description=document.createElement('p');description.className='project-description';description.textContent=row.project_description||'Descripción no publicada';
+ const published=value=>value===null||value===undefined||value===''?'No publicado':String(value);
+ const fields=[['Tipo de registro','Operación FEDER · antecedente PAIP'],['Identificador de operación',row.operation_code],['Provincia',published(row.province)],['Municipio',published(row.municipality)],['Inicio publicado',published(row.project_start_dates)],['Fin publicado',published(row.project_end_dates)],['Coste de la operación FEDER',row.feder_operation_cost===null?'No publicado':eur.format(row.feder_operation_cost)],['Cofinanciación UE',published(row.eu_cofinancing_percent)+' %'],['Ayuda PAIP concedida','No publicada en este listado'],['Puntuación PAIP','No publicada en este listado'],['Sector',sectorLabels[row.sector]||'Otros'],['Clasificación sectorial',published(row.sector_basis)]];
+ const facts=document.createElement('dl');facts.className='project-facts';fields.forEach(([label,value])=>{const block=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;block.append(dt,dd);facts.append(block);});
+ const note=document.createElement('p');note.className='small muted';note.textContent=row.notes;
+ const sources=document.createElement('ul');[...new Set([row.source_url,...(row.sector_evidence_urls||[])])].forEach((url,i)=>{const li=document.createElement('li');li.append(link(url,i===0?'Listado oficial FEDER · página '+row.source_page:'Evidencia sectorial'));sources.append(li);});
+ dialog.append(close,tag,title,description,facts,note,sources);document.body.append(dialog);dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});dialog.showModal();
 }

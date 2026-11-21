@@ -227,6 +227,8 @@ def run():
                 source.update({k:v for k,v in processing.items() if k != 'file'})
     (D / 'sources.json').write_text(json.dumps(sources, ensure_ascii=False, indent=2))
     export('fuentes.csv', sources)
+    from build_legacy import run as build_legacy
+    build_legacy()
     print(json.dumps(dict(operations=len(operations), coverage=coverage), ensure_ascii=False, indent=2))
 
 

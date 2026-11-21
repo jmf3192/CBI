@@ -5,11 +5,12 @@ import {readFile,mkdir} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 const history=JSON.parse(await readFile(new URL('../../cbi/data/paid-aragon/history.json',import.meta.url)));
+const legacy=JSON.parse(await readFile(new URL('../../cbi/data/paid-aragon/legacy-history.json',import.meta.url))).records;
 const browser=await chromium.launch({headless:true,channel:'chrome'});
 const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
 const page=await context.newPage();
 const failures=[];page.on('pageerror',error=>failures.push(error.message));
-let saved=[],published=false,publishedPopulation=false;
+let saved=[],published=false,publishedPopulation=false,legacyDatabaseAvailable=true;
 const scenarioCSV=await readFile(new URL('../../cbi/data/paid-aragon/escenario_2027.csv',import.meta.url),'utf8');
 const scope={};vm.runInNewContext(await readFile(new URL('../../cbi/assets/cbi-data-workspace.js',import.meta.url),'utf8'),scope);const populationData=scope.CBIData.parse(await readFile(new URL('../../cbi/data/paid-aragon/solicitudes_simuladas_2027.csv',import.meta.url),'utf8'),',');populationData.records.forEach(r=>{if(r.admisible==='si'){r.puntuacion='350';r.ayuda_solicitada_eur='4000';}});const publishedCSV=scope.CBIData.csv(populationData.headers,populationData.records,',');
 const user='00000000-0000-4000-8000-000000000001',call='00000000-0000-4000-8000-000000000002';
@@ -23,6 +24,8 @@ await page.route('https://wtiugprfadlwfpmfnvhe.supabase.co/**',async route=>{
  if(table==='calls')data=[{id:call,code:'PAID-ARAGON',name:'PAIP Aragón · TDI-FEDER',kind:'normal',route_path:'./paid-aragon-dashboard.html'}];
  if(table==='user_call_access')data=[{access_level:'admin'}];
  if(table==='paid_aragon_editions')data=[2021,2022,2023,2024,2025,2026].map(year=>({id:'edition-'+year,year,title:'PAIP '+year}));
+ if(table==='paid_aragon_legacy_operations'&&!legacyDatabaseAvailable){await route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({message:'Legacy unavailable in test'})});return;}
+ if(table==='paid_aragon_legacy_operations'){const offset=Number(url.searchParams.get('offset')||0);data=legacy.slice(offset,offset+500).map(record=>({record}));}
  if(table==='paid_aragon_awards'){
   const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||500);
   data=history.projects.slice(offset,offset+limit).map(row=>({...row,edition_id:'edition-'+row.year,result_status:row.status,extraction_method:row.extraction,import_key:row.id}));
@@ -75,12 +78,16 @@ await page.locator('[data-step="1"]').click();
 await page.evaluate(()=>window.scrollTo(0,0));await mkdir('/tmp/paip-ui',{recursive:true});await page.screenshot({path:'/tmp/paip-ui/request-desktop.png',fullPage:true});
 await page.locator('#tab-history').click();assert.equal(await page.locator('#history-rows tr').count(),50);
 assert.equal(await page.locator('#history-kpis .kpi').count(),7);assert.equal(await page.locator('#history-comparisons').isVisible(),true);assert.equal(await page.locator('.composition-row').count(),6);assert.ok(await page.locator('.heatmap-cell').count()>50);
-await page.locator('#legacy-history > summary').click();await page.waitForFunction(()=>document.querySelector('#legacy-status').textContent.includes('104 operaciones'));await page.locator('#legacy-year').selectOption('2017');assert.match(await page.locator('#legacy-status').textContent(),/22 operaciones/);assert.equal(await page.locator('#legacy-operations .project-operation').count(),22);await page.locator('#legacy-history > summary').click();
+assert.match(await page.locator('#table-count').textContent(),/2633/);assert.equal(await page.locator('#history-years [data-year]').count(),12);assert.equal(await page.locator('#history-years [data-year=""]').textContent(),'Todos desde 2017');
+await page.locator('[data-year="2017"]').click();assert.match(await page.locator('#table-count').textContent(),/22/);assert.equal(await page.locator('#history-score-legend span').count(),0);assert.equal(await page.locator('#history-kpis .kpi').nth(2).locator('strong').textContent(),'—');await page.locator('#history-search').fill('ARVENSIS');await page.locator('.open-project').first().click();assert.match(await page.locator('#project-detail').textContent(),/microbiológica/);assert.match(await page.locator('#project-detail').textContent(),/Coste de la operación FEDER/);assert.match(await page.locator('#project-detail').textContent(),/No publicada en este listado/);await page.screenshot({path:'/tmp/paip-ui/legacy-2017.png'});await page.keyboard.press('Escape');await page.locator('#history-search').fill('');
+for(const[year,count]of [[2018,94],[2019,90],[2020,104]]){await page.locator(`[data-year="${year}"]`).click();assert.match(await page.locator('#table-count').textContent(),new RegExp(String(count)));}await page.locator('#history-years [data-year=""]').click();
+
 await page.locator('#history-comparisons').screenshot({path:'/tmp/paip-ui/history-comparisons.png'});
 await page.locator('.heatmap-cell').nth(5).click();assert.equal(await page.locator('#score-members').isVisible(),true);await page.keyboard.press('Escape');
 await page.locator('#history-histogram [role=button]').nth(5).click();assert.equal(await page.locator('#score-members').isVisible(),true);await page.keyboard.press('Escape');
 assert.equal(await page.locator('#export-history').count(),0);assert.equal(await page.locator('[data-sector]').count(),0);
-await page.locator('[data-year="sector"]').click();assert.match(await page.locator('#table-count').textContent(),/29/);assert.equal(await page.locator('#history-year').inputValue(),'sector');
+await page.locator('[data-year="sector"]').click();assert.match(await page.locator('#table-count').textContent(),/39/);assert.equal(await page.locator('#history-year').inputValue(),'sector');
+assert.match(await page.locator('#history-rows').textContent(),/2017/);assert.match(await page.locator('#history-rows').textContent(),/DEFEDER/);assert.match(await page.locator('#history-rows').textContent(),/FORGA/);
 await page.locator('#history-search').fill('ADISSEO');assert.equal(await page.locator('#history-rows tr').count(),1);
 await page.locator('.open-project').first().click();assert.equal(await page.locator('#project-detail').isVisible(),true);assert.match(await page.locator('#project-detail').textContent(),/Inversión subvencionable/);assert.match(await page.locator('#project-detail').textContent(),/No publicado/);assert.match(await page.locator('#project-detail').textContent(),/ADISSEO/);assert.equal(await page.locator('.project-events tbody tr').count(),1);assert.match(await page.locator('.project-events').textContent(),/300\.000/);
 await page.screenshot({path:'/tmp/paip-ui/project-detail.png',fullPage:false});await page.keyboard.press('Escape');
@@ -95,5 +102,6 @@ await page.locator('#tab-request').click();await page.waitForTimeout(250);assert
 await page.screenshot({path:'/tmp/paip-ui/request-mobile.png',fullPage:true});
 publishedPopulation=true;await page.reload();await page.waitForFunction(()=>document.querySelector('#competition-distribution [data-cutoff]')?.getAttribute('data-cutoff')==='350');assert.equal(await page.locator('#competition-cutoff').textContent(),'350');
 publishedPopulation=false;published=true;await page.reload();await page.waitForFunction(()=>document.querySelector('#forecast-kpis').textContent.includes('401'));await page.waitForFunction(()=>Number(document.querySelector('#competition-distribution [data-cutoff]')?.getAttribute('data-cutoff'))>220);
+legacyDatabaseAvailable=false;await page.reload();await page.waitForFunction(()=>document.querySelector('#history-status').textContent.includes('antecedentes CSV'));await page.locator('#tab-history').click();assert.match(await page.locator('#table-count').textContent(),/2633/);await page.locator('[data-year="sector"]').click();assert.match(await page.locator('#table-count').textContent(),/39/);
 assert.equal(saved.length,0,'Meeting inputs are never persisted');assert.deepEqual(failures,[]);
-console.log(JSON.stringify({status:'passed',criteria:15,history:history.projects.length,sectorCases:29,checks:'complete CSV publication, live budget cutoff, one-cost regime selection, aligned charts and full-width distribution, no persistence, historical details, desktop and mobile',errors:failures}));await browser.close();
+console.log(JSON.stringify({status:'passed',criteria:15,history:history.projects.length,legacy:legacy.length,allRecords:history.projects.length+legacy.length,sectorCases:39,checks:'complete CSV publication, live budget cutoff, one-cost regime selection, aligned charts and full-width distribution, no persistence, historical details, desktop and mobile',errors:failures}));await browser.close();

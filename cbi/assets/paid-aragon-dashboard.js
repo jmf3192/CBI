@@ -1,11 +1,11 @@
-import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261120-8';
+import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261121-2';
 import { CBI } from './cbi-supabase.js?v=20261120';
-import { evaluate, intensity } from './paid-aragon-model.js?v=20261120-8';
-import { initHistory } from './paid-aragon-history.js?v=20261120-8';
-import { initForecast } from './paid-aragon-forecast.js?v=20261120-8';
+import { evaluate, intensity } from './paid-aragon-model.js?v=20261121-2';
+import { initHistory } from './paid-aragon-history.js?v=20261121-2';
+import { initForecast } from './paid-aragon-forecast.js?v=20261121-2';
 const $=selector=>document.querySelector(selector);
 const form=$('#application-form');
-import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261120-8';
+import { initCompetition, updateCompetition } from './paid-aragon-competition.js?v=20261121-2';
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 let rules,requestedAid=null;
 const message=text=>{$('#status').textContent=text;$('#status').hidden=!text;};

@@ -15,7 +15,7 @@ Datos revisados a **20/11/2026**. Configurador de solicitudes: **2027**. Expedie
 - `historico_eventos.csv`: 2.384 filas extraídas por resolución y anexo; conserva fases/importes repetidos de un expediente en documentos distintos.
 - `historico_expedientes.csv`: 2.323 expedientes consolidados por año, línea y número de expediente.
 - `historico_2021.csv` … `historico_2026.csv`: una exportación por ejercicio.
-- `sectores_prioritarios.csv`: fertilizantes/nutrición vegetal y nutrición animal, incluyendo los indicios señalados como tales.
+- `sectores_prioritarios.csv`: 39 registros de fertilizantes/nutrición vegetal y nutrición animal desde 2017; 29 expedientes PAIP y 10 operaciones antiguas, incluyendo los indicios señalados como tales.
 - `clasificacion_sectorial.csv`: trazabilidad y casos pendientes de revisión.
 - `fuentes.csv` / `sources.json`: URL, año, línea, tipo documental, archivo, SHA-256 y resultado de descarga.
 - `cobertura.csv`: años con datos, documentos y lagunas de cobertura.
@@ -134,3 +134,23 @@ La frecuencia de aprobación usa 1.000 escenarios: el primero es el CSV visible,
 La interfaz solicita un coste por categoría y elige `Minimis` o `RGEC · renunciar a minimis` para todo el presupuesto. Al cambiar de régimen conserva las cantidades y recalcula intensidades y ayuda. En RGEC no exige declarar minimis previo; sí exige sus condiciones y efecto incentivador. En minimis se aplica el margen de la empresa única y no se añade automáticamente un tramo RGEC.
 
 El apartado I.3 de la orden (página 9) permite dos tramos sobre conceptos distintos, sin aplicar dos regímenes al mismo gasto, y permite renunciar a minimis para tramitar todo por RGEC. Por tanto, el selector es una comparación de escenarios con un único régimen, no una afirmación de que esté prohibido combinarlos. La explicación se ofrece en un desplegable del presupuesto. El motor conserva compatibilidad con los evaluadores anteriores de costes por régimen, pero la interfaz ya no pide esa división.
+
+
+## Pestañas 2017–2026 y selección sectorial conjunta
+
+El histórico muestra las diez anualidades, una pestaña **Todos desde 2017** y la selección **Fertilizantes y nutrición animal**. El conjunto reúne **2.633 registros disponibles**: 2.323 expedientes PAIP y 310 operaciones FEDER de cobertura parcial para 2017–2020. El contador distingue ambos tipos; la denominación de vista conjunta no afirma un censo completo de todos los solicitantes desde 2017.
+
+| Anualidad | Operaciones recuperadas | Fertilizantes y nutrición animal |
+|---|---:|---:|
+| 2017 | 22 | 1 |
+| 2018 | 94 | 5 |
+| 2019 | 90 | 3 |
+| 2020 | 104 | 1 |
+
+Las diez incorporaciones sectoriales son cuatro de fertilizantes (tres de Arvensis y una de Defeder) y seis de nutrición animal (producción/ensacado de piensos y deshidratado de alfalfa). Los cruces corporativos reutilizan las reglas existentes. Las clasificaciones por proyecto se limitan al código de operación de `scripts/paid-aragon/legacy-sector-overrides.json`, con descripción oficial y evidencia. No se etiqueta automáticamente toda actividad de una cooperativa como nutrición animal. La maquinaria para aplicar abonos y los medicamentos veterinarios no se clasifican por esas palabras como fertilizantes o alimentación animal.
+
+Las fichas antiguas muestran descripción, municipio/provincia, fechas, coste de operación, cofinanciación y fuentes. Los campos `granted_amount`, `eligible_budget` y `score` permanecen nulos. Las operaciones no entran en el porcentaje de concesión, las medias/cortes, el mapa/composición de resultados PAIP ni la suma de ayudas. En una anualidad antigua, sin datos de concesión publicados, el indicador de ayuda muestra «—», no cero.
+
+`legacy-history.json` conserva la copia de consulta. Los registros se almacenan separadamente en `public.paid_aragon_legacy_operations` con RLS y permiso de lectura para miembros activos con acceso a PAID-ARAGON. El navegador comprueba su recuento y puede usar la copia versionada si Supabase no está disponible. No se incorporan como nuevas concesiones a `paid_aragon_awards`.
+
+Se generan `historico_2017.csv` … `historico_2020.csv`, `todos_registros_2017_2026.csv` y la selección sectorial ampliada. Se registran en Datos y muestras como archivos de consulta/edición de copias. Para reproducirlos: `python3 scripts/paid-aragon/build_legacy.py`; `enrich_history.py` lo ejecuta al terminar, por lo que una reconstrucción completa no borra la ampliación. Los campos compuestos se conservan en JSON dentro de los CSV.

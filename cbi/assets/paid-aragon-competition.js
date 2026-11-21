@@ -1,4 +1,4 @@
-import {generateApplications,parseApplications,allocateApplications,random} from './paid-aragon-population.js?v=20261120-8';
+import {generateApplications,parseApplications,allocateApplications,random} from './paid-aragon-population.js?v=20261121-2';
 // The visible population is the complete editable CSV; uncertainty uses bootstrap draws from it.
 const median=values=>{const a=[...values].sort((a,b)=>a-b);return a.length?a[Math.floor((a.length-1)/2)]:null;};
 export function createCompetition(projects,forecast,{runs=1000,seed=20261120,applications}={}){
