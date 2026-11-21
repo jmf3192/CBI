@@ -38,6 +38,7 @@ await page.goto('http://127.0.0.1:8765/cbi/interfaces/paid-aragon-dashboard.html
 try { await page.waitForFunction(()=>document.querySelector('#history-status').textContent.includes('2323 expedientes'),{},{timeout:10000}); } catch(e) { console.log(await page.evaluate(()=>({url:location.href,access:document.body.dataset.cbiAccess,status:document.querySelector('#status')?.textContent,history:document.querySelector('#history-status')?.textContent})),failures); await page.screenshot({path:'/tmp/paip-ui-debug.png'}); await browser.close(); throw e; }
 assert.equal(await page.locator('#tab-request').getAttribute('aria-selected'),'true');
 assert.equal(await page.locator('[data-criterion]').count(),15);
+assert.equal(await page.locator('[data-step]').count(),3);assert.deepEqual(await page.locator('[data-step]').allTextContents(),['Proyecto y presupuesto','Elegibilidad y criterios','Competidoras']);
 assert.equal(await page.locator('#draft-select').count(),0);
 assert.equal(await page.locator('[name=company_name]').count(),0);
 assert.equal(await page.locator('#status').isHidden(),true);
@@ -49,12 +50,12 @@ assert.equal(await page.locator('#competition-distribution [data-cutoff]').getAt
 const layout=await page.evaluate(()=>{const r=s=>{const {x,y,width,height}=document.querySelector(s).getBoundingClientRect();return{x,y,width,height};};return {distribution:r('.competition-card').width,results:r('.assessment-side').width,circle:r('.competition-secondary .scoring-guide'),scatter:r('.scatter-simulation'),border:getComputedStyle(document.querySelector('.competition-card')).borderTopWidth};});assert.ok(Math.abs(layout.distribution-layout.results)<2);assert.ok(Math.abs(layout.circle.y-layout.scatter.y)<2);assert.ok(Math.abs(layout.circle.width-layout.scatter.width)<2);assert.equal(layout.border,'1px');
 await page.locator('[data-input=size]').selectOption('small');await page.locator('[data-input=zone]').selectOption('zaragoza_city');
 assert.equal(await page.locator('input[type=date]').count(),0);
-await page.locator('[data-step="1"]').click();
+await page.locator('[data-step="0"]').click();
 assert.equal(await page.locator('[data-cost]').count(),5);assert.equal(await page.locator('.cost-table th').count(),3);
 await page.locator('[data-input=previousMinimis]').fill('0');await page.locator('[data-input=otherAid]').fill('0');
 await page.locator('[data-cost=investment]').fill('100000');
-await page.locator('[data-step="2"]').click();for(const button of await page.locator('#eligibility-rows .check-row:not([hidden]) .segmented-choice [data-answer=yes]').all())await button.click();
-await page.locator('[data-step="3"]').click();await page.locator('.criterion').first().locator('[data-answer=yes]').click();
+await page.locator('[data-step="1"]').click();for(const button of await page.locator('#eligibility-rows .check-row:not([hidden]) .segmented-choice [data-answer=yes]').all())await button.click();
+await page.locator('[data-step="1"]').click();await page.locator('.criterion').first().locator('[data-answer=yes]').click();
 assert.match(await page.locator('#aid-result').textContent(),/40\.000/);assert.match(await page.locator('#score-result').textContent(),/^55/);
 assert.equal(await page.locator('#eligibility-result').textContent(),'Compatible según tus datos');
 for(const button of await page.locator('.criterion .segmented-choice [data-answer=yes]').all())await button.click();
@@ -63,14 +64,14 @@ await page.waitForFunction(()=>document.querySelector('#approval-rate').textCont
 assert.ok(await page.locator('#competition-scatter circle').count()>150);
 assert.equal(await page.locator('#score-weight-track [role=button]').count(),15);
 await page.locator('#score-weight-track [role=button]').first().focus();await page.keyboard.press('Enter');assert.match(await page.locator('#score-weight-detail').textContent(),/55 puntos/);
-await page.locator('[data-step="4"]').click();await page.locator('#manual-name').fill('Competidora prueba');await page.locator('#manual-score').fill('425');await page.locator('#manual-aid').fill('500000');await page.locator('#manual-competitor-form button[type=submit]').click();
+await page.locator('[data-step="2"]').click();await page.locator('#manual-name').fill('Competidora prueba');await page.locator('#manual-score').fill('425');await page.locator('#manual-aid').fill('500000');await page.locator('#manual-competitor-form button[type=submit]').click();
 await page.waitForFunction(()=>document.querySelector('#competition-population').textContent.includes('1 conocidas'));assert.equal(await page.locator('.manual-competitor').count(),1);assert.match(await page.locator('#manual-aid').inputValue(),/500\.000/);
 await page.locator('.manual-competitor button').click();assert.equal(await page.locator('.manual-competitor').count(),0);
-await page.locator('[data-step="1"]').click();assert.equal(await page.locator('[data-cost=investment]').inputValue(),'100.000');
+await page.locator('[data-step="0"]').click();assert.equal(await page.locator('[data-cost=investment]').inputValue(),'100.000');
 await page.locator('#own-aid-range').fill('20000');assert.match(await page.locator('#aid-result').textContent(),/20\.000/);await page.locator('#own-aid-range').fill('40000');
 await page.screenshot({path:'/tmp/paip-ui/budget-desktop.png',fullPage:false});
-await page.locator('[data-input=regime]').selectOption('rgec');assert.equal(await page.locator('[data-cost=investment]').inputValue(),'100.000');assert.equal(await page.locator('#minimis-history-field').isHidden(),true);await page.locator('[data-step="2"]').click();for(const button of await page.locator('[data-rgec-gate] [data-answer=yes]').all())await button.click();assert.match(await page.locator('#aid-result').textContent(),/20\.000/);await page.locator('[data-step="1"]').click();await page.locator('[data-input=regime]').selectOption('minimis');assert.equal(await page.locator('[data-cost=investment]').inputValue(),'100.000');
-await page.locator('[data-step="3"]').click();
+await page.locator('[data-input=regime]').selectOption('rgec');assert.equal(await page.locator('[data-cost=investment]').inputValue(),'100.000');assert.equal(await page.locator('#minimis-history-field').isHidden(),true);await page.locator('[data-step="1"]').click();for(const button of await page.locator('[data-rgec-gate] [data-answer=yes]').all())await button.click();assert.match(await page.locator('#aid-result').textContent(),/20\.000/);await page.locator('[data-step="0"]').click();await page.locator('[data-input=regime]').selectOption('minimis');assert.equal(await page.locator('[data-cost=investment]').inputValue(),'100.000');
+await page.locator('[data-step="1"]').click();
 await page.evaluate(()=>window.scrollTo(0,0));await mkdir('/tmp/paip-ui',{recursive:true});await page.screenshot({path:'/tmp/paip-ui/request-desktop.png',fullPage:true});
 await page.locator('#tab-history').click();assert.equal(await page.locator('#history-rows tr').count(),50);
 assert.equal(await page.locator('#history-kpis .kpi').count(),7);assert.equal(await page.locator('#history-comparisons').isVisible(),true);assert.equal(await page.locator('.composition-row').count(),6);assert.ok(await page.locator('.heatmap-cell').count()>50);
