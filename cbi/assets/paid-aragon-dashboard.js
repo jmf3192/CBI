@@ -1,4 +1,4 @@
-import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261121-2';
+import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261123-1';
 import { CBI } from './cbi-supabase.js?v=20261120';
 import { evaluate, intensity } from './paid-aragon-model.js?v=20261121-2';
 import { initHistory } from './paid-aragon-history.js?v=20261121-2';
