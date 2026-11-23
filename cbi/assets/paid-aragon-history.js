@@ -4,8 +4,8 @@ const $=selector=>document.querySelector(selector);
 const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 const integer=new Intl.NumberFormat('es-ES');
 const labels={concedida:'Concedida',lista_espera:'Lista de espera',no_elegible:'No elegible',desistida:'Desistida',anulada:'Anulada',renuncia_lista_espera:'Renuncia de espera',operacion_feder:'Operación FEDER'};
-const sectorLabels={fertilizantes:'Fertilizantes',nutricion_animal:'Nutrición animal',revision_sectorial:'Por revisar',otros:'Otros'};
-const colors={fertilizantes:'#39846a',nutricion_animal:'#637fbe',otros:'#bac5cf',revision_sectorial:'#c8813c'};
+const sectorLabels={fertilizantes:'Fertilizantes',nutricion_animal:'Nutrición animal',nutricion_humana:'Nutrición humana',revision_sectorial:'Por revisar',otros:'Otros'};
+const colors={fertilizantes:'#39846a',nutricion_animal:'#637fbe',nutricion_humana:'#d47b3d',otros:'#bac5cf',revision_sectorial:'#c8813c'};
 const sum=(rows,key)=>rows.reduce((s,r)=>s+(r[key]===null?0:Number(r[key])||0),0);
 export function csvText(rows) {
  const keys=[...new Set(rows.flatMap(row=>Object.keys(row)))];
@@ -54,7 +54,7 @@ export async function initHistory(request) {
  projects=mergeHistoryRecords(projects,operations);
  [...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).forEach(year=>{const option=document.createElement('option');option.value=year;option.textContent=year;$('#history-year').append(option);});
  const years=$('#history-years');
- [['','Todos desde 2017'],['sector','Fertilizantes y nutrición animal'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;if(value==='sector')$('#history-line').value='';if(value&&value!=='sector'){const legacy=Number(value)<2021;if(legacy&&$('#history-line').value!=='FEDER · antecedente'||!legacy&&$('#history-line').value==='FEDER · antecedente')$('#history-line').value='';if(legacy&&$('#history-outcome').value!=='operacion_feder'||!legacy&&$('#history-outcome').value==='operacion_feder')$('#history-outcome').value='';}filter();});years.append(button);});
+ [['','Todos desde 2017'],['sector','Nutrición'],...[...new Set(projects.map(r=>r.year))].sort((a,b)=>b-a).map(y=>[String(y),String(y)])].forEach(([value,label])=>{const button=document.createElement('button');button.textContent=label;button.dataset.year=value;button.setAttribute('aria-pressed',String(!value));button.addEventListener('click',()=>{$('#history-year').value=value;if(value==='sector')$('#history-line').value='';if(value&&value!=='sector'){const legacy=Number(value)<2021;if(legacy&&$('#history-line').value!=='FEDER · antecedente'||!legacy&&$('#history-line').value==='FEDER · antecedente')$('#history-line').value='';if(legacy&&$('#history-outcome').value!=='operacion_feder'||!legacy&&$('#history-outcome').value==='operacion_feder')$('#history-outcome').value='';}filter();});years.append(button);});
  const coverage=$('#coverage-content');
  summary.coverage.forEach(row=>{const p=document.createElement('p');p.textContent=`${row.year} · ${integer.format(row.projects)} expedientes · ${row.downloaded_sources} documentos descargados. ${row.note}`;coverage.append(p);});
  const enriched=summary.enrichment;
@@ -63,7 +63,7 @@ export async function initHistory(request) {
  issues.forEach(issue=>{const p=document.createElement('p');p.textContent=`Conciliación ${issue.year}, ${issue.line}: suma de filas ${eur.format(issue.extracted_total)}; total impreso ${eur.format(issue.published_total)}. ${issue.status}`;coverage.append(p);});
  function filter(){
   const year=$('#history-year').value,line=$('#history-line').value,status=$('#history-outcome').value,query=$('#history-search').value.trim().toLocaleLowerCase('es');
-  filtered=projects.filter(row=>(!year||(year==='sector'?['fertilizantes','nutricion_animal'].includes(row.sector):String(row.year)===year))&&(!line||row.line===line)&&(!status||row.status===status)&&(!query||`${row.beneficiary} ${row.case_id} ${row.nif||''} ${row.project_description||''} ${row.province||''} ${row.municipality||''}`.toLocaleLowerCase('es').includes(query)));
+  filtered=projects.filter(row=>(!year||(year==='sector'?['fertilizantes','nutricion_animal','nutricion_humana'].includes(row.sector):String(row.year)===year))&&(!line||row.line===line)&&(!status||row.status===status)&&(!query||`${row.beneficiary} ${row.case_id} ${row.nif||''} ${row.project_description||''} ${row.province||''} ${row.municipality||''}`.toLocaleLowerCase('es').includes(query)));
   const mode=$('#history-sort').value;
   filtered.sort((a,b)=>mode==='aid'?(b.granted_amount??-1)-(a.granted_amount??-1):mode==='score'?(b.score??-1)-(a.score??-1):mode==='beneficiary'?a.beneficiary.localeCompare(b.beneficiary,'es'):b.year-a.year||a.case_id.localeCompare(b.case_id));
   page=0;render();

@@ -9,6 +9,7 @@ from pathlib import Path
 import bisect, collections, csv, hashlib, json, re, unicodedata
 from datetime import datetime, timezone
 from pypdf import PdfReader
+from nutrition import classify_nutrition, NUTRITION_SECTORS
 
 ROOT = Path(__file__).resolve().parents[2]
 D = ROOT / 'cbi/data/paid-aragon'
@@ -196,10 +197,12 @@ def run():
         # Project titles are not invented from the beneficiary or summary.
     export('operaciones_feder_2017_2022.csv', legacy_operations)
     export('operaciones_feder_2023_2025.csv', recent_operations)
+    for project in projects:
+        classify_nutrition(project)
     export('historico_expedientes.csv', projects)
     for year in sorted(set(p['year'] for p in projects)):
         export(f'historico_{year}.csv', [p for p in projects if p['year'] == year])
-    export('sectores_prioritarios.csv', [p for p in projects if p['sector'] in ['fertilizantes', 'nutricion_animal']])
+    export('sectores_prioritarios.csv', [p for p in projects if p['sector'] in NUTRITION_SECTORS])
     export('clasificacion_sectorial.csv', [p for p in projects if p['sector'] != 'otros'])
     coverage = []
     for year in sorted(set(p['year'] for p in projects)):

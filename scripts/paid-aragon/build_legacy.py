@@ -1,6 +1,7 @@
 """Expose 2017–2020 FEDER operations without turning costs into PAIP awards."""
 from pathlib import Path
 import collections, csv, hashlib, json, re, unicodedata
+from nutrition import classify_nutrition, NUTRITION_SECTORS
 
 ROOT = Path(__file__).resolve().parents[2]
 D = ROOT / 'cbi/data/paid-aragon'
@@ -49,18 +50,19 @@ def run():
             source_sha256=source_hashes[op['source_file']],
             notes='Operación FEDER publicada; su coste no equivale a ayuda concedida ni acredita un expediente PAIP completo.',
             operation=op)
-        rows.append(row)
+        rows.append(classify_nutrition(row))
     rows.sort(key=lambda row: (-row['year'], row['operation_code']))
     assert len(rows) == 310 and len({row['id'] for row in rows}) == len(rows)
     summary = dict(as_of='2026-11-21', records=len(rows), annual_counts=dict(sorted(collections.Counter(r['year'] for r in rows).items())),
-        sector_records=sum(r['sector'] in ['fertilizantes', 'nutricion_animal'] for r in rows),
+        sector_records=sum(r['sector'] in NUTRITION_SECTORS for r in rows),
         note='Cobertura parcial de operaciones FEDER 2017–2020, separadas de los expedientes PAIP y de sus ayudas concedidas.')
     (D / 'legacy-history.json').write_text(json.dumps(dict(summary=summary, records=rows), ensure_ascii=False, separators=(',', ':')))
     for year in range(2017, 2021):
         export(f'historico_{year}.csv', [r for r in rows if r['year'] == year])
     combined = sorted(archive['projects'] + rows, key=lambda row: (-row['year'], row['case_id']))
     export('todos_registros_2017_2026.csv', combined)
-    export('sectores_prioritarios.csv', [r for r in combined if r['sector'] in ['fertilizantes', 'nutricion_animal']])
+    export('sectores_prioritarios.csv', [r for r in combined if r['sector'] in NUTRITION_SECTORS])
+    export('clasificacion_sectorial.csv', [r for r in combined if r['sector'] != 'otros'])
     print(json.dumps(summary, ensure_ascii=False))
     return rows
 

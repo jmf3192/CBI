@@ -15,7 +15,7 @@ Datos revisados a **20/11/2026**. Configurador de solicitudes: **2027**. Expedie
 - `historico_eventos.csv`: 2.384 filas extraídas por resolución y anexo; conserva fases/importes repetidos de un expediente en documentos distintos.
 - `historico_expedientes.csv`: 2.323 expedientes consolidados por año, línea y número de expediente.
 - `historico_2021.csv` … `historico_2026.csv`: una exportación por ejercicio.
-- `sectores_prioritarios.csv`: 39 registros de fertilizantes/nutrición vegetal y nutrición animal desde 2017; 29 expedientes PAIP y 10 operaciones antiguas, incluyendo los indicios señalados como tales.
+- `sectores_prioritarios.csv`: 261 registros de nutrición vegetal, animal y humana desde 2017; 226 expedientes PAIP y 35 operaciones antiguas, incluyendo los indicios señalados como tales.
 - `clasificacion_sectorial.csv`: trazabilidad y casos pendientes de revisión.
 - `fuentes.csv` / `sources.json`: URL, año, línea, tipo documental, archivo, SHA-256 y resultado de descarga.
 - `cobertura.csv`: años con datos, documentos y lagunas de cobertura.
@@ -37,7 +37,7 @@ Los importes representan concesiones publicadas; no certifican pago, aceptación
 
 La clasificación es **por actividad del beneficiario**, no una afirmación sobre el objeto de cada proyecto. Las resoluciones no publican títulos ni provincias de forma homogénea. La ampliación FEDER añade descripción, localización y fechas cuando existe un cruce documentado; no deduce el lugar del proyecto del domicilio social ni inventa títulos a partir del nombre de la empresa.
 
-Se incluyen pruebas corporativas u oficiales para Fertinagro, Forgasa, Arvensis, Delso, Innova Nutrición Vegetal, Best Feed Ibérica, Renure, Adisseo, Nutriad y GUCO. Las coincidencias por `PIENSOS`, `AGROPIENSO` o nutrición ovina quedan como `indicio_denominacion`. Las empresas multisectoriales o afines sin evidencia suficiente se señalan como `revision_sectorial`. Herbetom, Chelats Sarrate o Solontia no se etiquetan por parecido del nombre con el sector.
+Se incluyen pruebas corporativas u oficiales para Fertinagro, Forgasa, Arvensis, Delso, Innova Nutrición Vegetal, Best Feed Ibérica, Renure, Adisseo, Nutriad y GUCO. Las coincidencias por `PIENSOS`, `AGROPIENSO` o nutrición ovina quedan como `indicio_denominacion`. Las empresas multisectoriales o afines sin evidencia suficiente se señalan como `revision_sectorial`. Herbetom y Chelats Sarrate se incorporan a nutrición humana con evidencia corporativa; Solontia no se etiqueta por parecido del nombre con el sector.
 
 ## Controles y discrepancias
 
@@ -140,19 +140,40 @@ El apartado I.3 de la orden (página 9) permite dos tramos sobre conceptos disti
 
 ## Pestañas 2017–2026 y selección sectorial conjunta
 
-El histórico muestra las diez anualidades, una pestaña **Todos desde 2017** y la selección **Fertilizantes y nutrición animal**. El conjunto reúne **2.633 registros disponibles**: 2.323 expedientes PAIP y 310 operaciones FEDER de cobertura parcial para 2017–2020. El contador distingue ambos tipos; la denominación de vista conjunta no afirma un censo completo de todos los solicitantes desde 2017.
+El histórico muestra las diez anualidades, una pestaña **Todos desde 2017** y la selección **Nutrición**. El conjunto reúne **2.633 registros disponibles**: 2.323 expedientes PAIP y 310 operaciones FEDER de cobertura parcial para 2017–2020. El contador distingue ambos tipos; la denominación de vista conjunta no afirma un censo completo de todos los solicitantes desde 2017.
 
-| Anualidad | Operaciones recuperadas | Fertilizantes y nutrición animal |
+| Anualidad | Operaciones recuperadas | Nutrición |
 |---|---:|---:|
 | 2017 | 22 | 1 |
-| 2018 | 94 | 5 |
-| 2019 | 90 | 3 |
-| 2020 | 104 | 1 |
+| 2018 | 94 | 12 |
+| 2019 | 90 | 11 |
+| 2020 | 104 | 11 |
 
-Las diez incorporaciones sectoriales son cuatro de fertilizantes (tres de Arvensis y una de Defeder) y seis de nutrición animal (producción/ensacado de piensos y deshidratado de alfalfa). Los cruces corporativos reutilizan las reglas existentes. Las clasificaciones por proyecto se limitan al código de operación de `scripts/paid-aragon/legacy-sector-overrides.json`, con descripción oficial y evidencia. No se etiqueta automáticamente toda actividad de una cooperativa como nutrición animal. La maquinaria para aplicar abonos y los medicamentos veterinarios no se clasifican por esas palabras como fertilizantes o alimentación animal.
+De las 35 operaciones sectoriales antiguas, 25 son de nutrición humana; las otras diez son cuatro de fertilizantes (tres de Arvensis y una de Defeder) y seis de nutrición animal (producción/ensacado de piensos y deshidratado de alfalfa). Los cruces corporativos reutilizan las reglas existentes. Las clasificaciones por proyecto se limitan al código de operación de `scripts/paid-aragon/legacy-sector-overrides.json`, con descripción oficial y evidencia. No se etiqueta automáticamente toda actividad de una cooperativa como nutrición animal. La maquinaria para aplicar abonos y los medicamentos veterinarios no se clasifican por esas palabras como fertilizantes o alimentación animal.
 
 Las fichas antiguas muestran descripción, municipio/provincia, fechas, coste de operación, cofinanciación y fuentes. Los campos `granted_amount`, `eligible_budget` y `score` permanecen nulos. Las operaciones no entran en el porcentaje de concesión, las medias/cortes, el mapa/composición de resultados PAIP ni la suma de ayudas. En una anualidad antigua, sin datos de concesión publicados, el indicador de ayuda muestra «—», no cero.
 
 `legacy-history.json` conserva la copia de consulta. Los registros se almacenan separadamente en `public.paid_aragon_legacy_operations` con RLS y permiso de lectura para miembros activos con acceso a PAID-ARAGON. El navegador comprueba su recuento y puede usar la copia versionada si Supabase no está disponible. No se incorporan como nuevas concesiones a `paid_aragon_awards`.
 
 Se generan `historico_2017.csv` … `historico_2020.csv`, `todos_registros_2017_2026.csv` y la selección sectorial ampliada. Se registran en Datos y muestras como archivos de consulta/edición de copias. Para reproducirlos: `python3 scripts/paid-aragon/build_legacy.py`; `enrich_history.py` lo ejecuta al terminar, por lo que una reconstrucción completa no borra la ampliación. Los campos compuestos se conservan en JSON dentro de los CSV.
+
+## Ampliación a nutrición humana · 23/11/2026
+
+La pestaña Nutrición reúne 22 registros de fertilizantes/nutrición vegetal, 20 de alimentación animal y 219 de alimentación humana. Incluye cárnicos, pescado, lácteos, conservas, fruta preparada y frutos secos, panadería/pastelería, bebidas e ingredientes y complementos alimenticios. No se incluyen automáticamente equipos, envases, limpieza, medicamentos veterinarios o explotaciones agrarias por servir a la cadena alimentaria.
+
+Las reglas revisadas están en `scripts/paid-aragon/nutrition-rules.json` y los 55 casos contrastados por descripción oficial en `nutrition-project-overrides.json`; `nutrition.py` las reaplica a reconstrucciones canónicas y antiguas. Las coincidencias corporativas describen actividad empresarial, no el objeto de cada inversión. De los 219 registros humanos, 55 tienen evidencia específica del proyecto, 107 actividad empresarial contrastada y 57 siguen como indicios por denominación. Las fichas conservan el motivo y enlace de evidencia. Las filas OCR que mezclan varias entidades se excluyen de la asignación automática.
+
+| Año | Nutrición humana | Total Nutrición |
+|---|---:|---:|
+| 2017 | 0 | 1 |
+| 2018 | 7 | 12 |
+| 2019 | 8 | 11 |
+| 2020 | 10 | 11 |
+| 2021 | 29 | 33 |
+| 2022 | 39 | 51 |
+| 2023 | 29 | 35 |
+| 2024 | 41 | 42 |
+| 2025 | 29 | 32 |
+| 2026 | 27 | 33 |
+
+No se identifican operaciones de nutrición humana en los 22 registros de 2017 recuperados; esto no prueba ausencia de proyectos alimentarios en esa anualidad. Se mantienen las limitaciones de cobertura parcial de 2017–2020. La ampliación reclasifica registros existentes: el conjunto sigue siendo de 2.633 filas y las ayudas PAIP suman los mismos 76.309.941 €.

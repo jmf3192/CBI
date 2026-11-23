@@ -1,0 +1,401 @@
+[
+  {
+    "pattern": "^BYLAPACA\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=24"
+  },
+  {
+    "pattern": "^CONSERVAS\\ CALANDA\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=98"
+  },
+  {
+    "pattern": "^FRUTOS\\ SECOS\\ GIL\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=176"
+  },
+  {
+    "pattern": "^EMBUTIDOS\\ ARTESANOS\\ MELSA\\ SL$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=167"
+  },
+  {
+    "pattern": "^AGROALIMENTOS\\ LA\\ REDONDA\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=151"
+  },
+  {
+    "pattern": "^JAMONES\\ EUTIQUIO,\\ S\\.L$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=524"
+  },
+  {
+    "pattern": "^BODEGAS\\ CRIAL\\ LLEDO\\.\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=1080"
+  },
+  {
+    "pattern": "^LITERA\\ MEAT\\.\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=482"
+  },
+  {
+    "pattern": "^COPRINAL\\ GF\\.\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=1082"
+  },
+  {
+    "pattern": "^CONSERVAS\\ CALANDA;\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=518"
+  },
+  {
+    "pattern": "^BODEGAS\\ VINOS\\ ANGEL\\ LUIS\\ PABLO\\ URIOL\\.\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=513"
+  },
+  {
+    "pattern": "^BODEGA\\ PIRINEOS,\\ S\\.A\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=453"
+  },
+  {
+    "pattern": "^PASTELERIA\\ ISUN,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=1100"
+  },
+  {
+    "pattern": "^MODESTO\\ BIELSA,\\ S\\.C\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=1196"
+  },
+  {
+    "pattern": "^PALLARES\\ NADAL\\ CARN\\ NATURE,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=644"
+  },
+  {
+    "pattern": "^INDUSTRIAS\\ CARNICAS\\ LOS\\ TRES\\ REYES,\\ S\\.A\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=1183"
+  },
+  {
+    "pattern": "^INNOFLOWER,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=608"
+  },
+  {
+    "pattern": "^HEREDEROS\\ DE\\ PRIMITIVO\\ AZNAR,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=597"
+  },
+  {
+    "pattern": "^SCANFISK\\ SEAFOOD,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=651"
+  },
+  {
+    "pattern": "^GRANDES\\ VINOS\\ Y\\ VINEDOS,\\ S\\.A\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=593"
+  },
+  {
+    "pattern": "^BODEGAS\\ ANADAS,\\ S\\.A\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=560"
+  },
+  {
+    "pattern": "^FRUTOS\\ SECOS\\ RAFALES,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=1178"
+  },
+  {
+    "pattern": "^CONSERVAS\\ CALANDA,\\ S\\.L$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://www.dgfc.sepg.hacienda.gob.es/sitios/dgfc/es-ES/loFEDER1420/porFEDER/Documents/LO-AR.pdf#page=571"
+  },
+  {
+    "pattern": "^EMBUTIDOS\\ ARTESANOS\\ MELSA,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^CASTELL\\ INTEGRE,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^BODEGAS\\ BORSAO,\\ S\\.A\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^FRIBIN\\ FOODS,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^GASCON\\ BAYOD,\\ CARLOS$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^IBER\\ MELANOSPORUM,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^FRUTOS\\ SECOS\\ GIL,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^JOSE\\ MARIA\\ LAZARO,\\ S\\.A\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^PASTELERIA\\ F\\.\\ PUYET,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^PRODYTEC\\ SOLUCIONES,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^TRUFICAS\\ DEL\\ RIO\\ PILAS,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^CAREFRUT,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^JAMONES\\ EUTIQUIO,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^AGROALIMENTARIA\\ ANDOVAL,\\ S\\.L\\.$",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad alimentaria de esta entidad documentada en una actuación oficial FEDER anterior. Clasificación de la empresa; no se atribuye esa misma descripción al expediente actual.",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiNjk4NmRmZjctMzg5Yi00OTQxLTg2ZjgtNTc2NWUyN2I2ZTRjIiwidCI6IjEwNmQ2ZDMyLTU2ODktNGMwZi1hNTdkLTI2MzFmMWZkMWYyOCIsImMiOjl9"
+  },
+  {
+    "pattern": "^\\(SDAD PARA LA INDUSTRIALIZACION DE CARNES|^SOCIEDAD PARA LA INDUSTRIALIZACION DE$|^MATADERO COMARCAL DE VALDERROBRES",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Actividad cárnica de SOINCAR y matadero comarcal descrita por Grupo Arcoiris. La denominación publicada se conserva sin reconstruirla.",
+    "url": "https://grupoarcoiris.com/es/empresas/soincar"
+  },
+  {
+    "pattern": "^DISPERCHOC",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Fabricación y comercialización de chocolates y productos de cacao; ficha de la empresa en AECOC Trade.",
+    "url": "https://www.aecoctrade.es/es/empresa/albZaNkuBxDi7OdaPjP97R"
+  },
+  {
+    "pattern": "^ORDESANO",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Elaboración de licores, bebidas e infusiones para consumo humano.",
+    "url": "https://ordesano.com/"
+  },
+  {
+    "pattern": "^HERBETOM INTERNACIONAL",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Fabricación de complementos alimenticios y productos nutracéuticos para personas, acreditada en la web corporativa.",
+    "url": "https://herbetom.com/contacto/"
+  },
+  {
+    "pattern": "^(?:SOLICITANTE )?FERNANDO ALCOBER E HIJOS|^AMANIDA|^BIOSURYA|^AVES NOBLES Y DERIVADOS|^CARNES DE TERUEL|^CARNICAS GALLEGO|^INDUSTRIAS CARNICAS SANTA ELENA|^CARNISIMA|^CONCESIONES Y BEBIDAS CARBONICAS|^CONSERVAS CALANDA|^EL PEQUENO MOLINO|^LAPASION INTERNACIONAL|^MONEGROS ALIMENTARIA|^ORCHAR?D FRUIT|^PROFAND ZARAGOZA|^SCANFISK SEAFOOD|^JOSE MARIA LAZARO|^TEREOS STARCH|^TOSTADERO GUTIERREZ|^TOSTADOS DE CALIDAD",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Empresa de alimentación humana identificada en el directorio de la Asociación de Industrias de Alimentación de Aragón.",
+    "url": "https://www.aiaa.es/empresas/"
+  },
+  {
+    "pattern": "^BODEGA(?:S)? (?:PIRINEOS|SOMMOS|ARAGONESAS|ANADAS|BORSAO|PANIZA|SAN VALERO|(?:Y )?VINOS ANGEL LUIS PABLO)|^BODEGAS VINOS ANGEL LUIS PABLO|^GRANDES VINOS Y VINEDOS",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Elaboración de vinos y bebidas; entidad identificada en el directorio alimentario de AIAA.",
+    "url": "https://www.aiaa.es/empresas/"
+  },
+  {
+    "pattern": "^GRANJA VIRGEN DEL ROSARIO|^VILLA CORONA|^NOVAPAN",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Producción de huevos, lácteos o pastas de té, respectivamente, documentada por AIAA.",
+    "url": "https://www.aiaa.es/wp-content/uploads/2025/07/Solicitud-de-Presupuestos-Servicio-Promocion-punto-de-venta-2025-Alimentos-y-Bebidas-de-Aragon.pdf"
+  },
+  {
+    "pattern": "^(?:SOLICITADA )?DR[. ]*SCHAR|^CARNES MONFORT|^EL QUITERIANO|^FORTEA CERAS Y MIELES|^INDUSTRIAS COQUET|^EBRONUTS|^COCEDERO DE MARISCOS|^AZAFRAN DE TERUEL LA CARRASCA",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Productor alimentario identificado en el directorio de Foods from Aragón (alimentos sin gluten, cárnicos, repostería, miel, conservas, frutos secos, marisco o azafrán).",
+    "url": "https://foodsfromaragon.com/companies/"
+  },
+  {
+    "pattern": "^LACASA,",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Elaboración de chocolates y confitería documentada en el catálogo de AIAA.",
+    "url": "https://catalogo.aiaa.es/product-category/dulces-y-chocolates/cacao-chocolates-dulces-y-confiteria/lacasa/"
+  },
+  {
+    "pattern": "^CHELATS SARRATE",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Fabricación de helados, sorbetes, pastelería y platos preparados, acreditada en su web corporativa.",
+    "url": "https://chelatssarrate.com/nosotros/"
+  },
+  {
+    "pattern": "^PIPS NATURE",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Elaboración y envasado de fruta y verdura de IV gama para consumo humano.",
+    "url": "https://pipsnature.es/productos/"
+  },
+  {
+    "pattern": "^SECAMORA",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Secado y curado de jamones y paletas DOP Teruel.",
+    "url": "https://www.secamora.es/"
+  },
+  {
+    "pattern": "^SOLUTEX GC",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Fabricación de concentrados omega-3 e ingredientes para complementos alimenticios y nutrición médica; también atiende otros mercados. Clasificación de actividad empresarial, no certificación del destino de cada inversión.",
+    "url": "https://solutexcorp.com/es/"
+  },
+  {
+    "pattern": "^NAMING",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Elaboración industrial de sándwiches, bocadillos y otros alimentos preparados.",
+    "url": "https://www.n-aming.es/es/conocenos/"
+  },
+  {
+    "pattern": "^ACEITES ESCARIO",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Almazara y elaboración de aceite de oliva virgen extra.",
+    "url": "https://aceitesescario.com/contacto/"
+  },
+  {
+    "pattern": "^ACEITUNAS ALCOBER|^(?:SOLICITANTE )?ACEITES ALCOBER",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Elaboración, envasado y comercialización de aceitunas y productos alimentarios.",
+    "url": "https://grupoalcober.com/contacto/"
+  },
+  {
+    "pattern": "^OATS FOOD",
+    "sector": "nutricion_humana",
+    "confidence": "confirmado",
+    "basis": "Objeto social publicado: fabricación, transformación y manipulación de productos de molinería; actividad empresarial, sin atribuir un destino concreto al proyecto.",
+    "url": "https://www.boe.es/diario_borme/txt.php?id=BORME-A-2023-105-44"
+  },
+  {
+    "pattern": "^(?:SOLICITANTE |NOMBRE )?(?:JAMONES (?!EUTIQUIO, S\\\\.L\\\\. INSTALACIONES)|CARNICAS |INDUSTRIAS CARNICAS |EMBUTIDOS |PASTELERIA |PASTELERIA |QUESERIA |QUESOS |PANIFICADORA |MAGDALENAS |BODEGA(?:S)? |CERVEZA(?:S)? |FRUTOS SECOS |FRUTAS |FRUITS |CAREFRUT|CARNICE FRUITS|GUIMERA SELECT FRUITS|GRUPO FRUTAS |MY FRUT|OLEO CALACEITE|BEBIDAS Y MARIDAJES|APERITIVOS Y EXTRUSIONADOS|DARTE PASTA Y PIZZA|PRECOCINADOS LA FABRICA|PRODUCTOS CONGELADOS (?:SELECTOS )?3000|MANANTIALES DEL PIEDRA|TOSTADERO |TOSTADOS DE CALIDAD|POSTRES DE MESA|TAHONA DE MORA|HORNO VILLASPESA|TRUFAMAS|TRUFASPAIN|TUBERNOSTRUM GOURMET|TOMATE LAS VALLES|SETAS Y HONGOS HUERTA|MACANA FISH|OLENY CONGELADO|POP IT GOURMET|AGROALIMENTARIA ANDOVAL|AGROALIMENTOS LA REDONDA)",
+    "sector": "nutricion_humana",
+    "confidence": "indicio_denominacion",
+    "basis": "La denominación publicada identifica una actividad alimentaria humana. Indicio por denominación: no acredita por sí solo el contenido de la inversión.",
+    "url": ""
+  },
+  {
+    "pattern": "^MURILLO FRESH FOODS",
+    "sector": "nutricion_animal",
+    "confidence": "confirmado",
+    "basis": "Fábrica de piensos para rumiantes; la web corporativa acredita alimentación animal, no humana.",
+    "url": "https://murillofreshfoods.com/empresa/"
+  },
+  {
+    "pattern": "^VEOS IBERICA",
+    "sector": "nutricion_animal",
+    "confidence": "confirmado",
+    "basis": "Transformación de subproductos en proteínas para piensos, mascotas y acuicultura; web de la planta española.",
+    "url": "https://www.veos.es/es"
+  }
+]

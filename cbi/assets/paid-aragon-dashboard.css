@@ -45,3 +45,6 @@
 
 .cost-regime-choice{display:flex;align-items:center;gap:6px;margin-top:9px;white-space:nowrap}.cost-regime-choice>span{font-size:10px;color:var(--muted)}.cost-regime-choice[data-regime=minimis]>span:first-child,.cost-regime-choice[data-regime=rgec]>span:last-child{font-weight:650;color:#173e59}.regime-toggle{position:relative;width:42px;min-width:42px;height:26px;min-height:26px;padding:0;border:1px solid #bdcbd6;border-radius:20px;background:#e1e8ee;flex:0 0 42px}.regime-toggle::after{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #00142630;transition:transform .15s}.regime-toggle[aria-checked=true]{background:#173e59;border-color:#173e59}.regime-toggle[aria-checked=true]::after{transform:translateX(16px)}
 @media(prefers-reduced-motion:reduce){.regime-toggle::after{transition:none}}
+
+/* Human food production joins the existing nutrition history selection. */
+.pill.nutricion_humana{background:#fff0e5;color:#934315}.dot.human{background:#d47b3d}.history-table tr.sector-nutricion_humana{border-left:3px solid #d47b3d}

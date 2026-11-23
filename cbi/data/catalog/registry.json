@@ -1947,7 +1947,7 @@
   {
     "id": "paip-sectores-prioritarios",
     "call_id": "eaeab14e-c3eb-46e5-9b35-bf2bcd31df9c",
-    "name": "PAIP · Fertilizantes y nutrición animal · desde 2017",
+    "name": "PAIP · Nutrición · desde 2017",
     "source_path": "/cbi/data/paid-aragon/sectores_prioritarios.csv",
     "metadata": {
       "group": "paip-aragon",
@@ -1989,16 +1989,17 @@
         "waiting_amount",
         "notes",
         "source_amount_last",
+        "nif",
         "enrichment",
         "project_description",
         "municipality",
         "project_start_dates",
         "project_end_dates",
         "enrichment_source_urls",
-        "nif",
         "green_amount",
         "digital_amount",
         "raw_financial_values",
+        "correction_note",
         "record_type",
         "source_line",
         "operation_code",
@@ -2028,7 +2029,7 @@
         "source_url",
         "sector_source_url"
       ],
-      "rowCount": 39,
+      "rowCount": 261,
       "validation": "generic",
       "pages": [
         "paid-aragon-dashboard.html"

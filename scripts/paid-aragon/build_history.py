@@ -1,5 +1,6 @@
 from pathlib import Path
 import json,csv,re,collections,hashlib,unicodedata
+from nutrition import classify_nutrition, NUTRITION_SECTORS
 ROOT=Path(__file__).resolve().parents[2];D=ROOT/'cbi/data/paid-aragon'
 def norm(s):return ''.join(c for c in unicodedata.normalize('NFD',s.upper()) if unicodedata.category(c)!='Mn')
 rules=json.loads((ROOT/'scripts/paid-aragon/sector-rules.json').read_text())
@@ -15,6 +16,7 @@ for row in records:
   if re.search(rule['pattern'],norm(row['beneficiary'])):
    row.update(sector=rule['sector'],sector_confidence=rule['confidence'],sector_basis=rule['basis'],sector_source_url=rule['url'] or row['source_url']);break
  if row['sector'] in ['fertilizantes','nutricion_animal']:row['sector_basis']+=' Clasificación de la empresa; la resolución no publica el título/contenido del proyecto.'
+ classify_nutrition(row)
 # Explicit later withdrawals concern the waiting list, not necessarily an earlier partial grant.
 withdrawals={2025:{'0089/2025/TDII','0043/2025/TDII','0318/2025/TDII','0351/2025/TDII'},2026:{'0160/2026/TDII','0109/2026/TDII','0226/2026/TDII'}}
 # Group by administrative case; source events remain in a separate CSV and source_refs.
@@ -55,7 +57,7 @@ def export(name,rows):
   for r in rows:w.writerow({k:json.dumps(v,ensure_ascii=False) if isinstance(v,(dict,list)) else v for k,v in r.items()})
 export('historico_eventos.csv',records);export('historico_expedientes.csv',projects)
 for year in sorted(set(r['year'] for r in projects)):export(f'historico_{year}.csv',[r for r in projects if r['year']==year])
-export('sectores_prioritarios.csv',[r for r in projects if r['sector'] in ['fertilizantes','nutricion_animal']])
+export('sectores_prioritarios.csv',[r for r in projects if r['sector'] in NUTRITION_SECTORS])
 export('clasificacion_sectorial.csv',[r for r in projects if r['sector']!='otros'])
 sources=json.loads((D/'sources.json').read_text());export('fuentes.csv',sources)
 coverage=[]

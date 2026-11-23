@@ -1,7 +1,7 @@
 import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261123-1';
 import { CBI } from './cbi-supabase.js?v=20261120';
 import { evaluate, intensity } from './paid-aragon-model.js?v=20261123-2';
-import { initHistory } from './paid-aragon-history.js?v=20261121-2';
+import { initHistory } from './paid-aragon-history.js?v=20261123-3';
 import { initForecast } from './paid-aragon-forecast.js?v=20261121-2';
 const $=selector=>document.querySelector(selector);
 const form=$('#application-form');
