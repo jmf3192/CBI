@@ -129,11 +129,13 @@ Al introducir una ayuda propia calculable, el proyecto sustituye la última fila
 
 La frecuencia de aprobación usa 1.000 escenarios: el primero es el CSV visible, y los otros 999 remuestrean su distribución de admisibilidad, puntuaciones e importes. Si cambia el número previsto de solicitudes y deja de coincidir con las filas del CSV, se remuestrea la base hasta el nuevo volumen; no se mezclan poblaciones de tamaños distintos. Los pesos históricos ya están incorporados en la generación original: para cambiar también esa composición se regenera el CSV con los nuevos pesos. Una edición publicada de sus puntuaciones/importes alimenta directamente los gráficos en la siguiente carga. Los resultados de financiación se calculan; no se leen de columnas editables que puedan quedar obsoletas.
 
-## Presupuesto con un único régimen
+## Régimen por concepto de gasto
 
-La interfaz solicita un coste por categoría y elige `Minimis` o `RGEC · renunciar a minimis` para todo el presupuesto. Al cambiar de régimen conserva las cantidades y recalcula intensidades y ayuda. En RGEC no exige declarar minimis previo; sí exige sus condiciones y efecto incentivador. En minimis se aplica el margen de la empresa única y no se añade automáticamente un tramo RGEC.
+La interfaz solicita un único importe por fila y un interruptor **Minimis / RGEC** para ese concepto. Apagado asigna el importe íntegro a minimis; encendido lo asigna íntegramente a RGEC. Los cinco conceptos de las categorías publicadas pueden combinar regímenes dentro de la misma simulación. Al accionar un interruptor se conserva el importe y solo cambia su asignación, intensidad y ayuda; no se duplica ningún coste ni se convierte el exceso de minimis automáticamente a RGEC.
 
-El apartado I.3 de la orden (página 9) permite dos tramos sobre conceptos distintos, sin aplicar dos regímenes al mismo gasto, y permite renunciar a minimis para tramitar todo por RGEC. Por tanto, el selector es una comparación de escenarios con un único régimen, no una afirmación de que esté prohibido combinarlos. La explicación se ofrece en un desplegable del presupuesto. El motor conserva compatibilidad con los evaluadores anteriores de costes por régimen, pero la interfaz ya no pide esa división.
+Las ayudas calculadas de los conceptos minimis comparten un único margen de la empresa única. Solo se pide minimis previo cuando existe presupuesto asignado a ese régimen. Las condiciones RGEC y el efecto incentivador se exigen cuando hay importe positivo asignado a RGEC. Se mantienen los límites por categoría, tamaño/zona, acumulación y ayuda total.
+
+El apartado I.3 de la orden (página 9) permite dos tramos sobre conceptos distintos, sin aplicar dos regímenes al mismo gasto. La explicación está en el desplegable del presupuesto. El motor utiliza `costMode: per_concept` y un par `amount`/`regime` por concepto; conserva compatibilidad con evaluaciones anteriores que utilizaran un régimen general o importes separados por régimen. El simulador de reunión sigue sin guardar solicitudes.
 
 
 ## Pestañas 2017–2026 y selección sectorial conjunta

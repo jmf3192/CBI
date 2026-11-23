@@ -20,7 +20,7 @@ https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1474139920505&typ
 
 Los requisitos tienen tres estados: cumple, no cumple y pendiente. No se da por superado lo que falta por comprobar. Se revisan localización y actividad, constitución, solvencia, prohibiciones/crisis/recuperación, obligaciones tributarias, exclusiones sectoriales, proyecto no concluido antes de solicitar, no duplicidad PAIP, convocatoria energética específica, gastos, empleo, documentación y morosidad. Las condiciones de crisis y exclusiones con excepciones se confirman mediante revisión documental, no mediante un diagnóstico automático.
 
-La calculadora toma **costes ya depurados por el usuario** en cinco categorías, una sola vez, con un selector general de minimis o RGEC. No es un clasificador automático de facturas. Aplica las intensidades publicadas por tamaño y zona, margen de minimis de la empresa única (300.000 € en periodo móvil de tres años), máximo ordinario y límite agregado del 80 % menos otras ayudas sobre los mismos costes. No reasigna automáticamente a RGEC el exceso de costes de minimis. La acumulación también requiere comprobar los límites específicos por coste/régimen; una alerta lo indica.
+La calculadora toma **costes ya depurados por el usuario** en cinco categorías, una sola vez, con un interruptor minimis/RGEC en cada concepto. No es un clasificador automático de facturas. Aplica las intensidades publicadas por tamaño y zona, margen de minimis de la empresa única (300.000 € en periodo móvil de tres años), máximo ordinario y límite agregado del 80 % menos otras ayudas sobre los mismos costes. No reasigna automáticamente a RGEC el exceso de costes de minimis. La acumulación también requiere comprobar los límites específicos por coste/régimen; una alerta lo indica.
 
 Para RGEC exige inicio posterior a la solicitud o pre-solicitud válida anterior al inicio y confirmación de las condiciones específicas de ese régimen. La comprobación por fecha es conservadora si ambos eventos ocurren el mismo día: se debe acreditar su orden y hora documental. Grandes empresas deben acreditar además el efecto incentivador adicional y las condiciones de inversión inicial/diversificación que procedan.
 
@@ -77,12 +77,12 @@ Los 2.323 expedientes conservan sus estados, puntuaciones e importes originales.
 
 Las fichas incorporan descripción, provincia/municipio publicados, fechas, NIF contrastado e indicadores oficiales de las operaciones disponibles. Las referencias de empresa están identificadas como otras actuaciones y no se suman al proyecto ni a las concesiones. Las incidencias de identidad del listado reciente se muestran en la ficha y se excluyen del cruce de NIF. El detalle de cobertura y el método figuran en el README de los datos.
 
-Se retira el bloque superior de fechas/importes del configurador. El esquema de puntuación se muestra en círculo junto al gráfico de ayuda y puntuación, bajo la distribución de la muestra; las fechas se comprueban por declaraciones en Elegibilidad, sin campos de fecha en Proyecto. El presupuesto usa un único coste por categoría y un selector general de régimen.
+Se retira el bloque superior de fechas/importes del configurador. El esquema de puntuación se muestra en círculo junto al gráfico de ayuda y puntuación, bajo la distribución de la muestra; las fechas se comprueban por declaraciones en Elegibilidad, sin campos de fecha en Proyecto. El presupuesto usa un único coste por concepto y un interruptor minimis/RGEC por fila.
 
 
 ## Disposición de los gráficos y presupuesto · revisión 2027
 
-La distribución ocupa todo el ancho del panel de resultados y no lleva el borde superior oscuro. Debajo, Esquema de puntuación (circular) y Ayuda y puntuación tienen dos columnas de igual ancho y alineación vertical en escritorio. En móvil se apilan. El presupuesto muestra cinco campos de coste, un selector general de régimen y una única intensidad por categoría. El desplegable explica minimis, RGEC y la posibilidad legal de tramos sobre conceptos distintos. Se mantienen las comprobaciones de margen, localización/tamaño, acumulación y efecto incentivador.
+La distribución ocupa todo el ancho del panel de resultados y no lleva el borde superior oscuro. Debajo, Esquema de puntuación (circular) y Ayuda y puntuación tienen dos columnas de igual ancho y alineación vertical en escritorio. En móvil se apilan. El presupuesto muestra cinco campos de coste, un interruptor minimis/RGEC por concepto y una intensidad actualizada para cada fila. El desplegable explica minimis, RGEC y la posibilidad legal de tramos sobre conceptos distintos. Se mantienen las comprobaciones de margen, localización/tamaño, acumulación y efecto incentivador.
 
 
 ## Navegación histórica desde 2017
@@ -90,3 +90,8 @@ La distribución ocupa todo el ancho del panel de resultados y no lleva el borde
 Se integran los antecedentes 2017–2020 en las pestañas anuales y en Todos desde 2017, sin duplicar la antigua sección desplegable. La pestaña sectorial reúne también sus diez registros confirmados. La tabla y las fichas mantienen un tipo de registro explícito: las 310 operaciones no aportan puntuación ni importes de ayuda PAIP. Los indicadores financieros y de resultados se calculan únicamente con los 2.323 expedientes consolidados. Para anualidades solo con operaciones se muestran recuentos y datos de ficha, sin interpretar una ayuda desconocida como cero.
 
 La tabla adicional `paid_aragon_legacy_operations` almacena el identificador de operación, año y ficha pública como JSON. Se habilita RLS con el mismo acceso por convocatoria activa que el histórico existente y se revocan escrituras de los roles de cliente. La carga y los CSV están versionados; las escrituras de solicitudes privadas siguen desactivadas en la interfaz.
+
+
+## Conceptos con regímenes combinados
+
+Los controles del presupuesto guardan en memoria un importe y un régimen exclusivo por fila. La selección general desaparece de la interfaz. El motor suma las ayudas minimis y RGEC de los distintos conceptos, aplicando el margen minimis una sola vez a su suma. Cambiar un interruptor conserva el coste declarado. Los conceptos RGEC activan sus condiciones cuando tienen importe; los conceptos a cero no crean requisitos adicionales. Los casos de prueba verifican mezcla, conservación del presupuesto, límites compartidos y rechazo de regímenes no válidos/no aplicables.

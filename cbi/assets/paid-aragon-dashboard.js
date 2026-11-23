@@ -1,6 +1,6 @@
 import { renderScoreCircle } from './paid-aragon-score-circle.js?v=20261123-1';
 import { CBI } from './cbi-supabase.js?v=20261120';
-import { evaluate, intensity } from './paid-aragon-model.js?v=20261121-2';
+import { evaluate, intensity } from './paid-aragon-model.js?v=20261123-2';
 import { initHistory } from './paid-aragon-history.js?v=20261121-2';
 import { initForecast } from './paid-aragon-forecast.js?v=20261121-2';
 const $=selector=>document.querySelector(selector);
@@ -48,6 +48,10 @@ const numeric=input=>input.value.trim()===''||/^[-,.]$/.test(input.value.trim())
 function buildForm(){
  rules.categories.forEach(category=>{
   const tr=document.createElement('tr');const title=document.createElement('td');title.textContent=category.title;tr.append(title);
+  const choice=document.createElement('div');choice.className='cost-regime-choice';choice.dataset.regime='minimis';
+  const minimis=document.createElement('span');minimis.textContent='Minimis';const rgec=document.createElement('span');rgec.textContent='RGEC';
+  const toggle=document.createElement('button');toggle.type='button';toggle.className='regime-toggle';toggle.dataset.costRegime=category.id;toggle.setAttribute('role','switch');toggle.setAttribute('aria-checked','false');toggle.setAttribute('aria-label','Usar RGEC para '+category.title+'; desactivado: minimis');
+  toggle.addEventListener('click',()=>{const checked=toggle.getAttribute('aria-checked')!=='true';toggle.setAttribute('aria-checked',String(checked));choice.dataset.regime=checked?'rgec':'minimis';toggle.dispatchEvent(new Event('change',{bubbles:true}));});choice.append(minimis,toggle,rgec);title.append(choice);
   const cell=document.createElement('td'),input=document.createElement('input');input.type='number';input.min='0';input.max='999999999999.99';input.step='.01';input.value='0';input.dataset.numberFormat='';input.dataset.numberDecimals='2';input.dataset.cost=category.id;input.setAttribute('aria-label',category.title+': coste elegible');
   const range=document.createElement('input');range.type='range';range.min='0';range.max='1000000';range.step='1000';range.value='0';range.dataset.costRange=category.id;range.setAttribute('aria-label','Ajustar '+category.title);range.addEventListener('input',()=>{window.CBINumbers.setValue(input,Number(range.value));input.dispatchEvent(new Event('input',{bubbles:true}));});cell.append(input,range);tr.append(cell);
   const rate=document.createElement('td');rate.className='rate';rate.dataset.rate=category.id;rate.textContent='—';tr.append(rate);$('#cost-rows').append(tr);
@@ -66,17 +70,17 @@ function buildForm(){
  });
 }
 function readApplication(){
- const assessment={version:rules.version,mode:'meeting',dateChecks:'declarations',eligibility:{},criteria:{},costs:{}};
+ const assessment={version:rules.version,mode:'meeting',dateChecks:'declarations',costMode:'per_concept',eligibility:{},criteria:{},costs:{}};
  document.querySelectorAll('[data-input]').forEach(input=>{assessment[input.dataset.input]=numeric(input);});
  document.querySelectorAll('[data-gate]').forEach(input=>{assessment.eligibility[input.dataset.gate]=input.value;});
  document.querySelectorAll('[data-criterion]').forEach(input=>{const id=input.dataset.criterion;assessment.criteria[id]={value:input.value,evidence:''};});
- document.querySelectorAll('[data-cost]').forEach(input=>{const id=input.dataset.cost;assessment.costs[id]??={};assessment.costs[id].amount=numeric(input);});
+ document.querySelectorAll('[data-cost]').forEach(input=>{const id=input.dataset.cost;assessment.costs[id]={amount:numeric(input),regime:document.querySelector(`[data-cost-regime="${id}"]`).getAttribute('aria-checked')==='true'?'rgec':'minimis'};});
  return {application_year:2027,assessment};
 }
 function updateEvaluation(){
  if(!rules)return;
- const rgec=$('[data-input=regime]').value==='rgec';$('#minimis-history-field').hidden=rgec;document.querySelectorAll('[data-rgec-gate]').forEach(row=>row.hidden=!rgec);
  const application=readApplication(),result=evaluate(application,rules);
+ $('#minimis-history-field').hidden=result.totalCost>0?!result.rows.some(row=>row.minimisCost>0):![...document.querySelectorAll('[data-cost-regime]')].some(button=>button.getAttribute('aria-checked')==='false');document.querySelectorAll('[data-rgec-gate]').forEach(row=>row.hidden=!result.usesRgec);
  const maximum=result.aid,aid=maximum===null?null:requestedAid===null?maximum:Math.max(0,Math.min(maximum,requestedAid));
  const computed={...result,aid,failed:[...result.failed]};if(aid!==null&&aid<rules.min_aid)computed.failed.push({title:'La ayuda solicitada debe alcanzar 4.000 €.'});
  computed.status=computed.failed.length?'no_elegible':result.status;updateCompetition(computed);
@@ -93,7 +97,7 @@ function updateEvaluation(){
  computed.failed.slice(0,4).forEach(issue=>{const p=document.createElement('p');p.className='issue fail';p.textContent=issue.title;issues.append(p);});
  result.warnings.filter(warning=>!warning.startsWith('Estimación sobre costes')).forEach(warning=>{const p=document.createElement('p');p.className='issue';p.textContent=warning;issues.append(p);});
  document.querySelectorAll('[data-rate]').forEach(cell=>{
-  const rate=intensity(cell.dataset.rate,application.assessment.regime,application.assessment.size,application.assessment.zone);
+  const rate=intensity(cell.dataset.rate,application.assessment.costs[cell.dataset.rate].regime,application.assessment.size,application.assessment.zone);
   cell.textContent=rate===null?(application.assessment.size&&application.assessment.zone?'No aplica':'—'):`${Math.round(rate*100)} %`;
  });
  renderScoreCircle(rules,result.score);

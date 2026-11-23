@@ -18,20 +18,22 @@ const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value||'') && !Number.isNa
 export function evaluate(application, rules) {
   const input=application.assessment || {};
   const meeting=input.mode==='meeting',declaredDates=meeting&&input.dateChecks==='declarations';
-  const singleRegime=Object.hasOwn(input,'regime'),regimeValid=['minimis','rgec'].includes(input.regime);
+  const perConcept=input.costMode==='per_concept',singleRegime=!perConcept&&Object.hasOwn(input,'regime');
+  const regimeValid=perConcept?rules.categories.every(c=>{const b=input.costs?.[c.id]||{};return amount(b.amount??0)===0||['minimis','rgec'].includes(b.regime);}):['minimis','rgec'].includes(input.regime);
   const answers=input.eligibility || {}, criteria=input.criteria || {}, checks=[], warnings=[];
   const check=(id,title,value,detail='')=>checks.push({id,title,status:value===true?'pass':value===false?'fail':'pending',detail});
   const rows=rules.categories.map(category=>{
     const budget=input.costs?.[category.id] || {};
-    const m=singleRegime?amount(input.regime==='minimis'?budget.amount??0:0):amount(budget.minimis??0),r=singleRegime?amount(input.regime==='rgec'?budget.amount??0:0):amount(budget.rgec??0);
+    const regime=perConcept?budget.regime:input.regime,declaredCost=amount(budget.amount??0);
+    const m=perConcept||singleRegime?amount(regime==='minimis'?budget.amount??0:0):amount(budget.minimis??0),r=perConcept||singleRegime?amount(regime==='rgec'?budget.amount??0:0):amount(budget.rgec??0);
     const mr=intensity(category.id,'minimis',input.size,input.zone),rr=intensity(category.id,'rgec',input.size,input.zone);
-    return {...category,minimisCost:m,rgecCost:r,minimisRate:mr,rgecRate:rr,minimisAid:validMoney(m)&&mr!==null?m*mr:0,rgecAid:validMoney(r)&&rr!==null?r*rr:0};
+    return {...category,regime,declaredCost,minimisCost:m,rgecCost:r,minimisRate:mr,rgecRate:rr,minimisAid:validMoney(m)&&mr!==null?m*mr:0,rgecAid:validMoney(r)&&rr!==null?r*rr:0};
   });
   const usesRgec=rows.some(row=>row.rgecCost>0);
-  const costsValid=rows.every(row=>validMoney(row.minimisCost)&&validMoney(row.rgecCost));
-  const totalCost=rows.reduce((s,r)=>s+(r.minimisCost||0)+(r.rgecCost||0),0);
+  const costsValid=rows.every(row=>validMoney(row.minimisCost)&&validMoney(row.rgecCost)&&(!perConcept||validMoney(row.declaredCost)));
+  const totalCost=rows.reduce((s,r)=>s+(perConcept?(r.declaredCost||0):(r.minimisCost||0)+(r.rgecCost||0)),0);
   check('year','Ejercicio de solicitud 2027',Number(application.application_year)===2027);
-  if(singleRegime)check('regime','Régimen de ayuda seleccionado',regimeValid?true:null);
+  if(singleRegime||perConcept)check('regime',perConcept?'Régimen asignado a cada concepto':'Régimen de ayuda seleccionado',regimeValid?true:null);
   check('size','Tamaño de empresa y zona seleccionados',SIZE.includes(input.size)&&ZONES.includes(input.zone)?true:null);
   check('costs','Presupuesto elegible desglosado',costsValid&&totalCost>0?true:totalCost===0?null:false);
   const declared=id=>answers[id]==='yes'?true:answers[id]==='no'?false:null;
@@ -48,7 +50,7 @@ export function evaluate(application, rules) {
   rows.forEach(row=>{
     if(row.rgecCost>0 && row.rgecRate===null)check('regime_'+row.id,`${row.title}: régimen RGEC aplicable`,false,'No aplicable al tamaño/zona elegido. Revisa la asignación de gastos.');
   });
-  const needsMinimis=!singleRegime||input.regime!=='rgec',prior=needsMinimis?amount(input.previousMinimis):0,other=amount(input.otherAid);
+  const needsMinimis=perConcept?rows.some(row=>row.minimisCost>0):!singleRegime||input.regime!=='rgec',prior=needsMinimis?amount(input.previousMinimis):0,other=amount(input.otherAid);
   if(needsMinimis)check('minimis_history','Ayudas de minimis de la empresa única en los tres años anteriores',validMoney(prior)?true:null,'Comprobar empresa única y periodo móvil de tres años, no solo la sociedad solicitante.');
   check('other_aid','Otras ayudas sobre los mismos costes declaradas',validMoney(other)?true:null);
   const minimisGross=rows.reduce((s,r)=>s+r.minimisAid,0),rgecGross=rows.reduce((s,r)=>s+r.rgecAid,0);
@@ -57,7 +59,7 @@ export function evaluate(application, rules) {
   const rgecReady=!usesRgec||(incentive===true&&answers.rgec_conditions==='yes');
   const gross=(minimisAid??0)+(rgecReady?rgecGross:0);
   const limited=Math.max(0,Math.min(gross,rules.max_aid,.8*totalCost-(other??0)));
-  const estimationReady=(!singleRegime||regimeValid)&&costsValid&&totalCost>0&&SIZE.includes(input.size)&&ZONES.includes(input.zone)&&validMoney(prior)&&validMoney(other)&&rgecReady&&rows.every(r=>!r.rgecCost||r.rgecRate!==null);
+  const estimationReady=(!(singleRegime||perConcept)||regimeValid)&&costsValid&&totalCost>0&&SIZE.includes(input.size)&&ZONES.includes(input.zone)&&validMoney(prior)&&validMoney(other)&&rgecReady&&rows.every(r=>!r.rgecCost||r.rgecRate!==null);
   const aid=estimationReady?Math.round(limited):null;
   rules.eligibility.forEach(rule=>{
     if(rule.id==='rgec_conditions'&&!usesRgec)return;
