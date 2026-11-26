@@ -17,29 +17,43 @@ function empty(target) {
   p.className = 'small muted'; p.textContent = 'Sin datos para la selección.';
   target.replaceChildren(p);
 }
-export function histogram(target, scores, marks = []) {
+export function histogram(target, scores, marks = [], { PAIP = false } = {}) {
   if (!scores.length) return empty(target);
-  const width=640,height=236,x0=40,y0=198,plot=width-x0-15;
+  const width=PAIP?1000:640,height=PAIP?280:236,x0=PAIP?25:40,y0=PAIP?239:198,plot=width-x0-25;
+  const ceiling=PAIP?27:26, chartHeight=y0-ceiling;
   const step=5, bins=Array.from({length:100/step},()=>0);
   for (const score of scores) bins[Math.max(0,Math.min(bins.length-1,Math.floor(score/step)))]++;
   const max=Math.max(...bins,1);
   const svg=chart(target,'Histograma de puntuaciones de 0 a 100',width,height);
-  for(let i=0;i<=4;i++) {
+  const cut = marks.find((mark) => mark.cut && Number.isFinite(mark.value));
+  if (PAIP && cut) {
+    const x = x0 + plot * cut.value / 100;
+    svg.append(element('rect', {x,y:ceiling,width:width-25-x,height:chartHeight,fill:'#e6f4ef'}));
+  }
+  for(let i=0;!PAIP&&i<=4;i++) {
     const y=y0-43*i;
     svg.append(element('line',{x1:x0,x2:width-15,y1:y,y2:y,class:'guide'}),element('text',{x:x0-6,y:y+4,'text-anchor':'end'},n.format(max*i/4)));
   }
   bins.forEach((count,i) => {
-    const h=count/max*172;
-    const rect=element('rect',{x:x0+i*plot/bins.length+2,y:y0-h,width:plot/bins.length-4,height:h,rx:2,fill:palette.blue});
+    const h=count/max*chartHeight*(PAIP?0.76:1);
+    const rect=element('rect',{x:x0+i*plot/bins.length+2,y:y0-h,width:plot/bins.length-4,height:h,rx:2,fill:PAIP?'#c7d9e5':palette.blue});
     rect.append(element('title',{},(i*step)+'–'+((i+1)*step)+' puntos: '+count));
     svg.append(rect);
   });
-  for(let i=0;i<=100;i+=10) svg.append(element('text',{x:x0+plot*i/100,y:219,'text-anchor':'middle'},i));
-  marks.filter((m)=>Number.isFinite(m.value)).forEach(({value,label,color})=>{
+  for(let i=0;i<=100;i+=PAIP?20:10) svg.append(element('text',{x:x0+plot*i/100,y:y0+23,'text-anchor':'middle'},i));
+  marks.filter((m)=>Number.isFinite(m.value)).forEach(({value,label,color,cut})=>{
     const x=x0+plot*value/100;
-    const line=element('line',{x1:x,x2:x,y1:18,y2:y0,stroke:palette[color],class:'reference'});
+    const ink = PAIP ? (cut ? '#986b10' : '#001426') : palette[color];
+    const line=element('line',{x1:x,x2:x,y1:PAIP?ceiling:18,y2:y0,stroke:ink,class:PAIP?'step-solid-reference':'reference'});
     line.append(element('title',{},label+': '+n.format(value)));
     svg.append(line);
+    if (PAIP) {
+      const tagWidth = 150;
+      const tagX = Math.max(x0, Math.min(x - tagWidth / 2, width - 25 - tagWidth));
+      const tagY = ceiling + (cut ? 4 : 33);
+      svg.append(element('rect',{x:tagX,y:tagY,width:tagWidth,height:22,rx:3,fill:ink}));
+      svg.append(element('text',{x:tagX+tagWidth/2,y:tagY+15,'text-anchor':'middle',class:'step-chart-tag'},label+': '+n.format(value)));
+    }
   });
 }
 export function scatter(target, entries) {

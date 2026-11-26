@@ -1,6 +1,7 @@
 import { assess, forecast, criteria, territories } from './innterconecta-step-model.js?v=20261126-3';
 
-import { histogram, scatter, wheel } from './innterconecta-step-charts.js?v=20261126-3';
+import { histogram, scatter, wheel } from './innterconecta-step-charts.js?v=20261126-5';
+import { editionRules, renderRules } from './innterconecta-step-rules.js?v=20261126-5';
 
 const get = (id) => document.getElementById(id);
 const make = (tag, text) => {
@@ -14,7 +15,7 @@ const fmt = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 2 });
 const eur = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
 const show = (number, formatter = fmt) => Number.isFinite(number) ? formatter.format(number) : '—';
 const root = '../data/innterconecta-step/';
-const state = { rows: [], members: new Map(), pairs: [], results: [], page: 0, manual: [], assessment: null, estimate: null, shown: new Map() };
+const state = { partners: [], rows: [], members: new Map(), pairs: [], results: [], page: 0, manual: [], assessment: null, estimate: null, shown: new Map() };
 
 function cellRow(values) {
   const tr = make('tr');
@@ -42,8 +43,9 @@ function link(url, title) {
 function renderMetrics(node, values, definition = false) {
   node.replaceChildren(...values.map(([label, value]) => {
     const box = make(node.classList.contains('summary-grid') ? 'article' : 'div');
-    if (node.classList.contains('kpis')) box.className = 'kpi';
-    box.append(make(definition ? 'dt' : 'span', label), make(definition ? 'dd' : 'strong', value));
+    const isKpi = node.classList.contains('kpis');
+    if (isKpi) box.className = 'kpi';
+    box.append(make(definition ? 'dt' : isKpi ? 'small' : 'span', label), make(definition ? 'dd' : 'strong', value));
     return box;
   }));
 }
@@ -55,6 +57,10 @@ function bindTabs() {
         item.setAttribute('aria-selected', item === tab);
         item.tabIndex = item === tab ? 0 : -1;
         get(item.getAttribute('aria-controls')).hidden = item !== tab;
+      }
+      if (tab.parentElement.classList.contains('tabs')) {
+        document.body.dataset.view = tab.id === 'tab-historico' ? 'history' : 'simulation';
+        get('page-title').textContent = tab.id === 'tab-historico' ? 'INNTERCONECTA · Data room' : 'Simulador de solicitud INNTERCONECTA STEP';
       }
       if (focus) tab.focus();
     };
@@ -88,69 +94,92 @@ function amount() {
   input.inputMode = 'decimal';
   return input;
 }
-function addPartner() {
-  if (get('partners').children.length >= 6) return;
-  const fieldset = make('fieldset');
-  fieldset.className = 'step-partner';
-  const form = make('div');
-  form.className = 'step-form';
-  const fields = [
-    ['name', 'Nombre de empresa', make('input')],
-    ['size', 'Tamaño', select([['small', 'Pequeña'], ['medium', 'Mediana'], ['large', 'Grande']], 'Seleccionar')],
-    ['region', 'CCAA de ejecución', select(territories.map((r) => [r,r]), 'Seleccionar')],
-    ['industrial', 'Investigación industrial (€)', amount()],
-    ['experimental', 'Desarrollo experimental (€)', amount()],
-    ['group', 'Grupo vinculado o asociado', make('input')],
-  ];
-  for (const [key, title, input] of fields) {
-    input.dataset.partner = key;
-    if (key === 'group') input.placeholder = 'Solo si procede';
-    form.append(field(title, input));
-  }
-  const remove = make('button', 'Quitar empresa');
-  remove.type = 'button';
-  remove.dataset.remove = '';
-  remove.addEventListener('click', () => {
-    if (get('partners').children.length > 2) {
-      fieldset.remove(); updatePartnerControls(); updateAssessment();
-      get('add-partner').focus();
-    }
-  });
+const manualRequirements = [
+  ['independent', 'Al menos dos empresas son autónomas entre sí', 'Identifica también las vinculaciones o asociaciones que afecten al cálculo.'],
+  ['legal', 'Empresas constituidas y con domicilio social en España', 'Cada participante tiene personalidad jurídica propia.'],
+  ['agreement', 'Acuerdo de agrupación y representante', 'El consorcio ha firmado su acuerdo interno y designado a una empresa coordinadora.'],
+  ['timing', 'Calendario y efecto incentivador', 'La ejecución respeta las fechas de 2026 y el proyecto no ha empezado antes de presentar la solicitud.'],
+  ['applications', 'Máximo de dos solicitudes por empresa', 'Cuenta las participaciones como coordinadora y como socia.'],
+  ['documentation', 'Documentación y condiciones de las beneficiarias', 'Comprueba las declaraciones y los demás requisitos del artículo 3.'],
+];
+const manualStatus = new Map();
+
+function partnerRow(index) {
+  const label = 'Empresa ' + (index + 1);
+  const size = select([['small', 'Pequeña'], ['medium', 'Mediana'], ['large', 'Grande']], 'Seleccionar');
+  const region = select(territories.map((name) => [name, name]), 'Seleccionar');
+  size.setAttribute('aria-label', 'Tipo de ' + label.toLowerCase());
+  region.setAttribute('aria-label', 'CCAA de ejecución de ' + label.toLowerCase());
+  const company = cellRow([label, size, region]);
+  const industrial = amount();
+  const experimental = amount();
+  const budget = make('fieldset');
+  const budgetFields = make('div');
+  budgetFields.className = 'step-form';
+  budgetFields.append(field('Investigación industrial (€)', industrial), field('Desarrollo experimental (€)', experimental));
   const aid = make('p');
-  aid.className = 'muted partner-aid';
-  fieldset.append(make('legend'), form, remove, aid);
-  get('partners').append(fieldset);
-  updatePartnerControls();
-  updateAssessment();
+  aid.className = 'small muted partner-aid';
+  budget.append(make('legend', label), budgetFields, aid);
+  const group = make('input');
+  group.placeholder = 'Solo si procede';
+  return { company, budget, groupField: field(label, group), aid, size, region, industrial, experimental, group };
 }
-function updatePartnerControls() {
-  const partners = [...get('partners').children];
-  get('add-partner').disabled = partners.length >= 6;
-  partners.forEach((p, i) => {
-    p.querySelector('legend').textContent = 'Empresa ' + (i + 1);
-    p.querySelector('[data-remove]').hidden = partners.length <= 2;
-  });
+
+function renderPartners() {
+  const count = Number(get('partner-count').value);
+  while (state.partners.length < count) state.partners.push(partnerRow(state.partners.length));
+  const active = state.partners.slice(0, count);
+  get('partners').replaceChildren(...active.map((p) => p.company));
+  get('partner-budgets').replaceChildren(...active.map((p) => p.budget));
+  get('partner-groups').replaceChildren(...active.map((p) => p.groupField));
 }
+
 function partnerData() {
-  return [...get('partners').children].map((p) => Object.fromEntries(
-    [...p.querySelectorAll('[data-partner]')].map((input) => [
-      input.dataset.partner, input.type === 'number' ? input.valueAsNumber : input.value,
-    ])
-  ));
+  return state.partners.slice(0, Number(get('partner-count').value)).map((p) => ({
+    size: p.size.value, region: p.region.value, group: p.group.value,
+    industrial: p.industrial.valueAsNumber, experimental: p.experimental.valueAsNumber,
+  }));
+}
+
+function setupManualRequirements() {
+  for (const [key, title, explanation] of manualRequirements) {
+    const row = make('article');
+    row.className = 'step-requirement';
+    const actions = make('div');
+    actions.className = 'step-choices';
+    actions.setAttribute('role', 'group');
+    actions.setAttribute('aria-label', title);
+    for (const [label, value] of [['Cumple', true], ['Pendiente', null]]) {
+      const button = make('button', label);
+      button.type = 'button';
+      button.setAttribute('aria-pressed', String(value === null));
+      button.addEventListener('click', () => {
+        manualStatus.set(key, value);
+        for (const control of actions.children) control.setAttribute('aria-pressed', String(control === button));
+        updateAssessment();
+      });
+      actions.append(button);
+    }
+    const description = make('p', explanation);
+    description.className = 'small muted';
+    row.append(make('h3', title), description, actions);
+    get('manual-eligibility').append(row);
+  }
 }
 function updateAssessment() {
   const model = assess({
     partners: partnerData(),
     research: get('research').valueAsNumber,
     scope: get('scope').value,
-    independent: get('independent').checked || null,
-    checked: get('checked').checked,
+    independent: manualStatus.get('independent') ?? null,
+    checked: manualRequirements.slice(1).every(([key]) => manualStatus.get(key) === true),
     scores: [...get('criteria').querySelectorAll('input')].map((p) => p.valueAsNumber),
   });
   const status = (x) => x === true ? 'Cumple' : x === false ? 'No cumple' : 'Pendiente';
-  get('eligibility').replaceChildren(...model.eligibility.map(([label, result]) => cellRow([label, status(result)])));
+  get('eligibility').replaceChildren(...model.eligibility.filter((_, i) => i !== 2 && i !== model.eligibility.length - 1).map(([label, result]) => cellRow([label, status(result)])));
   const failed = model.eligibility.filter(([, r]) => r === false).length;
-  const pending = model.eligibility.filter(([, r]) => r === null).length;
+  const pending = model.eligibility.filter(([, r], i) => i !== 2 && i !== model.eligibility.length - 1 && r === null).length
+    + manualRequirements.filter(([key]) => manualStatus.get(key) !== true).length;
   state.assessment = model;
   get('eligibility-title').textContent = failed ? 'Requisitos por corregir' : pending ? 'Pendiente de datos' : 'Comprobaciones superadas';
   get('eligibility-count').textContent = failed
@@ -163,8 +192,8 @@ function updateAssessment() {
   syncRequested(model.maxAid);
   updateForecast();
   get('assessment-note').textContent = model.scorePass == null ? 'Completa la autoevaluación para comprobar los mínimos de puntuación.' : model.scorePass ? 'Superas los mínimos de puntuación introducidos.' : 'La puntuación introducida no alcanza todos los mínimos.';
-  [...get('partners').children].forEach((p, i) => {
-    p.querySelector('.partner-aid').textContent = model.aid ? 'Ayuda máxima de la empresa: ' + show(model.aid[i], eur) : '';
+  state.partners.slice(0, model.aid?.length || Number(get('partner-count').value)).forEach((p, i) => {
+    p.aid.textContent = model.aid ? 'Ayuda máxima: ' + show(model.aid[i], eur) : '';
   });
 }
 function syncRequested(max) {
@@ -188,16 +217,24 @@ function setupApplication() {
   });
   get('solicitud').addEventListener('input', (event) => {
     if (event.target.closest('#escenario')) return;
+    if (event.target.id === 'partner-count') renderPartners();
     updateAssessment();
   });
   wheel(get('step-score-wheel'),get('step-weight-detail'),criteria);
   bindCompetitors();
-  get('add-partner').addEventListener('click', () => {
-    addPartner();
-    get('partners').lastElementChild?.querySelector('input')?.focus();
-  });
-  addPartner();
-  addPartner();
+  setupManualRequirements();
+  renderPartners();
+  updateAssessment();
+  get('open-current-rules').addEventListener('click', () => openRules('2026'));
+  get('open-edition-rules').addEventListener('click', () => openRules(get('year').value));
+}
+
+function openRules(year) {
+  const entry = editionRules[year];
+  if (!entry) return;
+  get('rules-title').textContent = entry.title;
+  renderRules(get('rules-content'), entry);
+  get('rules-dialog').showModal();
 }
 function updateForecast() {
   const scores = state.results.map((r) => num(r.puntos)).filter(Number.isFinite);
@@ -215,11 +252,16 @@ function updateForecast() {
   renderForecastCharts();
   if (!f) {
     get('forecast-results').replaceChildren();
+    get('forecast-details').hidden = true;
     get('forecast-context').textContent = scores.length && grants.length ? 'Introduce un crédito positivo y entre 1 y 2.000 expedientes evaluados. El total debe incluir las competidoras conocidas.' : 'No hay suficientes registros disponibles para calcular el escenario.';
     return;
   }
   renderMetrics(get('forecast-results'), [
     ['Proyectos financiables · mediana', show(f.seats[1])],
+    ['Nota de corte · mediana', f.cutoff ? show(f.cutoff[1]) : 'Sin corte estimado'],
+  ]);
+  get('forecast-details').hidden = false;
+  renderMetrics(get('forecast-extra'), [
     ['Proyectos financiables · P10–P90', f.seats[0] + '–' + f.seats[2]],
     ['Nota de corte · P10–P90', f.cutoff ? show(f.cutoff[0]) + '–' + show(f.cutoff[2]) : 'Sin corte estimado'],
     ['Escenarios sin corte por crédito', Intl.NumberFormat('es-ES',{style:'percent',maximumFractionDigits:1}).format(f.allFunded)],
@@ -241,10 +283,9 @@ function renderForecastCharts() {
   get('mean-score').textContent=show(mean);
   get('cut-score').textContent=show(cutoff);
   histogram(get('forecast-distribution'),scores,[
-    {value:own,label:'Nuestro proyecto',color:'green'},
-    {value:mean,label:'Media STEP 2025',color:'navy'},
-    {value:cutoff,label:'Corte simulado',color:'orange'},
-  ]);
+    {value:own,label:'Nuestro proyecto',color:'navy'},
+    {value:cutoff,label:'Corte simulado',color:'orange',cut:true},
+  ], { PAIP: true });
   const points=state.results.filter((r)=>r.resultado==='Concedido').map((r)=>({score:num(r.puntos),aid:num(r.subvencion_concedida_eur),name:r.expediente})).filter((r)=>Number.isFinite(r.score)&&Number.isFinite(r.aid));
   points.push(...state.manual.map((r)=>({...r,color:'orange'})));
   if(Number.isFinite(own)&&aid>0&&aid<=state.assessment?.maxAid)points.push({score:own,aid,name:'Nuestro proyecto',color:'green'});
@@ -342,6 +383,7 @@ function renderComparisons(rows) {
 }
 function renderHistory() {
   const rows = selectedRows();
+  get('open-edition-rules').hidden = !editionRules[get('year').value];
   const awards = rows.filter((r) => r.resultado === 'Concedido');
   const amounts = awards.map((r) => num(r.subvencion_eur)).filter(Number.isFinite);
   get('history-status').textContent = fmt.format(rows.length) + ' expedientes en la selección';
@@ -462,7 +504,8 @@ async function load() {
   state.rows = [...awards,...state.results.filter((r) => !listed.has(r.expediente)).map((r) => ({
     ...r,id_proyecto:r.expediente,anio_convocatoria:'2025',programa:'STEP',subvencion_eur:r.subvencion_concedida_eur,
   }))];
-  const editions = coverage?.rows || [];
+  const historicalYears = new Set(state.rows.map((r) => r.anio_convocatoria));
+  const editions = (coverage?.rows || []).filter((r) => historicalYears.has(r.anio_convocatoria));
   get('coverage').replaceChildren(...editions.map((r) => cellRow([
     r.anio_convocatoria,r.programa,r.ccaa_convocatoria || 'Plurirregional',r.proyectos_concedidos,r.proyectos_con_ccaa_cdti,
     coverageSources(r),

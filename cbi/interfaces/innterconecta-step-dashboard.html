@@ -7,9 +7,9 @@
   <link rel="icon" href="../../assets/favicon-conasoc.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../assets/cbi-page-guard.css">
   <link rel="stylesheet" href="../assets/paid-aragon-dashboard.css?v=20261123-3">
-  <link rel="stylesheet" href="../assets/innterconecta-step.css?v=20261126-4">
+  <link rel="stylesheet" href="../assets/innterconecta-step.css?v=20261126-5">
   <script defer src="../assets/cbi-data-workspace.js?v=20261110"></script>
-  <script type="module" src="../assets/innterconecta-step-dashboard.js?v=20261126-3"></script>
+  <script type="module" src="../assets/innterconecta-step-dashboard.js?v=20261126-5"></script>
   <script type="module" src="../assets/cbi-page-guard.js?v=20261110"></script>
 </head>
 <body data-cbi-protected data-cbi-access-code="INNTERCONECTA-STEP">
@@ -21,30 +21,50 @@
     <div class="heading">
       <div><h1 id="page-title">Simulador de solicitud INNTERCONECTA STEP</h1></div>
       <div class="source-actions">
-        <a class="source-button" href="https://www.cdti.es/ayudas/innterconecta-step-2026">Convocatoria 2026</a>
+        <details class="call-summary">
+          <summary class="source-button">Convocatoria vigente 2026</summary>
+          <div class="call-facts">
+            <span><small>Dotación</small><strong>150 M€</strong></span>
+            <span><small>Presupuesto elegible</small><strong>1 a 4 M€</strong></span>
+            <span><small>Consorcio</small><strong>2 a 6 empresas</strong></span>
+            <span><small>Plazo</small><strong>23 dic 2026 · 12:00 peninsular</strong></span>
+            <button type="button" class="source-button" id="open-current-rules">Ver criterios y temáticas</button>
+          </div>
+        </details>
+        <a class="source-button" href="https://www.cdti.es/ayudas/innterconecta-step-2026">Consultar convocatoria</a>
         <a class="source-button" href="https://www.cdti.es/sites/default/files/2026-11/1.convocatoria_cdti-step_2026_v08_vade_fdotr.pdf">Resolución y anexos</a>
       </div>
     </div>
-    <details class="call-summary"><summary>Datos de la convocatoria 2026</summary><div class="call-facts">
-      <span><small>Dotación</small><strong>150 M€</strong></span><span><small>Presupuesto elegible</small><strong>1 a 4 M€</strong></span><span><small>Consorcio</small><strong>2 a 6 empresas</strong></span><span><small>Plazo</small><strong>23 dic 2026 · 12:00 peninsular</strong></span>
-    </div></details>
     <div class="tabs" role="tablist" aria-label="Área de trabajo">
-      <button type="button" id="tab-solicitud" role="tab" aria-selected="true" aria-controls="solicitud">Configurar solicitud</button>
-      <button type="button" id="tab-historico" role="tab" aria-selected="false" aria-controls="historicos" tabindex="-1">Históricos y consorcios</button>
+      <button type="button" id="tab-solicitud" role="tab" aria-selected="true" aria-controls="solicitud">Configurar solicitud 2027</button>
+      <button type="button" id="tab-historico" role="tab" aria-selected="false" aria-controls="historicos" tabindex="-1">Históricos</button>
     </div>
     <section id="solicitud" class="step-panel" role="tabpanel" aria-labelledby="tab-solicitud">
       <div class="request-layout">
         <div class="request-main">
           <div class="input-tabs" role="tablist" aria-label="Configurar solicitud">
             <button type="button" id="tab-consorcio" role="tab" aria-selected="true" aria-controls="consorcio">Proyecto y presupuesto</button>
-            <button type="button" id="tab-criterios" role="tab" aria-selected="false" aria-controls="criterios" tabindex="-1">Criterios y elegibilidad</button>
+            <button type="button" id="tab-criterios" role="tab" aria-selected="false" aria-controls="criterios" tabindex="-1">Elegibilidad y criterios</button>
             <button type="button" id="tab-escenario" role="tab" aria-selected="false" aria-controls="escenario" tabindex="-1">Competidoras</button>
           </div>
           <div id="consorcio" class="input-step" role="tabpanel" aria-labelledby="tab-consorcio">
             <section class="card">
-              <div class="panel-heading"><h2>Empresas del consorcio</h2><button type="button" class="primary" id="add-partner">Añadir empresa</button></div>
-              <p class="muted">Asigna a cada empresa una comunidad de ejecución y reparte su presupuesto entre investigación industrial y desarrollo experimental. Usa la misma etiqueta de grupo para empresas vinculadas o asociadas.</p>
-              <div class="step-partners" id="partners"></div>
+              <h2>Empresas del consorcio</h2>
+              <label class="partner-count">Número de participantes
+                <select id="partner-count"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+              </label>
+              <table class="step-table partner-table" aria-label="Empresas del consorcio">
+                <thead><tr><th scope="col">Empresa</th><th scope="col">Tipo</th><th scope="col">CCAA de ejecución</th></tr></thead>
+                <tbody id="partners"></tbody>
+              </table>
+            </section>
+            <section class="card">
+              <h2>Presupuesto por participante</h2>
+              <div id="partner-budgets"></div>
+              <details class="step-groups"><summary>Empresas vinculadas o asociadas</summary>
+                <p class="small muted">Asigna la misma etiqueta a las empresas de un mismo grupo. Deja el campo vacío para cada empresa autónoma.</p>
+                <div class="step-form" id="partner-groups"></div>
+              </details>
               <div class="step-form">
                 <label>Ámbito STEP
                   <select id="scope"><option value="">Seleccionar</option><option>Digital y tecnología profunda</option><option>Tecnologías limpias y eficientes en recursos</option><option>Biotecnología</option></select>
@@ -68,8 +88,7 @@
           <div id="criterios" class="input-step" role="tabpanel" aria-labelledby="tab-criterios" hidden>
             <section class="card">
               <h2>Elegibilidad 2026</h2>
-              <label class="step-check"><input type="checkbox" id="independent"> Confirmo que hay al menos dos empresas autónomas entre sí y que he identificado las empresas vinculadas o asociadas.</label>
-              <label class="step-check"><input type="checkbox" id="checked"> He revisado el resto de requisitos de la convocatoria: fechas de ejecución, máximo de dos solicitudes por entidad y documentación de la agrupación, entre otros.</label>
+              <div id="manual-eligibility"></div>
               <div class="table-scroll"><table class="step-table" aria-label="Comprobaciones de elegibilidad"><thead><tr><th scope="col">Requisito</th><th scope="col">Estado</th></tr></thead><tbody id="eligibility"></tbody></table></div>
               <p class="muted">La reserva de 10 M€ para salud de las mujeres está sujeta a los requisitos del anexo II. Los proyectos comienzan el 1 de enero de 2027 y finalizan el 31 de diciembre de 2028 o el 30 de junio de 2029.</p>
             </section>
@@ -81,17 +100,6 @@
             </section>
           </div>
           <div id="escenario" class="input-step" role="tabpanel" aria-labelledby="tab-escenario" hidden>
-            <section class="card">
-              <h2>Escenario de concurrencia 2027</h2>
-              <p class="muted">Contrasta cómo cambian el número financiable y la nota de corte al variar el crédito y el volumen de expedientes evaluados. El escenario inicial se lee del catálogo de CBI.</p>
-              <div class="step-form">
-                <label>Crédito hipotético (€)<input type="number" id="credits" min="1" step="100000" inputmode="numeric"></label>
-                <label>Expedientes competidores previstos<input type="number" id="demand" min="1" max="2000" step="1" inputmode="numeric"></label>
-              </div>
-              
-              <p id="forecast-context" class="muted">Cargando la referencia histórica…</p>
-              <details><summary>Cómo se calcula</summary><p>350 escenarios reproducibles. Las puntuaciones se remuestrean de expedientes con nota en la resolución definitiva STEP 2025. Los importes se remuestrean de subvenciones concedidas y sirven como referencia de coste por plaza. Se ordenan las notas de mayor a menor y se aplica una única bolsa de crédito. El corte solo se estima para simulaciones en las que se agota el crédito tras financiar algún proyecto.</p><p>Las competidoras conocidas sustituyen solicitudes simuladas. El proyecto propio se añade a esa población cuando completa los requisitos y declara la ayuda solicitada. Los empates se ordenan al azar. Los intervalos P10–P90 describen el 80 % central de las simulaciones. Este ejercicio no reproduce la asignación territorial, la reserva temática, las reglas de desempate ni las solicitudes sin nota publicada.</p></details>
-            </section>
             <section class="card manual-competitors-panel">
               <h2>Competidoras conocidas</h2>
               <form id="manual-competitor-form">
@@ -106,9 +114,21 @@
               <div id="manual-competitor-list"></div>
               <p class="small muted">Cada competidora sustituye una solicitud simulada dentro del volumen previsto. Introduce su puntuación y ayuda estimadas.</p>
             </section>
+            <details class="card step-scenario">
+              <summary>Ajustes del escenario 2027</summary>
+              <p class="muted">Contrasta cómo cambian el número financiable y la nota de corte al variar el crédito y el volumen de expedientes evaluados. El escenario inicial se lee del catálogo de CBI.</p>
+              <div class="step-form">
+                <label>Crédito hipotético (€)<input type="number" id="credits" min="1" step="100000" inputmode="numeric"></label>
+                <label>Expedientes competidores previstos<input type="number" id="demand" min="1" max="2000" step="1" inputmode="numeric"></label>
+              </div>
+              
+              <p id="forecast-context" class="muted">Cargando la referencia histórica…</p>
+              <details><summary>Cómo se calcula</summary><p>350 escenarios reproducibles. Las puntuaciones se remuestrean de expedientes con nota en la resolución definitiva STEP 2025. Los importes se remuestrean de subvenciones concedidas y sirven como referencia de coste por plaza. Se ordenan las notas de mayor a menor y se aplica una única bolsa de crédito. El corte solo se estima para simulaciones en las que se agota el crédito tras financiar algún proyecto.</p><p>Las competidoras conocidas sustituyen solicitudes simuladas. El proyecto propio se añade a esa población cuando completa los requisitos y declara la ayuda solicitada. Los empates se ordenan al azar. Los intervalos P10–P90 describen el 80 % central de las simulaciones. Este ejercicio no reproduce la asignación territorial, la reserva temática, las reglas de desempate ni las solicitudes sin nota publicada.</p></details>
+            </details>
           </div>
         </div>
         <aside class="assessment-side">
+          <p class="small muted step-simulation-basis">Escenario 2027 basado en STEP 2025 y en las condiciones de solicitud de 2026.</p>
           <div id="forecast-results" class="summary-grid" role="status"></div>
           <div class="competition-overview">
             <section class="card competition-card">
@@ -119,6 +139,9 @@
                 <div><strong id="mean-score">—</strong><span>Media STEP 2025</span></div>
                 <div><strong id="cut-score">—</strong><span>Corte simulado 2027</span></div>
               </div>
+              <details class="step-forecast-details" id="forecast-details" hidden>
+                <summary>Detalles de la simulación</summary><div id="forecast-extra" class="step-forecast-extra"></div>
+              </details>
             </section>
           </div>
           <div class="competition-secondary step-secondary">
@@ -148,19 +171,30 @@
       </div>
     </section>
     <section id="historicos" class="step-panel" role="tabpanel" aria-labelledby="tab-historico" hidden>
-      <div class="history-intro"><div><p class="eyebrow">DATOS PUBLICADOS / 2011–2026</p><h2>Histórico desde 2011</h2></div></div>
+      <div class="history-intro">
+        <div><p class="eyebrow">DATOS PUBLICADOS</p><h2>Histórico desde 2011</h2></div>
+        <button type="button" class="source-button" id="open-edition-rules" hidden>Ver criterios y temáticas</button>
+      </div>
       <div class="history-years" id="edition-tabs" aria-label="Convocatoria histórica"></div>
-      <div class="card filters step-history-filters">
-
-          <label>Programa<select id="program"><option value="">Todos</option></select></label>
+      <div class="card step-history-filter-card">
+        <div class="filters step-history-filters">
           <label>Convocatoria<select id="year"><option value="">Todas</option></select></label>
-          <label>Comunidad<select id="region"><option value="">Todas</option></select></label>
           <label>Resultado<select id="outcome"><option value="">Todos</option></select></label>
-          <label>Buscar<input type="search" id="search" placeholder="Expediente, proyecto o empresa"></label>
+          <label>Buscar expediente, proyecto o empresa<input type="search" id="search" placeholder="Expediente, proyecto o empresa"></label>
           <label>Ordenar<select id="order"><option value="year">Convocatoria más reciente</option><option value="points">Mayor puntuación</option><option value="aid">Mayor subvención</option></select></label>
+        </div>
+        <details class="step-more-filters"><summary>Más filtros</summary><div class="step-form">
+          <label>Programa<select id="program"><option value="">Todos</option></select></label>
+          <label>Comunidad<select id="region"><option value="">Todas</option></select></label>
+        </div></details>
       </div>
       <p class="muted" id="history-status" role="status">Cargando el histórico…</p>
       <div class="kpis" id="history-kpis"></div>
+      <div class="input-tabs step-history-tabs" role="tablist" aria-label="Vistas del histórico">
+        <button type="button" id="tab-expedientes" role="tab" aria-selected="true" aria-controls="historical-projects">Expedientes</button>
+        <button type="button" id="tab-territorio" role="tab" aria-selected="false" aria-controls="historical-territory" tabindex="-1">Consorcios</button>
+      </div>
+      <div id="historical-projects" role="tabpanel" aria-labelledby="tab-expedientes">
       <div class="charts-grid">
         <section class="card score-distribution"><p class="eyebrow">COMPETENCIA</p><h3>Distribución de puntuaciones</h3><div id="by-score" class="competition-chart"></div><p class="small muted">Puntuaciones publicadas de la selección actual.</p></section>
         <section class="card"><h3>Ayuda concedida por año</h3><p class="small muted">Dentro de la selección actual</p><div id="by-year" class="bar-chart"></div></section>
@@ -171,10 +205,6 @@
         <article class="card"><div class="panel-heading"><h2>Mapa de calor de puntuaciones</h2><span>Tramos de 10 puntos</span></div><div id="by-heat" class="table-scroll"></div></article>
         <article class="card"><div class="panel-heading"><h2>Composición por convocatoria</h2><span>Distribución de resultados</span></div><div id="by-composition" class="bar-chart"></div><p class="small muted"><span class="step-key granted"></span> Concedidos <span class="step-key denied"></span> Desestimados <span class="step-key withdrawn"></span> Desistidos</p></article>
       </section>
-      <section class="history-comparisons">
-        <article class="card"><div class="panel-heading"><h2>Participación por comunidad</h2><span>Proyectos</span></div><div id="by-region" class="bar-chart"></div><p class="small muted">Un proyecto puede aparecer en varias CCAA.</p></article>
-        <article class="card"><div class="panel-heading"><h2>Colaboración entre CCAA</h2><span>Pares más frecuentes</span></div><div id="by-pair" class="bar-chart"></div></article>
-      </section>
       <section class="card">
         <div class="heading"><h3>Detalle de la selección</h3><span id="table-count" class="small muted"></span></div>
         <div class="table-scroll"><table class="step-table history-table" aria-label="Expedientes de Innterconecta">
@@ -182,6 +212,11 @@
           <tbody id="cases"></tbody>
         </table></div>
         <div class="pagination" id="pagination" hidden><button type="button" id="prev">Anterior</button><span id="page"></span><button type="button" id="next">Siguiente</button></div>
+      </section>
+      </div>
+      <section class="history-comparisons" id="historical-territory" role="tabpanel" aria-labelledby="tab-territorio" hidden>
+        <article class="card"><div class="panel-heading"><h2>Participación por comunidad</h2><span>Proyectos</span></div><div id="by-region" class="bar-chart"></div><p class="small muted">Un proyecto puede aparecer en varias CCAA.</p></article>
+        <article class="card"><div class="panel-heading"><h2>Colaboración entre CCAA</h2><span>Pares más frecuentes</span></div><div id="by-pair" class="bar-chart"></div></article>
       </section>
       <details class="card coverage">
         <summary>Cobertura, fuentes y calidad de los datos</summary>
@@ -192,6 +227,10 @@
       </details>
     </section>
   </main>
+  <dialog id="rules-dialog" aria-labelledby="rules-title">
+    <div class="panel-heading"><h2 id="rules-title"></h2><form method="dialog"><button>Cerrar</button></form></div>
+    <div id="rules-content"></div>
+  </dialog>
   <dialog id="case-dialog" aria-labelledby="case-title">
     <div class="panel-heading"><h2 id="case-title">Ficha de expediente</h2><form method="dialog"><button>Cerrar</button></form></div>
     <div id="case-detail"></div>
