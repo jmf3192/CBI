@@ -35,6 +35,6 @@
 .step-composition i.granted,.step-key.granted { background: #39846a; }
 .step-composition i.denied,.step-key.denied { background: #637fbe; }
 .step-composition i.withdrawn,.step-key.withdrawn { background: #c8813c; }
-#step-prob-ring { background: conic-gradient(#39846a var(--step-probability, 0%), #e8edf2 0); }
+#step-prob-ring { background: radial-gradient(circle at center,#fff 0 58%,transparent 59%), conic-gradient(#39846a var(--step-probability,0%),#eef2f5 0); }
 #step-prob-ring strong { position: relative; }
 .step-heat td:not(:first-child) { text-align: center; }
