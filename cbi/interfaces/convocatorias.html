@@ -411,7 +411,7 @@
             <p>${escapeHtml(call.description || `Código oficial: ${call.code}`)}</p>
           </div>
           <div class="call-actions">
-            ${hasData ? `<a class="call-cta" href="${escapeHtml(href)}">Abrir contenido</a><a class="call-cta" href="./admin.html?view=datos&ayuda=${encodeURIComponent(call.code)}">Datos de la ayuda</a>` : `<span class="${href ? "call-cta" : "call-status"}">${href ? ({ tracking: "Abrir seguimiento", sprint: "Abrir sprint" }[call.kind] || "Abrir dashboard") : "Próximamente"}</span>`}
+            ${hasData ? `<a class="call-cta" href="${escapeHtml(href)}">Acceder</a>` : `<span class="${href ? "call-cta" : "call-status"}">${href ? ({ tracking: "Abrir seguimiento", sprint: "Abrir sprint" }[call.kind] || "Abrir dashboard") : "Próximamente"}</span>`}
           </div>
         `;
 
