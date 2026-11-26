@@ -1,2 +1,2 @@
 id,ejercicio,credito_eur,solicitudes_previstas,estado,notas
-step-2027,2027,,,Pendiente,Escenario de trabajo. Supuestos por definir.
+step-2027,2027,150000000,,Hipótesis,Crédito ilustrativo igual a la dotación 2026. La demanda inicial se toma de los expedientes con puntuación de la resolución STEP 2025.

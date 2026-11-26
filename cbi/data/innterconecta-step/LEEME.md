@@ -1,0 +1,21 @@
+# Histórico INNTERCONECTA · CSV para CBI
+
+Corte de las fuentes: 26 de noviembre de 2026. Universo: expedientes concedidos en la resolución oficial o su complemento. Los datos de subvención indican concesión publicada, no cobro ni importe finalmente justificado.
+
+- `proyectos.csv` contiene una fila por expediente. `socios.csv` contiene una fila por entidad identificada en cada proyecto. Se enlazan con `id_proyecto`. Los CSV con sufijo de año recogen la misma información desglosada por convocatoria.
+- `cobertura.csv` resume los registros, las fuentes y la cobertura territorial por edición. `pares_ccaa.csv` recoge pares de comunidades observadas en un mismo expediente, una fila por par y proyecto. Un proyecto puede aparecer en varios pares.
+- `anio_convocatoria` sigue la cronología del CDTI. Las convocatorias lanzadas en 2011 figuran como «año 2012» en el BOE; sus concesiones se publicaron en 2012. `anio_resolucion` identifica el año de la resolución usada como fuente. La fecha del registro CDTI se guarda por separado en `fecha_registro_cdti`.
+- Para 2011, 2013 y 2015, el listado primario utilizado carece de número oficial de expediente. `expediente` queda vacío y `id_proyecto` ofrece una clave construida a partir del año, territorio, título y CIF. Las demás ediciones usan el número oficial.
+- Para 2011 y 2013, `ccaa_convocatoria` identifica el ámbito regional. Los anexos publican el representante y la subvención total, sin relación individual de socios en las fuentes utilizadas. Los campos de CCAA por socio y combinaciones del consorcio quedan vacíos.
+- Desde 2015, `ccaa_consorcio_cdti` agrupa las CCAA de los registros del mismo título normalizado en Datos Abiertos. `ccaa_cdti` se asigna a un socio si también coincide el CIF o, cuando el documento no publica el CIF, su denominación normalizada. Los campos territoriales indican la ubicación publicada por el CDTI. No se deducen del domicilio social ni del CIF.
+- El cruce por título y entidad se restringe a la edición. En 2015 y 2016 se incorporan participantes del catálogo cuando la resolución solo identifica al representante. El rol «Participante CDTI» indica que el catálogo no detalla su función. «Todos los socios identificados» describe la cobertura de las filas recuperadas, no garantiza que ambas fuentes recojan el mismo consorcio tras modificaciones.
+- En 2015 hay siete proyectos cuyo título coincide con Datos Abiertos pero cuyo representante del BOE no aparece en el grupo publicado por el CDTI. Se conservan el representante y la concesión del BOE y las ubicaciones observadas en el catálogo. Los campos del cruce del representante quedan vacíos.
+- Si la resolución no publica el presupuesto elegible total, puede constar la suma de presupuestos del grupo recuperado de Datos Abiertos, con fuente separada. Las resoluciones y el catálogo pueden reflejar versiones distintas de la ayuda. Para calcular totales use `proyectos.csv`; las cifras de `socios.csv` sirven para analizar participantes y pueden faltar.
+- STEP 2025 se resolvió en 2026. STEP 2026 todavía carece de resolución de concesión en este corte. Los expedientes denegados, excluidos y desistidos quedan fuera del universo de la base. Para una previsión de concurrencia haría falta incorporar también las solicitudes no concedidas.
+- CSV en UTF-8 con BOM, separador coma, decimales con punto e importes en euros. Los vacíos indican ausencia de dato. Los CIF publicados se tratan como texto. Las listas de comunidades o fuentes usan una barra vertical como separador.
+
+## Expedientes STEP 2025 y escenario 2027
+
+El panel añade `resultados_step_2025.csv`, con 100 concesiones, 164 desestimaciones y 3 desistimientos de la resolución definitiva del 26 de junio publicada por el CDTI. La base de simulación usa los 264 expedientes con nota publicada. Esta resolución no cubre por sí sola el universo inicial de solicitudes. La edición conserva resoluciones separadas de exclusión y desistimiento.
+
+`escenario_2027.csv` guarda el crédito y el volumen editable de expedientes evaluados. El campo de volumen vacío usa el tamaño de la muestra disponible. El crédito inicial de 150 M€ es una hipótesis basada en la dotación de 2026. Se simula una bolsa nacional con costes de subvención remuestreados de las concesiones STEP 2025, sin reparto territorial ni reconstrucción del procedimiento oficial.

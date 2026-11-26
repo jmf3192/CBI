@@ -1,0 +1,41 @@
+[hidden] { display: none !important; }
+.step-panel { margin-top: 20px; }
+.step-heading h1 { margin-bottom: 3px; }
+.step-heading p { margin: 0; }
+.step-heading .source-actions { flex-wrap: wrap; gap: 8px; }
+.step-facts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin: 16px 0; }
+.step-facts > div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.step-facts span { display: block; font-size: .8rem; color: var(--muted); margin-bottom: 5px; }
+.step-facts strong { font-size: 1.05rem; color: var(--navy); }
+.step-layout { display: grid; grid-template-columns: minmax(0,1fr) 275px; gap: 18px; align-items: start; }
+.step-content, .step-charts > section { min-width: 0; }
+.step-content > [role=tabpanel] { margin-top: 16px; }
+.step-content .input-tabs { flex-wrap: wrap; }
+.step-assessment { margin-top: 2px; }
+.step-metrics { margin: 0; }
+.step-metrics div { border-bottom: 1px solid var(--line); padding: 9px 0; }
+.step-metrics div:last-child { border-bottom: 0; }
+.step-metrics dt { color: var(--muted); font-size: .8rem; }
+.step-metrics dd { margin: 4px 0 0; font-size: 1rem; font-weight: 600; }
+.step-form, .step-filters { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin: 14px 0; }
+.step-filters { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.step-partner { border: 1px solid var(--line); border-radius: 9px; padding: 12px; margin: 12px 0; }
+.step-partner legend { padding: 0 7px; font-weight: 650; }
+.step-partner .step-form { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.step-check { display: flex; flex-flow: row nowrap; align-items: start; gap: 9px; margin: 12px 0; }
+.step-check input { width: auto; min-height: auto; margin: 2px 0; }
+.step-table { width: 100%; border-collapse: collapse; }
+.step-table th, .step-table td { padding: 9px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.step-table [type=number] { width: 85px; }
+.step-table .case-code { color: var(--muted); font-size: .75rem; display: block; margin-bottom: 3px; }
+.step-charts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 16px; }
+.step-bars { display: grid; gap: 6px; }
+.step-bar { display: grid; grid-template-columns: minmax(90px,1.3fr) minmax(50px,1fr) 2.2rem; align-items: center; gap: 8px; font-size: .8rem; }
+.step-bar meter { width: 100%; accent-color: #527b97; }
+.step-bar strong { text-align: right; }
+.step-panel p { line-height: 1.5; }
+#case-dialog { max-width: min(950px, calc(100vw - 32px)); width: 950px; max-height: 85vh; overflow: auto; border: 1px solid var(--line); border-radius: 12px; padding: 20px; color: #172a3b; }
+#case-dialog::backdrop { background: #001e3477; }
+@media(max-width: 950px) { .step-layout { grid-template-columns: 1fr; } .step-assessment { position: static; } }
+@media(max-width: 710px) { .step-charts { grid-template-columns: 1fr; } .step-facts,.step-filters,.step-partner .step-form { grid-template-columns: repeat(2,minmax(0,1fr)); } .step-heading { align-items: start; gap: 8px; } }
+@media(max-width: 400px) { .step-form,.step-partner .step-form { grid-template-columns: 1fr; } }

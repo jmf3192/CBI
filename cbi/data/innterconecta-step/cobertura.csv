@@ -1,11 +1,11 @@
-programa,anio_convocatoria,anio_resolucion,edicion,cobertura,fuente_url
-FEDER Innterconecta,2011,2012,Andalucía,Ficha de concesión localizada,https://www.boe.es/buscar/doc.php?id=BOE-A-2012-10245
-FEDER Innterconecta,2011,2012,Galicia,Ficha de concesión localizada,https://www.boe.es/buscar/doc.php?id=BOE-A-2012-10333
-FEDER Innterconecta,2013,2013,Andalucía,Concesiones localizadas · publicación en 2014,https://www.boe.es/buscar/doc.php?id=BOE-A-2014-485
-FEDER Innterconecta,2013,2013,Galicia,Concesiones localizadas · publicación en 2014,https://www.boe.es/buscar/doc.php?id=BOE-A-2014-486
-FEDER Innterconecta,2013,2013,Extremadura,Concesiones localizadas,https://www.boe.es/buscar/doc.php?id=BOE-A-2013-10567
-FEDER Innterconecta,2015,,Plurirregional,Concesiones localizadas,https://www.boe.es/buscar/doc.php?id=BOE-A-2016-1230
-FEDER Innterconecta,2016,,Plurirregional,Resolución localizada,https://www.cdti.es/ayudas/feder-innterconecta-2016
-FEDER Innterconecta,2018,,Plurirregional,Resolución localizada,https://www.cdti.es/ayudas/feder-innterconecta-2018
-STEP,2025,2026,Consorcios regionales,100 proyectos concedidos incorporados,https://www.cdti.es/ayudas/innterconecta-step-2025
-STEP,2026,,Consorcios regionales,Convocatoria publicada,https://www.cdti.es/ayudas/innterconecta-step-2026
+﻿anio_convocatoria,programa,ccaa_convocatoria,proyectos_concedidos,proyectos_con_ccaa_cdti,proyectos_con_varias_ccaa_cdti,entidades_identificadas,entidades_con_ccaa_cdti,subvencion_eur,estado,fuente_url
+2011,FEDER Innterconecta,Andalucía,31,0,0,31,0,96534060,Concesiones incorporadas,https://www.boe.es/boe/dias/2012/07/30/pdfs/BOE-A-2012-10245.pdf
+2011,FEDER Innterconecta,Galicia,26,0,0,26,0,29941274,Concesiones incorporadas,https://www.boe.es/boe/dias/2012/07/31/pdfs/BOE-A-2012-10333.pdf
+2013,FEDER Innterconecta,Andalucía,41,0,0,41,0,49489505.84,Concesiones incorporadas,https://www.boe.es/boe/dias/2014/01/17/pdfs/BOE-A-2014-485.pdf
+2013,FEDER Innterconecta,Extremadura,12,0,0,12,0,6894042.78,Concesiones incorporadas,https://www.boe.es/diario_boe/txt.php?id=BOE-A-2013-10567
+2013,FEDER Innterconecta,Galicia,79,0,0,79,0,72855575.86,Concesiones incorporadas,https://www.boe.es/boe/dias/2014/01/17/pdfs/BOE-A-2014-486.pdf
+2015,FEDER Innterconecta,,125,125,62,496,489,113610260.50,Concesiones incorporadas,https://www.boe.es/diario_boe/txt.php?id=BOE-A-2016-1230
+2016,FEDER Innterconecta,,64,64,32,246,246,49905571.14,Concesiones incorporadas,https://www.cdti.es/sites/default/files/2023-05/2016_Resoluci%C3%B3n%20definitiva%20ITC%202016.pdf
+2018,FEDER Innterconecta,,67,67,32,228,215,48586947.98,Concesiones incorporadas,https://www.cdti.es/sites/default/files/2023-05/2018_resolucion_definitiva_aprobadas.pdf | https://www.cdti.es/sites/default/files/2023-05/2018_resolucion_definitiva_2019_02_11.pdf
+2025,STEP,,100,100,100,388,388,146873485.69,Concesiones incorporadas,https://www.cdti.es/sites/default/files/2026-06/resolucion_definitiva_itc2025_firmado.pdf
+2026,STEP,,0,0,0,0,0,,Sin resolución de concesión en el corte,https://www.cdti.es/ayudas/innterconecta-step-2026
