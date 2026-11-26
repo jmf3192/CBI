@@ -48,35 +48,46 @@ function random(seed) {
   };
 }
 
-export function forecast({ credits, demand, scores, grants, repetitions = 350 }) {
+export function forecast({ credits, demand, scores, grants, manual = [], own = null, repetitions = 350 }) {
   if (!(Number.isFinite(credits) && credits > 0 && Number.isInteger(demand) && demand >= 1 && demand <= 2000)) return null;
   if (!scores.length || !grants.length || scores.some((x) => !Number.isFinite(x) || x < 0 || x > 100) || grants.some((x) => !Number.isFinite(x) || x <= 0)) return null;
+  if (manual.length > demand || manual.some(({score, aid}) => !Number.isFinite(score) || score < 0 || score > 100 || !Number.isFinite(aid) || aid <= 0)) return null;
   const rnd = random(2027);
   const pick = (items) => items[Math.floor(rnd() * items.length)];
-  const counts = [], cutoffs = [];
+  const counts = [], cutoffs = [], ranks = [];
+  const ownValid = own && Number.isFinite(own.score) && own.score >= 50 && own.score <= 100 && Number.isFinite(own.aid) && own.aid > 0;
+  let ownFunded = 0;
   let allFunded = 0;
   for (let trial = 0; trial < repetitions; trial++) {
-    const ranking = Array.from({ length: demand }, () => pick(scores)).filter((s) => s >= 50).sort((a, b) => b - a);
+    const synthetic = Array.from({ length: demand - manual.length }, () => ({ score: pick(scores), aid: pick(grants) }));
+    const ranking = [...synthetic, ...manual, ...(ownValid ? [own] : [])]
+      .filter((r) => r.score >= 50)
+      .map((r) => ({...r, own: r === own, tie: rnd()}))
+      .sort((a,b) => b.score - a.score || a.tie - b.tie);
+    if (ownValid) ranks.push(ranking.findIndex((r)=>r.own)+1);
     let available = credits, count = 0;
-    for (const score of ranking) {
-      const cost = pick(grants);
-      if (cost > available) {
-        if (count) cutoffs.push(ranking[count - 1]);
+    for (const entry of ranking) {
+      if (entry.aid > available) {
+        if (count) cutoffs.push(ranking[count - 1].score);
         break;
       }
-      available -= cost;
+      available -= entry.aid;
+      if(entry.own)ownFunded++;
       count++;
     }
     if (count === ranking.length) allFunded++;
     counts.push(count);
   }
   const quantile = (values, p) => values[Math.round((values.length - 1) * p)];
+  ranks.sort((a,b) => a-b);
   counts.sort((a,b) => a-b);
   cutoffs.sort((a,b) => a-b);
   return {
     seats: [0.1, 0.5, 0.9].map((p) => quantile(counts, p)),
     cutoff: cutoffs.length ? [0.1, 0.5, 0.9].map((p) => quantile(cutoffs, p)) : null,
     allFunded: allFunded / repetitions,
+    ownChance: ownValid ? ownFunded/repetitions : null,
+    ownRank: ranks.length ? quantile(ranks,0.5) : null,
     repetitions,
   };
 }

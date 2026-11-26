@@ -1,4 +1,6 @@
-import { assess, forecast, criteria, territories } from './innterconecta-step-model.js?v=20261126-2';
+import { assess, forecast, criteria, territories } from './innterconecta-step-model.js?v=20261126-3';
+
+import { histogram, scatter, wheel } from './innterconecta-step-charts.js?v=20261126-3';
 
 const get = (id) => document.getElementById(id);
 const make = (tag, text) => {
@@ -12,7 +14,7 @@ const fmt = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 2 });
 const eur = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
 const show = (number, formatter = fmt) => Number.isFinite(number) ? formatter.format(number) : '—';
 const root = '../data/innterconecta-step/';
-const state = { rows: [], members: new Map(), pairs: [], results: [], page: 0, shown: new Map() };
+const state = { rows: [], members: new Map(), pairs: [], results: [], page: 0, manual: [], assessment: null, estimate: null, shown: new Map() };
 
 function cellRow(values) {
   const tr = make('tr');
@@ -39,7 +41,8 @@ function link(url, title) {
 }
 function renderMetrics(node, values, definition = false) {
   node.replaceChildren(...values.map(([label, value]) => {
-    const box = make('div');
+    const box = make(node.classList.contains('summary-grid') ? 'article' : 'div');
+    if (node.classList.contains('kpis')) box.className = 'kpi';
     box.append(make(definition ? 'dt' : 'span', label), make(definition ? 'dd' : 'strong', value));
     return box;
   }));
@@ -148,17 +151,30 @@ function updateAssessment() {
   get('eligibility').replaceChildren(...model.eligibility.map(([label, result]) => cellRow([label, status(result)])));
   const failed = model.eligibility.filter(([, r]) => r === false).length;
   const pending = model.eligibility.filter(([, r]) => r === null).length;
-  renderMetrics(get('assessment'), [
-    ['Elegibilidad orientativa', failed ? failed + ' requisitos por corregir' : pending ? pending + ' requisitos pendientes' : 'Comprobaciones superadas'],
-    ['Presupuesto elegible', show(model.total, eur)],
-    ['Subvención máxima teórica', show(model.maxAid, eur)],
-    ['Puntuación estimada', model.score == null ? '—' : show(model.score) + ' / 100'],
-    ['CCAA del consorcio', String(model.regions.length)],
-  ], true);
+  state.assessment = model;
+  get('eligibility-title').textContent = failed ? 'Requisitos por corregir' : pending ? 'Pendiente de datos' : 'Comprobaciones superadas';
+  get('eligibility-count').textContent = failed
+    ? failed + ' requisitos incumplidos'
+    : pending ? pending + ' requisitos pendientes' : model.regions.length + ' CCAA elegibles';
+  get('assessment-score').textContent = model.score == null ? '—' : show(model.score) + ' / 100';
+  get('assessment-meter').style.width = (model.score ?? 0) + '%';
+  get('assessment-aid').textContent = show(model.maxAid, eur);
+  get('assessment-budget').textContent = 'Presupuesto elegible: ' + show(model.total, eur);
+  syncRequested(model.maxAid);
+  updateForecast();
   get('assessment-note').textContent = model.scorePass == null ? 'Completa la autoevaluación para comprobar los mínimos de puntuación.' : model.scorePass ? 'Superas los mínimos de puntuación introducidos.' : 'La puntuación introducida no alcanza todos los mínimos.';
   [...get('partners').children].forEach((p, i) => {
     p.querySelector('.partner-aid').textContent = model.aid ? 'Ayuda máxima de la empresa: ' + show(model.aid[i], eur) : '';
   });
+}
+function syncRequested(max) {
+  const req=get('own-requested'), range=get('own-range');
+  const available=Number.isFinite(max)&&max>0;
+  req.disabled=range.disabled=!available;
+  req.max=range.max=available ? String(Math.floor(max*100)/100) : '0';
+  range.value=available && req.value ? String(Math.min(req.valueAsNumber,max)) : '0';
+  get('own-limit').textContent=available ? 'Máximo teórico: '+show(max,eur) : 'Completa el presupuesto y la comprobación de colaboración para habilitar este importe.';
+  req.setCustomValidity(available&&req.valueAsNumber>max ? 'La ayuda solicitada supera el máximo teórico.' : '');
 }
 function setupApplication() {
   get('criteria').replaceChildren(...criteria.map(([label,max,min]) => {
@@ -167,10 +183,15 @@ function setupApplication() {
     input.setAttribute('aria-label', label);
     return cellRow([label,String(max),min ? String(min) : '—',input]);
   }));
+  get('own-range').addEventListener('input',()=>{
+    get('own-requested').value=get('own-range').valueAsNumber>0?get('own-range').value:'';
+  });
   get('solicitud').addEventListener('input', (event) => {
-    if (event.target.id === 'credits' || event.target.id === 'demand') return;
+    if (event.target.closest('#escenario')) return;
     updateAssessment();
   });
+  wheel(get('step-score-wheel'),get('step-weight-detail'),criteria);
+  bindCompetitors();
   get('add-partner').addEventListener('click', () => {
     addPartner();
     get('partners').lastElementChild?.querySelector('input')?.focus();
@@ -181,10 +202,20 @@ function setupApplication() {
 function updateForecast() {
   const scores = state.results.map((r) => num(r.puntos)).filter(Number.isFinite);
   const grants = state.results.filter((r) => r.resultado === 'Concedido').map((r) => num(r.subvencion_concedida_eur)).filter(Number.isFinite);
-  const f = forecast({credits:get('credits').valueAsNumber,demand:get('demand').valueAsNumber,scores,grants});
+  const assessment=state.assessment, wanted=get('own-requested').valueAsNumber;
+  const own=assessment?.scorePass && assessment.eligibility.every(([,r])=>r===true) && wanted>0 && wanted<=assessment.maxAid
+    ? {score:assessment.score,aid:wanted} : null;
+  const f = forecast({credits:get('credits').valueAsNumber,demand:get('demand').valueAsNumber,scores,grants,manual:state.manual,own});
+  const chance=f?.ownChance;
+  get('step-prob').textContent=chance == null ? '—' : Intl.NumberFormat('es-ES',{style:'percent',maximumFractionDigits:1}).format(chance);
+  get('step-prob-ring').style.setProperty('--step-probability',((chance??0)*100)+'%');
+  get('step-prob-note').textContent=chance == null ? 'Completa los requisitos, la puntuación y la ayuda solicitada.' : 'Frecuencia de financiación en los escenarios nacionales simulados.';
+  get('step-rank').textContent=show(f?.ownRank);
+  state.estimate = f;
+  renderForecastCharts();
   if (!f) {
     get('forecast-results').replaceChildren();
-    get('forecast-context').textContent = scores.length && grants.length ? 'Introduce un crédito positivo y entre 1 y 2.000 expedientes evaluados.' : 'No hay suficientes registros disponibles para calcular el escenario.';
+    get('forecast-context').textContent = scores.length && grants.length ? 'Introduce un crédito positivo y entre 1 y 2.000 expedientes evaluados. El total debe incluir las competidoras conocidas.' : 'No hay suficientes registros disponibles para calcular el escenario.';
     return;
   }
   renderMetrics(get('forecast-results'), [
@@ -201,21 +232,62 @@ for (const id of ['credits','demand']) get(id).addEventListener('input', () => {
   forecastTimer = setTimeout(updateForecast, 120);
 });
 
+function renderForecastCharts() {
+  const scores=state.results.map((r)=>num(r.puntos)).filter(Number.isFinite);
+  const own=state.assessment?.score, aid=get('own-requested').valueAsNumber, cutoff=state.estimate?.cutoff?.[1];
+  const mean=scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : NaN;
+  get('score-population').textContent = scores.length ? scores.length + ' expedientes STEP 2025' : '';
+  get('own-score').textContent=show(own);
+  get('mean-score').textContent=show(mean);
+  get('cut-score').textContent=show(cutoff);
+  histogram(get('forecast-distribution'),scores,[
+    {value:own,label:'Nuestro proyecto',color:'green'},
+    {value:mean,label:'Media STEP 2025',color:'navy'},
+    {value:cutoff,label:'Corte simulado',color:'orange'},
+  ]);
+  const points=state.results.filter((r)=>r.resultado==='Concedido').map((r)=>({score:num(r.puntos),aid:num(r.subvencion_concedida_eur),name:r.expediente})).filter((r)=>Number.isFinite(r.score)&&Number.isFinite(r.aid));
+  points.push(...state.manual.map((r)=>({...r,color:'orange'})));
+  if(Number.isFinite(own)&&aid>0&&aid<=state.assessment?.maxAid)points.push({score:own,aid,name:'Nuestro proyecto',color:'green'});
+  scatter(get('forecast-scatter'),points);
+}
+function bindCompetitors() {
+  const form=get('manual-competitor-form'), list=get('manual-competitor-list'), status=get('manual-error');
+  const render=()=>{
+    list.replaceChildren(...state.manual.map((r,i)=>{
+      const item=make('div');item.className='step-competitor';
+      const remove=make('button','Quitar');remove.type='button';
+      remove.setAttribute('aria-label','Quitar '+r.name);
+      remove.addEventListener('click',()=>{state.manual.splice(i,1);status.textContent='';render();updateForecast();get('manual-name').focus();});
+      item.append(make('span',r.name+' · '+show(r.score)+' puntos · '+show(r.aid,eur)),remove);
+      return item;
+    }));
+  };
+  form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    const name=get('manual-name').value.trim(),score=get('manual-score').valueAsNumber,aid=get('manual-aid').valueAsNumber;
+    if (!name||!Number.isFinite(score)||score<0||score>100||!Number.isFinite(aid)||aid<=0) {
+      status.textContent='Completa el nombre, la puntuación y la ayuda.'; return;
+    }
+    if (!Number.isInteger(get('demand').valueAsNumber)||state.manual.length>=get('demand').valueAsNumber) {
+      status.textContent='Amplía el número de expedientes previsto.';return;
+    }
+    state.manual.push({name,score,aid});
+    form.reset();status.textContent='Competidora añadida.';render();updateForecast();
+  });
+}
+
 function tally(values) {
   const counts = new Map();
   for (const value of values) counts.set(value, (counts.get(value) || 0) + 1);
   return [...counts];
 }
-function bars(id, entries) {
+function bars(id, entries, formatter = fmt) {
   const max = Math.max(1,...entries.map(([, count]) => count));
   get(id).replaceChildren(...(entries.length ? entries.map(([label,count]) => {
-    const item = make('div');
-    item.className = 'step-bar';
-    const meter = make('meter');
-    meter.max = max;
-    meter.value = count;
-    meter.setAttribute('aria-label', label);
-    item.append(make('span',label),meter,make('strong',fmt.format(count)));
+    const item=make('div');item.className='bar-row';
+    const track=make('div');track.className='bar-track';
+    const fill=make('i');fill.style.width=(100*count/max)+'%';track.append(fill);
+    item.append(make('span',label),track,make('strong',formatter.format(count)));
     return item;
   }) : [make('p','Sin datos para la selección.')]));
 }
@@ -235,6 +307,39 @@ function selectedRows() {
     (!q || normal([caseText(r),r.titulo,r.representante,...(state.members.get(r.id_proyecto) || []).map((m) => m.entidad)].join(' ')).includes(q))
   ).sort(order[filter.order]);
 }
+function renderComparisons(rows) {
+  const editions=tally(rows.map((r)=>r.anio_convocatoria)).sort(([a],[b])=>a.localeCompare(b));
+  const scored=rows.filter((r)=>Number.isFinite(num(r.puntos)));
+  const table=make('table');table.className='step-table step-heat';
+  const header=table.createTHead().insertRow();
+  for(const label of ['Año','<50','50–59','60–69','70–79','80–89','90–100']) {
+    const th=make('th',label);th.scope='col';header.append(th);
+  }
+  const body=table.createTBody();
+  for(const [year] of editions) {
+    const values=scored.filter((r)=>r.anio_convocatoria===year).map((r)=>num(r.puntos));
+    if(!values.length)continue;
+    const buckets=[0,0,0,0,0,0];
+    values.forEach((v)=>buckets[Math.max(0,Math.min(5,Math.floor(v/10)-4))]++);
+    const line=cellRow([year,...buckets.map((count)=>count?fmt.format(100*count/values.length)+' %':'—')]);
+    [...line.cells].slice(1).forEach((cell,i)=>{cell.style.backgroundColor='rgba(99,140,165,'+(0.8*buckets[i]/values.length)+')';});
+    body.append(line);
+  }
+  get('by-heat').replaceChildren(body.rows.length?table:make('p','Sin puntuaciones publicadas para la selección.'));
+  const series=[['Concedido','granted'],['Desestimado','denied'],['Desistido','withdrawn']];
+  get('by-composition').replaceChildren(...editions.map(([year,total])=>{
+    const row=make('div');row.className='bar-row';
+    const track=make('div');track.className='bar-track step-composition';
+    const counts=new Map(tally(rows.filter((r)=>r.anio_convocatoria===year).map((r)=>r.resultado)));
+    for(const [key,color] of series) {
+      const count=counts.get(key)||0;
+      if(!count)continue;
+      const fill=make('i');fill.className=color;fill.style.width=(100*count/total)+'%';fill.title=key+': '+count;track.append(fill);
+    }
+    row.append(make('span',year),track,make('strong',fmt.format(total)));
+    return row;
+  }));
+}
 function renderHistory() {
   const rows = selectedRows();
   const awards = rows.filter((r) => r.resultado === 'Concedido');
@@ -246,15 +351,19 @@ function renderHistory() {
     ['Con CCAA del consorcio',fmt.format(rows.filter((r) => publishedRegions(r).length).length)],
     ['Con puntuación',fmt.format(rows.filter((r) => Number.isFinite(num(r.puntos))).length)],
   ]);
-  bars('by-year',tally(awards.map((r) => r.anio_convocatoria)).sort(([a],[b]) => a.localeCompare(b)));
-  const buckets = new Map();
-  for (const r of rows) {
-    const score = num(r.puntos);
-    if (!Number.isFinite(score)) continue;
-    const min = Math.min(90,Math.floor(score / 10) * 10);
-    buckets.set(min,(buckets.get(min) || 0) + 1);
+  const aidByYear = new Map();
+  for (const r of awards) {
+    const aid=num(r.subvencion_eur);
+    if(Number.isFinite(aid)) aidByYear.set(r.anio_convocatoria,(aidByYear.get(r.anio_convocatoria)||0)+aid);
   }
-  bars('by-score',[...buckets].sort(([a],[b]) => a-b).map(([min,n]) => [min + '–' + (min === 90 ? '100' : '<' + (min+10)),n]));
+  const compactEur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',notation:'compact',maximumFractionDigits:1});
+  bars('by-year',[...aidByYear].sort(([a],[b])=>a.localeCompare(b)),compactEur);
+  bars('by-outcome',tally(rows.map((r)=>r.resultado)).sort((a,b)=>b[1]-a[1]));
+  histogram(get('by-score'),rows.map((r)=>num(r.puntos)).filter(Number.isFinite));
+  scatter(get('by-scatter'),awards.map((r)=>({score:num(r.puntos),aid:num(r.subvencion_eur),name:caseText(r)})).filter((r)=>Number.isFinite(r.score)&&Number.isFinite(r.aid)));
+  renderComparisons(rows);
+  get('table-count').textContent=fmt.format(rows.length)+' expedientes';
+  for(const btn of get('edition-tabs').querySelectorAll('button'))btn.setAttribute('aria-pressed',btn.dataset.year===get('year').value);
   bars('by-region',tally(awards.flatMap(publishedRegions)).sort((a,b) => b[1]-a[1]));
   const ids = new Set(awards.map((r) => r.id_proyecto));
   bars('by-pair',tally(state.pairs.filter((r) => ids.has(r.id_proyecto)).map((r) => r.ccaa_1 + ' · ' + r.ccaa_2)).sort((a,b) => b[1]-a[1]).slice(0,10));
@@ -360,6 +469,11 @@ async function load() {
   ])));
   options('program',[...state.rows,...editions].map((r) => r.programa));
   options('year',[...state.rows,...editions].map((r) => r.anio_convocatoria),true);
+  for(const option of get('year').options) {
+    const button=make('button',option.value || 'Todos desde 2011');button.type='button';button.dataset.year=option.value;
+    button.addEventListener('click',()=>{get('year').value=option.value;state.page=0;renderHistory();});
+    get('edition-tabs').append(button);
+  }
   options('region',state.rows.flatMap((r) => [...publishedRegions(r),r.ccaa_convocatoria]));
   options('outcome',state.rows.map((r) => r.resultado));
   const labels = ['Proyectos CSV','Entidades CSV','Pares de CCAA CSV','Cobertura CSV','Resultados STEP 2025 CSV','Escenario 2027 CSV'];
